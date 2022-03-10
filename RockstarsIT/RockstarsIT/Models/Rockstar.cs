@@ -9,11 +9,11 @@ namespace RockstarsIT.Models
         private string _name;
         private string _linkedIn;
         private string _description;
-        private Blob _img;
+        private string _img;
 
         public int RockstarId { get; set; }
         
-        public int TribeId { get; set; }
+        public int? TribeId { get; set; }
         [ForeignKey("TribeId")]
         public virtual Tribe Tribe {
             get => _tribe;
@@ -38,7 +38,7 @@ namespace RockstarsIT.Models
             set => _description = value;
         }
 
-        public Blob IMG
+        public string IMG
         {
             get => _img; 
             set => _img = value;

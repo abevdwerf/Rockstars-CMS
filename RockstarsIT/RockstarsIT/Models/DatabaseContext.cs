@@ -25,7 +25,7 @@ namespace RockstarsIT.Models
                 RockstarId = 1,
                 Description = "test 123",
                 LinkedIn = "linnked.com/",
-                Tribe = tribe1
+                Tribe = null
             };
 
             builder.Entity<Rockstar>().HasData(rockstar1);
