@@ -27,6 +27,8 @@ namespace RockstarsIT
         {
             services.AddControllersWithViews();
             
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+            
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
