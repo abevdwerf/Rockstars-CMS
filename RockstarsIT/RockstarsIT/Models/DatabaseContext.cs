@@ -15,7 +15,7 @@ namespace RockstarsIT.Models
             {
                 TribeId = 1,
                 Name = "NaamTribe1",
-                Desctription = "Dit is tribe 1"
+                Description = "Dit is tribe 1"
             };
             
             builder.Entity<Tribe>().HasData(tribe1);
