@@ -53,7 +53,7 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TribeId,Name,Desctription")] Tribe tribe)
+        public async Task<IActionResult> Create([Bind("TribeId,Name,Description")] Tribe tribe)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TribeId,Name,Desctription")] Tribe tribe)
+        public async Task<IActionResult> Edit(int id, [Bind("TribeId,Name,Description")] Tribe tribe)
         {
             if (id != tribe.TribeId)
             {
