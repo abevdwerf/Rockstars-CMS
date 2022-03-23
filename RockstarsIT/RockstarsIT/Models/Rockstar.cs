@@ -3,9 +3,14 @@ using System.Reflection.Metadata;
 
 namespace RockstarsIT.Models
 {
+    public enum Chapter
+    {
+        North, Central, West, East, UpperSouth, LowerSouth
+    }
     public class Rockstar
     {
         private Tribe _tribe;
+        private Chapter _chapter;
         private string _name;
         private string _linkedIn;
         private string _description;
@@ -18,6 +23,12 @@ namespace RockstarsIT.Models
         public virtual Tribe Tribe {
             get => _tribe;
             set => _tribe = value;
+        }
+        
+        public Chapter Chapter
+        {
+            get => _chapter;
+            set => _chapter = value;
         }
         
         public string Name
