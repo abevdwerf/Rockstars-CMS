@@ -3,7 +3,7 @@ namespace RockstarsIT.Models
     public class Tribe
     {
         private string _name;
-        private string _desctription;
+        private string _description;
 
         public int TribeId { get; set; }
 
@@ -13,10 +13,10 @@ namespace RockstarsIT.Models
             set => _name = value;
         }
         
-        public string Desctription
+        public string Description
         {
-            get => _desctription;
-            set => _desctription = value;
+            get => _description;
+            set => _description = value;
         }
     }
 }
