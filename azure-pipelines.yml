@@ -30,13 +30,13 @@ steps:
 
 - task: PublishBuildArtifacts@1
 
-- task: AzureWebApp@1
-  displayName: Azure Web App Deploy
+- task: AzureRmWebAppDeployment@4
   inputs:
+    ConnectionType: 'AzureRM'
     azureSubscription: 'Azure for Students(2907748a-75dd-4de3-b302-9e4df5c11046)'
     appType: 'webApp'
-    appName: RockstarsProftaak
-    package: $(Build.ArtifactStagingDirectory)/**/*.zip
+    WebAppName: 'RockstarsProftaak'
+    packageForLinux: '$(build.artifactStagingDirectory)/**/*.zip'
 
 # # ASP.NET Core (.NET Framework)
 # - task: AzureRmWebAppDeployment@4
