@@ -6,7 +6,7 @@ namespace RockstarsIT.Models
         private string _desctription;
 
         public int TribeId { get; set; }
-        
+
         public string Name
         {
             get => _name;
