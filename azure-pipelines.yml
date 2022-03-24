@@ -28,6 +28,7 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+
 - task: PublishBuildArtifacts@1
 
 - task: AzureRmWebAppDeployment@4
@@ -36,6 +37,7 @@ steps:
     azureSubscription: 'Azure for Students(2907748a-75dd-4de3-b302-9e4df5c11046)'
     appType: 'webApp'
     WebAppName: 'RockstarsProftaak'
+
     packageForLinux: '$(build.artifactStagingDirectory)/**/*.zip'
 
 # # ASP.NET Core (.NET Framework)
@@ -46,3 +48,4 @@ steps:
 #     appType: 'webApp'
 #     WebAppName: 'RockstarsProftaak'
 #     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+
