@@ -10,21 +10,18 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form method="post" enctype="multipart/form-data" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="TribeId" class="control-label"></label>
-                <select asp-for="TribeId" class ="form-control" asp-items="ViewBag.TribeId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Chapter" class="control-label"></label>
-                <select asp-for="Chapter" class="form-control"></select>
-                <span asp-validation-for="Chapter" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="ImageFile" class="control-label"></label>
+
+                @*TODO: image file tonen, gebeurd nu niet*@
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="inputGroupFile02">
+                  <label class="custom-file-label" for="customFileLangHTML" data-browse="Bestand kiezen"></label>
+                </div>
+                
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LinkedIn" class="control-label"></label>
@@ -32,14 +29,31 @@
                 <span asp-validation-for="LinkedIn" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label asp-for="Tribe" class="control-label"></label>
+                <select asp-for="TribeId" class ="form-control" asp-items="ViewBag.TribeNames">
+                    
+                </select>
+                <span asp-validation-for="TribeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Rol</label>
+                <select asp-for="Role" class="form-control" asp-items="ViewBag.RoleNames"></select>
+                <span asp-validation-for="Role" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Regio</label>
+                <select asp-for="Chapter" class="form-control" asp-items="Html.GetEnumSelectList<Chapter>()"></select>
+                <span asp-validation-for="Chapter" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Omschrijving</label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IMG" class="control-label"></label>
-                <input asp-for="IMG" class="form-control" />
-                <span asp-validation-for="IMG" class="text-danger"></span>
+                <label asp-for="Quote" class="control-label"></label>
+                <input asp-for="Quote" class="form-control" />
+                <span asp-validation-for="Quote" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -51,6 +65,15 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+<script>
+    $('#inputGroupFile02').on('change',function(){
+        //get the file name
+        var fileName = $(this).val();
+        //replace the "Choose a file" label
+        $(this).next('.custom-file-label').html(fileName);
+    })
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

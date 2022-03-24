@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,10 +14,12 @@ namespace RockstarsIT.Controllers
     public class RockstarsController : Controller
     {
         private readonly DatabaseContext _context;
+        private readonly IWebHostEnvironment _hostEnviroment;
 
-        public RockstarsController(DatabaseContext context)
+        public RockstarsController(DatabaseContext context, IWebHostEnvironment hostEnviroment)
         {
             _context = context;
+            _hostEnviroment = hostEnviroment;
         }
 
         // GET: Rockstars
@@ -47,7 +51,8 @@ namespace RockstarsIT.Controllers
         // GET: Rockstars/Create
         public IActionResult Create()
         {
-            ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId");
+            ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
+            ViewData["RoleNames"] = new SelectList(_context.Roles, "RoleId", "Name");
             return View();
         }
 
@@ -56,10 +61,27 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RockstarId,TribeId,Chapter,Name,LinkedIn,Description,IMG")] Rockstar rockstar)
+        public async Task<IActionResult> Create([Bind("RockstarId,TribeId,Role,Chapter,LinkedIn,Description,Quote,ImageFile")] Rockstar rockstar)
         {
             if (ModelState.IsValid)
             {
+                //if (rockstar.IMG != null)
+                //{
+                //    string folder = "rockstars/images";
+                //    string serverFolder = Path.Combine(_webHostEnvironment.WebRoothPath, folder); 
+
+                //}
+
+                string wwwRootPath = _hostEnviroment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(rockstar.ImageFile.FileName);
+                string extension = Path.GetExtension(rockstar.ImageFile.FileName);  
+                fileName = fileName + DateTime.Now.ToString("yymmsfff") + extension;
+                string path = Path.Combine(wwwRootPath + "/Image", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await rockstar.ImageFile.CopyToAsync(fileStream);
+                }
+
                 _context.Add(rockstar);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -90,7 +112,7 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RockstarId,TribeId,Chapter,Name,LinkedIn,Description,IMG")] Rockstar rockstar)
+        public async Task<IActionResult> Edit(int id, [Bind("RockstarId,TribeId,Role,Chapter,LinkedIn,Description,Quote,IMG")] Rockstar rockstar)
         {
             if (id != rockstar.RockstarId)
             {
