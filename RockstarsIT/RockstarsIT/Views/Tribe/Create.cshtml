@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Maken</h1>
 
 <h4>Tribe</h4>
 <hr />
@@ -25,10 +25,8 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
 
-
-
             <button class="button" type="submit">
-                Create
+                TRIBE MAKEN
                 <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                     <path d="M0 0h24v24H0z" fill="none" />
                     <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
@@ -37,17 +35,13 @@
         </form>
 
         <a asp-action="Index" class="button-cancel">
-            Back to List
+            TERUG NAAR TRIBE OVERZICHT
             <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                 <path d="M0 0h24v24H0z" fill="none" />
                 <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
             </svg>
         </a>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

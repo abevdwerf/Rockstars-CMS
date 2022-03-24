@@ -5,16 +5,9 @@
 
 <h1>Index</h1>
 
-<style>
-
-
-
-
-</style>
-
 <p>
     <a class="button" asp-action="Create">
-        NEW TRIBE
+        NIEUWE TRIBE
         <svg class="svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
             <path d="M0 0h24v24H0z" fill="none" />
             <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
@@ -25,13 +18,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                NAAM
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                BESCHRIJVING
             </th>
             <th>
-                Actions
+                ACTIES
             </th>
         </tr>
     </thead>
@@ -42,12 +35,12 @@
     <td width="20%">
         @Html.DisplayFor(modelItem => item.Name)
     </td>
-    <td width="40">
+    <td width="30">
         @Html.DisplayFor(modelItem => item.Description)
     </td>
-    <td width="40%">
+    <td width="50%">
         <a asp-action="Edit" asp-route-id="@item.TribeId" class="button">
-            EDIT
+            BEWERKEN
             <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                 <path d="M0 0h24v24H0z" fill="none" />
                 <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
@@ -59,25 +52,35 @@
                 <path d="M0 0h24v24H0z" fill="none" />
                 <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
             </svg>
-        </a> &nbsp;
-        <a asp-action="Delete" asp-route-id="@item.TribeId" class="button">
-            DELETE
-            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-            </svg>
-        </a>
+        </a> &nbsp; 
+        <br>
+        <br>
+        @using (Html.BeginForm(FormMethod.Post))
+        {
+            <a onclick="ConfirmDelete(this.name)" name="@item.TribeId" class="button">VERWIJDEREN
+                <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                </svg>
+            </a>
+            <input type="submit" asp-action="Delete" asp-route-id="@item.TribeId" hidden id="@item.TribeId"/>
+        }
     </td>
 </tr>}
     </tbody>
 </table>
 
-<button class="button">
-    TRIBE TOEVOEGEN
-    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-        <path d="M0 0h24v24H0z" fill="none" />
-        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-    </svg>
-</button>
+<script>
+    function ConfirmDelete(id) {
+        const conbtn = document.getElementById("test");
+        const conbtn2 = document.getElementById(id);
 
-<input type="text" class="textbox" placeholder="TEST">
+        let text = "Press button"
+        if (confirm(text) == true) {
+            conbtn2.click();
+        }
+        else {
+            console.log("test");
+        }
+    }
+</script>
