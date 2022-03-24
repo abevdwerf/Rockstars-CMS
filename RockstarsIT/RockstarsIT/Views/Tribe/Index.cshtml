@@ -6,35 +6,81 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="button" asp-action="Create">
+        NIEUWE TRIBE
+        <svg class="svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+        </svg>
+    </a>
 </p>
-<table class="table">
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                NAAM
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Desctription)
+                BESCHRIJVING
             </th>
-            <th></th>
+            <th>
+                ACTIES
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Desctription)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.TribeId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.TribeId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.TribeId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+<tr>
+    <td width="20%">
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td width="30">
+        @Html.DisplayFor(modelItem => item.Description)
+    </td>
+    <td width="50%">
+        <a asp-action="Edit" asp-route-id="@item.TribeId" class="button">
+            BEWERKEN
+            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+            </svg>
+        </a> &nbsp;
+        <a asp-action="Details" asp-route-id="@item.TribeId" class="button">
+            DETAILS
+            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+            </svg>
+        </a> &nbsp; 
+        <br>
+        <br>
+        @using (Html.BeginForm(FormMethod.Post))
+        {
+            <a onclick="ConfirmDelete(this.name)" name="@item.TribeId" class="button">VERWIJDEREN
+                <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                </svg>
+            </a>
+            <input type="submit" asp-action="Delete" asp-route-id="@item.TribeId" hidden id="@item.TribeId"/>
+        }
+    </td>
+</tr>}
     </tbody>
 </table>
+
+<script>
+    function ConfirmDelete(id) {
+        const conbtn = document.getElementById("test");
+        const conbtn2 = document.getElementById(id);
+
+        let text = "Press button"
+        if (confirm(text) == true) {
+            conbtn2.click();
+        }
+        else {
+            console.log("test");
+        }
+    }
+</script>
