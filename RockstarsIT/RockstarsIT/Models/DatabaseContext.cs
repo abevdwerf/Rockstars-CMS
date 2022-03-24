@@ -9,6 +9,7 @@ namespace RockstarsIT.Models
         public DbSet<Rockstar> Rockstars { get; set; }
         public DbSet<Tribe> Tribes { get; set; }
         public DbSet<Tribe> Roles { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -38,7 +39,7 @@ namespace RockstarsIT.Models
                 Name = "Tribe Lead"
             };
 
-            builder.Entity<Role>().HasData(rockstar1);
+            builder.Entity<Role>().HasData(role1);
         }
     }
 }
