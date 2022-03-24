@@ -11,7 +11,6 @@ namespace RockstarsIT.Models
         public DbSet<Tribe> Roles { get; set; }
         public DbSet<Tag> Tags { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             Tribe tribe1 = new Tribe()
@@ -38,7 +37,7 @@ namespace RockstarsIT.Models
                 RoleId = 1,
                 Name = "Tribe Lead"
             };
-
+            
             builder.Entity<Role>().HasData(role1);
         }
     }
