@@ -64,7 +64,6 @@ button.accept-policy {
 html {
     position: relative;
     min-height: 100%;
-
 }
 
 body {
@@ -94,6 +93,16 @@ body {
     padding-left: 10px;
 }
 
+.textarea {
+    background-color: #F7F7F7;
+    outline: none;
+    border: none;
+    border-color: dimgray;
+    border-bottom: 1px solid dimgray;
+    font-size: 14px;
+    padding-left: 10px;
+}
+
     .textbox:hover {
         border-bottom: 2px solid dimgray;
     }
@@ -105,8 +114,10 @@ body {
     .textbox:invalid {
         border-bottom: 2px solid red;
     }
-
-
+    a:hover{
+        text-decoration: none;
+    }
+/* normale button */
 .button {
     background-color: var(--mainColor);
     padding: 10px 24px;
@@ -114,6 +125,10 @@ body {
     font-weight: bold;
     border: 0px;
     font-size: 14px;
+
+}
+.button:hover {
+    color: black;
 }
 
 .arrowsSvg {
@@ -122,12 +137,26 @@ body {
     transition: .2s;
 }
 
-.button:hover {
-    text-decoration: none;
-    color: black;
+/* cancel button */
+.button-cancel {
+    background-color: black;
+    padding: 10px 24px;
+    color: white;
+    font-weight: bold;
+    border: 0px;
+    font-size: 14px;
 }
 
-    .button:hover svg {
-        margin-left: 11px;
-        margin-right: -5px;
-    }
+.button-cancel:hover {
+    color: white;
+}
+
+.arrowsSvg-cancel {
+    margin-bottom: 3px;
+    margin-left: 6px;
+    fill: white;
+ 
+}
+
+
+
