@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace RockstarsIT.Models
 {
     public class Tribe
@@ -8,10 +10,18 @@ namespace RockstarsIT.Models
         private string _leadaddress;
         private int _blocknumber;
         private int _imagenumber;
+        private Tag _tag;
 
         public int TribeId { get; set; }
 
-        private int TagId { get; set; }
+        private int? TagId { get; set; }
+        [ForeignKey(name: "TagId")]
+
+        public  virtual Tag tag
+        {
+            get => _tag;
+            set => _tag = value;
+        }
 
         public string Name
         {
