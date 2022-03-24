@@ -4,6 +4,9 @@ for details on configuring this project to bundle and minify static web assets. 
     font-family: "Rockstars";
     src: url(../font/DIN2014-Regular.ttf);
 }
+:root {
+    --mainColor: #FFE000;
+}
 body{
     font-family: Rockstars;
 }
