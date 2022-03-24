@@ -4,21 +4,27 @@
     ViewData["Title"] = "Delete";
 }
 
+
 <h1>Verwijderen</h1>
 
 <h3>Weet je zeker dat je deze tribe wilt verwijderen?</h3>
+
 <div>
     <h4>Tribe</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
+
             Naam:
+
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class = "col-sm-2">
+
             Beschrijving
+
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Description)
@@ -27,7 +33,9 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="TribeId" />
+
         <input type="submit" value="TRIBE VERWIJDEREN" class="btn btn-danger" />
         <a asp-action="Index">TERUG NAAR TRIBE OVERZICHT</a>
+
     </form>
 </div>

@@ -6,11 +6,13 @@ namespace RockstarsIT.Models
     {
         private string _name;
         private string _description;
+
         private string _spotify;
         private string _leadaddress;
         private int _blocknumber;
         private int _imagenumber;
         private Tag _tag;
+
 
         public int TribeId { get; set; }
 
@@ -28,6 +30,7 @@ namespace RockstarsIT.Models
             get => _name;
             set => _name = value;
         }
+
 
         public string Description
         {
@@ -57,6 +60,7 @@ namespace RockstarsIT.Models
         {
             get => _imagenumber;
             set => _imagenumber = value;
+
         }
     }
 }
