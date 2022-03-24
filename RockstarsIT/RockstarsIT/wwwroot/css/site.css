@@ -7,9 +7,8 @@ for details on configuring this project to bundle and minify static web assets. 
 :root {
     --mainColor: #FFE000;
 }
-body{
-    font-family: Rockstars;
-}
+
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -63,13 +62,15 @@ button.accept-policy {
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
+
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    font-family: Rockstars;
 }
 .footer {
   position: absolute;
@@ -78,3 +79,55 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+
+/* eigen styles */
+
+.textbox {
+    background-color: #F7F7F7;
+    outline: none;
+    border: none;
+    border-color: dimgray;
+    border-bottom: 1px solid dimgray;
+    font-size: 14px;
+    height: 47px;
+    padding-left: 10px;
+}
+
+    .textbox:hover {
+        border-bottom: 2px solid dimgray;
+    }
+
+    .textbox:focus {
+        border-bottom: 2px solid dimgray;
+    }
+
+    .textbox:invalid {
+        border-bottom: 2px solid red;
+    }
+
+
+.button {
+    background-color: var(--mainColor);
+    padding: 10px 24px;
+    color: #000000;
+    font-weight: bold;
+    border: 0px;
+    font-size: 14px;
+}
+
+.arrowsSvg {
+    margin-bottom: 3px;
+    margin-left: 6px;
+    transition: .2s;
+}
+
+.button:hover {
+    text-decoration: none;
+    color: black;
+}
+
+    .button:hover svg {
+        margin-left: 11px;
+        margin-right: -5px;
+    }

@@ -7,54 +7,9 @@
 
 <style>
 
-    .button {
-        background-color: var(--mainColor);
-        padding: 10px 24px;
-        color: #000000;
-        font-weight: bold;
-        border: 0px;
-        font-size: 14px;
-    }
 
-    .svg {
-        margin-bottom: 3px;
-        margin-left: 6px;
-        transition: .2s;
-    }
 
-    .button:hover {
-        text-decoration: none;
-        color: black;
-    }
 
-        .button:hover svg {
-            margin-left: 11px;
-            margin-right: -5px;
-        }
-
-    .textbox {
-        background-color: #F7F7F7;
-        outline: none;
-        border: none;
-        border-color: dimgray;
-        border-bottom: 1px solid dimgray;
-        font-family: "DIN 2014";
-        font-size: 14px;
-        height: 47px;
-        padding-left: 10px;
-    }
-
-        .textbox:hover {
-            border-bottom: 2px solid dimgray;
-        }
-
-        .textbox:focus {
-            border-bottom: 2px solid dimgray;
-        }
-
-        .textbox:invalid {
-            border-bottom: 2px solid red;
-        }
 </style>
 
 <p>
@@ -93,21 +48,21 @@
     <td width="40%">
         <a asp-action="Edit" asp-route-id="@item.TribeId" class="button">
             EDIT
-            <svg class="svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                 <path d="M0 0h24v24H0z" fill="none" />
                 <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
             </svg>
         </a> &nbsp;
         <a asp-action="Details" asp-route-id="@item.TribeId" class="button">
             DETAILS
-            <svg class="svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                 <path d="M0 0h24v24H0z" fill="none" />
                 <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
             </svg>
         </a> &nbsp;
         <a asp-action="Delete" asp-route-id="@item.TribeId" class="button">
             DELETE
-            <svg class="svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                 <path d="M0 0h24v24H0z" fill="none" />
                 <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
             </svg>
@@ -119,7 +74,7 @@
 
 <button class="button">
     TRIBE TOEVOEGEN
-    <svg class="svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
         <path d="M0 0h24v24H0z" fill="none" />
         <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
     </svg>
