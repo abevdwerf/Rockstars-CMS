@@ -8,7 +8,7 @@ namespace RockstarsIT.Models
     public class Tag
     {
         private string _name;
-        public int TagId { get; set; }
+        private int TagId { get; set; }
 
         public string Name
         {
