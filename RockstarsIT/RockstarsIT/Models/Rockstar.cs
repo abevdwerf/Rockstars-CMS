@@ -68,7 +68,7 @@ namespace RockstarsIT.Models
         }
 
         [NotMapped]
-        [Display(Name = "Profiel foto")]
+        [Display(Name = "upload foto")]
         public IFormFile ImageFile { get; set; }
     }
 }
