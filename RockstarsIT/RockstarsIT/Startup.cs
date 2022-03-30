@@ -61,12 +61,6 @@ namespace RockstarsIT
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Article}/{action=Index}");
-            });
         }
     }
 }
