@@ -1,0 +1,77 @@
+﻿@model RockstarsIT.Models.Rockstar
+
+@{
+    ViewData["Title"] = "Rockstar aanmaken";
+}
+
+<h2>Rockstar Aanmaken</h2>
+
+<hr />
+    @*<div class="col-md-4">*@
+        <form method="post" enctype="multipart/form-data" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row g-3">
+                <div class="col-md-6 mb-3">
+                    <label>Profiel foto</label>
+                    <div class="custom-file">
+                      <input asp-for="ImageFile" class="custom-file-input" id="postedFile">
+                      <label asp-for="ImageFile" class="custom-file-label" for="customFileLangHTML" data-browse="Bestand kiezen"></label>
+                    </div>
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="LinkedIn" class="control-label"></label>
+                    <input asp-for="LinkedIn" class="form-control textbox" />
+                    <span asp-validation-for="LinkedIn" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="control-label">Regio</label>
+                    <select asp-for="Chapter" class="form-control" asp-items="Html.GetEnumSelectList<Chapter>()"></select>
+                    <span asp-validation-for="Chapter" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Tribe" class="control-label"></label>
+                    <select asp-for="TribeId" class="form-control" asp-items="ViewBag.TribeNames"></select>
+                    <span asp-validation-for="TribeId" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="control-label">Rol</label>
+                    <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleNames"></select>
+                    <span asp-validation-for="RoleId" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Quote" class="control-label"></label>
+                    <input asp-for="Quote" class="form-control textbox" />
+                    <span asp-validation-for="Quote" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="control-label">Omschrijving</label>
+                    <textarea asp-for="Description" class="form-control textarea" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>    
+            <div class="row">
+                <div class="col-md-6">
+                    <button class="button" type="submit">
+                        ROCKSTAR AANMAKEN
+                        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+      <script>
+        $('#postedFile').on('change',
+            function(e) {
+                //get the file name
+                var fileName = e.target.files[0].name;
+                //replace the "Choose a file" label
+                $(this).next('.custom-file-label').html(fileName);
+            })
+    </script>
+}

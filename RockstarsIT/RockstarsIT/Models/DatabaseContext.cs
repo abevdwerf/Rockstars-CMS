@@ -8,7 +8,10 @@ namespace RockstarsIT.Models
         
         public DbSet<Rockstar> Rockstars { get; set; }
         public DbSet<Tribe> Tribes { get; set; }
-        
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Article> Article { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             Tribe tribe1 = new Tribe()
@@ -29,6 +32,25 @@ namespace RockstarsIT.Models
             };
 
             builder.Entity<Rockstar>().HasData(rockstar1);
+
+            Role role1 = new Role()
+            {
+                RoleId = 1,
+                Name = "Tribe Lead"
+            };
+            
+            builder.Entity<Role>().HasData(role1);
+
+            Article article1 = new Article()
+            {
+                ArticleId = 1,
+                RockstarId = 1,
+                Title = "Tekst",
+                Description = "test 123",
+                Author = "The Noso",
+            };
+
+            builder.Entity<Article>().HasData(article1);
         }
     }
 }

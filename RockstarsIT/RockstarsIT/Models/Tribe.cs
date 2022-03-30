@@ -18,7 +18,6 @@ namespace RockstarsIT.Models
 
         private int? TagId { get; set; }
         [ForeignKey(name: "TagId")]
-
         public  virtual Tag tag
         {
             get => _tag;

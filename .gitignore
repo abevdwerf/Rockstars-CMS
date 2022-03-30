@@ -2,4 +2,8 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/Rockstars-FHICT/v16/.suo
+
+
+/.vs/slnx.sqlite
+/.vs/Rockstars-FHICT/v17/.suo
+/.vs/
