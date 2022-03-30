@@ -1,28 +1,53 @@
 ﻿@model RockstarsIT.Models.Tribe
 
+
 @{ ViewData["Title"] = "Edit"; }
 
 <h1>Bewerken</h1>
+
 
 <h4>Tribe</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="control-label">Naam:</label>
                 <br />
                 <input asp-for="Name" class="textbox" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label asp-for="Description" class="control-label">Beschrijving:</label>
                 <br />
                 <textarea asp-for="Description" class="textarea" rows="10" cols="50"> </textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <button class="button" type="submit">
+            <div class="form-group">
+                <label asp-for="Spotify" class="control-label">Spotify Link:</label>
+                <br />
+                <input asp-for="Spotify" class="textbox" rows="10" cols="50" />
+                <span asp-validation-for="Spotify" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeadAddress" class="control-label">Tribe Lead Email Adres:</label>
+                <br />
+                <input asp-for="LeadAddress" class="textbox" rows="10" cols="50" />
+                <span asp-validation-for="LeadAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BlockNumber" class="control-label">Aantal Tekstblokken:</label>
+                <br />
+                <input asp-for="BlockNumber" class="textbox" rows="10" cols="50" />
+                <span asp-validation-for="BlockNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageNumber" class="control-label">Aantal Afbeeldingen:</label>
+                <br />
+                <input asp-for="ImageNumber" class="textbox" rows="10" cols="50" />
+                <span asp-validation-for="ImageNumber" class="text-danger"></span>
+            </div>
+            <button class="btn button" type="submit">
                 WIJZIGINGEN OPSLAAN
                 <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                     <path d="M0 0h24v24H0z" fill="none" />
@@ -31,7 +56,7 @@
             </button>
         </form>
 
-        <a asp-action="Index" class="button-cancel">
+        <a asp-action="Index" class="btn button-cancel">
             TERUG NAAR TRIBE OVERZICHT
             <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                 <path d="M0 0h24v24H0z" fill="none" />
@@ -40,7 +65,6 @@
         </a>
     </div>
 </div>
-
 
 
 @section Scripts {

@@ -10,21 +10,59 @@
     <h4>Tribe</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             Naam:
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             Beschrijving:
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            Spotify Link:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Spotify)
+        </dd>
+        <dt class="col-sm-2">
+            Tribe Lead Email Adres:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LeadAddress)
+        </dd>
+        <dt class="col-sm-2">
+            Aantal Tekstblokken
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BlockNumber)
+        </dd>
+        <dt class="col-sm-2">
+            Aantal Afbeeldingen
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ImageNumber)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.TribeId">BEWERKEN</a> |
-    <a asp-action="Index">TERUG NAAR TRIBE OVERZICHT</a>
+
+    <a asp-action="Edit" asp-route-id="@Model.TribeId" class="btn button">
+        BEWERKEN
+        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+        </svg>
+    </a>
+    <a asp-action="Index" class="btn button-cancel">
+        TERUG NAAR TRIBE OVERZICHT
+        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+        </svg>
+    </a>
+
 </div>
