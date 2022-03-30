@@ -158,5 +158,16 @@ body {
  
 }
 
+.form-control {
+    border-radius: 0px !important;
+    
+}
 
+
+textarea:focus, input:focus {
+    outline: none !important;
+    -webkit-appearance: none;
+    box-shadow: none !important;
+    border-bottom: 2px solid dimgray !important;
+}
 
