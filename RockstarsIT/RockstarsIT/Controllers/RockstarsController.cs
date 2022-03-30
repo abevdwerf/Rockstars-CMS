@@ -25,7 +25,7 @@ namespace RockstarsIT.Controllers
         // GET: Rockstars
         public async Task<IActionResult> Index()
         {
-            var databaseContext = _context.Rockstars.Include(r => r.Tribe);
+            var databaseContext = _context.Rockstars.Include(r => r.Tribe).Include(r => r.Role);
             return View(await databaseContext.ToListAsync());
         }
 
@@ -61,25 +61,21 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RockstarId,TribeId,Role,Chapter,LinkedIn,Description,Quote,ImageFile")] Rockstar rockstar)
+        public async Task<IActionResult> Create([Bind("RockstarId,TribeId,RoleId,Chapter,LinkedIn,Description,Quote,ImageFile")] Rockstar rockstar)
         {
             if (ModelState.IsValid)
             {
-                //if (rockstar.IMG != null)
-                //{
-                //    string folder = "rockstars/images";
-                //    string serverFolder = Path.Combine(_webHostEnvironment.WebRoothPath, folder); 
-
-                //}
-
-                string wwwRootPath = _hostEnviroment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(rockstar.ImageFile.FileName);
-                string extension = Path.GetExtension(rockstar.ImageFile.FileName);  
-                fileName = fileName + DateTime.Now.ToString("yymmsfff") + extension;
-                string path = Path.Combine(wwwRootPath + "/Image", fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
+                if (rockstar.ImageFile != null)
                 {
-                    await rockstar.ImageFile.CopyToAsync(fileStream);
+                    string wwwRootPath = _hostEnviroment.WebRootPath;
+                    string fileName = Path.GetFileNameWithoutExtension(rockstar.ImageFile.FileName);
+                    string extension = Path.GetExtension(rockstar.ImageFile.FileName);
+                    rockstar.IMG = fileName = fileName + DateTime.Now.ToString("yymmsfff") + extension;
+                    string path = Path.Combine(wwwRootPath + "/Image", fileName);
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await rockstar.ImageFile.CopyToAsync(fileStream);
+                    }
                 }
 
                 _context.Add(rockstar);

@@ -1,13 +1,10 @@
 {
   "ExpandedNodes": [
-
     "",
     "\\RockstarsIT",
     "\\RockstarsIT\\RockstarsIT",
-    "\\RockstarsIT\\RockstarsIT\\Views",
-    "\\RockstarsIT\\RockstarsIT\\Views\\Rockstars"
+    "\\RockstarsIT\\RockstarsIT\\Models"
   ],
-  "SelectedNode": "\\RockstarsIT\\RockstarsIT\\appsettings.Development.json",
-
+  "SelectedNode": "\\RockstarsIT\\RockstarsIT.sln",
   "PreviewInSolutionExplorer": false
 }
