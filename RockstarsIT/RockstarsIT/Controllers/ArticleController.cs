@@ -61,18 +61,24 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ArticleId,RockstarId,Title,Description,Author,Image,Text")] Article article)
+        public async Task<IActionResult> Create([Bind("ArticleId,RockstarId,Title,Description,Author,Images,Text")] Article article)
         {
             if (ModelState.IsValid)
             {
+                _context.Add(article);
+                await _context.SaveChangesAsync();
                 if (article.Images != null)
                 {
                     string folder = "img/article/";
 
+
+
                     article.articleImages = new List<ArticleImages>();
 
+
+
                     foreach (var file in article.Images)
-                {
+                    {
                         var images = new ArticleImages()
                         {
                             Article = article,
@@ -82,9 +88,6 @@ namespace RockstarsIT.Controllers
                         article.articleImages.Add(images);
                     }
                 }
-
-                _context.Add(article);
-                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", article.RockstarId);

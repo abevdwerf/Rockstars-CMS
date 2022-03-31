@@ -14,7 +14,6 @@ namespace RockstarsIT.Models
         private string author;
         private string text;
         [Display(Name = "Selecteer een of meerdere afbeldingen")]
-        [Required]
         [NotMapped]
         public IFormFileCollection Images { get; set; }
 
@@ -32,6 +31,5 @@ namespace RockstarsIT.Models
         public string Description { get { return description; } set { description = value; } }
         public string Author { get { return author; } set { author = value; } }
         public string Text { get { return text; } set { text = value; } }
-        public string Image { get { return image; } set { image = value; } }
     }
 }
