@@ -64,19 +64,24 @@ namespace RockstarsIT.Controllers
         {
             if (ModelState.IsValid)
             {
-                string wwwRootPath = _hostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(article.imageFile.FileName);
-                string extension = Path.GetExtension(article.imageFile.FileName);
-                article.Image = fileName = fileName + DateTime.Now.ToString("yymmssfff");
-                string path = Path.Combine(wwwRootPath + "/img", fileName);
-
-                using (FileStream fs = new FileStream(path, FileMode.Create))
+                if (article.Images != null)
                 {
-                    await article.imageFile.CopyToAsync(fs);
+                    string folder = "img/article/";
+
+                    article.articleImages = new List<ArticleImages>();
+
+                    foreach (var file in article.Images)
+                    {
+                        var images = new ArticleImages()
+                        {
+                            Article = article,
+                            ImageName = file.FileName,
+                            URL = await UploadImage(folder, file)
+                        };
+                        article.articleImages.Add(images);
+                    }
                 }
 
-                _context.Add(article);
-                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", article.RockstarId);
