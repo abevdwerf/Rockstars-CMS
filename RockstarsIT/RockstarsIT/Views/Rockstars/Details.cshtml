@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>ROCKSTAR DETAILS</h1>
 
 <div>
     <h4>Rockstar</h4>
@@ -43,6 +43,18 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.RockstarId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.RockstarId" class="btn button mr-3">
+        BEWERKEN
+        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+        </svg>
+    </a>
+    <a asp-action="Index" class="btn button-cancel mr-3">
+        TERUG NAAR OVERZICHT
+        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+        </svg>
+    </a>
 </div>

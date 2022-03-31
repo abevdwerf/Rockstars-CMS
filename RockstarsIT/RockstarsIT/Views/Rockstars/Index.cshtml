@@ -4,28 +4,34 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>ROCKSTARS</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn button">
+        NIEUWE ROCKSTAR
+        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+        </svg>
+    </a>
 </p>
-<table class="table">
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Tribe)
+                TRIBE
             </th> 
             <th>
-                @Html.DisplayNameFor(model => model.Role)
+                ROL
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Chapter)
+                REGIO
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LinkedIn)
+                LINKEDIN
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                ACTIES
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Quote)
@@ -52,20 +58,49 @@
                 @Html.DisplayFor(modelItem => item.LinkedIn)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quote)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IMG)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.RockstarId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RockstarId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RockstarId">Delete</a>
+                @using (Html.BeginForm(FormMethod.Post))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.RockstarId" class="btn button mr-2" >
+                        BEWERKEN
+                        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                        </svg>
+                    </a> 
+                    <a asp-action="Details" asp-route-id="@item.RockstarId" class="btn button mr-2">
+                        DETAILS
+                        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                        </svg>
+                    </a>
+
+                    <a onclick="ConfirmDelete(this.name)" href="#" name="@item.RockstarId" class="btn button-cancel">
+                        VERWIJDEREN
+                        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                        </svg>
+                    </a>
+                    <input class="btn button-cancel" type="submit" asp-action="Delete" asp-route-id="@item.RockstarId" hidden id="@item.RockstarId" />
+                }
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+<script>
+    function ConfirmDelete(id) {
+        const conbtn = document.getElementById("test");
+        const conbtn2 = document.getElementById(id);
+
+        let text = "Weet je zeker dat u deze tribe wilt verwijderen?"
+        if (confirm(text) == true) {
+            conbtn2.click();
+        }
+        else {
+            console.log("test");
+        }
+    }
+</script>

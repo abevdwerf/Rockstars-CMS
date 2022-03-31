@@ -72,7 +72,7 @@ namespace RockstarsIT.Controllers
                     article.articleImages = new List<ArticleImages>();
 
                     foreach (var file in article.Images)
-                    {
+                {
                         var images = new ArticleImages()
                         {
                             Article = article,
@@ -83,6 +83,8 @@ namespace RockstarsIT.Controllers
                     }
                 }
 
+                _context.Add(article);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", article.RockstarId);

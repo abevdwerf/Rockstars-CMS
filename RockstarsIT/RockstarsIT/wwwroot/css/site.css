@@ -1,5 +1,14 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
+@font-face {
+    font-family: "Rockstars";
+    src: url(../font/DIN2014-Regular.ttf);
+}
+
+:root {
+    --mainColor: #FFE000;
+}
+
 
 a.navbar-brand {
     white-space: normal;
@@ -67,6 +76,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
+    font-family: Rockstars;
 }
 
 .footer {
@@ -75,4 +85,85 @@ body {
     width: 100%;
     white-space: nowrap;
     line-height: 60px; /* Vertically center the text there */
+}
+
+
+/* eigen styles */
+
+.textbox {
+    background-color: #F7F7F7;
+    outline: none;
+    border: none;
+    border-color: dimgray;
+    border-bottom: 1px solid dimgray;
+    font-size: 14px;
+    height: 47px;
+    padding-left: 10px;
+}
+
+.textarea {
+    background-color: #F7F7F7;
+    outline: none;
+    border: none;
+    border-color: dimgray;
+    border-bottom: 1px solid dimgray;
+    font-size: 14px;
+    padding-left: 10px;
+}
+
+.textbox:hover {
+    border-bottom: 2px solid dimgray;
+}
+
+.textbox:focus {
+    border-bottom: 2px solid dimgray;
+}
+
+.textbox:invalid {
+    border-bottom: 2px solid red;
+}
+
+a:hover {
+    text-decoration: none;
+}
+/* normale button */
+.button {
+    background-color: var(--mainColor);
+    padding: 10px 24px;
+    color: #000000;
+    font-weight: bold;
+    border: 0px;
+    font-size: 14px;
+}
+
+    .button:hover {
+        color: black;
+        transform: scale(1.1);
+    }
+
+.arrowsSvg {
+    margin-bottom: 3px;
+    margin-left: 6px;
+    transition: .2s;
+}
+
+/* cancel button */
+.button-cancel {
+    background-color: black;
+    padding: 10px 24px;
+    color: white;
+    font-weight: bold;
+    border: 0px;
+    font-size: 14px;
+}
+
+    .button-cancel:hover {
+        color: white;
+        transform: scale(1.1);
+    }
+
+.arrowsSvg-cancel {
+    margin-bottom: 3px;
+    margin-left: 6px;
+    fill: white;
 }
