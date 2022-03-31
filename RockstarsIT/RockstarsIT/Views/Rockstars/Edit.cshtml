@@ -4,49 +4,73 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>ROCKSTAR BEWERKEN</h1>
 
-<h4>Rockstar</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="RockstarId" />
-            <div class="form-group">
-                <label asp-for="TribeId" class="control-label"></label>
-                <select asp-for="TribeId" class="form-control" asp-items="ViewBag.TribeId"></select>
-                <span asp-validation-for="TribeId" class="text-danger"></span>
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="RockstarId" />
+    <div class="row g-3">
+        <div class="col-md-6 mb-3">
+            <label>Profiel foto</label>
+            <div class="custom-file">
+                <input asp-for="ImageFile" class="custom-file-input" id="postedFile">
+                <label asp-for="ImageFile" class="custom-file-label" for="customFileLangHTML" data-browse="Bestand kiezen"></label>
             </div>
-            <div class="form-group">
-                <label asp-for="Chapter" class="control-label"></label>
-                <select asp-for="Chapter" class="form-control"></select>
-                <span asp-validation-for="Chapter" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LinkedIn" class="control-label"></label>
-                <input asp-for="LinkedIn" class="form-control" />
-                <span asp-validation-for="LinkedIn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IMG" class="control-label"></label>
-                <input asp-for="IMG" class="form-control" />
-                <span asp-validation-for="IMG" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+            <span asp-validation-for="ImageFile" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Tribe" class="control-label">Tribe</label>
+            <select asp-for="TribeId" class="form-control" asp-items="ViewBag.TribeNames"></select>
+            <span asp-validation-for="TribeId" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="LinkedIn" class="control-label"></label> <br>
+            <input asp-for="LinkedIn" class="textbox w-100" />
+            <span asp-validation-for="LinkedIn" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="control-label">Regio</label>
+            <select asp-for="Chapter" class="form-control" asp-items="Html.GetEnumSelectList<Chapter>()"></select>
+            <span asp-validation-for="Chapter" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Quote" class="control-label"></label> <br>
+            <input asp-for="Quote" class="textbox w-100" />
+            <span asp-validation-for="Quote" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="control-label">Rol</label>
+            <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleNames"></select>
+            <span asp-validation-for="RoleId" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="control-label">Beschrijving</label> <br>
+            <textarea asp-for="Description" class="textarea w-100" rows="5"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
     </div>
-</div>
-
+    <div class="row">
+        <div class="col-md-6">
+            <button class="btn button" type="submit">
+                WIJZIGINGEN OPSLAAN
+                <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                </svg>
+            </button>
+        </div>
+    </div>
+</form>
+<br>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn button-cancel">
+        TERUG NAAR OVERZICHT
+        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+        </svg>
+    </a>
 </div>
 
 @section Scripts {

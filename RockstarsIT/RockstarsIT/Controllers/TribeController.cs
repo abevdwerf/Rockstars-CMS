@@ -89,7 +89,6 @@ namespace RockstarsIT.Controllers
         [ValidateAntiForgeryToken]
 
         public async Task<IActionResult> Edit(int id, [Bind("TribeId,TagId,Name,Description,Spotify,LeadAddress,BlockNumber,ImageNumber")] Tribe tribe)
-
         {
             if (id != tribe.TribeId)
             {

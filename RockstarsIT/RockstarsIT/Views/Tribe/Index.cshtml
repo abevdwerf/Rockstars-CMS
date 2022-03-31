@@ -3,7 +3,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>TRIBES</h1>
 
 <p>
 
@@ -36,37 +36,36 @@
         @foreach (var item in Model)
         {
         <tr>
-            <td width="20%">
+            <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td width="30%">
+            <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
-            <td width="20%">
+            <td>
                 @Html.DisplayFor(modelItem => item.Spotify)
             </td>
-            <td width="30%">
-                <a asp-action="Edit" asp-route-id="@item.TribeId" class="btn button">
-                    BEWERKEN
-                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                    </svg>
-                </a> &nbsp;
-                <a asp-action="Details" asp-route-id="@item.TribeId" class="btn button">
-                    DETAILS
-                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                    </svg>
-                </a> &nbsp;
-                <br>
-                <br>
+            <td>
                 @using (Html.BeginForm(FormMethod.Post))
                 {
-                    <a onclick="ConfirmDelete(this.name)" name="@item.TribeId" class="btn button">
-                        VERWIJDEREN
+                    <a asp-action="Edit" asp-route-id="@item.TribeId" class="btn button mr-2">
+                        BEWERKEN
                         <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                        </svg>
+                    </a> 
+                    <a asp-action="Details" asp-route-id="@item.TribeId" class="btn button mr-2">
+                        DETAILS
+                        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                        </svg>
+                    </a> 
+
+                    <a onclick="ConfirmDelete(this.name)" name="@item.TribeId" class="btn button-cancel" href="#">
+                        VERWIJDEREN
+                        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                             <path d="M0 0h24v24H0z" fill="none" />
                             <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
                         </svg>
@@ -83,7 +82,7 @@
         const conbtn = document.getElementById("test");
         const conbtn2 = document.getElementById(id);
 
-        let text = "Press button"
+        let text = "Weet je zeker dat u deze tribe wilt verwijderen?"
         if (confirm(text) == true) {
             conbtn2.click();
         }
