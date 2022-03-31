@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -64,19 +65,24 @@ namespace RockstarsIT.Controllers
         {
             if (ModelState.IsValid)
             {
-                string wwwRootPath = _hostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(article.imageFile.FileName);
-                string extension = Path.GetExtension(article.imageFile.FileName);
-                article.Image = fileName = fileName + DateTime.Now.ToString("yymmssfff");
-                string path = Path.Combine(wwwRootPath + "/img", fileName);
-
-                using (FileStream fs = new FileStream(path, FileMode.Create))
+                if (article.Images != null)
                 {
-                    await article.imageFile.CopyToAsync(fs);
+                    string folder = "img/article/";
+
+                    article.articleImages = new List<ArticleImages>();
+
+                    foreach (var file in article.Images)
+                    {
+                        var images = new ArticleImages()
+                        {
+                            Article = article,
+                            ImageName = file.FileName,
+                            URL = await UploadImage(folder, file)
+                        };
+                        article.articleImages.Add(images);
+                    }
                 }
 
-                _context.Add(article);
-                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", article.RockstarId);
@@ -169,6 +175,18 @@ namespace RockstarsIT.Controllers
         private bool ArticleExists(int id)
         {
             return _context.Article.Any(e => e.ArticleId == id);
+        }
+
+        private async Task<string> UploadImage(string folderPath, IFormFile file)
+        {
+
+            folderPath += Guid.NewGuid().ToString() + "_" + file.FileName;
+
+            string serverFolder = Path.Combine(_hostEnvironment.WebRootPath, folderPath);
+
+            await file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+
+            return "/" + folderPath;
         }
     }
 }
