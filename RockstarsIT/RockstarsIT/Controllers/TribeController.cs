@@ -54,7 +54,7 @@ namespace RockstarsIT.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Create([Bind("TribeId,Name,Description")] Tribe tribe)
+        public async Task<IActionResult> Create([Bind("TribeId,TagId,Name,Description,Spotify,LeadAddress,BlockNumber,ImageNumber")] Tribe tribe)
 
         {
             if (ModelState.IsValid)
@@ -88,8 +88,7 @@ namespace RockstarsIT.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Edit(int id, [Bind("TribeId,Name,Description")] Tribe tribe)
-
+        public async Task<IActionResult> Edit(int id, [Bind("TribeId,TagId,Name,Description,Spotify,LeadAddress,BlockNumber,ImageNumber")] Tribe tribe)
         {
             if (id != tribe.TribeId)
             {

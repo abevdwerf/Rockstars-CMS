@@ -4,59 +4,66 @@ for details on configuring this project to bundle and minify static web assets. 
     font-family: "Rockstars";
     src: url(../font/DIN2014-Regular.ttf);
 }
+
 :root {
     --mainColor: #FFE000;
 }
 
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.spaceBetweenArticles {
+    margin-bottom: 5%;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 /* Sticky footer styles
@@ -71,12 +78,13 @@ body {
     margin-bottom: 60px;
     font-family: Rockstars;
 }
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
 }
 
 
@@ -103,20 +111,21 @@ body {
     padding-left: 10px;
 }
 
-    .textbox:hover {
-        border-bottom: 2px solid dimgray;
-    }
+.textbox:hover {
+    border-bottom: 2px solid dimgray;
+}
 
-    .textbox:focus {
-        border-bottom: 2px solid dimgray;
-    }
+.textbox:focus {
+    border-bottom: 2px solid dimgray;
+}
 
-    .textbox:invalid {
-        border-bottom: 2px solid red;
-    }
-    a:hover{
-        text-decoration: none;
-    }
+.textbox:invalid {
+    border-bottom: 2px solid red;
+}
+
+a:hover {
+    text-decoration: none;
+}
 /* normale button */
 .button {
     background-color: var(--mainColor);
@@ -125,11 +134,12 @@ body {
     font-weight: bold;
     border: 0px;
     font-size: 14px;
+}
 
-}
-.button:hover {
-    color: black;
-}
+    .button:hover {
+        color: black;
+        transform: scale(1.1);
+    }
 
 .arrowsSvg {
     margin-bottom: 3px;
@@ -147,27 +157,13 @@ body {
     font-size: 14px;
 }
 
-.button-cancel:hover {
-    color: white;
-}
+    .button-cancel:hover {
+        color: white;
+        transform: scale(1.1);
+    }
 
 .arrowsSvg-cancel {
     margin-bottom: 3px;
     margin-left: 6px;
     fill: white;
- 
 }
-
-.form-control {
-    border-radius: 0px !important;
-    
-}
-
-
-textarea:focus, input:focus {
-    outline: none !important;
-    -webkit-appearance: none;
-    box-shadow: none !important;
-    border-bottom: 2px solid dimgray !important;
-}
-
