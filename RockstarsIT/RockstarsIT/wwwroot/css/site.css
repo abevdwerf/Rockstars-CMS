@@ -27,6 +27,10 @@ a {
     border-color: #1861ac;
 }
 
+.spaceBetweenArticles {
+    margin-bottom: 5%;
+}
+
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
     background-color: #1b6ec2;
@@ -132,10 +136,10 @@ a:hover {
     font-size: 14px;
 }
 
-.button:hover {
-    color: black;
-    transform: scale(1.05);
-}
+    .button:hover {
+        color: black;
+        transform: scale(1.1);
+    }
 
 .arrowsSvg {
     margin-bottom: 3px;
@@ -152,10 +156,12 @@ a:hover {
     border: 0px;
     font-size: 14px;
 }
-.button-cancel:hover {
-    color: white;
-    transform: scale(1.05);
-}
+
+    .button-cancel:hover {
+        color: white;
+        transform: scale(1.1);
+    }
+
 .arrowsSvg-cancel {
     margin-bottom: 3px;
     margin-left: 6px;

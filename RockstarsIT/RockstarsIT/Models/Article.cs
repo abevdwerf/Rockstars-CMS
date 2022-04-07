@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RockstarsIT.Models
@@ -12,9 +13,12 @@ namespace RockstarsIT.Models
         private string description;
         private string author;
         private string text;
-        private string image;
+        [Display(Name = "Selecteer een of meerdere afbeldingen")]
         [NotMapped]
-        public IFormFile imageFile;
+        public IFormFileCollection Images { get; set; }
+
+        public List<ArticleImages> articleImages { get; set; }
+
         public int ArticleId { get; set; }
         public int? RockstarId { get; set; }
         [ForeignKey("RockstarId")]
@@ -27,6 +31,5 @@ namespace RockstarsIT.Models
         public string Description { get { return description; } set { description = value; } }
         public string Author { get { return author; } set { author = value; } }
         public string Text { get { return text; } set { text = value; } }
-        public string Image { get { return image; } set { image = value; } }
     }
 }
