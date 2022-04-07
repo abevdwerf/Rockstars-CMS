@@ -1,4 +1,5 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using RockstarsIT.Models;
 
 namespace RockstarsIT.Models
 {
@@ -12,7 +13,8 @@ namespace RockstarsIT.Models
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Article> Article { get; set; }
         public DbSet<ArticleImages> ArticleImages { get; set; }
-
+        public DbSet<Podcast> Podcasts { get; set; }
+        public DbSet<Video> Videos { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             Tribe tribe1 = new Tribe()

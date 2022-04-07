@@ -1,7 +1,9 @@
 ﻿@model RockstarsIT.Models.Tribe
 
 
-@{ ViewData["Title"] = "Edit"; }
+@{
+    ViewData["Title"] = "Edit";
+}
 
 <h1>TRIBE BEWERKEN</h1>
 
@@ -53,18 +55,32 @@
                 <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
             </svg>
         </button>
-    </form>
-        <br>
-        <a asp-action="Index" class="btn button-cancel mt-3">
+
+        <a asp-action="Index" class="btn button-cancel ml-3">
             TERUG NAAR OVERZICHT
             <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                 <path d="M0 0h24v24H0z" fill="none" />
                 <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
             </svg>
         </a>
+    </form>
+
+
     </div>
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }
+}
+
+<script>
+window.addEventListener("beforeunload", function (e) {
+    var confirmationMessage = 'It looks like you have been editing something. '
+                            + 'If you leave before saving, your changes will be lost.';
+
+    (e || window.event).returnValue = confirmationMessage;
+    return confirmationMessage;
+});
+</script>

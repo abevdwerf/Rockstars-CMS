@@ -26,6 +26,8 @@ namespace RockstarsIT.Controllers
         // GET: Article
         public async Task<IActionResult> Index()
         {
+            string dataShowType = HttpContext.Request.Query["view"].ToString();
+            ViewData["DataShowType"] = dataShowType;
             var databaseContext = _context.Article.Include(a => a.Rockstar);
             return View(await databaseContext.ToListAsync());
         }
@@ -88,6 +90,9 @@ namespace RockstarsIT.Controllers
                         article.articleImages.Add(images);
                     }
                 }
+
+                _context.Add(article);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", article.RockstarId);
