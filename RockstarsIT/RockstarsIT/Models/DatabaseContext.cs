@@ -12,6 +12,7 @@ namespace RockstarsIT.Models
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Article> Article { get; set; }
         public DbSet<ArticleImages> ArticleImages { get; set; }
+        public DbSet<Podcast> Podcasts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
