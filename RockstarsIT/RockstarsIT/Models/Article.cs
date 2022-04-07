@@ -13,6 +13,8 @@ namespace RockstarsIT.Models
         private string description;
         private string author;
         private string text;
+        private string image;
+
         [Display(Name = "Selecteer een of meerdere afbeldingen")]
         [NotMapped]
         public IFormFileCollection Images { get; set; }
