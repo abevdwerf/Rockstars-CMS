@@ -196,7 +196,7 @@ namespace RockstarsIT.Controllers
                 var blob = container.GetBlobClient(fileName);
 
                 // If a blob with the same name exists, then we delete the Blob and its snapshots.
-                await blob.DeleteIfExistsAsync(Azure.Storage.Blobs.Models.DeleteSnapshotsOption.IncludeSnapshots);
+                //await blob.DeleteIfExistsAsync(Azure.Storage.Blobs.Models.DeleteSnapshotsOption.IncludeSnapshots);
 
                 // Create a file stream and use the UploadSync method to upload the Blob.
                 using (var fileStream = image.OpenReadStream())
