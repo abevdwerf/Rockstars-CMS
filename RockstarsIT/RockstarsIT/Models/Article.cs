@@ -14,6 +14,7 @@ namespace RockstarsIT.Models
         private string _description;
         private string _author;
         private string _text;
+        private Tribe _tribe;
         private DateTime _dateCreated;
         private DateTime _dateModified;
         private DateTime _datePublished;
@@ -52,6 +53,13 @@ namespace RockstarsIT.Models
         {
             get => _text;
             set => _text = value;
+        }
+        public int? TribeId { get; set; }
+        [ForeignKey("TribeId")]
+        public Tribe Tribe
+        {
+            get => _tribe; 
+            set => _tribe = value;
         }
         public DateTime DateCreated
         {
