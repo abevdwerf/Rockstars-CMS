@@ -12,47 +12,72 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">RockstarsIT</a>
+    <header>
+        <!--navbar-light,  box-shadow -->
+        <nav class="navbar-expand-sm navbar-toggleable-sm shadow-lg mb-3 topnav">
+            <div class="container">
+                <!--<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">RockstarsIT</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Tribe" asp-action="Index">Tribes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Rockstars" asp-action="Index">Rockstars</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Article" asp-action="Index">Artikelen</a>
-                    </li>
-                </ul>
+            </button>-->
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="navGo" id="Home" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="navGo" id="Tribe" asp-area="" asp-controller="Tribe" asp-action="Index">Tribes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="navGo" id="Rockstars" asp-area="" asp-controller="Rockstars" asp-action="Index">Rockstars</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="navGo" id="Article" asp-area="" asp-controller="Article" asp-action="Index">Artikelen</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>  
-</header>
-<div class="container">
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
-</div>
-
-<footer class="border-top footer text-muted">
+        </nav>
+    </header>
     <div class="container">
-        &copy; 2022 - RockstarsIT
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
     </div>
-</footer>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
-@await RenderSectionAsync("Scripts", required: false)
+    <script>
+        const queryString = window.location;
+        let Location = queryString.href.split("/");
+        Location = Location[3];
+
+
+        let Home = document.getElementById("Home");
+        let Tribe = document.getElementById("Tribe");
+        let Rockstars = document.getElementById("Rockstars");
+        let Article = document.getElementById("Article");
+
+        if (Location == "Tribe") {
+            Tribe.classList.add("active");
+        }
+        else if (Location == "Rockstars") {
+            Rockstars.classList.add("active");
+        }
+        else if (Location == "Article") {
+            Article.classList.add("active");
+        }
+        else if (Location == ""){
+            Home.classList.add("active");
+        }
+
+    </script>
+    <footer class="border-top border-dark footer text-muted">
+        <div class="container">
+            &copy; 2022 - RockstarsIT
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
