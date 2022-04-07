@@ -101,7 +101,8 @@ namespace RockstarsIT.Controllers
             {
                 return NotFound();
             }
-            ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", rockstar.TribeId);
+            ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
+            ViewData["RoleNames"] = new SelectList(_context.Roles, "RoleId", "Name");
             return View(rockstar);
         }
 

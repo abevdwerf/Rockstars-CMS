@@ -1,5 +1,14 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
+@font-face {
+    font-family: "Rockstars";
+    src: url(../font/DIN2014-Regular.ttf);
+}
+
+:root {
+    --mainColor: #FFE000;
+}
+
 
 a.navbar-brand {
     white-space: normal;
@@ -67,6 +76,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
+    font-family: Rockstars;
 }
 
 .footer {
@@ -75,4 +85,144 @@ body {
     width: 100%;
     white-space: nowrap;
     line-height: 60px; /* Vertically center the text there */
+}
+
+
+/* eigen styles */
+
+.textbox {
+    background-color: #F7F7F7;
+    outline: none;
+    border: none;
+    border-color: dimgray;
+    border-bottom: 1px solid dimgray;
+    font-size: 14px;
+    height: 47px;
+    padding-left: 10px;
+}
+
+.textarea {
+    background-color: #F7F7F7;
+    outline: none;
+    border: none;
+    border-color: dimgray;
+    border-bottom: 1px solid dimgray;
+    font-size: 14px;
+    padding-left: 10px;
+}
+
+.textbox:hover {
+    border-bottom: 2px solid dimgray;
+}
+
+.textbox:focus {
+    border-bottom: 2px solid dimgray;
+}
+
+.textbox:invalid {
+    border-bottom: 2px solid red;
+}
+
+a:hover {
+    text-decoration: none;
+}
+/* normale button */
+.button {
+    background-color: var(--mainColor);
+    padding: 10px 24px;
+    color: #000000;
+    font-weight: bold;
+    border: 0px;
+    font-size: 14px;
+}
+
+    .button:hover {
+        color: black;
+        transform: scale(1.1);
+    }
+
+.arrowsSvg {
+    margin-bottom: 3px;
+    margin-left: 6px;
+}
+
+/* cancel button */
+.button-cancel {
+    background-color: black;
+    padding: 10px 24px;
+    color: white;
+    font-weight: bold;
+    border: 0px;
+    font-size: 14px;
+}
+
+.button-cancel:hover {
+    color: white;
+    transform: scale(1.1);
+}
+
+.arrowsSvg-cancel {
+    margin-bottom: 3px;
+    margin-left: 6px;
+    fill: white;
+}
+
+/* cancel button */
+.button-white {
+    background-color: white;
+    padding: 10px 24px;
+    color: black;
+    font-weight: bold;
+    border: 0px;
+    font-size: 14px;
+}
+
+.button-white:hover {
+    color: black;
+    transform: scale(1.1);
+}
+
+
+/* background */
+body {
+    background-image: url("../img/bg/TeamRockstars-lockscreen-3840x2160-without-logo.png");
+    /*background-image: url("../img/bg/Achtergrond 1 RockstarsIT.svg");*/
+    /*background-image: url("../img/bg/Achtergrond 2 RockstarsIT.svg");*/
+    background-position: center;
+    Center the image */ background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+}
+/* topnav */
+.topnav {
+    background-color:#232323;
+}
+/* nav items*/
+.navGo {
+    color: dimgray;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    padding: 0.5rem 1rem;
+    display: block;
+}
+.navGo:hover{
+    color: white;
+    background-color: #1c1c1c;
+}
+/* actieve nav items*/
+.active{
+    background-color: black;
+    color: white;
+}
+/*Text naar wit maken*/
+h1 {
+    color: white;
+    -webkit-text-stroke: 1px black;
+}
+h2 {
+    color: white;
+    -webkit-text-stroke: 0.8px black;
+}
+label {
+    color: white;
+    -webkit-text-stroke: 0.3px black;
 }
