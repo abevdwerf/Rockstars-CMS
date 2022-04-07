@@ -21,7 +21,7 @@ namespace RockstarsIT.Controllers
         // GET: Video
         public async Task<IActionResult> Index()
         {
-            var databaseContext = _context.Video.Include(v => v.Rockstar).Include(v => v.Tribe);
+            var databaseContext = _context.Videos.Include(v => v.Rockstar).Include(v => v.Tribe);
             return View(await databaseContext.ToListAsync());
         }
 
@@ -33,7 +33,7 @@ namespace RockstarsIT.Controllers
                 return NotFound();
             }
 
-            var video = await _context.Video
+            var video = await _context.Videos
                 .Include(v => v.Rockstar)
                 .Include(v => v.Tribe)
                 .FirstOrDefaultAsync(m => m.VideoId == id);
@@ -79,7 +79,7 @@ namespace RockstarsIT.Controllers
                 return NotFound();
             }
 
-            var video = await _context.Video.FindAsync(id);
+            var video = await _context.Videos.FindAsync(id);
             if (video == null)
             {
                 return NotFound();
@@ -134,7 +134,7 @@ namespace RockstarsIT.Controllers
                 return NotFound();
             }
 
-            var video = await _context.Video
+            var video = await _context.Videos
                 .Include(v => v.Rockstar)
                 .Include(v => v.Tribe)
                 .FirstOrDefaultAsync(m => m.VideoId == id);
@@ -151,15 +151,15 @@ namespace RockstarsIT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var video = await _context.Video.FindAsync(id);
-            _context.Video.Remove(video);
+            var video = await _context.Videos.FindAsync(id);
+            _context.Videos.Remove(video);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool VideoExists(int id)
         {
-            return _context.Video.Any(e => e.VideoId == id);
+            return _context.Videos.Any(e => e.VideoId == id);
         }
     }
 }

@@ -90,6 +90,9 @@ namespace RockstarsIT.Controllers
                         article.articleImages.Add(images);
                     }
                 }
+
+                _context.Add(article);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", article.RockstarId);

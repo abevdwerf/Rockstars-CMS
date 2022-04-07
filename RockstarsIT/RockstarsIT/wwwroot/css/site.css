@@ -144,7 +144,6 @@ a:hover {
 .arrowsSvg {
     margin-bottom: 3px;
     margin-left: 6px;
-    transition: .2s;
 }
 
 /* cancel button */
@@ -157,13 +156,73 @@ a:hover {
     font-size: 14px;
 }
 
-    .button-cancel:hover {
-        color: white;
-        transform: scale(1.1);
-    }
+.button-cancel:hover {
+    color: white;
+    transform: scale(1.1);
+}
 
 .arrowsSvg-cancel {
     margin-bottom: 3px;
     margin-left: 6px;
     fill: white;
+}
+
+/* cancel button */
+.button-white {
+    background-color: white;
+    padding: 10px 24px;
+    color: black;
+    font-weight: bold;
+    border: 0px;
+    font-size: 14px;
+}
+
+.button-white:hover {
+    color: black;
+    transform: scale(1.1);
+}
+
+
+/* background */
+body {
+    background-image: url("../img/bg/TeamRockstars-lockscreen-3840x2160-without-logo.png");
+    /*background-image: url("../img/bg/Achtergrond 1 RockstarsIT.svg");*/
+    /*background-image: url("../img/bg/Achtergrond 2 RockstarsIT.svg");*/
+    background-position: center;
+    Center the image */ background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+}
+/* topnav */
+.topnav {
+    background-color:#232323;
+}
+/* nav items*/
+.navGo {
+    color: dimgray;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    padding: 0.5rem 1rem;
+    display: block;
+}
+.navGo:hover{
+    color: white;
+    background-color: #1c1c1c;
+}
+/* actieve nav items*/
+.active{
+    background-color: black;
+    color: white;
+}
+/*Text naar wit maken*/
+h1 {
+    color: white;
+    -webkit-text-stroke: 1px black;
+}
+h2 {
+    color: white;
+    -webkit-text-stroke: 0.8px black;
+}
+label {
+    color: white;
+    -webkit-text-stroke: 0.3px black;
 }
