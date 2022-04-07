@@ -15,7 +15,82 @@
         </svg>
     </a>
 </p>
+@if(ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowType"].ToString() == ""){
+    <p>
+    <a asp-action="Index" asp-route-view ="grid" class="btn button">
+        List weergeven in tabel
+        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+        </svg>
+    </a>
+    </p>
+}
+else if (ViewData["DataShowType"].ToString() == "grid")
+{
+     <p>
+    <a asp-action="Index" asp-route-view ="cards" class="btn button">
+        List weergeven in kaarten
+        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+        </svg>
+    </a>
+    </p>
+}
 
+@if(ViewData["DataShowType"].ToString() == "grid")
+{
+    <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Rockstar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Text)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rockstar.RockstarId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ArticleId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ArticleId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ArticleId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+}else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowType"].ToString() == "")
+{
 <div class="row">
 @foreach (var item in Model) {
   <div class="col-sm-6 spaceBetweenArticles">
@@ -55,3 +130,5 @@
    </div>
 }
 </div>
+}
+
