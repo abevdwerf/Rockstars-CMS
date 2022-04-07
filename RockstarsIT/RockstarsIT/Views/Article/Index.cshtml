@@ -4,28 +4,52 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>ARTIKELEN</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn button">
+        NIEUW ARTIKEL
+        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+        </svg>
+    </a>
 </p>
 
 <div class="row">
 @foreach (var item in Model) {
   <div class="col-sm-6 spaceBetweenArticles">
     <div class="card">
-     <img class="card-img-top" src="..." alt="Card image cap">
+     <img class="card-img-top" src="https://www.teamrockstars.nl/wp-content/uploads/2020/11/0_0.jpeg" alt="Card image cap">
       <div class="card-body">
           <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Title)</h5>
            <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
       </div>
       <ul class="list-group list-group-flush">
-            <li class="list-group-item"  style="background-color:#FFE000">Author: @Html.DisplayFor(modelItem => item.Author)</li>
+            <li class="list-group-item"  style="background-color:#FFE000">Auteur: @Html.DisplayFor(modelItem => item.Author)</li>
           </ul> 
             <div class="card-body" style="background-color:#232323">
-            <a  asp-action="Details" asp-route-id="@item.ArticleId" class="card-link btn btn-primary">Read more</a>
-            <a asp-action="Edit" asp-route-id="@item.ArticleId" class="card-link btn btn-warning">Edit</a>
-            <a asp-action="Delete" asp-route-id="@item.ArticleId" class="card-link  btn btn-danger">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.ArticleId" class="card-link btn button">
+                    LEZEN
+                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                    </svg>
+                </a>
+            <a asp-action="Edit" asp-route-id="@item.ArticleId" class="card-link btn button">
+                BEWERKEN
+                <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                </svg>
+            </a>
+            <a asp-action="Delete" asp-route-id="@item.ArticleId" class="card-link  btn btn-danger">
+                VERWIJDEREN
+                <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                </svg>
+            </a>
           </div>
     </div>
    </div>
