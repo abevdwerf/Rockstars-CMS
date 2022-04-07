@@ -1,23 +1,68 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RockstarsIT.Models
 {
     public class Video
     {
-        private int _id;
         private string _title;
         private string _description;
         private string _link;
+        private DateTime _dateCreated;
+        private DateTime _dateModified;
+        private DateTime _datePublished;
+        private bool _publishedStatus;
+        private int _viewCount;
         private Tribe _tribe;
         private Rockstar _rockstar;
 
         [Key]
-        public int Id { get; set; }
+        public int VideoId { get; set; }
+
         [Required]
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string Link { get; set; }
+        public string Title
+        {
+            get => _title; 
+            set => _title = value;
+        }
+
+        public string Description
+        {
+            get => _description; 
+            set => _description = value;
+        }
+
+        public string Link
+        {
+            get => _link; 
+            set => _link = value;
+        }
+        public DateTime DateCreated
+        {
+            get => _dateCreated;
+            set => _dateCreated = value;
+        }
+        public DateTime DateModified
+        {
+            get => _dateModified;
+            set => _dateModified = value;
+        }
+        public DateTime DatePublished
+        {
+            get => _datePublished;
+            set => _datePublished = value;
+        }
+        public bool PublishedStatus
+        {
+            get => _publishedStatus;
+            set => _publishedStatus = value;
+        }
+        public int ViewCount
+        {
+            get => _viewCount; 
+            set => _viewCount = value;
+        }
         public int? TribeId { get; set; }
         [ForeignKey("TribeId")]
         public virtual Tribe Tribe

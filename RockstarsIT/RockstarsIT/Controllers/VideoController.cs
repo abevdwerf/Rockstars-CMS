@@ -36,7 +36,7 @@ namespace RockstarsIT.Controllers
             var video = await _context.Video
                 .Include(v => v.Rockstar)
                 .Include(v => v.Tribe)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.VideoId == id);
             if (video == null)
             {
                 return NotFound();
@@ -96,7 +96,7 @@ namespace RockstarsIT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Link,TribeId,RockstarId")] Video video)
         {
-            if (id != video.Id)
+            if (id != video.VideoId)
             {
                 return NotFound();
             }
@@ -110,7 +110,7 @@ namespace RockstarsIT.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VideoExists(video.Id))
+                    if (!VideoExists(video.VideoId))
                     {
                         return NotFound();
                     }
@@ -137,7 +137,7 @@ namespace RockstarsIT.Controllers
             var video = await _context.Video
                 .Include(v => v.Rockstar)
                 .Include(v => v.Tribe)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.VideoId == id);
             if (video == null)
             {
                 return NotFound();
@@ -159,7 +159,7 @@ namespace RockstarsIT.Controllers
 
         private bool VideoExists(int id)
         {
-            return _context.Video.Any(e => e.Id == id);
+            return _context.Video.Any(e => e.VideoId == id);
         }
     }
 }
