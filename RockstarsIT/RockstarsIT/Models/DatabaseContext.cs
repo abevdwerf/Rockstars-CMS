@@ -1,4 +1,5 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using RockstarsIT.Models;
 
 namespace RockstarsIT.Models
 {
@@ -12,6 +13,7 @@ namespace RockstarsIT.Models
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Article> Article { get; set; }
         public DbSet<ArticleImages> ArticleImages { get; set; }
+        public DbSet<Podcast> Podcasts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -53,5 +55,7 @@ namespace RockstarsIT.Models
 
             builder.Entity<Article>().HasData(article1);
         }
+
+        public DbSet<RockstarsIT.Models.Video> Video { get; set; }
     }
 }

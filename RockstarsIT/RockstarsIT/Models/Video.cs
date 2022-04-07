@@ -1,65 +1,42 @@
 ﻿using System;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RockstarsIT.Models
 {
-    public class Article
+    public class Video
     {
-        private Rockstar _rockstar;
         private string _title;
         private string _description;
-        private string _author;
-        private string _text;
-        private Tribe _tribe;
+        private string _link;
         private DateTime _dateCreated;
         private DateTime _dateModified;
         private DateTime _datePublished;
         private bool _publishedStatus;
         private int _viewCount;
-        [Display(Name = "Selecteer een of meerdere afbeldingen")]
-        [NotMapped]
-        public IFormFileCollection Images { get; set; }
+        private Tribe _tribe;
+        private Rockstar _rockstar;
 
-        public List<ArticleImages> articleImages { get; set; }
+        [Key]
+        public int VideoId { get; set; }
 
-        public int ArticleId { get; set; }
-        public int? RockstarId { get; set; }
-        [ForeignKey("RockstarId")]
-        public virtual Rockstar Rockstar
-        {
-            get => _rockstar;
-            set => _rockstar = value;
-        }
+        [Required]
         public string Title
         {
-            get => _title;
+            get => _title; 
             set => _title = value;
         }
+
         public string Description
         {
             get => _description; 
             set => _description = value;
         }
-        public string Author
+
+        public string Link
         {
-            get => _author; 
-            set => _author = value;
-        }
-        public string Text
-        {
-            get => _text;
-            set => _text = value;
-        }
-        public int? TribeId { get; set; }
-        [ForeignKey("TribeId")]
-        public Tribe Tribe
-        {
-            get => _tribe; 
-            set => _tribe = value;
+            get => _link; 
+            set => _link = value;
         }
         public DateTime DateCreated
         {
@@ -85,6 +62,20 @@ namespace RockstarsIT.Models
         {
             get => _viewCount; 
             set => _viewCount = value;
+        }
+        public int? TribeId { get; set; }
+        [ForeignKey("TribeId")]
+        public virtual Tribe Tribe
+        {
+            get => _tribe;
+            set => _tribe = value;
+        }
+        public int? RockstarId { get; set; }
+        [ForeignKey("RockstarId")]
+        public virtual Rockstar Rockstar
+        {
+            get => _rockstar;
+            set => _rockstar = value;
         }
     }
 }

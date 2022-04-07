@@ -26,6 +26,8 @@ namespace RockstarsIT.Controllers
         // GET: Article
         public async Task<IActionResult> Index()
         {
+            string dataShowType = HttpContext.Request.Query["view"].ToString();
+            ViewData["DataShowType"] = dataShowType;
             var databaseContext = _context.Article.Include(a => a.Rockstar);
             return View(await databaseContext.ToListAsync());
         }
