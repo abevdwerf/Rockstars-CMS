@@ -14,7 +14,7 @@ namespace RockstarsIT.Models
         public DbSet<Article> Article { get; set; }
         public DbSet<ArticleImages> ArticleImages { get; set; }
         public DbSet<Podcast> Podcasts { get; set; }
-
+        public DbSet<Video> Videos { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             Tribe tribe1 = new Tribe()
@@ -55,7 +55,5 @@ namespace RockstarsIT.Models
 
             builder.Entity<Article>().HasData(article1);
         }
-
-        public DbSet<RockstarsIT.Models.Video> Video { get; set; }
     }
 }
