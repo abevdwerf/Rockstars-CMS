@@ -1,4 +1,5 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using RockstarsIT.Models;
 
 namespace RockstarsIT.Models
 {
@@ -54,5 +55,7 @@ namespace RockstarsIT.Models
 
             builder.Entity<Article>().HasData(article1);
         }
+
+        public DbSet<RockstarsIT.Models.Video> Video { get; set; }
     }
 }
