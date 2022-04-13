@@ -45,20 +45,27 @@ else if (ViewData["DataShowType"].ToString() == "grid")
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Rockstar)
+                Tribe
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                Titel
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Beschrijving
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Author)
+                Schrijver
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Text)
+                Tekst
             </th>
+            <th>
+                Datum gepubliceerd
+            </th>
+            <th>
+                Status    
+            </th>
+            <th>Status actie</th>
             <th></th>
         </tr>
     </thead>
@@ -66,7 +73,7 @@ else if (ViewData["DataShowType"].ToString() == "grid")
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Rockstar.RockstarId)
+                @Html.DisplayFor(modelItem => item.Tribe.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -81,6 +88,32 @@ else if (ViewData["DataShowType"].ToString() == "grid")
                 @Html.DisplayFor(modelItem => item.Text)
             </td>
             <td>
+                @if(item.PublishedStatus)
+                {
+                   @Html.DisplayFor(modelItem => item.DatePublished)
+                }else{
+                    <p class="align-content-center">-----</p>
+                }
+            </td>
+            <td>
+                @if(item.PublishedStatus)
+                {
+                   <p>Gepubliceerd</p> 
+                }
+                else{
+                    <p>Concept</p>
+                }
+            </td>
+            <td>
+                @if(item.PublishedStatus)
+                {
+                    <a asp-action="ChangeStatus" asp-route-id="@item.ArticleId" asp-route-status="false" class="btn btn-danger">Depubliceren</a>
+                }
+                else{
+                    <a asp-action="ChangeStatus" asp-route-id="@item.ArticleId" asp-route-status="true" class="btn btn-success">Publiceren</a>
+                }
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.ArticleId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ArticleId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.ArticleId">Delete</a>
@@ -89,46 +122,45 @@ else if (ViewData["DataShowType"].ToString() == "grid")
 }
     </tbody>
 </table>
-}else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowType"].ToString() == "")
-{
-<div class="row">
-@foreach (var item in Model) {
-  <div class="col-sm-6 spaceBetweenArticles">
-    <div class="card">
-     <img class="card-img-top" src="https://www.teamrockstars.nl/wp-content/uploads/2020/11/0_0.jpeg" alt="Card image cap">
-      <div class="card-body">
-          <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Title)</h5>
-           <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
-      </div>
-      <ul class="list-group list-group-flush">
-            <li class="list-group-item"  style="background-color:#FFE000">Auteur: @Html.DisplayFor(modelItem => item.Author)</li>
-          </ul> 
-            <div class="card-body" style="background-color:#232323">
-                <a asp-action="Details" asp-route-id="@item.ArticleId" class="card-link btn button">
-                    LEZEN
-                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                    </svg>
-                </a>
-            <a asp-action="Edit" asp-route-id="@item.ArticleId" class="card-link btn button">
-                BEWERKEN
-                <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                    <path d="M0 0h24v24H0z" fill="none" />
-                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                </svg>
-            </a>
-            <a asp-action="Delete" asp-route-id="@item.ArticleId" class="card-link  btn btn-danger">
-                VERWIJDEREN
-                <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                    <path d="M0 0h24v24H0z" fill="none" />
-                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                </svg>
-            </a>
-          </div>
-    </div>
-   </div>
-}
-</div>
-}
+}  
+else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowType"].ToString() == ""){
+        <div class="row">
+        @foreach (var item in Model) {
+          <div class="col-sm-6 spaceBetweenArticles">
+            <div class="card">
+             <img class="card-img-top" src="https://www.teamrockstars.nl/wp-content/uploads/2020/11/0_0.jpeg" alt="Card image cap">
+              <div class="card-body">
+                  <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Title)</h5>
+                   <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+              </div>
+              <ul class="list-group list-group-flush">
+                    <li class="list-group-item"  style="background-color:#FFE000">Auteur: @Html.DisplayFor(modelItem => item.Author)</li>
+                  </ul> 
+                    <div class="card-body" style="background-color:#232323">
+                        <a asp-action="Details" asp-route-id="@item.ArticleId" class="card-link btn button">
+                            LEZEN
+                            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                <path d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                            </svg>
+                        </a>
+                    <a asp-action="Edit" asp-route-id="@item.ArticleId" class="card-link btn button">
+                        BEWERKEN
+                        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                        </svg>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.ArticleId" class="card-link  btn btn-danger">
+                        VERWIJDEREN
+                        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                        </svg>
+                    </a>
+                  </div>
+            </div>
+           </div>
+        }
+        </div>}
 
