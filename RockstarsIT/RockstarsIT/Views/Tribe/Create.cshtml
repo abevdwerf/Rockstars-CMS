@@ -9,7 +9,7 @@
 
 
 <hr />
-     <form asp-action="Create">
+     <form asp-action="Create" onsubmit="setFormSubmitting()">
              <div asp-validation-summary="ModelOnly" class="text-danger"></div>
              <div class="row g-3">
                  <div class="col-md-6 mb-3">
@@ -69,15 +69,26 @@
 </form>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }
 
 <script>
-window.addEventListener("beforeunload", function (e) {
-    var confirmationMessage = 'It looks like you have been editing something. '
-                            + 'If you leave before saving, your changes will be lost.';
+var formSubmitting = false;
+var setFormSubmitting = function() { formSubmitting = true; };
 
-    (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-    return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-});
+window.onload = function() {
+    window.addEventListener("beforeunload", function (e) {
+        if (formSubmitting) {
+            return undefined;
+        }
+
+        var confirmationMessage = 'It looks like you have been editing something. '
+                                + 'If you leave before saving, your changes will be lost.';
+
+        (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+        return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+    });
+};
 </script>
