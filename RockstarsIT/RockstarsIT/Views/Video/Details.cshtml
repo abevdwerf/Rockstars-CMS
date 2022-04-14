@@ -53,11 +53,11 @@
         <dd>
             @if (Model.Link.Length == 11)
             {
-                            <img width="420" height="315" src="https://img.youtube.com/vi/@Html.DisplayFor(model => model.Link)/0.jpg"></img>
+                <img width="420" height="315" src="https://img.youtube.com/vi/@Html.DisplayFor(model => model.Link)/0.jpg">
             }
             else if (Model.Link.Length == 9)
             {
-                            <img width="420" height="315" id="vimeoimg"></img>
+                <img width="420" height="315" id="vimeoimg" name="@Html.DisplayFor(model => model.Link)">
             }
         </dd>
     </dl>
@@ -78,13 +78,11 @@
 </div>
 
 <script>
-    @if (Model.Link.Length == 9)
-    {
-        @:window.onload = GetVimeoThumbnail;
-
-        @:function GetVimeoThumbnail() {
-        @:const vimg = document.getElementById("vimeoimg")
-        @:vimg.src = "https://vumbnail.com/" + @Html.DisplayFor(model => model.Link) + ".jpg";
-    }
+window.onload = CheckLink
+    function CheckLink () {
+        if (document.getElementById("vimeoimg").name == @Html.DisplayFor(model => model.Link))
+        {
+            document.getElementById("vimeoimg").src = ("https://vumbnail.com/" + "@Html.DisplayFor(model => model.Link)" + ".jpg");
+        }
     }
 </script>
