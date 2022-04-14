@@ -36,6 +36,12 @@
                 Datum van Publiceren
             </th>
             <th>
+                Status
+            </th>
+            <th>
+                Status veranderen
+            </th>
+            <th>
                 Actions
             </th>
         </tr>
@@ -66,9 +72,32 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Rockstar.Name)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DatePublished)
-                </td>
+            <td>
+                @if(item.PublishedStatus)
+                {
+                   @Html.DisplayFor(modelItem => item.DatePublished)
+                }else{
+                    <p class="align-content-center">-----</p>
+                }
+            </td>
+            <td>
+                @if(item.PublishedStatus)
+                {
+                   <p>Gepubliceerd</p> 
+                }
+                else{
+                    <p>Concept</p>
+                }
+            </td>
+            <td>
+                @if(item.PublishedStatus)
+                {
+                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="false" class="btn btn-danger">Depubliceren</a>
+                }
+                else{
+                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn btn-success">Publiceren</a>
+                }
+            </td>
                 <td>
                 @using (Html.BeginForm(FormMethod.Post))
                 {

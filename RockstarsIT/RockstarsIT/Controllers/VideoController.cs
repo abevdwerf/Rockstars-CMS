@@ -209,5 +209,18 @@ namespace RockstarsIT.Controllers
         {
             return _context.Videos.Any(e => e.VideoId == id);
         }
+
+        public async Task<IActionResult> ChangeStatus(int id, bool status)
+        {
+            var video = new Video { VideoId = id, DatePublished = DateTime.Now, PublishedStatus = status };
+            _context.Attach(video);
+            if (status)
+            {
+                _context.Entry(video).Property(r => r.DatePublished).IsModified = true;
+            }
+            _context.Entry(video).Property(r => r.PublishedStatus).IsModified = true;
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
