@@ -48,8 +48,8 @@ namespace RockstarsIT.Controllers
         // GET: Video/Create
         public IActionResult Create()
         {
-            ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId");
-            ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId");
+            ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
+            ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
             return View();
         }
 
@@ -58,10 +58,56 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Link,TribeId,RockstarId")] Video video)
+        public async Task<IActionResult> Create([Bind("VideoId,Title,Description,Link,TribeId,RockstarId")] Video video)
         {
             if (ModelState.IsValid)
             {
+                string part1 = "";
+                string part2 = "";
+                if (video.Link.Contains("youtu.be/"))
+                {
+                    part1 = "youtu.be/";
+                    int start = video.Link.IndexOf(part1) + part1.Length;
+                    int end = video.Link.IndexOf(part2, start);
+                    string result = video.Link.Substring(start, 11);
+                    video.Link = result;
+                }
+                else if (video.Link.Contains("youtube.com/watch?v="))
+                {
+                    part1 = "youtube.com/watch?v=";
+                    int start = video.Link.IndexOf(part1) + part1.Length;
+                    int end = video.Link.IndexOf(part2, start);
+                    string result = video.Link.Substring(start, 11);
+                    video.Link = result;
+                }
+                else if (video.Link.Contains("youtube.com/embed/"))
+                {
+                    part1 = "youtube.com/embed/";
+                    int start = video.Link.IndexOf(part1) + part1.Length;
+                    int end = video.Link.IndexOf(part2, start);
+                    string result = video.Link.Substring(start, 11);
+                    video.Link = result;
+                }
+                else if (video.Link.Contains("vimeo.com/"))
+                {
+                    part1 = "vimeo.com/";
+                    int start = video.Link.IndexOf(part1) + part1.Length;
+                    int end = video.Link.IndexOf(part2, start);
+                    string result = video.Link.Substring(start, 9);
+                    video.Link = result;
+                }
+                else if (video.Link.Contains("player.vimeo.com/video/"))
+                {
+                    part1 = "player.vimeo.com/video/";
+                    int start = video.Link.IndexOf(part1) + part1.Length;
+                    int end = video.Link.IndexOf(part2, start);
+                    string result = video.Link.Substring(start, 9);
+                    video.Link = result;
+                }
+                else
+                {
+                    throw new Exception();
+                }
                 _context.Add(video);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -84,8 +130,8 @@ namespace RockstarsIT.Controllers
             {
                 return NotFound();
             }
-            ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", video.RockstarId);
-            ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", video.TribeId);
+            ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
+            ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
             return View(video);
         }
 
@@ -94,7 +140,7 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Link,TribeId,RockstarId")] Video video)
+        public async Task<IActionResult> Edit(int id, [Bind("VideoId,Title,Description,Link,TribeId,RockstarId")] Video video)
         {
             if (id != video.VideoId)
             {
