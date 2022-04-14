@@ -192,13 +192,18 @@ body {
     Center the image */ background-repeat: no-repeat; /* Do not repeat the image */
     background-size: cover; /* Resize the background image to cover the entire container */
 }
-/* topnav */
+/* topnav  #343A40*/
 .topnav {
-    background-color:#232323;
+    background-color: var(--mainColor);
+}
+
+.footer {
+    background-color: #343A40;
+    color: white;
 }
 /* nav items*/
 .navGo {
-    color: dimgray;
+    color: black;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     padding: 0.5rem 1rem;
@@ -222,7 +227,12 @@ h2 {
     color: white;
     -webkit-text-stroke: 0.8px black;
 }
+dl {
+    color: white;
+    -webkit-text-stroke: 0.3px black;
+}
 label {
     color: white;
     -webkit-text-stroke: 0.3px black;
 }
+
