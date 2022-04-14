@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RockstarsIT.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace RockstarsIT.Controllers
 {
@@ -28,7 +28,7 @@ namespace RockstarsIT.Controllers
         {
             string dataShowType = HttpContext.Request.Query["view"].ToString();
             ViewData["DataShowType"] = dataShowType;
-            var databaseContext = _context.Article.Include(a => a.Rockstar);
+            var databaseContext = _context.Article.Include(a => a.Rockstar).Include(a => a.Tribe);
             return View(await databaseContext.ToListAsync());
         }
 
@@ -55,6 +55,7 @@ namespace RockstarsIT.Controllers
         public IActionResult Create()
         {
             ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId");
+            ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             return View();
         }
 
@@ -197,6 +198,19 @@ namespace RockstarsIT.Controllers
             await file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
 
             return "/" + folderPath;
+        }
+
+        public async Task<IActionResult> ChangeStatus(int id, bool status)
+        {
+            var article = new Article { ArticleId = id, DatePublished = DateTime.Now, PublishedStatus = status };
+            _context.Attach(article);
+            if (status)
+            {
+                _context.Entry(article).Property(r => r.DatePublished).IsModified = true;
+            }
+            _context.Entry(article).Property(r => r.PublishedStatus).IsModified = true;
+            _context.SaveChanges();
+            return Redirect("/Article/Index?view=grid");
         }
     }
 }
