@@ -108,6 +108,7 @@ namespace RockstarsIT.Controllers
                 {
                     throw new Exception();
                 }
+                video.DateCreated = DateTime.Now;
                 _context.Add(video);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -151,6 +152,7 @@ namespace RockstarsIT.Controllers
             {
                 try
                 {
+                    video.DateModified = DateTime.Now;
                     _context.Update(video);
                     await _context.SaveChangesAsync();
                 }
