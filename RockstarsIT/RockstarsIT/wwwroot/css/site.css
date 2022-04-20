@@ -186,11 +186,10 @@ a:hover {
 /* background */
 body {
     background-image: url("../img/bg/TeamRockstars-lockscreen-3840x2160-without-logo.png");
-    /*background-image: url("../img/bg/Achtergrond 1 RockstarsIT.svg");*/
-    /*background-image: url("../img/bg/Achtergrond 2 RockstarsIT.svg");*/
+    background-attachment: fixed;
     background-position: center;
-    Center the image */ background-repeat: no-repeat; /* Do not repeat the image */
-    background-size: cover; /* Resize the background image to cover the entire container */
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 /* topnav  #343A40*/
 .topnav {
@@ -242,6 +241,12 @@ label {
 @media only screen and (max-width: 1200px) {
     .kleineImg {
        width: 12%;
+    }
+}
+
+@media only screen and (max-width: 1380px) {
+    .kleineImg {
+        width: 10%;
     }
 }
 
