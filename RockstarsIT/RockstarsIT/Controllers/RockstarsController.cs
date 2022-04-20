@@ -74,10 +74,19 @@ namespace RockstarsIT.Controllers
                 {
                     string currentFileName = Path.GetFileNameWithoutExtension(rockstar.ImageFile.FileName);
                     string extension = Path.GetExtension(rockstar.ImageFile.FileName);
-                    
                     string newFileName = currentFileName + DateTime.Now.ToString("yymmsfff") + extension;
-                    rockstar.IMG = newFileName;
-                    await UploadImageToBlob(rockstar.ImageFile, newFileName);
+
+                    var container = new BlobContainerClient(_azureConnectionString, "rockstar-images");
+
+                    // Method to create a new Blob client.
+                    var blob = container.GetBlobClient(newFileName);
+
+                    // Create a file stream and use the UploadSync method to upload the Blob.
+                    using (var fileStream = rockstar.ImageFile.OpenReadStream())
+                    {
+                        await blob.UploadAsync(fileStream, new BlobHttpHeaders { ContentType = rockstar.ImageFile.ContentType });
+                    }
+                    rockstar.IMG = blob.Uri.ToString();
                 }
 
                 _context.Add(rockstar);
@@ -111,7 +120,7 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RockstarId,TribeId,Role,Chapter,LinkedIn,Description,Quote,IMG")] Rockstar rockstar)
+        public async Task<IActionResult> Edit(int id, [Bind("RockstarId,TribeId,Role,Chapter,Name,LinkedIn,Description,Quote,ImageFile")] Rockstar rockstar)
         {
             if (id != rockstar.RockstarId)
             {
@@ -175,42 +184,6 @@ namespace RockstarsIT.Controllers
         private bool RockstarExists(int id)
         {
             return _context.Rockstars.Any(e => e.RockstarId == id);
-        }
-
-        [HttpPost("[action]")]
-        public async Task UploadImageToBlob(IFormFile image, string fileName)
-        {
-            try
-            {
-                // Azure connection string and container name passed as an argument to get the Blob reference of the container.
-                var container = new BlobContainerClient(_azureConnectionString, "rockstar-images");
-
-                // Method to create our container if it doesn’t exist.
-                var createResponse = await container.CreateIfNotExistsAsync();
-
-                // If container successfully created, then set public access type to Blob.
-                if (createResponse != null && createResponse.GetRawResponse().Status == 201)
-                    await container.SetAccessPolicyAsync(Azure.Storage.Blobs.Models.PublicAccessType.Blob);
-
-                // Method to create a new Blob client.
-                var blob = container.GetBlobClient(fileName);
-
-                // If a blob with the same name exists, then we delete the Blob and its snapshots.
-                //await blob.DeleteIfExistsAsync(Azure.Storage.Blobs.Models.DeleteSnapshotsOption.IncludeSnapshots);
-
-                // Create a file stream and use the UploadSync method to upload the Blob.
-                using (var fileStream = image.OpenReadStream())
-                {
-                    await blob.UploadAsync(fileStream, new BlobHttpHeaders { ContentType = image.ContentType });
-                }
-            }
-            catch (Exception e)
-            {
-                Response.Clear();
-                Response.StatusCode = 204;
-                Response.HttpContext.Features.Get<IHttpResponseFeature>().ReasonPhrase = "File failed to upload";
-                Response.HttpContext.Features.Get<IHttpResponseFeature>().ReasonPhrase = e.Message;
-            }
         }
     }
 }

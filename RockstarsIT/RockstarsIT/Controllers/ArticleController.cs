@@ -19,12 +19,10 @@ namespace RockstarsIT.Controllers
     {
         private readonly DatabaseContext _context;
         private readonly string _azureConnectionString;
-        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public ArticleController(DatabaseContext context, IWebHostEnvironment hostEnvironment, IConfiguration configuration)
+        public ArticleController(DatabaseContext context, IConfiguration configuration)
         {
             _context = context;
-            this._hostEnvironment = hostEnvironment;
             _azureConnectionString = configuration.GetConnectionString("ConnectionStringBlob");
         }
 
@@ -60,7 +58,6 @@ namespace RockstarsIT.Controllers
         public IActionResult Create()
         {
             ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
-            ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId");
             ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             return View();
         }
