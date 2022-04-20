@@ -1,0 +1,79 @@
+﻿@model RockstarsIT.Models.Video
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Video</h4>
+<hr />
+         <form asp-action="Edit" onsubmit="setFormSubmitting()">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row g-3">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="RockstarId" class="control-label"></label>
+                    <select asp-for="RockstarId" class ="form-control" asp-items="ViewBag.RockstarNames"></select>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Link" class="control-label"></label>
+                    <input asp-for="Link" class="form-control" required />
+                    <span asp-validation-for="Link" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="TribeId" class="control-label"></label>
+                    <select asp-for="TribeId" class ="form-control" asp-items="ViewBag.TribeNames"></select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <button type="submit" value="Edit" class="btn button">
+                    WIJZIGINGEN OPSLAAN
+                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                         <path d="M0 0h24v24H0z" fill="none" />
+                         <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                     </svg>
+                </button>
+                <a asp-action="Index" class="btn button-cancel ml-3">
+                    TERUG NAAR OVERZICHT
+                    <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                         <path d="M0 0h24v24H0z" fill="none" />
+                         <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                     </svg>
+                </a>
+            </div>
+        </form>
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}
+
+<script>
+var formSubmitting = false;
+var setFormSubmitting = function() { formSubmitting = true; };
+
+window.onload = function() {
+    window.addEventListener("beforeunload", function (e) {
+        if (formSubmitting) {
+            return undefined;
+        }
+
+        var confirmationMessage = 'It looks like you have been editing something. '
+                                + 'If you leave before saving, your changes will be lost.';
+        
+        (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+        return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+    });
+};
+</script>

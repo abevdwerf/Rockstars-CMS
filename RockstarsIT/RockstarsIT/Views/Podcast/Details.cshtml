@@ -1,80 +1,65 @@
-﻿@model RockstarsIT.Models.Article
+@model RockstarsIT.Models.Podcast
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>ARTIKEL DETAILS</h1>
+<h1>PODCAST DETAILS</h1>
 
 <div>
+    <h4>Podcast</h4>
     <hr />
     <dl class="row">
         <dd class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Rockstar)
+            @Html.DisplayNameFor(model => model.Titel)
         </dd>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Rockstar.RockstarId)
+            @Html.DisplayFor(model => model.Titel)
         </dd>
         <dd class = "col-sm-2">
-            Titel
+            @Html.DisplayNameFor(model => model.Omschrijving)
         </dd>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.Omschrijving)
         </dd>
         <dd class = "col-sm-2">
-            Beschrijving
+            @Html.DisplayNameFor(model => model.URL)
         </dd>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.URL)
         </dd>
         <dd class = "col-sm-2">
-            Auteur
+            @Html.DisplayNameFor(model => model.Auteur)
         </dd>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Author)
+            @Html.DisplayFor(model => model.Auteur.RockstarId)
         </dd>
         <dd class = "col-sm-2">
-            Afbeeldingen
+            @Html.DisplayNameFor(model => model.Tribe)
         </dd>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Images)
-        </dd>
-        <dd class = "col-sm-2">
-            Inhoud
-        </dd>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Text)
+            @Html.DisplayFor(model => model.Tribe.TribeId)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ArticleId" class="btn button">
+    <a asp-action="Edit" asp-route-id="@Model.PodcastId" class="btn button mr-3">
         BEWERKEN
         <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
             <path d="M0 0h24v24H0z" fill="none" />
             <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
         </svg>
     </a>
-    <br>
-    <a asp-action="Delete" asp-route-id="@Model.ArticleId" class="btn button">
-        VERWIJDEREN
-        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-        </svg>
-    </a>
-    <br>
-    <a asp-action="Index" class="btn button-cancel">
+    <a asp-action="Index" class="btn button-cancel mr-3">
         TERUG NAAR OVERZICHT
         <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
             <path d="M0 0h24v24H0z" fill="none" />
             <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
         </svg>
     </a>
-    <br />
-    @if(@Model.PublishedStatus)
+        @if(@Model.PublishedStatus)
         {
-         <a asp-action="ChangeStatus" asp-route-id="@Model.ArticleId" asp-route-status="false" class="btn button">
+         <a asp-action="ChangeStatus" asp-route-id="@Model.PodcastId" asp-route-status="false" class="btn button">
                 Depubliceren
                 <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                     <path d="M0 0h24v24H0z" fill="none" />
@@ -84,7 +69,7 @@
         }
         else
         {
-            <a asp-action="ChangeStatus" asp-route-id="@Model.ArticleId" asp-route-status="true" class="btn button">
+            <a asp-action="ChangeStatus" asp-route-id="@Model.PodcastId" asp-route-status="true" class="btn button">
                 Publiceren
                 <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                     <path d="M0 0h24v24H0z" fill="none" />

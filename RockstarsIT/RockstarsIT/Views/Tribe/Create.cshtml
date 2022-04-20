@@ -9,7 +9,7 @@
 
 
 <hr />
-     <form asp-action="Create">
+     <form asp-action="Create" onsubmit="setFormSubmitting()">
              <div asp-validation-summary="ModelOnly" class="text-danger"></div>
              <div class="row g-3">
                  <div class="col-md-6 mb-3">
@@ -57,20 +57,38 @@
                              <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
                          </svg>
                      </button>
+                     <a asp-action="Index" class="btn button-cancel ml-3">
+                     TERUG NAAR OVERZICHT
+                     <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                         <path d="M0 0h24v24H0z" fill="none" />
+                         <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                     </svg>
+                 </a>
                  </div>
              </div>
 </form>
-<br>
-        <a asp-action="Index" class="btn button-cancel">
-            TERUG NAAR OVERZICHT
-            <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-            </svg>
-        </a>
-
-
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }
+}
+
+<script>
+var formSubmitting = false;
+var setFormSubmitting = function() { formSubmitting = true; };
+
+window.onload = function() {
+    window.addEventListener("beforeunload", function (e) {
+        if (formSubmitting) {
+            return undefined;
+        }
+
+        var confirmationMessage = 'It looks like you have been editing something. '
+                                + 'If you leave before saving, your changes will be lost.';
+
+        (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+        return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+    });
+};
+</script>
