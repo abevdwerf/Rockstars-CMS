@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    Spotify spotify = new Spotify(); 
 }
 
 <h1>PODCASTS</h1> 
@@ -26,6 +27,9 @@
         </th>
         <th>
             URL
+        </th>
+        <th>
+            PREVIEW
         </th>
         <th>
             AUTEUR
@@ -56,6 +60,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.URL)
+            </td>
+            <td>
+                <audio controls>
+                    <source src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))" type="audio/mp3">
+                    Your browser does not support the audio element
+                </audio>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Auteur.Name)
