@@ -14,13 +14,14 @@
 <body>
 
     <a href="/">
-        <svg class="shadow2 ml-3" style="position: absolute" version="1.1" id="rs-logo" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 595.3 504.9" xml:space="preserve">
+        <svg class="shadow2 ml-3 kleineImg" id="Logo" style="position: absolute;" version="1.1" id="rs-logo" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 595.3 504.9" xml:space="preserve">
         <style>
             .shadow2 {
                 height: 128px;
                 -webkit-filter: drop-shadow(0px 1px 1px #000000) drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.15));
                 filter: drop-shadow(0px 1px 1px #000000) drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.15));
             }
+
 
             .st0,
             .st1,
@@ -66,8 +67,12 @@
         </g>
     </svg>
     </a>
-
-
+    <script>
+        
+        if (window.screen.width < 1200) {
+            document.getElementById("Logo").classList.remove("ml-3");
+        }
+    </script>
     <header>
         <!--navbar-light,  box-shadow -->
         <nav  class="navbar-expand-sm navbar-toggleable-sm shadow-lg mb-3 topnav">
@@ -139,15 +144,22 @@
         }
         else if (Location == "") {
             Home.classList.add("active");
+
         }
 
     </script>
     <!-- text-muted -->
-    <footer class="border-top border-dark footer footer">
+    <footer id="footertje" class="border-top border-dark footer">
         <div class="container">
             &copy; 2022 - RockstarsIT
         </div>
     </footer>
+
+    <script>
+        if (Location == "") {
+            document.getElementById("footertje").classList.add("footer-dash");
+        }
+    </script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

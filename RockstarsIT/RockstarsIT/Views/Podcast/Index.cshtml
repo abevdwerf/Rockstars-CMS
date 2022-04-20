@@ -4,34 +4,40 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>PODCASTS</h1> 
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn button">
+        NIEUWE PODCAST
+        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
+        </svg>
+    </a>
 </p>
 <table class="table table-bordered bg-light">
     <thead class="thead-dark">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Titel)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Omschrijving)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.URL)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Auteur)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tribe)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            TITEL
+        </th>
+        <th>
+            OMSCHRIJVING
+        </th>
+        <th>
+            URL
+        </th>
+        <th>
+            AUTEUR
+        </th>
+        <th>
+            TRIBE
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Titel)
@@ -43,17 +49,54 @@
                 @Html.DisplayFor(modelItem => item.URL)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Auteur.RockstarId)
+                @Html.DisplayFor(modelItem => item.Auteur.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Tribe.TribeId)
+                @Html.DisplayFor(modelItem => item.Tribe.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.PodcastId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PodcastId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PodcastId">Delete</a>
+                @using (Html.BeginForm(FormMethod.Post))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.PodcastId" class="btn button mr-2" >
+                        BEWERKEN
+                        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                        </svg>
+                    </a> 
+                    <a asp-action="Details" asp-route-id="@item.PodcastId" class="btn button mr-2">
+                        DETAILS
+                        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                        </svg>
+                    </a>
+                    <a onclick="ConfirmDelete(this.name)" href="#" name="@item.PodcastId" class="btn button-cancel">
+                        VERWIJDEREN
+                        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                        </svg>
+                    </a>
+                    <input class="btn button-cancel" type="submit" asp-action="Delete" asp-route-id="@item.PodcastId" hidden id="@item.RockstarId" />
+                }
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
+
+<script>
+    function ConfirmDelete(id) {
+        const conbtn = document.getElementById("test");
+        const conbtn2 = document.getElementById(id);
+
+        let text = "Weet je zeker dat u deze podcast wilt verwijderen?"
+        if (confirm(text) == true) {
+            conbtn2.click();
+        }
+        else {
+            console.log("test");
+        }
+    }
+</script>

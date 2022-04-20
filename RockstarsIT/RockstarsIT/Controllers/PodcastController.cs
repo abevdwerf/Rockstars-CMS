@@ -48,8 +48,8 @@ namespace RockstarsIT.Controllers
         // GET: Podcast/Create
         public IActionResult Create()
         {
-            ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId");
-            ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId");
+            ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
+            ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
             return View();
         }
 
@@ -66,8 +66,8 @@ namespace RockstarsIT.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", podcast.RockstarId);
-            ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", podcast.TribeId);
+            ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
+            ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
             return View(podcast);
         }
 
@@ -84,8 +84,8 @@ namespace RockstarsIT.Controllers
             {
                 return NotFound();
             }
-            ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", podcast.RockstarId);
-            ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", podcast.TribeId);
+            ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
+            ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
             return View(podcast);
         }
 
