@@ -1,0 +1,65 @@
+@model RockstarsIT.Models.Podcast
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>PODCAST BEWERKEN</h1>
+
+<h4>Podcast</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PodcastId" />
+            <div class="form-group">
+                <label asp-for="Titel" class="control-label"></label>
+                <input asp-for="Titel" class="form-control" />
+                <span asp-validation-for="Titel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Omschrijving" class="control-label"></label>
+                <input asp-for="Omschrijving" class="form-control" />
+                <span asp-validation-for="Omschrijving" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="URL" class="control-label"></label>
+                <input asp-for="URL" class="form-control" />
+                <span asp-validation-for="URL" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Auteur" class="control-label">Auteur</label>
+                <select asp-for="RockstarId" class="form-control" asp-items="ViewBag.RockstarNames"></select>
+                <span asp-validation-for="RockstarId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tribe" class="control-label">Tribe</label>
+                <select asp-for="TribeId" class="form-control" asp-items="ViewBag.TribeNames"></select>
+                <span asp-validation-for="TribeId" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <button class="btn button" type="submit">
+                        WIJZIGINGEN OPSLAAN
+                        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn button-cancel">
+        TERUG NAAR OVERZICHT
+        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+        </svg>
+    </a>
+</div>
+
