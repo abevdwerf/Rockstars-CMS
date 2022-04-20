@@ -14,7 +14,7 @@
 <body>
 
     <a href="/">
-        <svg class="shadow2 ml-4 kleineImg" id="Logo" style="position: absolute;" version="1.1" id="rs-logo" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 595.3 504.9" xml:space="preserve">
+        <svg class="shadow2 ml-3 kleineImg" style="position: absolute;" version="1.1" id="rs-logo" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 595.3 504.9" xml:space="preserve">
         <style>
             .shadow2 {
                 height: 128px;
@@ -69,7 +69,7 @@
     </a>
     <script>
         if (window.screen.width < 1380) {
-            document.getElementById("Logo").classList.remove("ml-4");
+            document.getElementById("rs-logo").classList.remove("ml-3");
         }
     </script>
     <header>
@@ -143,8 +143,6 @@
         let Location = queryString.href.split("/");
         Location = Location[3];
 
-
-        let Home = document.getElementById("Home");
         let Tribe = document.getElementById("Tribe");
         let Rockstars = document.getElementById("Rockstars");
         let Article = document.getElementById("Article");
@@ -170,11 +168,6 @@
             Video.classList.add("active");
             VideoEn.classList.add("active");
         }
-        else if (Location == "") {
-            Home.classList.add("active");
-
-        }
-
     </script>
     <!-- text-muted -->
     <footer id="footertje" class="border-top border-dark footer">
@@ -183,11 +176,11 @@
         </div>
     </footer>
 
-    <script>
-        if (Location == "") {
-            document.getElementById("footertje").classList.add("footer-dash");
-        }
-    </script>
+    @* <script> *@
+    @*     if (Location == "") { *@
+    @*         document.getElementById("footertje").classList.add("footer-dash"); *@
+    @*     } *@
+    @* </script> *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
