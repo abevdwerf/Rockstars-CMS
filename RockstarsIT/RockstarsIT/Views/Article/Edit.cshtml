@@ -145,7 +145,6 @@
                         processData: false, // Not to process data  
                         success: function (response) {  
                             if (response.Success) {
-                                console.log(response.ArticleImages);
 
                                 alert(response.Message);
                                 //show image
@@ -156,7 +155,6 @@
                             }
                         },  
                         error: function (response) { 
-                            console.log(response);
                             alert("failed to upload image");  
                         }  
                     });  
@@ -166,7 +164,7 @@
             });   
 
           //delete image
-          $(".upload__img-close").on("click", function (e) {
+          $(document).on("click", ".upload__img-close", function (e) {
 
             var currentDiv = $(this);
             // Create FormData object  
@@ -174,8 +172,6 @@
               
             // Adding articleId to FormData object  
             data.append('ArticleImageId', $(this).data("id"));
-
-            console.log($(this).data("id"));
 
             $.ajax({  
                 async: true,
