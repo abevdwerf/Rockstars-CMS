@@ -6,7 +6,7 @@
 
 <h1>ARTIKELEN</h1>
 <div class="row">
-     <div class="col-md-6  text-left">
+    <div class="col-md-6  text-left">
         <a asp-action="Create" class="btn button">
             NIEUW ARTIKEL
             <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
@@ -14,6 +14,8 @@
                 <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
             </svg>
         </a>
+        <br/>
+        <br/>
     </div>
     @if(ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowType"].ToString() == ""){
      <div class="col-md-6  text-right">

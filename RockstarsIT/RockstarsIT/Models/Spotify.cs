@@ -51,6 +51,12 @@ namespace RockstarsIT.Models
             return spotifyLinkId;
         }
         
+        public string GetSpotifyEmbeddedLink(string spotifyUrl)
+        {
+            string url = "https://open.spotify.com/embed-podcast/episode/"+GetSpotifyLinkId(spotifyUrl);
+            return url;
+        }
+        
         public string GetPreviewLink(string spotifyLinkId)
         {
             string url5 = "https://api.spotify.com/v1/episodes/"+spotifyLinkId+"?market=NL";
