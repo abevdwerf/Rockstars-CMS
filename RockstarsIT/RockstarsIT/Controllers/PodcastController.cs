@@ -171,7 +171,7 @@ namespace RockstarsIT.Controllers
                 _context.Entry(podcast).Property(r => r.DatePublished).IsModified = true;
             }
             _context.Entry(podcast).Property(r => r.PublishedStatus).IsModified = true;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
     }
