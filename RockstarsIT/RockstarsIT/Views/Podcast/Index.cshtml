@@ -17,22 +17,22 @@
 </p>
 <table class="table table-bordered bg-light">
     <thead class="thead-dark">
-    <tr>
-        <th>
+        <tr>
+            <th>
             TITEL
-        </th>
-        <th>
+            </th>
+            <th>
             OMSCHRIJVING
-        </th>
-        <th>
+            </th>
+            <th>
             URL
-        </th>
-        <th>
+            </th>
+            <th>
             AUTEUR
-        </th>
-        <th>
+            </th>
+            <th>
             TRIBE
-        </th>
+            </th>
         <th>
             Datum van Publiceren
         </th>
@@ -42,11 +42,11 @@
         <th>
             Status veranderen
         </th>
-        <th></th>
-    </tr>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model) {
+@foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Titel)
@@ -117,7 +117,7 @@
                 }
             </td>
         </tr>
-    }
+}
     </tbody>
 </table>
 

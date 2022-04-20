@@ -88,10 +88,10 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Rockstar.Name)
                 </td>
-            <td>
+                <td>
                 @if(item.PublishedStatus)
                 {
-                   @Html.DisplayFor(modelItem => item.DatePublished)
+                    @Html.DisplayFor(modelItem => item.DatePublished)
                 }
                 else
                 {
@@ -117,7 +117,7 @@
                 {
                     <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn btn-success">Publiceren</a>
                 }
-            </td>
+                </td>
                 <td>
                 @using (Html.BeginForm(FormMethod.Post))
                 {
