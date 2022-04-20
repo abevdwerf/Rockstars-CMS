@@ -66,7 +66,7 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RockstarId,TribeId,RoleId,Chapter,LinkedIn,Description,Quote,ImageFile")] Rockstar rockstar)
+        public async Task<IActionResult> Create([Bind("RockstarId,TribeId,RoleId,Chapter,Name,LinkedIn,Description,Quote,ImageFile")] Rockstar rockstar)
         {
             if (ModelState.IsValid)
             {

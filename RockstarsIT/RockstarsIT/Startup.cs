@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RockstarsIT.Models;
+using Newtonsoft.Json.Serialization;
 
 namespace RockstarsIT
 {
@@ -32,6 +33,11 @@ namespace RockstarsIT
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddControllers().AddJsonOptions(jsonOptions =>
+            {
+                jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
