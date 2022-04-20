@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>PODCAST BEWERKEN</h1>
 
 <h4>Podcast</h4>
 <hr />
@@ -29,23 +29,37 @@
                 <span asp-validation-for="URL" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="RockstarId" class="control-label"></label>
-                <select asp-for="RockstarId" class="form-control" asp-items="ViewBag.RockstarId"></select>
+                <label asp-for="Auteur" class="control-label">Auteur</label>
+                <select asp-for="RockstarId" class="form-control" asp-items="ViewBag.RockstarNames"></select>
                 <span asp-validation-for="RockstarId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TribeId" class="control-label"></label>
-                <select asp-for="TribeId" class="form-control" asp-items="ViewBag.TribeId"></select>
+                <label asp-for="Tribe" class="control-label">Tribe</label>
+                <select asp-for="TribeId" class="form-control" asp-items="ViewBag.TribeNames"></select>
                 <span asp-validation-for="TribeId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="row">
+                <div class="col-md-6">
+                    <button class="btn button" type="submit">
+                        WIJZIGINGEN OPSLAAN
+                        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                        </svg>
+                    </button>
+                </div>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn button-cancel">
+        TERUG NAAR OVERZICHT
+        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+        </svg>
+    </a>
 </div>
 
