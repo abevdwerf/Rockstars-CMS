@@ -27,10 +27,6 @@ a {
     border-color: #1861ac;
 }
 
-.spaceBetweenArticles {
-    margin-bottom: 5%;
-}
-
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
     background-color: #1b6ec2;
@@ -144,6 +140,7 @@ a:hover {
 .arrowsSvg {
     margin-bottom: 3px;
     margin-left: 6px;
+    transition: .2s;
 }
 
 /* cancel button */
@@ -156,83 +153,13 @@ a:hover {
     font-size: 14px;
 }
 
-.button-cancel:hover {
-    color: white;
-    transform: scale(1.1);
-}
+    .button-cancel:hover {
+        color: white;
+        transform: scale(1.1);
+    }
 
 .arrowsSvg-cancel {
     margin-bottom: 3px;
     margin-left: 6px;
     fill: white;
 }
-
-/* cancel button */
-.button-white {
-    background-color: white;
-    padding: 10px 24px;
-    color: black;
-    font-weight: bold;
-    border: 0px;
-    font-size: 14px;
-}
-
-.button-white:hover {
-    color: black;
-    transform: scale(1.1);
-}
-
-
-/* background */
-body {
-    background-image: url("../img/bg/TeamRockstars-lockscreen-3840x2160-without-logo.png");
-    /*background-image: url("../img/bg/Achtergrond 1 RockstarsIT.svg");*/
-    /*background-image: url("../img/bg/Achtergrond 2 RockstarsIT.svg");*/
-    background-position: center;
-    Center the image */ background-repeat: no-repeat; /* Do not repeat the image */
-    background-size: cover; /* Resize the background image to cover the entire container */
-}
-/* topnav  #343A40*/
-.topnav {
-    background-color: var(--mainColor);
-}
-
-.footer {
-    background-color: #343A40;
-    color: white;
-}
-/* nav items*/
-.navGo {
-    color: black;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
-    padding: 0.5rem 1rem;
-    display: block;
-}
-.navGo:hover{
-    color: white;
-    background-color: #1c1c1c;
-}
-/* actieve nav items*/
-.active{
-    background-color: black;
-    color: white;
-}
-/*Text naar wit maken*/
-h1 {
-    color: white;
-    -webkit-text-stroke: 1px black;
-}
-h2 {
-    color: white;
-    -webkit-text-stroke: 0.8px black;
-}
-dl {
-    color: white;
-    -webkit-text-stroke: 0.3px black;
-}
-label {
-    color: white;
-    -webkit-text-stroke: 0.3px black;
-}
-

@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using RockstarsIT.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
 {
@@ -26,9 +25,7 @@ namespace RockstarsIT.Controllers
         // GET: Article
         public async Task<IActionResult> Index()
         {
-            string dataShowType = HttpContext.Request.Query["view"].ToString();
-            ViewData["DataShowType"] = dataShowType;
-            var databaseContext = _context.Article.Include(a => a.Rockstar).Include(a => a.Tribe);
+            var databaseContext = _context.Article.Include(a => a.Rockstar);
             return View(await databaseContext.ToListAsync());
         }
 
@@ -55,7 +52,6 @@ namespace RockstarsIT.Controllers
         public IActionResult Create()
         {
             ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId");
-            ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             return View();
         }
 
@@ -64,32 +60,19 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ArticleId,RockstarId,Title,Description,Author,Images,Text")] Article article)
+        public async Task<IActionResult> Create([Bind("ArticleId,RockstarId,Title,Description,Author,Image,Text")] Article article)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(article);
-                await _context.SaveChangesAsync();
-                if (article.Images != null)
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(article.imageFile.FileName);
+                string extension = Path.GetExtension(article.imageFile.FileName);
+                article.Image = fileName = fileName + DateTime.Now.ToString("yymmssfff");
+                string path = Path.Combine(wwwRootPath + "/img", fileName);
+
+                using (FileStream fs = new FileStream(path, FileMode.Create))
                 {
-                    string folder = "img/article/";
-
-
-
-                    article.articleImages = new List<ArticleImages>();
-
-
-
-                    foreach (var file in article.Images)
-                    {
-                        var images = new ArticleImages()
-                        {
-                            Article = article,
-                            ImageName = file.FileName,
-                            URL = await UploadImage(folder, file)
-                        };
-                        article.articleImages.Add(images);
-                    }
+                    await article.imageFile.CopyToAsync(fs);
                 }
 
                 _context.Add(article);
@@ -186,31 +169,6 @@ namespace RockstarsIT.Controllers
         private bool ArticleExists(int id)
         {
             return _context.Article.Any(e => e.ArticleId == id);
-        }
-
-        private async Task<string> UploadImage(string folderPath, IFormFile file)
-        {
-
-            folderPath += Guid.NewGuid().ToString() + "_" + file.FileName;
-
-            string serverFolder = Path.Combine(_hostEnvironment.WebRootPath, folderPath);
-
-            await file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
-
-            return "/" + folderPath;
-        }
-
-        public async Task<IActionResult> ChangeStatus(int id, bool status)
-        {
-            var article = new Article { ArticleId = id, DatePublished = DateTime.Now, PublishedStatus = status };
-            _context.Attach(article);
-            if (status)
-            {
-                _context.Entry(article).Property(r => r.DatePublished).IsModified = true;
-            }
-            _context.Entry(article).Property(r => r.PublishedStatus).IsModified = true;
-            _context.SaveChanges();
-            return Redirect("/Article/Index?view=grid");
         }
     }
 }

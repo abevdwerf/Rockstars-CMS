@@ -4,10 +4,11 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>ARTIKEL VERWIJDEREN</h1>
+<h1>Delete</h1>
 
-<h3>Weet u zeker dat u dit artikel wilt verwijderen?</h3>
+<h3>Are you sure you want to delete this?</h3>
 <div>
+    <h4>Article</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -17,31 +18,31 @@
             @Html.DisplayFor(model => model.Rockstar.RockstarId)
         </dd>
         <dt class = "col-sm-2">
-            Titel
+            @Html.DisplayNameFor(model => model.Title)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Title)
         </dd>
         <dt class = "col-sm-2">
-            Beschrijving
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class = "col-sm-2">
-            Auteur
+            @Html.DisplayNameFor(model => model.Author)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Author)
         </dd>
         <dt class = "col-sm-2">
-            Afbeeldingen
+            @Html.DisplayNameFor(model => model.Image)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Images)
+            @Html.DisplayFor(model => model.Image)
         </dd>
         <dt class = "col-sm-2">
-            Inhoud
+            @Html.DisplayNameFor(model => model.Text)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Text)
@@ -50,20 +51,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="ArticleId" />
-        <button type="submit" class="btn button">
-            ARTIKEL VERWIJDEREN
-            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-            </svg>
-        </button>
-        <br>
-        <a asp-action="Index" class="btn button-cancel">
-            TERUG NAAR OVERZICHT
-            <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-            </svg>
-        </a>
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
     </form>
 </div>

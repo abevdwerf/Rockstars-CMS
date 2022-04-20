@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RockstarsIT.Models
@@ -10,22 +8,13 @@ namespace RockstarsIT.Models
     public class Article
     {
         private Rockstar _rockstar;
-        private string _title;
-        private string _description;
-        private string _author;
-        private string _text;
-        private Tribe _tribe;
-        private DateTime _dateCreated;
-        private DateTime _dateModified;
-        private DateTime _datePublished;
-        private bool _publishedStatus;
-        private int _viewCount;
-        [Display(Name = "Selecteer een of meerdere afbeldingen")]
+        private string title;
+        private string description;
+        private string author;
+        private string text;
+        private string image;
         [NotMapped]
-        public IFormFileCollection Images { get; set; }
-
-        public List<ArticleImages> articleImages { get; set; }
-
+        public IFormFile imageFile;
         public int ArticleId { get; set; }
         public int? RockstarId { get; set; }
         [ForeignKey("RockstarId")]
@@ -34,57 +23,10 @@ namespace RockstarsIT.Models
             get => _rockstar;
             set => _rockstar = value;
         }
-        public string Title
-        {
-            get => _title;
-            set => _title = value;
-        }
-        public string Description
-        {
-            get => _description; 
-            set => _description = value;
-        }
-        public string Author
-        {
-            get => _author; 
-            set => _author = value;
-        }
-        public string Text
-        {
-            get => _text;
-            set => _text = value;
-        }
-        public int? TribeId { get; set; }
-        [ForeignKey("TribeId")]
-        public Tribe Tribe
-        {
-            get => _tribe; 
-            set => _tribe = value;
-        }
-        public DateTime DateCreated
-        {
-            get => _dateCreated;
-            set => _dateCreated = value;
-        }
-        public DateTime DateModified
-        {
-            get => _dateModified;
-            set => _dateModified = value;
-        }
-        public DateTime DatePublished
-        {
-            get => _datePublished;
-            set => _datePublished = value;
-        }
-        public bool PublishedStatus
-        {
-            get => _publishedStatus;
-            set => _publishedStatus = value;
-        }
-        public int ViewCount
-        {
-            get => _viewCount; 
-            set => _viewCount = value;
-        }
+        public string Title { get { return title; } set { title = value; } }
+        public string Description { get { return description; } set { description = value; } }
+        public string Author { get { return author; } set { author = value; } }
+        public string Text { get { return text; } set { text = value; } }
+        public string Image { get { return image; } set { image = value; } }
     }
 }

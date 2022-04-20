@@ -1,15 +1,13 @@
 ﻿@model RockstarsIT.Models.Tribe
 
 
-@{
-    ViewData["Title"] = "Edit";
-}
+@{ ViewData["Title"] = "Edit"; }
 
 <h1>TRIBE BEWERKEN</h1>
 
 <hr />
 <div class="row">
-    <form asp-action="Edit" onsubmit="setFormSubmitting()">
+    <form asp-action="Edit">
         <input type="hidden" asp-for="TribeId" />
         <div class="row g-3">
             <div class="col-md-6 mb-3">
@@ -17,6 +15,7 @@
                 <input asp-for="Name" class="textbox w-100" rows="5" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+
             <div class="col-md-6 mb-3">
                 <label asp-for="Spotify" class="control-label">Spotify Link:</label>
                 <br />
@@ -54,39 +53,18 @@
                 <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
             </svg>
         </button>
-
-        <a asp-action="Index" class="btn button-cancel ml-3">
+    </form>
+        <br>
+        <a asp-action="Index" class="btn button-cancel mt-3">
             TERUG NAAR OVERZICHT
             <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                 <path d="M0 0h24v24H0z" fill="none" />
                 <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
             </svg>
         </a>
-    </form>
-</div>
+    </div>
 
 
 @section Scripts {
-    @{
-    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-}
-
-<script>
-var formSubmitting = false;
-var setFormSubmitting = function() { formSubmitting = true; };
-
-window.onload = function() {
-    window.addEventListener("beforeunload", function (e) {
-        if (formSubmitting) {
-            return undefined;
-        }
-
-        var confirmationMessage = 'It looks like you have been editing something. '
-                                + 'If you leave before saving, your changes will be lost.';
-
-        (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-        return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-    });
-};
-</script>

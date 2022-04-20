@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RockstarsIT.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace RockstarsIT.Models
 {
@@ -12,9 +11,7 @@ namespace RockstarsIT.Models
         public DbSet<Role> Roles { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Article> Article { get; set; }
-        public DbSet<ArticleImages> ArticleImages { get; set; }
-        public DbSet<Podcast> Podcasts { get; set; }
-        public DbSet<Video> Videos { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             Tribe tribe1 = new Tribe()
@@ -30,7 +27,7 @@ namespace RockstarsIT.Models
             {
                 RockstarId = 1,
                 Description = "test 123",
-                LinkedIn = "linked.com/",
+                LinkedIn = "linnked.com/",
                 Tribe = null
             };
 
@@ -39,28 +36,10 @@ namespace RockstarsIT.Models
             Role role1 = new Role()
             {
                 RoleId = 1,
-                Name = "Tribe member"
-            };
-            Role role2 = new Role()
-            {
-                RoleId = 2,
                 Name = "Tribe Lead"
             };
-            Role role3 = new Role()
-            {
-                RoleId = 3,
-                Name = "Special agent"
-            };
-            Role role4 = new Role()
-            {
-                RoleId = 4,
-                Name = "Auteur"
-            };
-
+            
             builder.Entity<Role>().HasData(role1);
-            builder.Entity<Role>().HasData(role2);
-            builder.Entity<Role>().HasData(role3);
-            builder.Entity<Role>().HasData(role4);
 
             Article article1 = new Article()
             {
