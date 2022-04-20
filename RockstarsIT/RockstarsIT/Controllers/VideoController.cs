@@ -62,52 +62,7 @@ namespace RockstarsIT.Controllers
         {
             if (ModelState.IsValid)
             {
-                string part1 = "";
-                string part2 = "";
-                if (video.Link.Contains("youtu.be/"))
-                {
-                    part1 = "youtu.be/";
-                    int start = video.Link.IndexOf(part1) + part1.Length;
-                    int end = video.Link.IndexOf(part2, start);
-                    string result = video.Link.Substring(start, 11);
-                    video.Link = result;
-                }
-                else if (video.Link.Contains("youtube.com/watch?v="))
-                {
-                    part1 = "youtube.com/watch?v=";
-                    int start = video.Link.IndexOf(part1) + part1.Length;
-                    int end = video.Link.IndexOf(part2, start);
-                    string result = video.Link.Substring(start, 11);
-                    video.Link = result;
-                }
-                else if (video.Link.Contains("youtube.com/embed/"))
-                {
-                    part1 = "youtube.com/embed/";
-                    int start = video.Link.IndexOf(part1) + part1.Length;
-                    int end = video.Link.IndexOf(part2, start);
-                    string result = video.Link.Substring(start, 11);
-                    video.Link = result;
-                }
-                else if (video.Link.Contains("vimeo.com/"))
-                {
-                    part1 = "vimeo.com/";
-                    int start = video.Link.IndexOf(part1) + part1.Length;
-                    int end = video.Link.IndexOf(part2, start);
-                    string result = video.Link.Substring(start, 9);
-                    video.Link = result;
-                }
-                else if (video.Link.Contains("player.vimeo.com/video/"))
-                {
-                    part1 = "player.vimeo.com/video/";
-                    int start = video.Link.IndexOf(part1) + part1.Length;
-                    int end = video.Link.IndexOf(part2, start);
-                    string result = video.Link.Substring(start, 9);
-                    video.Link = result;
-                }
-                else
-                {
-                    throw new Exception();
-                }
+                video.Link = GetVideoId(video.Link);
                 video.DateCreated = DateTime.Now;
                 _context.Add(video);
                 await _context.SaveChangesAsync();
@@ -133,6 +88,7 @@ namespace RockstarsIT.Controllers
             }
             ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
+            ViewBag.Link = video.Link;
             return View(video);
         }
 
@@ -152,6 +108,7 @@ namespace RockstarsIT.Controllers
             {
                 try
                 {
+                    video.Link = GetVideoId(video.Link);
                     video.DateModified = DateTime.Now;
                     _context.Update(video);
                     await _context.SaveChangesAsync();
@@ -221,6 +178,61 @@ namespace RockstarsIT.Controllers
             _context.Entry(video).Property(r => r.PublishedStatus).IsModified = true;
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
+        }
+
+        public string GetVideoId(string link)
+        {
+            string part1 = "";
+            string part2 = "";
+            if (link.Contains("youtu.be/"))
+            {
+                part1 = "youtu.be/";
+                int start = link.IndexOf(part1) + part1.Length;
+                int end = link.IndexOf(part2, start);
+                string result = link.Substring(start, 11);
+                link = result;
+                return link;
+            }
+            else if (link.Contains("youtube.com/watch?v="))
+            {
+                part1 = "youtube.com/watch?v=";
+                int start = link.IndexOf(part1) + part1.Length;
+                int end = link.IndexOf(part2, start);
+                string result = link.Substring(start, 11);
+                link = result;
+                return link;
+            }
+            else if (link.Contains("youtube.com/embed/"))
+            {
+                part1 = "youtube.com/embed/";
+                int start = link.IndexOf(part1) + part1.Length;
+                int end = link.IndexOf(part2, start);
+                string result = link.Substring(start, 11);
+                link = result;
+                return link;
+            }
+            else if (link.Contains("vimeo.com/"))
+            {
+                part1 = "vimeo.com/";
+                int start = link.IndexOf(part1) + part1.Length;
+                int end = link.IndexOf(part2, start);
+                string result = link.Substring(start, 9);
+                link = result;
+                return link;
+            }
+            else if (link.Contains("player.vimeo.com/video/"))
+            {
+                part1 = "player.vimeo.com/video/";
+                int start = link.IndexOf(part1) + part1.Length;
+                int end = link.IndexOf(part2, start);
+                string result = link.Substring(start, 9);
+                link = result;
+                return link;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

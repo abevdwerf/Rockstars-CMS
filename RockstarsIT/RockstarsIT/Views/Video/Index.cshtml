@@ -4,7 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 lang="nl">VIDEO'S</h1>
+<h1 lang="en-uk">VIDEOS</h1>
 
 <p>
     <a asp-action="Create" class="btn button">NIEUWE VIDEO
@@ -17,32 +18,47 @@
 <table class="table table-bordered bg-light">
     <thead class="thead-dark">
         <tr>
-            <th>
-                Titel
+            <th lang="nl">
+                TITEL
+            </th>
+            <th lang="en-uk">
+                TITLE
+            </th>
+            <th lang="nl">
+                BESCHRIJVING
+            </th>
+            <th lang="en-uk">
+                DESCRIPTION
             </th>
             <th>
-                Beschrijving
+                VIDEO ID
             </th>
             <th>
-                Video ID
+                TRIBE
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Tribe)
+                ROCKSTAR
+            </th>
+            <th lang="nl"> 
+                PUBLICATIEDATUM
+            </th>
+            <th lang="en-uk">
+                PUBLICATION DATE
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Rockstar)
+                STATUS
             </th>
-            <th>
-                Datum van Publiceren
+            <th lang="nl">
+                STATUS VERANDEREN
             </th>
-            <th>
-                Status
+            <th lang="en-uk">
+                CHANGE STATUS
             </th>
-            <th>
-                Status veranderen
+            <th lang="nl">
+                ACTIES
             </th>
-            <th>
-                Actions
+            <th lang="en-uk">
+                ACTIONS
             </th>
         </tr>
     </thead>
@@ -72,11 +88,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Rockstar.Name)
                 </td>
-            <td>
+                <td>
                 @if(item.PublishedStatus)
                 {
-                   @Html.DisplayFor(modelItem => item.DatePublished)
-                }else{
+                    @Html.DisplayFor(modelItem => item.DatePublished)
+                }
+                else
+                {
                     <p class="align-content-center">-----</p>
                 }
             </td>
@@ -85,7 +103,8 @@
                 {
                    <p>Gepubliceerd</p> 
                 }
-                else{
+                else
+                {
                     <p>Concept</p>
                 }
             </td>
@@ -94,10 +113,11 @@
                 {
                     <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="false" class="btn btn-danger">Depubliceren</a>
                 }
-                else{
+                else
+                {
                     <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn btn-success">Publiceren</a>
                 }
-            </td>
+                </td>
                 <td>
                 @using (Html.BeginForm(FormMethod.Post))
                 {

@@ -78,10 +78,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>-->
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        @*<li class="nav-item">
-                            <a class="navGo" id="Home" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>*@
+                    <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <a class="navGo" id="Tribe" asp-area="" asp-controller="Tribe" asp-action="Index">Tribes</a>
                         </li>
@@ -89,13 +86,21 @@
                             <a class="navGo" id="Rockstars" asp-area="" asp-controller="Rockstars" asp-action="Index">Rockstars</a>
                         </li>
                         <li class="nav-item">
-                            <a class="navGo" id="Article" asp-area="" asp-controller="Article" asp-action="Index">Artikelen</a>
+                            <a class="navGo" id="Article" asp-area="" asp-controller="Article" asp-action="Index" lang="nl">Artikelen</a>
+                            <a class="navGo" id="ArticleEn" asp-area="" asp-controller="Article" asp-action="Index" lang="en-uk">Articles</a>
                         </li>
                         <li class="nav-item">
                             <a class="navGo" id="Podcast" asp-area="" asp-controller="Podcast" asp-action="Index">Podcasts</a>
                         </li>
                         <li class="nav-item">
-                            <a class="navGo" id="Video" asp-area="" asp-controller="Video" asp-action="Index">Video's</a>
+                            <a class="navGo" id="Video" asp-area="" asp-controller="Video" asp-action="Index" lang="nl">Video's</a>
+                            <a class="navGo" id="VideoEn" asp-area="" asp-controller="Video" asp-action="Index" lang="en-uk">Videos</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a id="language" class="navGo" href="javascript:void(0)" onclick="SwitchLanguage()" lang="nl">Switch to English</a>
+                            <a id="language" class="navGo" href="javascript:void(0)" onclick="SwitchLanguage()" lang="en-uk">Wissel naar Nederlands</a>
                         </li>
                     </ul>
                 </div>
@@ -109,6 +114,26 @@
             @RenderBody()
         </main>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        window.onload = DetectLanguage
+        function DetectLanguage() {
+            var userLang = navigator.language || navigator.userLanguage;
+            if (userLang == 'nl')
+            {
+                $('[lang="en-uk"]').hide();
+            }
+            else
+            {
+                $('[lang="nl"]').hide();
+            }
+        }
+
+        function SwitchLanguage() {
+            $('[lang="nl"]').toggle();
+            $('[lang="en-uk"]').toggle();
+        }
+    </script>
     <script>
         const queryString = window.location;
         let Location = queryString.href.split("/");
@@ -121,6 +146,8 @@
         let Article = document.getElementById("Article");
         let Podcast = document.getElementById("Podcast");
         let Video = document.getElementById("Video");
+        let ArticleEn = document.getElementById("ArticleEn");
+        let VideoEn = document.getElementById("VideoEn");
 
         if (Location == "Tribe") {
             Tribe.classList.add("active");
@@ -130,12 +157,14 @@
         }
         else if (Location == "Article") {
             Article.classList.add("active");
+            ArticleEn.classList.add("active")
         }
         else if (Location == "Podcast") {
             Podcast.classList.add("active");
         }
         else if (Location == "Video") {
             Video.classList.add("active");
+            VideoEn.classList.add("active");
         }
         else if (Location == "") {
             Home.classList.add("active");
