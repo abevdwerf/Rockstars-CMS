@@ -73,7 +73,7 @@
             {
                 @foreach (var item in Model.ArticleImages) {
                     <div class="upload__img-box col-3">
-                        <div style="background-image: url(@item.ImageName);" class="img-bg">
+                        <div style="background-image: url(@item.URL);" class="img-bg">
                             <div id="delete" data-id="@item.ArticleImageId" class="upload__img-close">
                             </div>
                         </div>
