@@ -196,13 +196,13 @@ namespace RockstarsIT.Controllers
                         var articleImages = new ArticleImages()
                         {
                             ArticleId = article.ArticleId,
-                            ImageName = blob.Uri.ToString()
+                            URL = blob.Uri.ToString()
                         };
                         
                         _context.Add(articleImages);
                         await _context.SaveChangesAsync();
                         article = await _context.Article.Include(a => a.ArticleImages).FirstOrDefaultAsync(m => m.ArticleId == article.ArticleId);
-                        list.Add(new Tuple<int, string>(articleImages.ArticleImageId, articleImages.ImageName));
+                        list.Add(new Tuple<int, string>(articleImages.ArticleImageId, articleImages.URL));
                     }
                     return Json(new { Success = true, ArticleImages = list, Message = "Afbeelding geüpload." });
                 }
