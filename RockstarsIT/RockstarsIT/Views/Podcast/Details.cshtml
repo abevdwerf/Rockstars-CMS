@@ -56,43 +56,47 @@
             <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
         </svg>
     </a>
-    <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.PodcastId" class="btn button-cancel">
-        VERWIJDEREN
-        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-        </svg>
-    </a>
-    <br/>
-    <br/>
-    <a asp-action="Index" class="btn button-cancel mr-3">
-        TERUG NAAR OVERZICHT
-        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-        </svg>
-    </a>
-    @if(@Model.PublishedStatus)
-    {
-        <a asp-action="ChangeStatus" asp-route-id="@Model.PodcastId" asp-route-status="false" class="btn button">
-            Depubliceren
-            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+        @using (Html.BeginForm(FormMethod.Post))
+        {
+            <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.PodcastId" class="btn button-cancel">
+                VERWIJDEREN
+                <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                </svg>
+            </a>
+            <input type="submit" asp-action="Delete" asp-route-id="@Model.PodcastId" hidden id="@Model.PodcastId" />
+        }
+        <br />
+        <br />
+        <a asp-action="Index" class="btn button-cancel mr-3">
+            TERUG NAAR OVERZICHT
+            <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                 <path d="M0 0h24v24H0z" fill="none" />
                 <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
             </svg>
         </a>
-    }
-    else
-    {
-        <a asp-action="ChangeStatus" asp-route-id="@Model.PodcastId" asp-route-status="true" class="btn button">
-            Publiceren
-            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-            </svg>
-        </a>
-    }
-</div>
+        @if (@Model.PublishedStatus)
+        {
+            <a asp-action="ChangeStatus" asp-route-id="@Model.PodcastId" asp-route-status="false" class="btn button">
+                Depubliceren
+                <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                </svg>
+            </a>
+        }
+        else
+        {
+            <a asp-action="ChangeStatus" asp-route-id="@Model.PodcastId" asp-route-status="true" class="btn button">
+                Publiceren
+                <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                </svg>
+            </a>
+        }
+    </div>
 
 <script>
     function ConfirmDelete(id) {
