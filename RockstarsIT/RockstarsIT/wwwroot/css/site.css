@@ -129,6 +129,15 @@ a:hover {
     text-decoration: none;
 }
 /* normale button */
+.btn{
+    background-color: none;
+}
+a{
+    text-decoration: none;
+}
+td{
+    color: black;
+}
 .button {
     background-color: var(--mainColor);
     padding: 10px 24px;
