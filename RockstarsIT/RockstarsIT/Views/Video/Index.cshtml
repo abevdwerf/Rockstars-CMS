@@ -182,11 +182,11 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
    <div class="card">
        @if(item.Link.Length == 11 )
        {
-            <img class="card-img-top" width="250px" src="https://img.youtube.com/vi/@item.Link/0.jpg" alt="Card image cap">
+            <img class="card-img-top" src="https://img.youtube.com/vi/@item.Link/0.jpg" alt="Card image cap">
        }
        else if (item.Link.Length == 9)
        {
-             <img  class="card-img-top" id="vimeoimg" name="@item.Link" width="250px" src="https://vumbnail.com/@item.Link">
+             <img class="card-img-top" id="vimeoimg" name="@item.Link" src="https://vumbnail.com/@item.Link">
        }
          <div class="card-body">
          <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Title)</h5>
