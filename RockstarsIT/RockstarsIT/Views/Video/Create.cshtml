@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1 class="mt-3">Create</h1>
 
 <h4>Video</h4>
 <hr />
@@ -38,8 +38,7 @@
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
             </div>
-            <div class="col-md-6">
-                <button type="submit" value="Create" class="btn button">
+            <button type="submit" value="Create" class="btn button">
                     VIDEO TOEVOEGEN
                     <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                          <path d="M0 0h24v24H0z" fill="none" />
@@ -53,7 +52,6 @@
                          <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
                      </svg>
                 </a>
-            </div>
         </form>
 
 @section Scripts {
