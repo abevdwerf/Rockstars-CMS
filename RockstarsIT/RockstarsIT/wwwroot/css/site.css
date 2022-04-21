@@ -138,6 +138,9 @@ a{
 td{
     color: black;
 }
+.nielstest{
+    color:black;
+}
 .button {
     background-color: var(--mainColor);
     padding: 10px 24px;
