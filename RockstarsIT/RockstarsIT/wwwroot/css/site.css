@@ -214,7 +214,7 @@ body {
     background-color: #1c1c1c;
 }
 /* actieve nav items*/
-.active{
+.nav-active {
     background-color: black;
     color: white;
 }
@@ -279,4 +279,8 @@ label {
     background-size: cover;
     position: relative;
     padding-bottom: 70%;
+}
+
+.article-text-container {
+    background-color: white;
 }

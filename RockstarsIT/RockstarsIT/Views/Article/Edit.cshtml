@@ -12,46 +12,49 @@
     <input type="hidden" asp-for="ArticleId" />
     <div class="row g-3">
         <div class="col-md-6 mb-3">
+            <label asp-for="Title" class="control-label">Titel</label>
+            <input asp-for="Title" id="txtTitel" class="textbox w-100" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
             <label class="control-label">Auteur</label>
             <select asp-for="RockstarId" class="form-control" asp-items="ViewBag.RockstarNames"></select>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="Title" class="control-label">Titel</label>
-            <input asp-for="Title" id="txtTitel" class="form-control" />
-            <span asp-validation-for="Title" class="text-danger"></span>
-        </div>
-        <div class="col-md-6 mb-3">
             <label asp-for="Description" class="control-label">Beschrijving</label>
-            <input asp-for="Description" class="form-control" />
+            <input asp-for="Description" class="textbox w-100" />
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
     </div>
-    @*<div class="form-group">*@
-        @*<label asp-for="Text" class="control-label">Inhoud</label>
-        <textarea asp-for="Text" class="form-control"></textarea>
-        <span asp-validation-for="Text" class="text-danger"></span>
-            
-        <button class="btn button"">plus</button>*@
-
-    @*</div>*@
-    @*<div class="row">
-        <div class="col-md-12">
-            <p>
-                <button id="btn-add-tab" type="button" class="btn btn-primary pull-right">Add Tab</button>
-            </p>
-            <!-- Nav tabs -->
-            <ul id="tab-list" class="nav nav-tabs" role="tablist">
-                <li class="active"><a href="#tab1" role="tab" data-toggle="tab"><span>Tab 1 </span><span class="glyphicon glyphicon-pencil text-muted edit"></span></a></li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div id="tab-content" class="tab-content">
-                <div class="tab-pane fade in active" id="tab1">Tab 1 content</div>
-            </div>
-        </div>
-    </div>*@
     <div class="form-group">
-        <label asp-for="Images" class="control-label">Afbeelding</label>
+        <label class="control-label">Teksten</label>
+        <div class="article-text-container">
+            <ul class="nav nav-tabs" id="tab-list" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">1</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">2 <button class="close" type="button" title="Remove this page">×</button></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">3<button class="close" type="button" title="Remove this page">×</button></a>
+              </li>
+              <li class="nav-item" id="last-child">
+                <a class="nav-link" id="add-tab" data-toggle="tab" role="tab">
+                    Toevoegen
+                </a>
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab"><textarea asp-for="Description" class="textarea w-100" rows="5"></textarea></div>
+              <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"><textarea asp-for="Description" class="textarea w-100" rows="5"></textarea></div>
+              <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"><textarea asp-for="Description" class="textarea w-100" rows="5"></textarea></div>
+            </div>
+            <button class="btn button">Opslaan</button> 
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Images" class="control-label">Afbeeldingen</label>
         <div class="row">
             <div class="col-md-5">
                 <div class="custom-file upload__box">
@@ -114,9 +117,27 @@
                 var fileName = e.target.files[0].name;
                 //replace the "Choose a file" label
                 $(this).next('.custom-file-label').html(fileName);
+                document.getElementById("upload").focus()
             });
 
         jQuery(document).ready(function () {
+
+            var tabID = $("#tab-list li").length;
+            $('#add-tab').click(function () {
+                var html = '<li class="nav-item"><a class="nav-link" id="test-tab" data-toggle="tab" href="#test" role="tab" aria-controls="test" aria-selected="false">' + tabID + '<button class="close" type="button" title="Remove this page">×</button></a></li>';
+                $('#last-child').before(html);
+                tabID++;
+            });
+
+            $('#tab-list').on('click','.close',function(){
+                var tabID = $(this).parents('a').attr('href');
+                $(this).parents('li').remove();
+                $(tabID).remove();
+
+                //display first tab
+                var tabFirst = $('#tab-list a:first');
+                tabFirst.tab('show');                
+            });
 
             $("#upload").click(function (e) {   
                 if (window.FormData !== undefined) {  
@@ -195,39 +216,5 @@
             
           });
         });
-
-    //var button='<button class="close" type="button" title="Remove this page">×</button>';
-    //var tabID = 1;
-    //function resetTab(){
-	   // var tabs=$("#tab-list li:not(:first)");
-	   // var len=1
-	   // $(tabs).each(function(k,v){
-		  //  len++;
-		  //  $(this).find('a').html('Tab ' + len + button);
-	   // })
-	   // tabID--;
-    //}
-
-    //$(document).ready(function() {
-    //    $('#btn-add-tab').click(function() {
-    //        tabID++;
-    //        $('#tab-list').append($('<li><a href="#tab' + tabID + '" role="tab" data-toggle="tab"><span>Tab ' + tabID + '</span> <span class="glyphicon glyphicon-pencil text-muted edit"></span> <button class="close" type="button" title="Remove this page">×</button></a></li>'));
-    //        $('#tab-content').append($('<div class="tab-pane fade" id="tab' + tabID + '">Tab ' + tabID + ' content</div>'));
-    //        $(".edit").click(editHandler);
-    //    });
-    
-    //    $('#tab-list').on('click', '.close', function() {
-    //        var tabID = $(this).parents('a').attr('href');
-    //        $(this).parents('li').remove();
-    //        $(tabID).remove();
-
-    //        //display first tab
-    //        var tabFirst = $('#tab-list a:first');
-    //        resetTab();
-    //        tabFirst.tab('show');
-    //    });
-
-    //    var list = document.getElementById("tab-list");
-    //});
     </script>
 }
