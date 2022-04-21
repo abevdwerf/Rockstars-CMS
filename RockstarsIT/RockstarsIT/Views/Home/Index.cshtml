@@ -2,9 +2,150 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4 whiteLined">RockstarsIT</h1>
-    <br>
-    <a asp-action="buttons">Stylesheet</a>
+<div id="page-top">
+    <div id="wrapper">
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <div class="pt-5">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h3 class="text-white mb-0">Dashboard</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-7 col-xl-8">
+                            <div class="card shadow mb-4"></div>
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="text-primary fw-bold m-0">Top 5 bekeken content</h6>
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="small fw-bold">Server migration<span class="float-end">20x</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"><span class="visually-hidden">20%</span></div>
+                                    </div>
+                                    <h4 class="small fw-bold">Sales tracking<span class="float-end">40x</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-warning" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;"><span class="visually-hidden">40%</span></div>
+                                    </div>
+                                    <h4 class="small fw-bold">Customer Database<span class="float-end">60x</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-primary" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"><span class="visually-hidden">60%</span></div>
+                                    </div>
+                                    <h4 class="small fw-bold">Payout Details<span class="float-end">80x</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-info" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;"><span class="visually-hidden">80%</span></div>
+                                    </div>
+                                    <h4 class="small fw-bold">Account setup<span class="float-end">100!</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-success" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"><span class="visually-hidden">100%</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-xl-4">
+                            <div class="card shadow mb-4"></div>
+                            <div class="card shadow border-start-primary py-2" style="margin-top: 10px;margin-bottom: 10px;">
+                                <div class="card-body" style="margin-bottom: 10px;">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col me-2">
+                                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>Hudige gebruikers</span></div>
+                                            <div class="text-dark fw-bold h5 mb-0"><span>100</span></div>
+                                        </div>
+                                        <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card shadow border-start-success py-2" style="margin-bottom: 10px;">
+                                <div class="card-body" style="margin-top: 10px;margin-bottom: 10px;">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col me-2">
+                                            <div class="text-uppercase text-success fw-bold text-xs mb-1"><span>Totaal gepubliceerde content</span></div>
+                                            <div class="text-dark fw-bold h5 mb-0"><span>30</span></div>
+                                        </div>
+                                        <div class="col-auto"><i class="fas fa-dollar-sign fa-2x text-gray-300"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card shadow border-start-info py-2" style="margin-top: 0px;margin-bottom: 10px;">
+                                <div class="card-body" style="margin-top: 10px;margin-bottom: 10px;">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col me-2">
+                                            <div class="text-uppercase text-info fw-bold text-xs mb-1"><span>Totaal concept content</span></div>
+                                            <div class="row g-0 align-items-center">
+                                                <div class="col-auto">
+                                                    <div class="text-dark fw-bold h5 mb-0 me-3"><span>15</span></div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="progress progress-sm">
+                                                        <div class="progress-bar bg-info" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"><span class="visually-hidden">50%</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto"><i class="fas fa-clipboard-list fa-2x text-gray-300"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-center justify-content-xxl-center">
+                        <div class="col d-xxl-flex justify-content-xxl-center">
+                            <div class="card" style="width: 18rem;">
+                                <img src="..." class="card-img-top" alt="...">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <a class="mt-auto btn btn-block btn-primary">Get started</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col d-xxl-flex justify-content-xxl-center">
+                            <div class="card" style="width: 18rem;">
+                                <img src="..." class="card-img-top" alt="...">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <a class="mt-auto btn btn-block btn-primary">Get started</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col d-xxl-flex justify-content-xxl-center">
+                            <div class="card" style="width: 18rem;">
+                                <img src="..." class="card-img-top" alt="...">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <a class="mt-auto btn btn-block btn-primary">Get started</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col d-xxl-flex justify-content-xxl-center">
+                            <div class="card" style="width: 18rem;">
+                                <img src="..." class="card-img-top" alt="...">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <a class="mt-auto btn btn-block btn-primary">Get started</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col d-xxl-flex justify-content-xxl-center">
+                            <div class="card" style="width: 18rem;">
+                                <img src="..." class="card-img-top" alt="...">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <a class="mt-auto btn btn-block btn-primary">Get started</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/responsive-blog-card-slider-1.js"></script>
+    <script src="assets/js/responsive-blog-card-slider.js"></script>
+    <script src="assets/js/theme.js"></script>
 </div>
 
