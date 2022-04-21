@@ -21,6 +21,8 @@ namespace RockstarsIT.Controllers
         // GET: Podcast
         public async Task<IActionResult> Index()
         {
+            string dataShowType = HttpContext.Request.Query["view"].ToString();
+            ViewData["DataShowType"] = dataShowType;
             var databaseContext = _context.Podcasts.Include(p => p.Auteur).Include(p => p.Tribe);
             return View(await databaseContext.ToListAsync());
         }
