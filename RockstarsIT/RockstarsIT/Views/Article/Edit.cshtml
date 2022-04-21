@@ -7,53 +7,91 @@
 <h1>ARTIKEL BEWERKEN</h1>
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ArticleId" />
-            <div class="form-group">
-                <label asp-for="RockstarId" class="control-label"></label>
-                <select asp-for="RockstarId" class="form-control" asp-items="ViewBag.RockstarId"></select>
-                <span asp-validation-for="RockstarId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label">Titel</label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label">Beschrijving</label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Author" class="control-label">Auteur</label>
-                <input asp-for="Author" class="form-control" />
-                <span asp-validation-for="Author" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Images" class="control-label">Afbeeldingen</label>
-                <input asp-for="Images" class="form-control" />
-                <span asp-validation-for="Images" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Text" class="control-label">Inhoud</label>
-                <input asp-for="Text" class="form-control" />
-                <span asp-validation-for="Text" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button type="submit" value="Save" class="btn button">
-                    WIJZIGINGEN OPSLAAN
-                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                    </svg>
-                </button>
-            </div>
-        </form>
+<form asp-action="Edit" enctype="multipart/form-data" id="friendform">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="ArticleId" />
+    <div class="row g-3">
+        <div class="col-md-6 mb-3">
+            <label class="control-label">Auteur</label>
+            <select asp-for="RockstarId" class="form-control" asp-items="ViewBag.RockstarNames"></select>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Title" class="control-label">Titel</label>
+            <input asp-for="Title" id="txtTitel" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Description" class="control-label">Beschrijving</label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
     </div>
-</div>
+    @*<div class="form-group">*@
+        @*<label asp-for="Text" class="control-label">Inhoud</label>
+        <textarea asp-for="Text" class="form-control"></textarea>
+        <span asp-validation-for="Text" class="text-danger"></span>
+            
+        <button class="btn button"">plus</button>*@
+
+    @*</div>*@
+    @*<div class="row">
+        <div class="col-md-12">
+            <p>
+                <button id="btn-add-tab" type="button" class="btn btn-primary pull-right">Add Tab</button>
+            </p>
+            <!-- Nav tabs -->
+            <ul id="tab-list" class="nav nav-tabs" role="tablist">
+                <li class="active"><a href="#tab1" role="tab" data-toggle="tab"><span>Tab 1 </span><span class="glyphicon glyphicon-pencil text-muted edit"></span></a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div id="tab-content" class="tab-content">
+                <div class="tab-pane fade in active" id="tab1">Tab 1 content</div>
+            </div>
+        </div>
+    </div>*@
+    <div class="form-group">
+        <label asp-for="Images" class="control-label">Afbeelding</label>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="custom-file upload__box">
+                    <input asp-for="Images" class="custom-file-input upload__inputfile" multiple id="customFile">
+                    <label asp-for="Images" class="custom-file-label" for="customFile" data-browse="Bestand kiezen"></label>
+                    <span asp-validation-for="Images" class="text-danger"></span>
+                </div>
+            </div>
+      
+            <div class="col-md-2">
+                <input type="button" value="UPLOAD" id="upload" class="btn button" />
+            </div>
+        </div>
+        
+    </div>
+    <div class="form-group">
+        <div id="wrap" class="upload__img-wrap row flex-nowrap overflow-auto">
+            @if (Model.ArticleImages != null)
+            {
+                @foreach (var item in Model.ArticleImages) {
+                    <div class="upload__img-box col-3">
+                        <div style="background-image: url(@item.URL);" class="img-bg">
+                            <div id="delete" data-id="@item.ArticleImageId" class="upload__img-close">
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" value="Save" class="btn button">
+            WIJZIGINGEN OPSLAAN
+            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+            </svg>
+        </button>
+    </div>
+</form>
 
 <br>
 <div>
@@ -68,4 +106,128 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $('#customFile').on('change',
+            function(e) {
+                //get the file name
+                var fileName = e.target.files[0].name;
+                //replace the "Choose a file" label
+                $(this).next('.custom-file-label').html(fileName);
+            });
+
+        jQuery(document).ready(function () {
+
+            $("#upload").click(function (e) {   
+                if (window.FormData !== undefined) {  
+  
+                    var fileUpload = $("#customFile").get(0);  
+                    var files = fileUpload.files;  
+              
+                    // Create FormData object  
+                    var data = new FormData();  
+  
+                    // Looping over all files and add it to FormData object  
+                    for (var i = 0; i < files.length; i++) {  
+                        data.append('Images', files[i]);  
+                    }  
+              
+                    // Adding articleId to FormData object  
+                    data.append('ArticleId', $("#ArticleId").val());  
+  
+                    $.ajax({  
+                        async: true,
+                        type: "POST",
+                        dataType: "json",
+                        url: "/Article/UploadImage",  
+                        data: data,
+                        contentType: false, // Not to set any content header  
+                        processData: false, // Not to process data  
+                        success: function (response) {  
+                            if (response.Success) {
+
+                                alert(response.Message);
+                                //show image
+                                for (const element of response.ArticleImages) {
+                                    var html = "<div class='upload__img-box col-3'><div style='background-image: url(" + element.Item2 + ")' class='img-bg'><div id='delete' data-id='" + element.Item1 + "' class='upload__img-close'></div></div></div>";
+                                    $('#wrap').append(html);
+                                }
+                            }
+                        },  
+                        error: function (response) { 
+                            alert("failed to upload image");  
+                        }  
+                    });  
+                } else {  
+                    alert("FormData is not supported.");  
+                }  
+            });   
+
+          //delete image
+          $(document).on("click", ".upload__img-close", function (e) {
+
+            var currentDiv = $(this);
+            // Create FormData object  
+            var data = new FormData();  
+              
+            // Adding articleId to FormData object  
+            data.append('ArticleImageId', $(this).data("id"));
+
+            $.ajax({  
+                async: true,
+                type: "POST",
+                dataType: "json",
+                url: "/Article/DeleteImage",  
+                data: data,
+                contentType: false, // Not to set any content header  
+                processData: false, // Not to process data  
+                success: function (response) {  
+                    if (response.Success) {
+                        alert(response.Message);
+                        //delete div
+                        currentDiv.closest(".upload__img-box").remove();
+                    }
+                },  
+                error: function (response) {  
+                    alert("failed to delete image");  
+                }  
+            });  
+            
+          });
+        });
+
+    //var button='<button class="close" type="button" title="Remove this page">×</button>';
+    //var tabID = 1;
+    //function resetTab(){
+	   // var tabs=$("#tab-list li:not(:first)");
+	   // var len=1
+	   // $(tabs).each(function(k,v){
+		  //  len++;
+		  //  $(this).find('a').html('Tab ' + len + button);
+	   // })
+	   // tabID--;
+    //}
+
+    //$(document).ready(function() {
+    //    $('#btn-add-tab').click(function() {
+    //        tabID++;
+    //        $('#tab-list').append($('<li><a href="#tab' + tabID + '" role="tab" data-toggle="tab"><span>Tab ' + tabID + '</span> <span class="glyphicon glyphicon-pencil text-muted edit"></span> <button class="close" type="button" title="Remove this page">×</button></a></li>'));
+    //        $('#tab-content').append($('<div class="tab-pane fade" id="tab' + tabID + '">Tab ' + tabID + ' content</div>'));
+    //        $(".edit").click(editHandler);
+    //    });
+    
+    //    $('#tab-list').on('click', '.close', function() {
+    //        var tabID = $(this).parents('a').attr('href');
+    //        $(this).parents('li').remove();
+    //        $(tabID).remove();
+
+    //        //display first tab
+    //        var tabFirst = $('#tab-list a:first');
+    //        resetTab();
+    //        tabFirst.tab('show');
+    //    });
+
+    //    var list = document.getElementById("tab-list");
+    //});
+    </script>
 }

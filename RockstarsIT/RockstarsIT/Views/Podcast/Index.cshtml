@@ -2,9 +2,10 @@
 
 @{
     ViewData["Title"] = "Index";
+    Spotify spotify = new Spotify(); 
 }
 
-<h1>PODCASTS</h1> 
+<h1 class="mt-3">PODCASTS</h1> 
 
 <p>
     <a asp-action="Create" class="btn button">
@@ -21,17 +22,29 @@
         <th>
             TITEL
         </th>
+        @* <th> *@
+        @*     OMSCHRIJVING *@
+        @* </th> *@
+        @* <th> *@
+        @*     URL *@
+        @* </th> *@
         <th>
-            OMSCHRIJVING
-        </th>
-        <th>
-            URL
+            PREVIEW
         </th>
         <th>
             AUTEUR
         </th>
         <th>
             TRIBE
+        </th>
+        <th>
+            Datum van Publiceren
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Status veranderen
         </th>
         <th></th>
     </tr>
@@ -42,11 +55,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Titel)
             </td>
+            @* <td> *@
+            @*     @Html.DisplayFor(modelItem => item.Omschrijving) *@
+            @* </td> *@
+            @* <td> *@
+            @*     <a href="@item.URL" target="_blank">Link (nieuw venster)</a> *@
+            @* </td> *@
             <td>
-                @Html.DisplayFor(modelItem => item.Omschrijving)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.URL)
+                <audio controls>
+                    <source src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))" type="audio/mp3">
+                </audio>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Auteur.Name)
@@ -55,31 +73,58 @@
                 @Html.DisplayFor(modelItem => item.Tribe.Name)
             </td>
             <td>
+                @if(item.PublishedStatus)
+                {
+                   @Html.DisplayFor(modelItem => item.DatePublished)
+                }else{
+                    <p class="align-content-center">-----</p>
+                }
+            </td>
+            <td>
+                @if(item.PublishedStatus)
+                {
+                   <p>Gepubliceerd</p> 
+                }
+                else{
+                    <p>Concept</p>
+                }
+            </td>
+            <td>
+                @if(item.PublishedStatus)
+                {
+                    <a asp-action="ChangeStatus" asp-route-id="@item.PodcastId" asp-route-status="false" class="btn btn-danger">Depubliceren</a>
+                }
+                else{
+                    <a asp-action="ChangeStatus" asp-route-id="@item.PodcastId" asp-route-status="true" class="btn btn-success">Publiceren</a>
+                }
+            </td>
+            <td>
                 @using (Html.BeginForm(FormMethod.Post))
                 {
-                    <a asp-action="Edit" asp-route-id="@item.PodcastId" class="btn button mr-2" >
-                        BEWERKEN
-                        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                            <path d="M0 0h24v24H0z" fill="none" />
-                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                        </svg>
-                    </a> 
-                    <a asp-action="Details" asp-route-id="@item.PodcastId" class="btn button mr-2">
+                @*     <a asp-action="Edit" asp-route-id="@item.PodcastId" class="btn button mr-2" > *@
+                @*         BEWERKEN *@
+                @*         <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"> *@
+                @*             <path d="M0 0h24v24H0z" fill="none" /> *@
+                @*             <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" /> *@
+                @*         </svg> *@
+                @*     </a>  *@
+                <a asp-action="Details" asp-route-id="@item.PodcastId" class="btn button mr-2">
                         DETAILS
                         <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                             <path d="M0 0h24v24H0z" fill="none" />
                             <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
                         </svg>
                     </a>
-                    <a onclick="ConfirmDelete(this.name)" href="#" name="@item.PodcastId" class="btn button-cancel">
-                        VERWIJDEREN
-                        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                            <path d="M0 0h24v24H0z" fill="none" />
-                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                        </svg>
-                    </a>
+                @*      *@
+                @*     <a onclick="ConfirmDelete(this.name)" href="#" name="@item.PodcastId" class="btn button-cancel"> *@
+                @*         VERWIJDEREN *@
+                @*         <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"> *@
+                @*             <path d="M0 0h24v24H0z" fill="none" /> *@
+                @*             <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" /> *@
+                @*         </svg> *@
+                @*     </a> *@
                     <input class="btn button-cancel" type="submit" asp-action="Delete" asp-route-id="@item.PodcastId" hidden id="@item.RockstarId" />
-                }
+                 } 
             </td>
         </tr>
     }
@@ -88,7 +133,6 @@
 
 <script>
     function ConfirmDelete(id) {
-        const conbtn = document.getElementById("test");
         const conbtn2 = document.getElementById(id);
 
         let text = "Weet je zeker dat u deze podcast wilt verwijderen?"

@@ -13,7 +13,9 @@
              <div asp-validation-summary="ModelOnly" class="text-danger"></div>
              <div class="row g-3">
                  <div class="col-md-6 mb-3">
-                     <label class="control-label">Naam</label> <br>
+                     <label class="control-label" lang="nl">Naam:</label> 
+                     <label class="control-label" lang="en-uk">Name:</label> 
+                     <br>
                      <input asp-for="Name" class="textbox w-100" rows="5" />
                      <span asp-validation-for="Name" class="text-danger"></span>
                  </div>
@@ -25,24 +27,29 @@
                      <span asp-validation-for="Spotify" class="text-danger"></span>
                  </div>
                  <div class="col-md-6 mb-3">
-                     <label asp-for="LeadAddress" class="control-label">Tribe Lead Email Adres:</label>
+                     <label asp-for="LeadAddress" class="control-label" lang="nl">Tribe Lead Email Adres:</label>
+                     <label asp-for="LeadAddress" class="control-label" lang="en-uk">Tribe Lead Email Address:</label>
                      <br />
                      <input asp-for="LeadAddress" class="textbox w-100" rows="10" cols="50" />
                      <span asp-validation-for="LeadAddress" class="text-danger"></span>
                  </div>
                  <div class="col-md-6">
-                     <label asp-for="BlockNumber" class="control-label">Aantal Tekstblokken:</label>
+                     <label asp-for="BlockNumber" class="control-label" lang="nl">Aantal Tekstblokken:</label>
+                     <label asp-for="BlockNumber" class="control-label" lang="en-uk">Textblock Amount:</label>
                      <br />
                      <input asp-for="BlockNumber" class="textbox w-100" rows="10" cols="50" />
                      <span asp-validation-for="BlockNumber" class="text-danger"></span>
                  </div>
                  <div class="col-md-6 mb-3">
-                     <label class="control-label">Beschrijving</label> <br>
+                     <label class="control-label" lang="nl">Beschrijving:</label> 
+                     <label class="control-label" lang="en-uk">Description:</label> 
+                     <br>
                      <textarea asp-for="Description" class="textarea w-100" rows="5"></textarea>
                      <span asp-validation-for="Description" class="text-danger"></span>
                  </div>
                  <div class="col-md-6 mb-3">
-                     <label asp-for="ImageNumber" class="control-label">Aantal Afbeeldingen:</label>
+                     <label asp-for="ImageNumber" class="control-label" lang="nl">Aantal Afbeeldingen:</label>
+                     <label asp-for="ImageNumber" class="control-label" lang="en-uk">Image Amount:</label>
                      <br />
                      <input asp-for="ImageNumber" class="textbox w-100" rows="10" cols="50" />
                      <span asp-validation-for="ImageNumber" class="text-danger"></span>
@@ -58,12 +65,12 @@
                          </svg>
                      </button>
                      <a asp-action="Index" class="btn button-cancel ml-3">
-                     TERUG NAAR OVERZICHT
-                     <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                         <path d="M0 0h24v24H0z" fill="none" />
-                         <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                     </svg>
-                 </a>
+                         TERUG NAAR OVERZICHT
+                         <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                             <path d="M0 0h24v24H0z" fill="none" />
+                             <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                         </svg>
+                     </a>
                  </div>
              </div>
 </form>

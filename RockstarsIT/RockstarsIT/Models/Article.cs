@@ -12,7 +12,6 @@ namespace RockstarsIT.Models
         private Rockstar _rockstar;
         private string _title;
         private string _description;
-        private string _author;
         private string _text;
         private Tribe _tribe;
         private DateTime _dateCreated;
@@ -20,13 +19,9 @@ namespace RockstarsIT.Models
         private DateTime _datePublished;
         private bool _publishedStatus;
         private int _viewCount;
-        [Display(Name = "Selecteer een of meerdere afbeldingen")]
-        [NotMapped]
-        public IFormFileCollection Images { get; set; }
-
-        public List<ArticleImages> articleImages { get; set; }
 
         public int ArticleId { get; set; }
+        public List<ArticleImages> ArticleImages { get; set; }
         public int? RockstarId { get; set; }
         [ForeignKey("RockstarId")]
         public virtual Rockstar Rockstar
@@ -43,11 +38,6 @@ namespace RockstarsIT.Models
         {
             get => _description; 
             set => _description = value;
-        }
-        public string Author
-        {
-            get => _author; 
-            set => _author = value;
         }
         public string Text
         {
@@ -86,5 +76,10 @@ namespace RockstarsIT.Models
             get => _viewCount; 
             set => _viewCount = value;
         }
+
+        //[Required]
+        [Display(Name = "Selecteer een of meerdere afbeeldingen")]
+        [NotMapped]
+        public IFormFileCollection Images { get; set; }
     }
 }

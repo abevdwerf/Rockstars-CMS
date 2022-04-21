@@ -67,8 +67,7 @@ namespace RockstarsIT.Models
                 ArticleId = 1,
                 RockstarId = 1,
                 Title = "Tekst",
-                Description = "test 123",
-                Author = "The Noso",
+                Description = "test 123"
             };
 
             builder.Entity<Article>().HasData(article1);

@@ -13,7 +13,9 @@
         <input type="hidden" asp-for="TribeId" />
         <div class="row g-3">
             <div class="col-md-6 mb-3">
-                <label class="control-label">Naam</label> <br>
+                <label class="control-label" lang="nl">Naam:</label> 
+                <label class="control-label" lang="en-uk">Name:</label> 
+                <br>
                 <input asp-for="Name" class="textbox w-100" rows="5" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
@@ -24,24 +26,29 @@
                 <span asp-validation-for="Spotify" class="text-danger"></span>
             </div>
             <div class="col-md-6 mb-3">
-                <label asp-for="LeadAddress" class="control-label">Tribe Lead Email Adres:</label>
+                <label asp-for="LeadAddress" class="control-label" lang="nl">Tribe Lead Email Adres:</label>
+                <label asp-for="LeadAddress" class="control-label" lang="en-uk">Tribe Lead Email Address:</label>
                 <br />
                 <input asp-for="LeadAddress" class="textbox w-100" rows="10" cols="50" />
                 <span asp-validation-for="LeadAddress" class="text-danger"></span>
             </div>
             <div class="col-md-6">
-                <label asp-for="BlockNumber" class="control-label">Aantal Tekstblokken:</label>
+                <label asp-for="BlockNumber" class="control-label" lang="nl">Aantal Tekstblokken:</label>
+                <label asp-for="BlockNumber" class="control-label" lang="en-uk">Textblock Amount:</label>
                 <br />
                 <input asp-for="BlockNumber" class="textbox w-100" rows="10" cols="50" />
                 <span asp-validation-for="BlockNumber" class="text-danger"></span>
             </div>
             <div class="col-md-6 mb-3">
-                <label class="control-label">Beschrijving</label> <br>
+                <label class="control-label" lang="nl">Beschrijving:</label> 
+                <label class="control-label" lang="en-uk">Description:</label> 
+                <br>
                 <textarea asp-for="Description" class="textarea w-100" rows="5"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="col-md-6 mb-3">
-                <label asp-for="ImageNumber" class="control-label">Aantal Afbeeldingen:</label>
+                <label asp-for="ImageNumber" class="control-label" lang="nl">Aantal Afbeeldingen:</label>
+                <label asp-for="ImageNumber" class="control-label" lang="en-uk">Image Amount:</label>
                 <br />
                 <input asp-for="ImageNumber" class="textbox w-100" rows="10" cols="50" />
                 <span asp-validation-for="ImageNumber" class="text-danger"></span>

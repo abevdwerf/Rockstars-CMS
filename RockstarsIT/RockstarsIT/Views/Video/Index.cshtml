@@ -4,7 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 lang="nl" class="mt-3">VIDEO'S</h1>
+<h1 lang="en-uk" class="mt-3">VIDEOS</h1>
 
 <p>
     <a asp-action="Create" class="btn button">NIEUWE VIDEO
@@ -17,26 +18,47 @@
 <table class="table table-bordered bg-light">
     <thead class="thead-dark">
         <tr>
-            <th>
-                Titel
+            <th lang="nl">
+                TITEL
+            </th>
+            <th lang="en-uk">
+                TITLE
+            </th>
+            <th lang="nl">
+                BESCHRIJVING
+            </th>
+            <th lang="en-uk">
+                DESCRIPTION
             </th>
             <th>
-                Beschrijving
+                VIDEO ID
             </th>
             <th>
-                Video ID
+                TRIBE
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Tribe)
+                ROCKSTAR
+            </th>
+            <th lang="nl"> 
+                PUBLICATIEDATUM
+            </th>
+            <th lang="en-uk">
+                PUBLICATION DATE
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Rockstar)
+                STATUS
             </th>
-            <th>
-                Datum van Publiceren
+            <th lang="nl">
+                STATUS VERANDEREN
             </th>
-            <th>
-                Actions
+            <th lang="en-uk">
+                CHANGE STATUS
+            </th>
+            <th lang="nl">
+                ACTIES
+            </th>
+            <th lang="en-uk">
+                ACTIONS
             </th>
         </tr>
     </thead>
@@ -67,32 +89,59 @@
                     @Html.DisplayFor(modelItem => item.Rockstar.Name)
                 </td>
                 <td>
+                @if(item.PublishedStatus)
+                {
                     @Html.DisplayFor(modelItem => item.DatePublished)
+                }
+                else
+                {
+                    <p class="align-content-center">-----</p>
+                }
+            </td>
+            <td>
+                @if(item.PublishedStatus)
+                {
+                   <p>Gepubliceerd</p> 
+                }
+                else
+                {
+                    <p>Concept</p>
+                }
+            </td>
+            <td>
+                @if(item.PublishedStatus)
+                {
+                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="false" class="btn btn-danger">Depubliceren</a>
+                }
+                else
+                {
+                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn btn-success">Publiceren</a>
+                }
                 </td>
                 <td>
-                @using (Html.BeginForm(FormMethod.Post))
-                {
-                    <a asp-action="Edit" asp-route-id="@item.VideoId" class="btn button">BEWERKEN
-                        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                         <path d="M0 0h24v24H0z" fill="none" />
-                         <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                     </svg>
-                    </a> 
+                    @using (Html.BeginForm(FormMethod.Post))
+                    { 
+                @*     <a asp-action="Edit" asp-route-id="@item.VideoId" class="btn button">BEWERKEN *@
+                @*         <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"> *@
+                @*          <path d="M0 0h24v24H0z" fill="none" /> *@
+                @*          <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" /> *@
+                @*      </svg> *@
+                @*     </a>  *@
                     <a asp-action="Details" asp-route-id="@item.VideoId" class="btn button mr-2">DETAILS
                         <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                          <path d="M0 0h24v24H0z" fill="none" />
                          <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
                      </svg>
-                    </a> 
-                    <a onclick="ConfirmDelete(this.name)" href="#" name="@item.VideoId" class="btn button-cancel">
-                        VERWIJDEREN
-                        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                            <path d="M0 0h24v24H0z" fill="none" />
-                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                        </svg>
                     </a>
+                 @*    <a onclick="ConfirmDelete(this.name)" href="#" name="@item.VideoId" class="btn button-cancel"> *@
+                 @*        VERWIJDEREN *@
+                 @*        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"> *@
+                 @*            <path d="M0 0h24v24H0z" fill="none" /> *@
+                 @*            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" /> *@
+                 @*        </svg> *@
+                 @*    </a> *@
                     <input class="btn button-cancel" type="submit" asp-action="Delete" asp-route-id="@item.VideoId" hidden id="@item.RockstarId" />
-                 }
+                  } 
                 </td>
             </tr>
         }

@@ -161,5 +161,18 @@ namespace RockstarsIT.Controllers
         {
             return _context.Podcasts.Any(e => e.PodcastId == id);
         }
+
+        public async Task<IActionResult> ChangeStatus(int id, bool status)
+        {
+            var podcast = new Podcast { PodcastId = id, DatePublished = DateTime.Now, PublishedStatus = status };
+            _context.Attach(podcast);
+            if (status)
+            {
+                _context.Entry(podcast).Property(r => r.DatePublished).IsModified = true;
+            }
+            _context.Entry(podcast).Property(r => r.PublishedStatus).IsModified = true;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

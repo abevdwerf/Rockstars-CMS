@@ -2,45 +2,51 @@
 
 @{
     ViewData["Title"] = "Details";
+    Spotify spotify = new Spotify();
 }
 
-<h1>PODCAST DETAILS</h1>
+<h1 class="mt-3">PODCAST DETAILS</h1>
 
 <div>
     <h4>Podcast</h4>
     <hr />
     <dl class="row">
         <dd class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Titel)
+            Titel
         </dd>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Titel)
         </dd>
         <dd class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Omschrijving)
+            Omschrijving
         </dd>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Omschrijving)
         </dd>
         <dd class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.URL)
+            URL
         </dd>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.URL)
         </dd>
         <dd class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Auteur)
+            Auteur
         </dd>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Auteur.RockstarId)
+            @Html.DisplayFor(model => model.Auteur.Name)
         </dd>
         <dd class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tribe)
+            Tribe
         </dd>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tribe.TribeId)
+            @Html.DisplayFor(model => model.Tribe.Name)
         </dd>
     </dl>
+</div>
+<div>
+    <iframe src="@spotify.GetSpotifyEmbeddedLink(Model.URL)" height="160" width="600" frameBorder="0" title="description"></iframe>
+    <br/>
+    <br/>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.PodcastId" class="btn button mr-3">
@@ -50,11 +56,58 @@
             <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
         </svg>
     </a>
-    <a asp-action="Index" class="btn button-cancel mr-3">
-        TERUG NAAR OVERZICHT
-        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-        </svg>
-    </a>
-</div>
+        @using (Html.BeginForm(FormMethod.Post))
+        {
+            <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.PodcastId" class="btn button-cancel">
+                VERWIJDEREN
+                <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                </svg>
+            </a>
+            <input type="submit" asp-action="Delete" asp-route-id="@Model.PodcastId" hidden id="@Model.PodcastId" />
+        }
+        <br />
+        <br />
+        <a asp-action="Index" class="btn button-cancel mr-3">
+            TERUG NAAR OVERZICHT
+            <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+            </svg>
+        </a>
+        @if (@Model.PublishedStatus)
+        {
+            <a asp-action="ChangeStatus" asp-route-id="@Model.PodcastId" asp-route-status="false" class="btn button">
+                Depubliceren
+                <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                </svg>
+            </a>
+        }
+        else
+        {
+            <a asp-action="ChangeStatus" asp-route-id="@Model.PodcastId" asp-route-status="true" class="btn button">
+                Publiceren
+                <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                </svg>
+            </a>
+        }
+    </div>
+
+<script>
+    function ConfirmDelete(id) {
+        const conbtn2 = document.getElementById(id);
+
+        let text = "Weet je zeker dat u deze podcast wilt verwijderen?"
+        if (confirm(text) == true) {
+            conbtn2.click();
+        }
+        else {
+            console.log("test");
+        }
+    }
+</script>
