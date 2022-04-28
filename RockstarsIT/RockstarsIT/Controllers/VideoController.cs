@@ -21,6 +21,8 @@ namespace RockstarsIT.Controllers
         // GET: Video
         public async Task<IActionResult> Index()
         {
+            string dataShowType = HttpContext.Request.Query["view"].ToString();
+            ViewData["DataShowType"] = dataShowType;
             var databaseContext = _context.Videos.Include(v => v.Rockstar).Include(v => v.Tribe);
             return View(await databaseContext.ToListAsync());
         }
