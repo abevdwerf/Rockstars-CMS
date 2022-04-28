@@ -117,7 +117,7 @@
             <td>
                 @if(item.PublishedStatus)
                 {
-                    <a asp-action="ChangeStatus" asp-route-id="@item.PodcastId" asp-route-status="false" class="btn btn-danger">Depubliceren</a>
+                    <a asp-action="ChangeStatus" asp-route-id="@item.PodcastId" asp-route-status="false" class="btn btn-danger">Concept</a>
                 }
                 else{
                     <a asp-action="ChangeStatus" asp-route-id="@item.PodcastId" asp-route-status="true" class="btn btn-success">Publiceren</a>
