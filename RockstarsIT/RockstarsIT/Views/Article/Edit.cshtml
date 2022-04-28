@@ -27,7 +27,7 @@
         </div>
     </div>
     @*<div class="form-group">*@
-        @*<label asp-for="Text" class="control-label">Inhoud</label>
+    @*<label asp-for="Text" class="control-label">Inhoud</label>
         <textarea asp-for="Text" class="form-control"></textarea>
         <span asp-validation-for="Text" class="text-danger"></span>
             
@@ -60,12 +60,14 @@
                     <span asp-validation-for="Images" class="text-danger"></span>
                 </div>
             </div>
-      
             <div class="col-md-2">
-                <input type="button" value="UPLOAD" id="upload" class="btn button" />
+                <input type="button" value="UPLOAD" id="upload" class="btn button"/>
+                @* <button type="submit" class="btn button" value="UPLOAD"> *@
+                @*     UPLOAD *@
+                @*     <img height="32" width="32" src="~/icons/upload-zwart.svg"/> *@
+                @* </button> *@
             </div>
         </div>
-        
     </div>
     <div class="form-group">
         <div id="wrap" class="upload__img-wrap row flex-nowrap overflow-auto">
@@ -83,24 +85,36 @@
         </div>
     </div>
     <div class="form-group">
-        <button type="submit" value="Save" class="btn button">
-            WIJZIGINGEN OPSLAAN
-            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-            </svg>
-        </button>
+        @using (Html.BeginForm(FormMethod.Post))
+        {
+            <button type="submit" value="Save" class="btn button mr-3">
+                WIJZIGINGEN OPSLAAN
+                <img class="ml-2" height="32" width="32" src="~/icons/save-zwart.svg"/>
+            </button>
+            @if (@Model.PublishedStatus)
+            {
+                <a asp-action="ChangeStatus" asp-route-id="@Model.ArticleId" asp-route-status="false" class="btn button mr-3">
+                    CONCEPT
+                    <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
+                </a>
+            }
+            else
+            {
+                <a asp-action="ChangeStatus" asp-route-id="@Model.ArticleId" asp-route-status="true" class="btn button mr-3">
+                    PUBLICEREN
+                    <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
+                </a>
+            }
+            <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.ArticleId" class="btn button-cancel">
+                VERWIJDEREN
+                <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg"/>
+            </a>
+            <input type="submit" asp-action="Delete" asp-route-id="@Model.ArticleId" hidden id="@Model.ArticleId"/>
+        }
     </div>
 </form>
-<div>
-    <a asp-action="Details" asp-route-id="@Model.ArticleId" class="btn button mr-2 mt-3">
-        DETAILS
-        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-        </svg>
-    </a>
-    <a asp-action="Index" class="btn button-cancel ml-3 mt-3">
+<div class="form-group">
+    <a asp-action="Index" class="btn button-cancel mt-2">
         TERUG NAAR OVERZICHT
         <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
             <path d="M0 0h24v24H0z" fill="none" />
@@ -108,7 +122,6 @@
         </svg>
     </a>
 </div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
@@ -236,3 +249,16 @@
     //});
     </script>
 }
+<script>
+    function ConfirmDelete(id) {
+        const conbtn2 = document.getElementById(id);
+
+        let text = "Weet je zeker dat u dit artikel wilt verwijderen?"
+        if (confirm(text) == true) {
+            conbtn2.click();
+        }
+        else {
+            console.log("test");
+        }
+    }
+</script>

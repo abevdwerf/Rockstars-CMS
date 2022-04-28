@@ -131,26 +131,6 @@ namespace RockstarsIT.Controllers
             return View(video);
         }
 
-        // GET: Video/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var video = await _context.Videos
-                .Include(v => v.Rockstar)
-                .Include(v => v.Tribe)
-                .FirstOrDefaultAsync(m => m.VideoId == id);
-            if (video == null)
-            {
-                return NotFound();
-            }
-
-            return View(video);
-        }
-
         // POST: Video/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

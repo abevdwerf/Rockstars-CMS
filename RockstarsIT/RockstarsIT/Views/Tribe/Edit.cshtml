@@ -54,23 +54,25 @@
                 <span asp-validation-for="ImageNumber" class="text-danger"></span>
             </div>
         </div>
-        <button class="btn button" type="submit">
-            WIJZIGINGEN OPSLAAN
-            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-            </svg>
-        </button>
+        <div class="row">
+            <div class="col-md-6">
+                @using (Html.BeginForm(FormMethod.Post))
+                {
+                    <button class="btn button mr-3" type="submit">
+                        WIJZIGINGEN OPSLAAN
+                        <img class="ml-2" height="32" width="32" src="~/icons/save-zwart.svg"/>
+                    </button>
+                    <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.TribeId" class="btn button-cancel">
+                        VERWIJDEREN
+                        <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg"/>
+                    </a>
+                    <input type="submit" asp-action="Delete" asp-route-id="@Model.TribeId" hidden id="@Model.TribeId"/>
+                }
+            </div>
+        </div>
     </form>
     <div>
-    <a asp-action="Details" asp-route-id="@Model.TribeId" class="btn button mr-2 mt-3">
-        DETAILS
-        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-        </svg>
-    </a>
-        <a asp-action="Index" class="btn button-cancel ml-3 mt-3">
+        <a asp-action="Index" class="btn button-cancel mt-3">
             TERUG NAAR OVERZICHT
             <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                 <path d="M0 0h24v24H0z" fill="none" />
@@ -88,20 +90,32 @@
 }
 
 <script>
-var formSubmitting = false;
-var setFormSubmitting = function() { formSubmitting = true; };
+    var formSubmitting = false;
+    var setFormSubmitting = function() { formSubmitting = true; };
+    
+    window.onload = function() {
+        window.addEventListener("beforeunload", function (e) {
+            if (formSubmitting) {
+                return undefined;
+            }
+    
+            var confirmationMessage = 'It looks like you have been editing something. '
+                                    + 'If you leave before saving, your changes will be lost.';
+    
+            (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+            return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+        });
+    };
 
-window.onload = function() {
-    window.addEventListener("beforeunload", function (e) {
-        if (formSubmitting) {
-            return undefined;
+    function ConfirmDelete(id) {
+        const conbtn2 = document.getElementById(id);
+
+        let text = "Weet je zeker dat u deze podcast wilt verwijderen?"
+        if (confirm(text) == true) {
+            conbtn2.click();
         }
-
-        var confirmationMessage = 'It looks like you have been editing something. '
-                                + 'If you leave before saving, your changes will be lost.';
-
-        (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-        return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-    });
-};
+        else {
+            console.log("test");
+        }
+    }
 </script>

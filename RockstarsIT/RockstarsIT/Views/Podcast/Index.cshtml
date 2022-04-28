@@ -10,10 +10,7 @@
 <p>
     <a asp-action="Create" class="btn button">
         NIEUWE PODCAST
-        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-            <path d="M0 0h24v24H0z" fill="none"/>
-            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
-        </svg>
+        <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
     </a>
 </p>
 <table class="table table-bordered bg-light">
@@ -80,19 +77,22 @@
             <td>
                 @if(item.PublishedStatus)
                 {
-                    <a asp-action="ChangeStatus" asp-route-id="@item.PodcastId" asp-route-status="false" class="btn btn-danger">CONCEPT</a>
+                    <a asp-action="ChangeStatus" asp-route-id="@item.PodcastId" asp-route-status="false" class="btn text-black">
+                        CONCEPT
+                        <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
+                    </a>
                 }
                 else{
-                    <a asp-action="ChangeStatus" asp-route-id="@item.PodcastId" asp-route-status="true" class="btn btn-success">PUBLICEREN</a>
+                    <a asp-action="ChangeStatus" asp-route-id="@item.PodcastId" asp-route-status="true" class="btn text-black">
+                        PUBLICEREN
+                        <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
+                    </a>
                 }
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PodcastId" class="btn button mr-2">
                     BEWERKEN
-                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                    </svg>
+                    <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
                 </a>
             </td>
         </tr>

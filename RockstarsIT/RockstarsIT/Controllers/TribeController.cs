@@ -118,24 +118,6 @@ namespace RockstarsIT.Controllers
             return View(tribe);
         }
 
-        // GET: Tribe/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var tribe = await _context.Tribes
-                .FirstOrDefaultAsync(m => m.TribeId == id);
-            if (tribe == null)
-            {
-                return NotFound();
-            }
-
-            return View(tribe);
-        }
-
         // POST: Tribe/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

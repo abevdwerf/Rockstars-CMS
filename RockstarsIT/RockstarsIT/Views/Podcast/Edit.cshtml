@@ -50,24 +50,29 @@
             {
                 <button class="btn button mr-3" type="submit" lang="nl">
                     WIJZIGINGEN OPSLAAN
-                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                        <path d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
-                    </svg>
+                    <img class="ml-2" height="32" width="32" src="~/icons/save-zwart.svg"/>
                 </button>
                 <button class="btn button mr-3" type="submit" lang="en-uk">
                     SAVE CHANGES
-                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                        <path d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
-                    </svg>
+                    <img class="ml-2" height="32" width="32" src="~/icons/save-zwart.svg"/>
                 </button>
+                @if (@Model.PublishedStatus)
+                {
+                    <a asp-action="ChangeStatus" asp-route-id="@Model.PodcastId" asp-route-status="false" class="btn button mr-3">
+                        CONCEPT
+                        <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
+                    </a>
+                }
+                else
+                {
+                    <a asp-action="ChangeStatus" asp-route-id="@Model.PodcastId" asp-route-status="true" class="btn button mr-3">
+                        PUBLICEREN
+                        <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
+                    </a>
+                }
                 <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.PodcastId" class="btn button-cancel">
                     VERWIJDEREN
-                    <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                        <path d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
-                    </svg>
+                    <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg"/>
                 </a>
                 <input type="submit" asp-action="Delete" asp-route-id="@Model.PodcastId" hidden id="@Model.PodcastId"/>
             }

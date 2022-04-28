@@ -151,25 +151,6 @@ namespace RockstarsIT.Controllers
             return View(rockstar);
         }
 
-        // GET: Rockstars/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var rockstar = await _context.Rockstars
-                .Include(r => r.Tribe)
-                .FirstOrDefaultAsync(m => m.RockstarId == id);
-            if (rockstar == null)
-            {
-                return NotFound();
-            }
-
-            return View(rockstar);
-        }
-
         // POST: Rockstars/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
