@@ -22,12 +22,6 @@
         <th>
             TITEL
         </th>
-        @* <th> *@
-        @*     OMSCHRIJVING *@
-        @* </th> *@
-        @* <th> *@
-        @*     URL *@
-        @* </th> *@
         <th>
             PREVIEW
         </th>
@@ -55,12 +49,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Titel)
             </td>
-            @* <td> *@
-            @*     @Html.DisplayFor(modelItem => item.Omschrijving) *@
-            @* </td> *@
-            @* <td> *@
-            @*     <a href="@item.URL" target="_blank">Link (nieuw venster)</a> *@
-            @* </td> *@
             <td>
                 <audio controls>
                     <source src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))" type="audio/mp3">
@@ -75,7 +63,7 @@
             <td>
                 @if(item.PublishedStatus)
                 {
-                   @Html.DisplayFor(modelItem => item.DatePublished)
+                    @Html.DisplayFor(modelItem => item.DatePublished)
                 }else{
                     <p class="align-content-center">-----</p>
                 }
@@ -83,7 +71,7 @@
             <td>
                 @if(item.PublishedStatus)
                 {
-                   <p>Gepubliceerd</p> 
+                    <p>Gepubliceerd</p> 
                 }
                 else{
                     <p>Concept</p>
@@ -92,15 +80,15 @@
             <td>
                 @if(item.PublishedStatus)
                 {
-                    <a asp-action="ChangeStatus" asp-route-id="@item.PodcastId" asp-route-status="false" class="btn btn-danger">Depubliceren</a>
+                    <a asp-action="ChangeStatus" asp-route-id="@item.PodcastId" asp-route-status="false" class="btn btn-danger">CONCEPT</a>
                 }
                 else{
-                    <a asp-action="ChangeStatus" asp-route-id="@item.PodcastId" asp-route-status="true" class="btn btn-success">Publiceren</a>
+                    <a asp-action="ChangeStatus" asp-route-id="@item.PodcastId" asp-route-status="true" class="btn btn-success">PUBLICEREN</a>
                 }
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.PodcastId" class="btn button mr-2">
-                    DETAILS
+                <a asp-action="Edit" asp-route-id="@item.PodcastId" class="btn button mr-2">
+                    BEWERKEN
                     <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                         <path d="M0 0h24v24H0z" fill="none" />
                         <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />

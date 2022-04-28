@@ -79,5 +79,51 @@ namespace RockstarsIT.Models
             var parsed = JObject.Parse(json);
             return parsed["audio_preview_url"].ToString();
         }
+        
+        public string GetDescription(string spotifyLinkId)
+        {
+            string url5 = "https://api.spotify.com/v1/episodes/"+spotifyLinkId+"?market=NL";
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url5);
+            webRequest.Method = "GET";
+            webRequest.ContentType = "application/x-www-form-urlencoded";
+            webRequest.Accept = "application/json";
+            webRequest.Headers.Add("Authorization: Bearer "+GetAccessToken());
+            HttpWebResponse resp = (HttpWebResponse)webRequest.GetResponse();
+            String json = "";
+            using (Stream respStr = resp.GetResponseStream())
+            {
+                using (StreamReader rdr = new StreamReader(respStr, Encoding.UTF8))
+                {
+                    //should get back a string i can then turn to json and parse for accesstoken
+                    json = rdr.ReadToEnd();
+                    rdr.Close();
+                }
+            }
+            var parsed = JObject.Parse(json);
+            return parsed["description"].ToString();
+        }
+        
+        public string GetTitle(string spotifyLinkId)
+        {
+            string url5 = "https://api.spotify.com/v1/episodes/"+spotifyLinkId+"?market=NL";
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url5);
+            webRequest.Method = "GET";
+            webRequest.ContentType = "application/x-www-form-urlencoded";
+            webRequest.Accept = "application/json";
+            webRequest.Headers.Add("Authorization: Bearer "+GetAccessToken());
+            HttpWebResponse resp = (HttpWebResponse)webRequest.GetResponse();
+            String json = "";
+            using (Stream respStr = resp.GetResponseStream())
+            {
+                using (StreamReader rdr = new StreamReader(respStr, Encoding.UTF8))
+                {
+                    //should get back a string i can then turn to json and parse for accesstoken
+                    json = rdr.ReadToEnd();
+                    rdr.Close();
+                }
+            }
+            var parsed = JObject.Parse(json);
+            return parsed["name"].ToString();
+        }
     }
 }

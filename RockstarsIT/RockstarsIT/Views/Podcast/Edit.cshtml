@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Edit";
+    Spotify spotify = new Spotify();
 }
 
 <h1 class="mt-3">PODCAST BEWERKEN</h1>
@@ -12,21 +13,20 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row g-3">
         <div class="col-md-6 mb-3">
+            <label asp-for="URL" class="control-label">URL</label>
+            <input asp-for="URL" class="form-control"/>
+            <span asp-validation-for="URL" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Tribe" class="control-label">Tribe</label>
+            <select asp-for="TribeId" class="form-control" asp-items="ViewBag.TribeNames"></select>
+            <span asp-validation-for="TribeId" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
             <label asp-for="Titel" class="control-label" lang="nl">Titel</label>
             <label asp-for="Titel" class="control-label" lang="en-uk">Title</label>
             <input asp-for="Titel" class="form-control"/>
             <span asp-validation-for="Titel" class="text-danger"></span>
-        </div>
-        <div class="col-md-6 mb-3">
-            <label asp-for="Omschrijving" class="control-label" lang="nl">Beschrijving</label>
-            <label asp-for="Omschrijving" class="control-label" lang="en-uk">Description</label>
-            <input asp-for="Omschrijving" class="form-control"/>
-            <span asp-validation-for="Omschrijving" class="text-danger"></span>
-        </div>
-        <div class="col-md-6 mb-3">
-            <label asp-for="URL" class="control-label">URL</label>
-            <input asp-for="URL" class="form-control"/>
-            <span asp-validation-for="URL" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
             <label asp-for="Auteur" class="control-label" lang="nl">Auteur</label>
@@ -35,39 +35,47 @@
             <span asp-validation-for="RockstarId" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="Tribe" class="control-label">Tribe</label>
-            <select asp-for="TribeId" class="form-control" asp-items="ViewBag.TribeNames"></select>
-            <span asp-validation-for="TribeId" class="text-danger"></span>
+            <label asp-for="Omschrijving" class="control-label" lang="nl">Beschrijving</label>
+            <label asp-for="Omschrijving" class="control-label" lang="en-uk">Description</label>
+            <textarea asp-for="Omschrijving" class="form-control" rows="5"></textarea>
+            <span asp-validation-for="Omschrijving" class="text-danger"></span>
+        </div>
+        <div>
+            <iframe src="@spotify.GetSpotifyEmbeddedLink(Model.URL)" height="160" width="600" frameBorder="0" title="description"></iframe>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
-            <button class="btn button" type="submit" lang="nl">
-                WIJZIGINGEN OPSLAAN
-                <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                    <path d="M0 0h24v24H0z" fill="none"/>
-                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
-                </svg>
-            </button>
-            <button class="btn button" type="submit" lang="en-uk">
-                SAVE CHANGES
-                <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                    <path d="M0 0h24v24H0z" fill="none"/>
-                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
-                </svg>
-            </button>
+            @using (Html.BeginForm(FormMethod.Post))
+            {
+                <button class="btn button mr-3" type="submit" lang="nl">
+                    WIJZIGINGEN OPSLAAN
+                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
+                    </svg>
+                </button>
+                <button class="btn button mr-3" type="submit" lang="en-uk">
+                    SAVE CHANGES
+                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
+                    </svg>
+                </button>
+                <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.PodcastId" class="btn button-cancel">
+                    VERWIJDEREN
+                    <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
+                    </svg>
+                </a>
+                <input type="submit" asp-action="Delete" asp-route-id="@Model.PodcastId" hidden id="@Model.PodcastId"/>
+            }
         </div>
     </div>
 </form>
 
 <div>
-    <a asp-action="Details" asp-route-id="@Model.PodcastId" class="btn button mr-2 mt-3">
-        DETAILS
-        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-        </svg>
-    </a>
     <a asp-action="Index" class="btn button-cancel mt-3">
         TERUG NAAR OVERZICHT
         <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
@@ -76,4 +84,16 @@
         </svg>
     </a>
 </div>
+<script>
+    function ConfirmDelete(id) {
+        const conbtn2 = document.getElementById(id);
 
+        let text = "Weet je zeker dat u deze podcast wilt verwijderen?"
+        if (confirm(text) == true) {
+            conbtn2.click();
+        }
+        else {
+            console.log("test");
+        }
+    }
+</script>
