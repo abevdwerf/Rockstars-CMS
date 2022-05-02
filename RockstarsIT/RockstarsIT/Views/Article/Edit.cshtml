@@ -27,65 +27,6 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label">Teksten</label>
-        <div class="article-text-container">
-            <ul class="nav nav-tabs" id="tab-list" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">1</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">2 <button class="close" type="button" title="Remove this page">×</button></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">3<button class="close" type="button" title="Remove this page">×</button></a>
-              </li>
-              <li class="nav-item" id="last-child">
-                <a class="nav-link" id="add-tab" data-toggle="tab" role="tab">
-                    Toevoegen
-                </a>
-              </li>
-            </ul>
-            <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab"><textarea asp-for="Description" class="textarea w-100" rows="5"></textarea></div>
-              <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"><textarea asp-for="Description" class="textarea w-100" rows="5"></textarea></div>
-              <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"><textarea asp-for="Description" class="textarea w-100" rows="5"></textarea></div>
-            </div>
-            <button class="btn button">Opslaan</button> 
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Images" class="control-label">Afbeeldingen</label>
-        <div class="row">
-            <div class="col-md-5">
-                <div class="custom-file upload__box">
-                    <input asp-for="Images" class="custom-file-input upload__inputfile" multiple id="customFile">
-                    <label asp-for="Images" class="custom-file-label" for="customFile" data-browse="Bestand kiezen"></label>
-                    <span asp-validation-for="Images" class="text-danger"></span>
-                </div>
-            </div>
-      
-            <div class="col-md-2">
-                <input type="button" value="UPLOAD" id="upload" class="btn button" />
-            </div>
-        </div>
-        
-    </div>
-    <div class="form-group">
-        <div id="wrap" class="upload__img-wrap row flex-nowrap overflow-auto">
-            @if (Model.ArticleImages != null)
-            {
-                @foreach (var item in Model.ArticleImages) {
-                    <div class="upload__img-box col-3">
-                        <div style="background-image: url(@item.URL);" class="img-bg">
-                            <div id="delete" data-id="@item.ArticleImageId" class="upload__img-close">
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
-        </div>
-    </div>
-    <div class="form-group">
         <button type="submit" value="Save" class="btn button">
             WIJZIGINGEN OPSLAAN
             <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
@@ -95,6 +36,108 @@
         </button>
     </div>
 </form>
+<div class="form-group">
+    <label class="control-label">Teksten</label>
+    <div class="article-text-container">
+        <ul class="nav nav-tabs" id="tab-list">
+            @if (Model.ArticleTextBlocks != null)
+            {
+                @if (Model.ArticleTextBlocks.Count > 0)
+                {
+                    int count = 1;
+                    foreach (var item in Model.ArticleTextBlocks)
+                    {
+                        @if (item == Model.ArticleTextBlocks.First())
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link active" data-id="@item.ArticleTextBlockId" data-toggle="tab" href="#tab-@item.ArticleTextBlockId">
+                                    @count
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" data-id="@item.ArticleTextBlockId" data-toggle="tab" href="#tab-@item.ArticleTextBlockId">
+                                    @count
+                                    @if (count > 1)
+                                    {
+                                        <button class="close" type="button" title="Remove this page">×</button>
+                                    }
+                                </a>
+                            </li>
+                        }
+                        count++;
+                    }
+                }
+            }
+
+            <li class="nav-item" id="last-child">
+                <a class="nav-link" id="add-tab" style="color:#000000;" href="">
+                    Toevoegen
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content" id="TabContent">
+            @if (Model.ArticleTextBlocks != null)
+            {
+                @if (Model.ArticleTextBlocks.Count > 0)
+                {
+                    foreach (var item in Model.ArticleTextBlocks)
+                    {
+                        @if (item == Model.ArticleTextBlocks.First())
+                        {
+                            <div class="tab-pane fade show active" id="tab-@item.ArticleTextBlockId">
+                                <textarea class="textarea w-100" rows="5">@item.Text</textarea>
+                            </div>
+                        }
+                        else    
+                        {   
+                            <div class="tab-pane fade" id="tab-@item.ArticleTextBlockId">
+                                <textarea class="textarea w-100" rows="5">@item.Text</textarea>
+                            </div>
+                        }
+                    }
+                }
+           }
+        </div>
+       
+        <input type="button" value="OPSLAAN" id="save-textblock" class="btn button" />
+    </div>
+</div>
+<div class="form-group">
+    <label asp-for="Images" class="control-label">Afbeeldingen</label>
+    <div class="row">
+        <div class="col-md-5">
+            <div class="custom-file upload__box">
+                <input asp-for="Images" class="custom-file-input upload__inputfile" multiple id="customFile">
+                <label asp-for="Images" class="custom-file-label" for="customFile" data-browse="Bestand kiezen"></label>
+
+                <span asp-validation-for="Images" class="text-danger"></span>
+            </div>
+        </div>
+      
+        <div class="col-md-2">
+            <input type="submit" value="UPLOAD" id="upload" class="btn button" />
+        </div>
+    </div>
+        
+</div>
+<div class="form-group">
+    <div id="wrap" class="upload__img-wrap row flex-nowrap overflow-auto">
+        @if (Model.ArticleImages != null)
+        {
+            @foreach (var item in Model.ArticleImages) {
+                <div class="upload__img-box col-3">
+                    <div style="background-image: url(@item.URL);" class="img-bg">
+                        <div id="delete" data-id="@item.ArticleImageId" class="upload__img-close">
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
 
 <br>
 <div>
@@ -122,24 +165,104 @@
 
         jQuery(document).ready(function () {
 
-            var tabID = $("#tab-list li").length;
             $('#add-tab').click(function () {
-                var html = '<li class="nav-item"><a class="nav-link" id="test-tab" data-toggle="tab" href="#test" role="tab" aria-controls="test" aria-selected="false">' + tabID + '<button class="close" type="button" title="Remove this page">×</button></a></li>';
-                $('#last-child').before(html);
-                tabID++;
+
+                var data = new FormData(); 
+
+                data.append('ArticleId', $("#ArticleId").val());
+                
+                $.ajax({  
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    url: "/Article/AddTextblock",  
+                    data: data,
+                    contentType: false, // Not to set any content header  
+                    processData: false, // Not to process data  
+                    success: function (response) {  
+                        if (response.Success) {
+                            var tabID = $("#tab-list li").length;
+                            var html = '<li class="nav-item"><a class="nav-link" data-id="' + response.ArticleTextblockId + '" data-toggle="tab" href="text-' + tabID + '" role="tab">' + tabID + '<button class="close" type="button" title="Remove this page">×</button></a></li>';
+                            $('#last-child').before(html);
+                            tabID++;
+                        }
+                    },  
+                    error: function (response) { 
+                        alert("failed to add textblock");  
+                    }  
+                });  
             });
 
-            $('#tab-list').on('click','.close',function(){
-                var tabID = $(this).parents('a').attr('href');
-                $(this).parents('li').remove();
-                $(tabID).remove();
+            $('#tab-list').on('click','.close',function(){ 
+                var data = new FormData();  
+                var currentDiv = $(this);
+             
+                data.append('ArticleTextBlockId', $(this).parent().data("id"));
+                $.ajax({  
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    url: "/Article/DeleteTextBlock",  
+                    data: data,
+                    contentType: false, // Not to set any content header  
+                    processData: false, // Not to process data  
+                    success: function (response) {  
+                        if (response.Success) {
 
-                //display first tab
-                var tabFirst = $('#tab-list a:first');
-                tabFirst.tab('show');                
+                            var href = currentDiv.parent().attr('href');
+                            //remove tabheader
+                            currentDiv.closest(".nav-item").remove();
+                            //remove tabcontent
+                            $(href).remove();
+
+                            //display first tab
+                            var tabFirst = $('#tab-list a:first');
+                            tabFirst.tab('show');
+                        }
+                    },  
+                    error: function (response) {  
+                        alert("failed to delete text");  
+                    }  
+                });  
             });
 
-            $("#upload").click(function (e) {   
+            $("#save-textblock").click(function (e) {  
+                
+                var data = new FormData(); 
+                var activeTabHeader = $("#tab-list .nav-link.active");
+                var activeTabContent = $("#TabContent .tab-pane.active textarea");
+
+                data.append('ArticleTextBlockId', activeTabHeader.data("id"));
+                data.append('ArticleId', $("#ArticleId").val());
+                data.append('Text', activeTabContent.val());
+
+                $.ajax({    
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    url: "/Article/SaveTextblock",  
+                    data: data,
+                    contentType: false, // Not to set any content header  
+                    processData: false, // Not to process data  
+                    success: function (response) {  
+                        if (response.Success) {
+
+                            alert(response.Message);
+                            
+                            for (const element of response.ArticleImages) {
+                                var html = "<div class='upload__img-box col-3'><div style='background-image: url(" + element.Item2 + ")' class='img-bg'><div id='delete' data-id='" + element.Item1 + "' class='upload__img-close'></div></div></div>";
+                                $('#wrap').append(html);
+                            }
+                        }
+                    },  
+                    error: function (response) { 
+                        alert("failed to upload image");  
+                    }  
+                });  
+            });
+
+            //upload image
+            $('#upload').click(function (event) {
                 if (window.FormData !== undefined) {  
   
                     var fileUpload = $("#customFile").get(0);  
@@ -155,7 +278,7 @@
               
                     // Adding articleId to FormData object  
                     data.append('ArticleId', $("#ArticleId").val());  
-  
+
                     $.ajax({  
                         async: true,
                         type: "POST",
@@ -173,6 +296,9 @@
                                     var html = "<div class='upload__img-box col-3'><div style='background-image: url(" + element.Item2 + ")' class='img-bg'><div id='delete' data-id='" + element.Item1 + "' class='upload__img-close'></div></div></div>";
                                     $('#wrap').append(html);
                                 }
+                                //reset file input
+                                $('#customFile').val('');
+                                $('#customFile').next('.custom-file-label').html("Selecteer een of meerdere afbeeldingen");
                             }
                         },  
                         error: function (response) { 
@@ -213,8 +339,8 @@
                     alert("failed to delete image");  
                 }  
             });  
-            
           });
+
         });
     </script>
 }

@@ -120,7 +120,7 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RockstarId,TribeId,Role,Chapter,Name,LinkedIn,Description,Quote,ImageFile")] Rockstar rockstar)
+        public async Task<IActionResult> Edit(int id, [Bind("RockstarId,TribeId,RoleId,Chapter,Name,LinkedIn,Description,Quote,ImageFile")] Rockstar rockstar)
         {
             if (id != rockstar.RockstarId)
             {

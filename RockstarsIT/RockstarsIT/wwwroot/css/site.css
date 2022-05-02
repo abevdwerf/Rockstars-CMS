@@ -237,9 +237,6 @@ label {
 }
 
 /*upload picture - article edit page*/
-.upload__box {
-    padding: 40px;
-}
 
 .upload__img-wrap {
     display: flex;
