@@ -4,19 +4,25 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>TRIBE DETAILS</h1>
+<h1 class="mt-3">TRIBE DETAILS</h1>
 
 <div>
     <hr/>
     <dl class="row">
-        <dd class="col-sm-2">
+        <dd class="col-sm-2" lang="nl">
             Naam:
+        </dd>
+        <dd class="col-sm-2" lang="en-uk">
+            Name:
         </dd>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dd class="col-sm-2">
+        <dd class="col-sm-2" lang="nl">
             Beschrijving:
+        </dd>
+        <dd class="col-sm-2" lang="en-uk">
+            Description:
         </dd>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
@@ -27,20 +33,29 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Spotify)
         </dd>
-        <dd class="col-sm-2">
+        <dd class="col-sm-2" lang="nl">
             Tribe Lead Email Adres:
+        </dd>
+        <dd class="col-sm-2" lang="en-uk">
+            Tribe Lead Email Address:
         </dd>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.LeadAddress)
         </dd>
-        <dd class="col-sm-2">
-            Aantal Tekstblokken
+        <dd class="col-sm-2" lang="nl">
+            Aantal Tekstblokken:
+        </dd>
+        <dd class="col-sm-2" lang="en-uk">
+            Textblock Amount:
         </dd>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.BlockNumber)
         </dd>
-        <dd class="col-sm-2">
-            Aantal Afbeeldingen
+        <dd class="col-sm-2" lang="nl">
+            Aantal Afbeeldingen:
+        </dd>
+        <dd class="col-sm-2" lang="en-uk">
+            Image Amount:
         </dd>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ImageNumber)
@@ -48,20 +63,42 @@
     </dl>
 </div>
 <div>
-
-    <a asp-action="Edit" asp-route-id="@Model.TribeId" class="btn button mr-3">
-        BEWERKEN
-        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-        </svg>
-    </a>
-    <a asp-action="Index" class="btn button-cancel mr-3">
+    @using (Html.BeginForm(FormMethod.Post))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.TribeId" class="btn button mr-3">
+            BEWERKEN
+            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+            </svg>
+        </a>
+        <a onclick="ConfirmDelete(this.name)" name="@Model.TribeId" class="btn button-cancel" href="#">
+            VERWIJDEREN
+            <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
+            </svg>
+        </a>
+        <input type="submit" asp-action="Delete" asp-route-id="@Model.TribeId" hidden id="@Model.TribeId" />
+    }
+    <a asp-action="Index" class="btn button-cancel mr-3 mt-3">
         TERUG NAAR OVERZICHT
         <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
             <path d="M0 0h24v24H0z" fill="none" />
             <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
         </svg>
     </a>
-
 </div>
+<script>
+    function ConfirmDelete(id) {
+        const conbtn2 = document.getElementById(id);
+
+        let text = "Weet je zeker dat u deze tribe wilt verwijderen?"
+        if (confirm(text) == true) {
+            conbtn2.click();
+        }
+        else {
+            console.log("test");
+        }
+    }
+</script>

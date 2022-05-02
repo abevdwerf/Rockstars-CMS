@@ -5,22 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - RockstarsIT</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    @*<link rel="stylesheet" href="~/css/site.css" />*@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="~/assets/fonts/fontawesome-all.min.css">
+    
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
 
     <a href="/">
-        <svg class="shadow2 ml-3" style="position: absolute" version="1.1" id="rs-logo" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 595.3 504.9" xml:space="preserve">
+        <svg class="shadow2  kleineImg" style="position: absolute;" version="1.1" id="rs-logo" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 595.3 504.9" xml:space="preserve">
         <style>
             .shadow2 {
-                height: 128px;
+                height: 110px;
                 -webkit-filter: drop-shadow(0px 1px 1px #000000) drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.15));
                 filter: drop-shadow(0px 1px 1px #000000) drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.15));
             }
+
 
             .st0,
             .st1,
@@ -66,11 +72,14 @@
         </g>
     </svg>
     </a>
-
-
+    <script>
+        if (window.screen.width < 1380) {
+            document.getElementById("rs-logo").classList.remove("ml-3");
+        }
+    </script>
     <header>
         <!--navbar-light,  box-shadow -->
-        <nav  class="navbar-expand-sm navbar-toggleable-sm shadow-lg mb-3 topnav">
+        <nav class="navbar-expand-sm navbar-toggleable-sm shadow-lg topnav">
             <div class="container">
                 <!--<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">RockstarsIT</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -78,10 +87,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>-->
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        @*<li class="nav-item">
-                            <a class="navGo" id="Home" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>*@
+                    <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <a class="navGo" id="Tribe" asp-area="" asp-controller="Tribe" asp-action="Index">Tribes</a>
                         </li>
@@ -89,13 +95,21 @@
                             <a class="navGo" id="Rockstars" asp-area="" asp-controller="Rockstars" asp-action="Index">Rockstars</a>
                         </li>
                         <li class="nav-item">
-                            <a class="navGo" id="Article" asp-area="" asp-controller="Article" asp-action="Index">Artikelen</a>
+                            <a class="navGo" id="Article" asp-area="" asp-controller="Article" asp-action="Index" lang="nl">Artikelen</a>
+                            <a class="navGo" id="ArticleEn" asp-area="" asp-controller="Article" asp-action="Index" lang="en-uk">Articles</a>
                         </li>
                         <li class="nav-item">
                             <a class="navGo" id="Podcast" asp-area="" asp-controller="Podcast" asp-action="Index">Podcasts</a>
                         </li>
                         <li class="nav-item">
-                            <a class="navGo" id="Video" asp-area="" asp-controller="Video" asp-action="Index">Video's</a>
+                            <a class="navGo" id="Video" asp-area="" asp-controller="Video" asp-action="Index" lang="nl">Video's</a>
+                            <a class="navGo" id="VideoEn" asp-area="" asp-controller="Video" asp-action="Index" lang="en-uk">Videos</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a id="language" class="navGo" href="javascript:void(0)" onclick="SwitchLanguage()" lang="nl">Switch to English</a>
+                            <a id="language" class="navGo" href="javascript:void(0)" onclick="SwitchLanguage()" lang="en-uk">Wissel naar Nederlands</a>
                         </li>
                     </ul>
                 </div>
@@ -109,18 +123,38 @@
             @RenderBody()
         </main>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        window.onload = DetectLanguage
+        function DetectLanguage() {
+            var userLang = navigator.language || navigator.userLanguage;
+            if (userLang == 'nl')
+            {
+                $('[lang="en-uk"]').hide();
+            }
+            else
+            {
+                $('[lang="nl"]').hide();
+            }
+        }
+
+        function SwitchLanguage() {
+            $('[lang="nl"]').toggle();
+            $('[lang="en-uk"]').toggle();
+        }
+    </script>
     <script>
         const queryString = window.location;
         let Location = queryString.href.split("/");
         Location = Location[3];
 
-
-        let Home = document.getElementById("Home");
         let Tribe = document.getElementById("Tribe");
         let Rockstars = document.getElementById("Rockstars");
         let Article = document.getElementById("Article");
         let Podcast = document.getElementById("Podcast");
         let Video = document.getElementById("Video");
+        let ArticleEn = document.getElementById("ArticleEn");
+        let VideoEn = document.getElementById("VideoEn");
 
         if (Location == "Tribe") {
             Tribe.classList.add("nav-active");
@@ -140,14 +174,19 @@
         else if (Location == "") {
             Home.classList.add("nav-active");
         }
-
     </script>
     <!-- text-muted -->
-    <footer class="border-top border-dark footer footer">
+    <footer id="footertje" class="border-top border-dark footer">
         <div class="container">
             &copy; 2022 - RockstarsIT
         </div>
     </footer>
+
+     <script> 
+         //if (Location == "") { 
+         //    document.getElementById("footertje").classList.add("footer-dash"); 
+         //} 
+     </script> 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

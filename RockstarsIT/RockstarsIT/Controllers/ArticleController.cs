@@ -238,7 +238,7 @@ namespace RockstarsIT.Controllers
                 _context.Entry(article).Property(r => r.DatePublished).IsModified = true;
             }
             _context.Entry(article).Property(r => r.PublishedStatus).IsModified = true;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Redirect("/Article/Index?view=grid");
         }
 

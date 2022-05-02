@@ -4,9 +4,9 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>ARTIKELEN</h1>
+<h1 class="mt-3">ARTIKELEN</h1>
 <div class="row">
-     <div class="col-md-6  text-left">
+    <div class="col-md-6  text-left">
         <a asp-action="Create" class="btn button">
             NIEUW ARTIKEL
             <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
@@ -14,6 +14,8 @@
                 <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
             </svg>
         </a>
+        <br/>
+        <br/>
     </div>
     @if(ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowType"].ToString() == ""){
      <div class="col-md-6  text-right">
@@ -100,9 +102,13 @@
                 }
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ArticleId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ArticleId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ArticleId">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.ArticleId" class="btn button mr-2">
+                    DETAILS
+                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                    </svg>
+                </a>
             </td>
         </tr>
 }
@@ -116,12 +122,12 @@
    <div class="card">
       <img class="card-img-top" src="https://www.teamrockstars.nl/wp-content/uploads/2020/11/0_0.jpeg" alt="Card image cap">
       <div class="card-body">
-         <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Title)</h5>
-         <p class="card-text">@Html.DisplayFor(modelItem => item.Rockstar.Name)</p>
+         <h5 class="card-title text-black"> @Html.DisplayFor(modelItem => item.Title)</h5>
+         <p class="card-text text-black">@Html.DisplayFor(modelItem => item.Rockstar.Name)</p>
       </div>
       <ul class="list-group list-group-flush">
          <li class="list-group-item"  style="background-color:#FFE000">
-            <a asp-action="Details" asp-route-id="@item.ArticleId" class="card-link btn button">
+            <a asp-action="Details" asp-route-id="@item.ArticleId" class="card-link btn button-white">
                LEZEN
                <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                   <path d="M0 0h24v24H0z" fill="none" />

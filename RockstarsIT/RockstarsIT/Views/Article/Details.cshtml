@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>ARTIKEL DETAILS</h1>
+<h1 class="mt-3">ARTIKEL DETAILS</h1>
 
 <div>
     <hr />
@@ -39,48 +39,64 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ArticleId" class="btn button">
-        BEWERKEN
-        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-        </svg>
-    </a>
-    <br>
-    <a asp-action="Delete" asp-route-id="@Model.ArticleId" class="btn button">
-        VERWIJDEREN
-        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-        </svg>
-    </a>
-    <br>
-    <a asp-action="Index" class="btn button-cancel">
-        TERUG NAAR OVERZICHT
-        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-        </svg>
-    </a>
-    <br />
-    @if(@Model.PublishedStatus)
+    @using (Html.BeginForm(FormMethod.Post))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.ArticleId" class="btn button mr-3">
+            BEWERKEN
+            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
+            </svg>
+        </a>
+        @if (@Model.PublishedStatus)
         {
-         <a asp-action="ChangeStatus" asp-route-id="@Model.ArticleId" asp-route-status="false" class="btn button">
-                Depubliceren
+            <a asp-action="ChangeStatus" asp-route-id="@Model.ArticleId" asp-route-status="false" class="btn button mr-3">
+                DEPUBLICEREN
                 <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                    <path d="M0 0h24v24H0z" fill="none" />
-                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                    <path d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
                 </svg>
             </a>
         }
         else
         {
-            <a asp-action="ChangeStatus" asp-route-id="@Model.ArticleId" asp-route-status="true" class="btn button">
-                Publiceren
+            <a asp-action="ChangeStatus" asp-route-id="@Model.ArticleId" asp-route-status="true" class="btn button mr-3">
+                PUBLICEREN
                 <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                    <path d="M0 0h24v24H0z" fill="none" />
-                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                    <path d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
                 </svg>
             </a>
         }
+        <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.ArticleId" class="btn button-cancel">
+            VERWIJDEREN
+            <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
+            </svg>
+        </a>
+        <input type="submit" asp-action="Delete" asp-route-id="@Model.ArticleId" hidden id="@Model.ArticleId"/>
+    }
+    <a asp-action="Index" class="btn button-cancel mt-3 mt-3">
+        TERUG NAAR OVERZICHT
+        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
+        </svg>
+    </a>
+    <br/>
 </div>
+
+<script>
+    function ConfirmDelete(id) {
+        const conbtn2 = document.getElementById(id);
+
+        let text = "Weet je zeker dat u deze podcast wilt verwijderen?"
+        if (confirm(text) == true) {
+            conbtn2.click();
+        }
+        else {
+            console.log("test");
+        }
+    }
+</script>

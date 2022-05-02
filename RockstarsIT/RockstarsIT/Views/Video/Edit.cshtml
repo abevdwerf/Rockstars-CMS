@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1 class="mt-3">Edit</h1>
 
 <h4>Video</h4>
 <hr />
@@ -12,47 +12,67 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row g-3">
                 <div class="col-md-6 mb-3">
-                    <label asp-for="Title" class="control-label"></label>
+                    <label asp-for="Title" class="control-label" lang="nl">Titel:</label>
+                    <label asp-for="Title" class="control-label" lang="en-uk">Title:</label>
                     <input asp-for="Title" class="form-control" />
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label asp-for="RockstarId" class="control-label"></label>
+                    <label asp-for="RockstarId" class="control-label">Rockstar:</label>
                     <select asp-for="RockstarId" class ="form-control" asp-items="ViewBag.RockstarNames"></select>
                 </div>
 
                 <div class="col-md-6">
-                    <label asp-for="Link" class="control-label"></label>
-                    <input asp-for="Link" class="form-control" required />
+                    <label asp-for="Link" class="control-label">Link:</label>
+            @if (ViewBag.Link.Length == 11)
+            {
+                <input asp-for="Link" class="form-control" required value="youtu.be/@ViewBag.Link"/>
+            }
+            else if (ViewBag.Link.Length == 9)
+            {
+                <input asp-for="Link" class="form-control" required value="vimeo.com/@ViewBag.Link"/>
+            }
+            else
+            {
+                <input asp-for="Link" class="form-control" required value=""/>
+            }
                     <span asp-validation-for="Link" class="text-danger"></span>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label asp-for="TribeId" class="control-label"></label>
+                    <label asp-for="TribeId" class="control-label">Tribe:</label>
                     <select asp-for="TribeId" class ="form-control" asp-items="ViewBag.TribeNames"></select>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label asp-for="Description" class="control-label"></label>
+                    <label asp-for="Description" class="control-label" lang="nl">Beschrijving:</label>
+                    <label asp-for="Description" class="control-label" lang="en-uk">Description:</label>
                     <textarea asp-for="Description" class="form-control"></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
             </div>
-            <div class="col-md-6">
-                <button type="submit" value="Edit" class="btn button">
-                    WIJZIGINGEN OPSLAAN
+             <button type="submit" value="Edit" class="btn button">
+                 WIJZIGINGEN OPSLAAN
+                 <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                     <path d="M0 0h24v24H0z" fill="none" />
+                     <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                 </svg>
+             </button>
+             <div>
+                 <a asp-action="Details" asp-route-id="@Model.VideoId" class="btn button mr-2 mt-3">
+                    DETAILS
                     <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                         <path d="M0 0h24v24H0z" fill="none" />
-                         <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                     </svg>
-                </button>
-                <a asp-action="Index" class="btn button-cancel ml-3">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                    </svg>
+                </a>
+                <a asp-action="Index" class="btn button-cancel mr-2 mt-3">
                     TERUG NAAR OVERZICHT
                     <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                         <path d="M0 0h24v24H0z" fill="none" />
-                         <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                     </svg>
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                    </svg>
                 </a>
             </div>
-        </form>
+         </form>
 @section Scripts {
     @{
     await Html.RenderPartialAsync("_ValidationScriptsPartial");

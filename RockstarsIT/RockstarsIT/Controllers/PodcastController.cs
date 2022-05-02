@@ -21,6 +21,8 @@ namespace RockstarsIT.Controllers
         // GET: Podcast
         public async Task<IActionResult> Index()
         {
+            string dataShowType = HttpContext.Request.Query["view"].ToString();
+            ViewData["DataShowType"] = dataShowType;
             var databaseContext = _context.Podcasts.Include(p => p.Auteur).Include(p => p.Tribe);
             return View(await databaseContext.ToListAsync());
         }
@@ -171,7 +173,7 @@ namespace RockstarsIT.Controllers
                 _context.Entry(podcast).Property(r => r.DatePublished).IsModified = true;
             }
             _context.Entry(podcast).Property(r => r.PublishedStatus).IsModified = true;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
     }
