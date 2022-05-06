@@ -8,14 +8,13 @@ namespace RockstarsIT.Models
 {
     public class Spotify
     {
-        private string _clientId = "f5bfb02b6b684aa0a51059c31b4fd0f2";
-        private string _clientSecret = "a9f624e83e96464b9685ce5cbcbf19c2";
-        
+        readonly SpotifyCredentials credentials = new SpotifyCredentials();
+
         public string GetAccessToken()
         {
             string url5 = "https://accounts.spotify.com/api/token";
-            var clientid = _clientId;
-            var clientsecret = _clientSecret;
+            var clientid = credentials.ClientId;
+            var clientsecret = credentials.ClientSecret;
             //request to get the access token
             var encode_clientid_clientsecret = Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Format("{0}:{1}", clientid, clientsecret)));
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url5);

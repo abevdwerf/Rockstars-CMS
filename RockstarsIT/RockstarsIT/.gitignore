@@ -737,3 +737,4 @@ riderModule.iml
 /_ReSharper.Caches/
 .idea
 .vs/
+/Models/SpotifyCredentials.cs
