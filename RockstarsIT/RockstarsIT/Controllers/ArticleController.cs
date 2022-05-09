@@ -118,6 +118,8 @@ namespace RockstarsIT.Controllers
                 return NotFound();
             }
 
+            ModelState.Remove("Images");
+
             if (ModelState.IsValid)
             { 
                 try
@@ -178,8 +180,10 @@ namespace RockstarsIT.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> UploadImage(Article article)
+        public async Task<ActionResult> UploadImage(Article article)
         {
+            if (ModelState.IsValid)
+            {
                 if (article.Images != null)
                 {
                     var list = new List<Tuple<int, string>>();
@@ -206,15 +210,16 @@ namespace RockstarsIT.Controllers
                             ArticleId = article.ArticleId,
                             URL = blob.Uri.ToString()
                         };
-                        
+
                         _context.Add(articleImages);
                         await _context.SaveChangesAsync();
                         list.Add(new Tuple<int, string>(articleImages.ArticleImageId, articleImages.URL));
                     }
                     return Json(new { Success = true, ArticleImages = list, Message = "Afbeelding geüpload." });
                 }
+            }
 
-                return Json(new { Success = false, Message = "Geen afbeelding." });
+            return Json(new { Success = false, Message = "Geen afbeelding." });
         }
 
         [HttpPost]

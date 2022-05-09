@@ -106,21 +106,25 @@
     </div>
 </div>
 <div class="form-group">
-    <label asp-for="Images" class="control-label">Afbeeldingen</label>
-    <div class="row">
-        <div class="col-md-5">
-            <div class="custom-file upload__box">
-                <input asp-for="Images" class="custom-file-input upload__inputfile" multiple id="customFile">
-                <label asp-for="Images" class="custom-file-label" for="customFile" data-browse="Bestand kiezen"></label>
-                <span asp-validation-for="Images" class="text-danger"></span>
+    <form id="frmUpload">
+        <label asp-for="Images" class="control-label">Afbeeldingen</label>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="custom-file upload__box">
+                    <input asp-for="Images" class="custom-file-input upload__inputfile" multiple id="customFile">
+                    <label asp-for="Images" class="custom-file-label" for="customFile" data-browse="Bestand kiezen"></label>
+                    <span asp-validation-for="Images" class="text-danger"></span>
+                </div>
+            </div>
+      
+            <div class="col-md-2">
+                <button type="submit" id="upload" class="btn button">UPLOAD</button>
+            </div>
+            <div id="loading">
+                <p>Loading...</p>
             </div>
         </div>
-      
-        <div class="col-md-2">
-            <button id="upload" class="btn button">UPLOAD</button>
-        </div>
-    </div>
-        
+    </form>   
 </div>
 <div class="form-group">
     <div id="wrap" class="upload__img-wrap row flex-nowrap overflow-auto">
@@ -158,16 +162,16 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
-        $('#customFile').on('change',
-            function(e) {
+        jQuery(document).ready(function () {
+            $("#loading").hide();
+
+            $('#customFile').on('change',function(e) {
                 //get the file name
                 var fileName = e.target.files[0].name;
                 //replace the "Choose a file" label
                 $(this).next('.custom-file-label').html(fileName);
                 document.getElementById("upload").focus()
             });
-
-        jQuery(document).ready(function () {
 
             $('#add-tab').click(function () {
 
@@ -266,11 +270,22 @@
             });
 
             //upload image
-            $('#upload').click(function (event) {
+            $('#upload').click(function () {
+                
+                if ($('#frmUpload').valid()) {
+                    $('#frmUpload').submit();
+                }
+                else {
+                    return false;
+                }
+            });
+
+            $('#frmUpload').on("submit", function (event) {
                 if (window.FormData !== undefined) {  
-  
-                    var fileUpload = $("#customFile").get(0);  
-                    var files = fileUpload.files;  
+                    event.preventDefault();
+                    $('#upload').attr('disabled', 'disabled');
+                    $("#loading").show();
+                    var files = $("#customFile").get(0).files;  
               
                     // Create FormData object  
                     var data = new FormData();  
@@ -293,8 +308,7 @@
                         processData: false, // Not to process data  
                         success: function (response) {  
                             if (response.Success) {
-
-                                alert(response.Message);
+                                $("#loading").hide();
                                 //show image
                                 for (const element of response.ArticleImages) {
                                     var html = "<div class='upload__img-box col-3'><div style='background-image: url(" + element.Item2 + ")' class='img-bg'><div id='delete' data-id='" + element.Item1 + "' class='upload__img-close'></div></div></div>";
@@ -303,6 +317,7 @@
                                 //reset file input
                                 $('#customFile').val('');
                                 $('#customFile').next('.custom-file-label').html("Selecteer een of meerdere afbeeldingen");
+                                $('#upload').removeAttr('disabled');
                             }
                         },  
                         error: function (response) { 
@@ -344,7 +359,6 @@
                 }  
             });  
           });
-
         });
     </script>
 }

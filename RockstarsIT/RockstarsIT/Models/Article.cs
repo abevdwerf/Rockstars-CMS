@@ -71,7 +71,7 @@ namespace RockstarsIT.Models
             set => _viewCount = value;
         }
 
-        //[Required]
+        [Required(ErrorMessage = "Geen afbeelding geselecteerd")]
         [Display(Name = "Selecteer een of meerdere afbeeldingen")]
         [NotMapped]
         public IFormFileCollection Images { get; set; }
