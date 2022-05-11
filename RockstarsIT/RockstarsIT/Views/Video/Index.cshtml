@@ -8,12 +8,8 @@
 <h1 lang="en-uk" class="mt-3">VIDEOS</h1>
 <div class="row">
     <div class="col-md-6  text-left">
-        <a asp-action="Create" class="btn button">
-            NIEUW VIDEO
-            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-            </svg>
+        <a asp-action="Create" class="btn button">NIEUWE VIDEO
+            <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
         </a>
         <br/>
         <br/>
@@ -42,13 +38,6 @@
 @if(ViewData["DataShowType"].ToString() == "grid")
 {
     <table class="table table-bordered bg-light">
-
-<p>
-    <a asp-action="Create" class="btn button">NIEUWE VIDEO
-        <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
-    </a>
-</p>
-<table class="table table-bordered bg-light">
     <thead class="thead-dark">
         <tr>
             <th lang="nl">
@@ -189,7 +178,7 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
       </div>
       <ul class="list-group list-group-flush">
          <li class="list-group-item"  style="background-color:#FFE000">
-            <a asp-action="Details" asp-route-id="@item.VideoId" class="card-link btn button-white">
+            <a asp-action="Edit" asp-route-id="@item.VideoId" class="card-link btn button-white">
                LEZEN
                <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                   <path d="M0 0h24v24H0z" fill="none" />
