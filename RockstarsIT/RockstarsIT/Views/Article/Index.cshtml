@@ -9,10 +9,7 @@
     <div class="col-md-6  text-left">
         <a asp-action="Create" class="btn button">
             NIEUW ARTIKEL
-            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-            </svg>
+            <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
         </a>
         <br/>
         <br/>
@@ -95,19 +92,22 @@
             <td>
                 @if(item.PublishedStatus)
                 {
-                    <a asp-action="ChangeStatus" asp-route-id="@item.ArticleId" asp-route-status="false" class="btn btn-danger">Depubliceren</a>
+                    <a asp-action="ChangeStatus" asp-route-id="@item.ArticleId" asp-route-status="false" class="btn text-black">
+                        CONCEPT
+                        <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
+                    </a>
                 }
                 else{
-                    <a asp-action="ChangeStatus" asp-route-id="@item.ArticleId" asp-route-status="true" class="btn btn-success">Publiceren</a>
+                    <a asp-action="ChangeStatus" asp-route-id="@item.ArticleId" asp-route-status="true" class="btn text-black">
+                        PUBLICEREN
+                        <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
+                    </a>
                 }
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.ArticleId" class="btn button mr-2">
-                    DETAILS
-                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                    </svg>
+                <a asp-action="Edit" asp-route-id="@item.ArticleId" class="btn button mr-2">
+                    BEWERKEN
+                    <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
                 </a>
             </td>
         </tr>
@@ -127,12 +127,9 @@
       </div>
       <ul class="list-group list-group-flush">
          <li class="list-group-item"  style="background-color:#FFE000">
-            <a asp-action="Details" asp-route-id="@item.ArticleId" class="card-link btn button-white">
-               LEZEN
-               <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-               </svg>
+            <a asp-action="Edit" asp-route-id="@item.ArticleId" class="card-link btn button-white">
+               BEWERKEN
+            <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
             </a>
          </li>
       </ul>
