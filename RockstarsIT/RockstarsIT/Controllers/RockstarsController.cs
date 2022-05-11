@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -16,6 +17,7 @@ using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
 {
+    [Authorize]
     public class RockstarsController : Controller
     {
         private readonly DatabaseContext _context;
