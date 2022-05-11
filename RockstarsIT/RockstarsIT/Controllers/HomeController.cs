@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -23,11 +25,50 @@ namespace RockstarsIT.Controllers
         public IActionResult Index()
         {
             //var test = _context.Videos.Select(a => a.ViewCount).Union(_context.Article.Select(v => v.ViewCount)).Union(_context.Podcasts.Select(p => p.ViewCount)).Take(5).ToList();
-            //var articles = _context.Article.Select(item => item.ViewCount).Concat(_context.Videos.Select(s => s.ViewCount)).Concat(_context.Videos.Select(t => t.ViewCount));
-            //List<Video> videos = _context.Videos.OrderByDescending(item => item.ViewCount).Take(5).ToList();
+            //var articles = _context.Article.Select(item => new Dictionary<string, int>() { "test", item.ArticleId }).ToList();
+            //var videos = _context.Videos.Select(item => new List<int> { item.ViewCount, item.VideoId }).ToList();
+            //var podcasts = _context.Podcasts.Select(item => new List<string> { item.ViewCount.ToString(), item.PodcastId.ToString() }).ToList();
+
+            //articles.AddRange(videos);
+            //articles.AddRange(podcasts);
+            ArrayList listOfObjects = new ArrayList();
+            ArrayList finalList = new ArrayList();
+
+            if (_context.Article.Any())
+            {
+                List<Article> articles = _context.Article.OrderByDescending(item => item.ViewCount).Take(5).ToList();
+                listOfObjects.AddRange(articles);
+            }
+            if (_context.Podcasts.Any())
+            {
+                List<Video> videos = _context.Videos.OrderByDescending(item => item.ViewCount).Take(5).ToList(); 
+                listOfObjects.AddRange(videos);
+            }
+            if (_context.Podcasts.Any())
+            {
+                List<Podcast> podcasts = _context.Podcasts.OrderByDescending(item => item.ViewCount).Take(5).ToList();
+                listOfObjects.AddRange(podcasts);
+            }
+
             //List<Podcast> podcasts = _context.Podcasts.OrderByDescending(item => item.ViewCount).Take(5).ToList();
 
             //List<Object> list = new List<Object>()
+
+            int test = 0;
+            //listOfObjects.Sort((o, a));
+            foreach (var item in listOfObjects)
+            {
+                int iets = (int)item.GetType().GetProperty("ViewCount").GetValue(item);
+                if (iets > test)
+                {
+
+                }
+
+                //foreach (var propertyInfo in item)
+                //{
+                //    var iets = propertyInfo;
+                //}
+            }
 
             //List<Object> cmonbined = new List<Object>();
             //cmonbined.Add(articles);
