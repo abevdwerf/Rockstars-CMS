@@ -13,8 +13,10 @@ namespace RockstarsIT.Models
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Article> Article { get; set; }
         public DbSet<ArticleImages> ArticleImages { get; set; }
+        public DbSet<ArticleTextBlocks> ArticleTextBlocks { get; set; }
         public DbSet<Podcast> Podcasts { get; set; }
         public DbSet<Video> Videos { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             Tribe tribe1 = new Tribe()
@@ -29,6 +31,7 @@ namespace RockstarsIT.Models
             Rockstar rockstar1 = new Rockstar()
             {
                 RockstarId = 1,
+                Name = "Erik",
                 Description = "test 123",
                 LinkedIn = "linked.com/",
                 Tribe = null
@@ -67,11 +70,19 @@ namespace RockstarsIT.Models
                 ArticleId = 1,
                 RockstarId = 1,
                 Title = "Tekst",
-                Description = "test 123",
-                Author = "The Noso",
+                Description = "test 123"
             };
 
             builder.Entity<Article>().HasData(article1);
+
+            ArticleTextBlocks articleTextBlocks1 = new ArticleTextBlocks()
+            {
+                ArticleTextBlockId = 1,
+                ArticleId = 1,
+                Text = "lorem impsum"
+            };
+
+            builder.Entity<ArticleTextBlocks>().HasData(articleTextBlocks1);
         }
     }
 }

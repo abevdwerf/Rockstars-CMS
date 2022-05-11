@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
 {
+    [Authorize]
     public class VideoController : Controller
     {
         private readonly DatabaseContext _context;
@@ -21,6 +23,8 @@ namespace RockstarsIT.Controllers
         // GET: Video
         public async Task<IActionResult> Index()
         {
+            string dataShowType = HttpContext.Request.Query["view"].ToString();
+            ViewData["DataShowType"] = dataShowType;
             var databaseContext = _context.Videos.Include(v => v.Rockstar).Include(v => v.Tribe);
             return View(await databaseContext.ToListAsync());
         }
@@ -86,6 +90,8 @@ namespace RockstarsIT.Controllers
             {
                 return NotFound();
             }
+            video.Rockstar = await _context.Rockstars.FindAsync(video.RockstarId);
+            video.Tribe = await _context.Tribes.FindAsync(video.TribeId);
             ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
             ViewBag.Link = video.Link;
@@ -124,11 +130,11 @@ namespace RockstarsIT.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", video.RockstarId);
+                ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", video.TribeId);
+                return RedirectToAction("Edit", new { id = video.VideoId });
             }
-            ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", video.RockstarId);
-            ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", video.TribeId);
-            return View(video);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Video/Delete/5
@@ -176,7 +182,7 @@ namespace RockstarsIT.Controllers
                 _context.Entry(video).Property(r => r.DatePublished).IsModified = true;
             }
             _context.Entry(video).Property(r => r.PublishedStatus).IsModified = true;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

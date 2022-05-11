@@ -87,7 +87,9 @@ body {
     line-height: 60px; /* Vertically center the text there */
 }
 
-
+.footer-dash {
+    position: relative;
+}
 /* eigen styles */
 
 .textbox {
@@ -127,6 +129,18 @@ a:hover {
     text-decoration: none;
 }
 /* normale button */
+.btn{
+    background-color: none;
+}
+a{
+    text-decoration: none;
+}
+td{
+    color: black;
+}
+.nielstest{
+    color:black;
+}
 .button {
     background-color: var(--mainColor);
     padding: 10px 24px;
@@ -186,11 +200,10 @@ a:hover {
 /* background */
 body {
     background-image: url("../img/bg/TeamRockstars-lockscreen-3840x2160-without-logo.png");
-    /*background-image: url("../img/bg/Achtergrond 1 RockstarsIT.svg");*/
-    /*background-image: url("../img/bg/Achtergrond 2 RockstarsIT.svg");*/
+    background-attachment: fixed;
     background-position: center;
-    Center the image */ background-repeat: no-repeat; /* Do not repeat the image */
-    background-size: cover; /* Resize the background image to cover the entire container */
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 /* topnav  #343A40*/
 .topnav {
@@ -200,6 +213,9 @@ body {
 .footer {
     background-color: #343A40;
     color: white;
+}
+.footer-dash{
+    position: relative;
 }
 /* nav items*/
 .navGo {
@@ -214,25 +230,82 @@ body {
     background-color: #1c1c1c;
 }
 /* actieve nav items*/
-.active{
+.nav-active {
     background-color: black;
     color: white;
 }
 /*Text naar wit maken*/
-h1 {
+h1, h2, h3, h4 {
     color: white;
-    -webkit-text-stroke: 1px black;
+    /*-webkit-text-stroke: 1px black;*/
 }
 h2 {
     color: white;
-    -webkit-text-stroke: 0.8px black;
+    /*-webkit-text-stroke: 0.8px black;*/
 }
 dl {
     color: white;
-    -webkit-text-stroke: 0.3px black;
+    /*-webkit-text-stroke: 0.3px black;*/
 }
 label {
     color: white;
-    -webkit-text-stroke: 0.3px black;
+    /*-webkit-text-stroke: 0.3px black;*/
 }
 
+@media only screen and (max-width: 1200px) {
+    .kleineImg {
+       width: 12%;
+    }
+}
+
+@media only screen and (max-width: 1380px) {
+    .kleineImg {
+        width: 10%;
+    }
+}
+
+/*upload picture - article edit page*/
+
+.upload__img-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px;
+}
+
+.upload__img-box {
+    width: 200px;
+    padding: 0 10px;
+    margin-bottom: 12px;
+}
+
+.upload__img-close {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    text-align: center;
+    line-height: 24px;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.upload__img-close:after {
+    content: "\2716";
+    font-size: 14px;
+    color: white;
+}
+
+.img-bg {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    padding-bottom: 70%;
+}
+
+.article-text-container {
+    background-color: white;
+}

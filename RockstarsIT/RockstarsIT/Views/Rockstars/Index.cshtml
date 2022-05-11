@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>ROCKSTARS</h1>
+<h1 class="mt-3">ROCKSTARS</h1>
 
 <p>
     <a asp-action="Create" class="btn button">
@@ -51,49 +51,15 @@
                 @Html.DisplayFor(modelItem => item.LinkedIn)
             </td>
             <td>
-                @using (Html.BeginForm(FormMethod.Post))
-                {
-                    <a asp-action="Edit" asp-route-id="@item.RockstarId" class="btn button mr-2" >
-                        BEWERKEN
-                        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                            <path d="M0 0h24v24H0z" fill="none" />
-                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                        </svg>
-                    </a> 
-                    <a asp-action="Details" asp-route-id="@item.RockstarId" class="btn button mr-2">
-                        DETAILS
-                        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                            <path d="M0 0h24v24H0z" fill="none" />
-                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                        </svg>
-                    </a>
-
-                    <a onclick="ConfirmDelete(this.name)" href="#" name="@item.RockstarId" class="btn button-cancel">
-                        VERWIJDEREN
-                        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                            <path d="M0 0h24v24H0z" fill="none" />
-                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                        </svg>
-                    </a>
-                    <input class="btn button-cancel" type="submit" asp-action="Delete" asp-route-id="@item.RockstarId" hidden id="@item.RockstarId" />
-                }
+                <a asp-action="Details" asp-route-id="@item.RockstarId" class="btn button mr-2">
+                    DETAILS
+                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                    </svg>
+                </a>
             </td>
         </tr>
 }
     </tbody>
 </table>
-
-<script>
-    function ConfirmDelete(id) {
-        const conbtn = document.getElementById("test");
-        const conbtn2 = document.getElementById(id);
-
-        let text = "Weet je zeker dat u deze rockstar wilt verwijderen?"
-        if (confirm(text) == true) {
-            conbtn2.click();
-        }
-        else {
-            console.log("test");
-        }
-    }
-</script>

@@ -1,26 +1,31 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using RockstarsIT.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
 {
+    [Authorize]
     public class ArticleController : Controller
     {
         private readonly DatabaseContext _context;
-        private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly string _azureConnectionString;
 
-        public ArticleController(DatabaseContext context, IWebHostEnvironment hostEnvironment)
+        public ArticleController(DatabaseContext context, IConfiguration configuration)
         {
             _context = context;
-            this._hostEnvironment = hostEnvironment;
+            _azureConnectionString = configuration.GetConnectionString("ConnectionStringBlob");
         }
 
         // GET: Article
@@ -54,7 +59,7 @@ namespace RockstarsIT.Controllers
         // GET: Article/Create
         public IActionResult Create()
         {
-            ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId");
+            ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
             ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             return View();
         }
@@ -64,36 +69,22 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ArticleId,RockstarId,Title,Description,Author,Images,Text")] Article article)
+        public async Task<IActionResult> Create([Bind("ArticleId,RockstarId,Title,Description,Images,Text")] Article article)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(article);
                 await _context.SaveChangesAsync();
-                if (article.Images != null)
+
+                //create ArticleTextBlock
+                var articleTextBlocks = new ArticleTextBlocks()
                 {
-                    string folder = "img/article/";
+                    ArticleId = article.ArticleId
+                };
 
-
-
-                    article.articleImages = new List<ArticleImages>();
-
-
-
-                    foreach (var file in article.Images)
-                    {
-                        var images = new ArticleImages()
-                        {
-                            Article = article,
-                            ImageName = file.FileName,
-                            URL = await UploadImage(folder, file)
-                        };
-                        article.articleImages.Add(images);
-                    }
-                }
-
-                _context.Add(article);
+                _context.Add(articleTextBlocks);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", article.RockstarId);
@@ -108,12 +99,12 @@ namespace RockstarsIT.Controllers
                 return NotFound();
             }
 
-            var article = await _context.Article.FindAsync(id);
+            var article = await _context.Article.Include(a => a.ArticleImages).Include(a => a.ArticleTextBlocks).FirstOrDefaultAsync(m => m.ArticleId == id);
             if (article == null)
             {
                 return NotFound();
             }
-            ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", article.RockstarId);
+            ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
             return View(article);
         }
 
@@ -122,15 +113,17 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ArticleId,RockstarId,Title,Description,Author,Image,Text")] Article article)
+        public async Task<IActionResult> Edit(int id, [Bind("ArticleId,RockstarId,Title,Description")] Article article)
         {
             if (id != article.ArticleId)
             {
                 return NotFound();
             }
 
+            ModelState.Remove("Images");
+
             if (ModelState.IsValid)
-            {
+            { 
                 try
                 {
                     _context.Update(article);
@@ -188,16 +181,59 @@ namespace RockstarsIT.Controllers
             return _context.Article.Any(e => e.ArticleId == id);
         }
 
-        private async Task<string> UploadImage(string folderPath, IFormFile file)
+        [HttpPost]
+        public async Task<ActionResult> UploadImage(Article article)
         {
+            if (ModelState.IsValid)
+            {
+                if (article.Images != null)
+                {
+                    var list = new List<Tuple<int, string>>();
 
-            folderPath += Guid.NewGuid().ToString() + "_" + file.FileName;
+                    foreach (var file in article.Images)
+                    {
+                        string currentFileName = Path.GetFileNameWithoutExtension(file.FileName);
+                        string extension = Path.GetExtension(file.FileName);
+                        string newFileName = currentFileName + DateTime.Now.ToString("yymmsfff") + extension;
 
-            string serverFolder = Path.Combine(_hostEnvironment.WebRootPath, folderPath);
+                        var container = new BlobContainerClient(_azureConnectionString, "article-images");
 
-            await file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+                        // Method to create a new Blob client.
+                        var blob = container.GetBlobClient(newFileName);
 
-            return "/" + folderPath;
+                        // Create a file stream and use the UploadSync method to upload the Blob.
+                        using (var fileStream = file.OpenReadStream())
+                        {
+                            await blob.UploadAsync(fileStream, new BlobHttpHeaders { ContentType = file.ContentType });
+                        }
+
+                        var articleImages = new ArticleImages()
+                        {
+                            ArticleId = article.ArticleId,
+                            URL = blob.Uri.ToString()
+                        };
+
+                        _context.Add(articleImages);
+                        await _context.SaveChangesAsync();
+                        list.Add(new Tuple<int, string>(articleImages.ArticleImageId, articleImages.URL));
+                    }
+                    return Json(new { Success = true, ArticleImages = list, Message = "Afbeelding geüpload." });
+                }
+            }
+
+            return Json(new { Success = false, Message = "Geen afbeelding." });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> DeleteImage(IFormCollection formcollection)
+        {
+            int articleImageId = int.Parse(formcollection["ArticleImageId"]);
+
+            var articleImage = await _context.ArticleImages.FindAsync(articleImageId);
+            _context.Remove(articleImage);
+            await _context.SaveChangesAsync();
+
+            return Json(new { Success = true, Message = "Afbeelding verwijderd." });
         }
 
         public async Task<IActionResult> ChangeStatus(int id, bool status)
@@ -209,8 +245,44 @@ namespace RockstarsIT.Controllers
                 _context.Entry(article).Property(r => r.DatePublished).IsModified = true;
             }
             _context.Entry(article).Property(r => r.PublishedStatus).IsModified = true;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Redirect("/Article/Index?view=grid");
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> AddTextblock(Article article)
+        {
+            var articleTextBlocks = new ArticleTextBlocks()
+            {
+                ArticleId = article.ArticleId
+            };
+
+            _context.Add(articleTextBlocks);
+            await _context.SaveChangesAsync();
+            article = await _context.Article.Include(a => a.ArticleTextBlocks).FirstOrDefaultAsync(m => m.ArticleId == article.ArticleId);
+
+            return Json(new { Success = true, ArticleTextblockId = articleTextBlocks.ArticleTextBlockId, Message = "Textblock added" });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> DeleteTextBlock(IFormCollection formcollection)
+        {
+            int articleTextBlockId = int.Parse(formcollection["ArticleTextBlockId"]);
+
+            var articleTextBlock = await _context.ArticleTextBlocks.FindAsync(articleTextBlockId);
+            _context.Remove(articleTextBlock);
+            await _context.SaveChangesAsync();
+
+            return Json(new { Success = true, Message = "Text deleted." });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> SaveTextblock(ArticleTextBlocks articleTextBlocks)
+        {
+            _context.Update(articleTextBlocks);
+            await _context.SaveChangesAsync();
+
+            return Json(new { Success = true, Message = "Textblock saved." });
         }
     }
 }

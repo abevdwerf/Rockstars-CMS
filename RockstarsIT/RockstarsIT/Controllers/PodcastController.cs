@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
 {
+    [Authorize]
     public class PodcastController : Controller
     {
         private readonly DatabaseContext _context;
@@ -21,6 +23,8 @@ namespace RockstarsIT.Controllers
         // GET: Podcast
         public async Task<IActionResult> Index()
         {
+            string dataShowType = HttpContext.Request.Query["view"].ToString();
+            ViewData["DataShowType"] = dataShowType;
             var databaseContext = _context.Podcasts.Include(p => p.Auteur).Include(p => p.Tribe);
             return View(await databaseContext.ToListAsync());
         }
@@ -171,7 +175,7 @@ namespace RockstarsIT.Controllers
                 _context.Entry(podcast).Property(r => r.DatePublished).IsModified = true;
             }
             _context.Entry(podcast).Property(r => r.PublishedStatus).IsModified = true;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
     }

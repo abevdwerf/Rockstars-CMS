@@ -5,22 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - RockstarsIT</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    @*<link rel="stylesheet" href="~/css/site.css" />*@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="~/assets/fonts/fontawesome-all.min.css">
+    
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
 
     <a href="/">
-        <svg class="shadow2 ml-3" style="position: absolute" version="1.1" id="rs-logo" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 595.3 504.9" xml:space="preserve">
+        <svg class="shadow2  kleineImg" style="position: absolute;" version="1.1" id="rs-logo" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 595.3 504.9" xml:space="preserve">
         <style>
             .shadow2 {
-                height: 128px;
+                height: 110px;
                 -webkit-filter: drop-shadow(0px 1px 1px #000000) drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.15));
                 filter: drop-shadow(0px 1px 1px #000000) drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.15));
             }
+
 
             .st0,
             .st1,
@@ -66,11 +72,14 @@
         </g>
     </svg>
     </a>
-
-
+    <script>
+        if (window.screen.width < 1380) {
+            document.getElementById("rs-logo").classList.remove("ml-3");
+        }
+    </script>
     <header>
         <!--navbar-light,  box-shadow -->
-        <nav  class="navbar-expand-sm navbar-toggleable-sm shadow-lg mb-3 topnav">
+        <nav class="navbar-expand-sm navbar-toggleable-sm shadow-lg topnav">
             <div class="container">
                 <!--<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">RockstarsIT</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -116,22 +125,37 @@
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        window.onload = DetectLanguage
-        function DetectLanguage() {
-            var userLang = navigator.language || navigator.userLanguage;
-            if (userLang == 'nl')
+
+            let userLang = navigator.language || navigator.userLanguage;
+            if(localStorage.getItem("lan") == null){
+                localStorage.setItem("lan", userLang);
+            }
+
+            let detaal = localStorage.getItem("lan");
+       
+            if (detaal == 'nl')
             {
                 $('[lang="en-uk"]').hide();
+                localStorage.setItem("lan", "nl");
             }
             else
             {
                 $('[lang="nl"]').hide();
+                localStorage.setItem("lan", "en-uk");
             }
-        }
+        
 
         function SwitchLanguage() {
             $('[lang="nl"]').toggle();
             $('[lang="en-uk"]').toggle();
+            if (document.getElementById("language").style.display == "none")
+            {
+                 localStorage.setItem("lan", "en-uk");
+            }
+            else if(document.getElementById("enlanguage").style.display == "none"){
+                 localStorage.setItem("lan", "nl");
+            }
+            
         }
     </script>
     <script>
@@ -139,8 +163,6 @@
         let Location = queryString.href.split("/");
         Location = Location[3];
 
-
-        let Home = document.getElementById("Home");
         let Tribe = document.getElementById("Tribe");
         let Rockstars = document.getElementById("Rockstars");
         let Article = document.getElementById("Article");
@@ -150,33 +172,36 @@
         let VideoEn = document.getElementById("VideoEn");
 
         if (Location == "Tribe") {
-            Tribe.classList.add("active");
+            Tribe.classList.add("nav-active");
         }
         else if (Location == "Rockstars") {
-            Rockstars.classList.add("active");
+            Rockstars.classList.add("nav-active");
         }
         else if (Location == "Article") {
-            Article.classList.add("active");
-            ArticleEn.classList.add("active")
+            Article.classList.add("nav-active");
         }
         else if (Location == "Podcast") {
-            Podcast.classList.add("active");
+            Podcast.classList.add("nav-active");
         }
         else if (Location == "Video") {
-            Video.classList.add("active");
-            VideoEn.classList.add("active");
+            Video.classList.add("nav-active");
         }
         else if (Location == "") {
-            Home.classList.add("active");
+            Home.classList.add("nav-active");
         }
-
     </script>
     <!-- text-muted -->
-    <footer class="border-top border-dark footer footer">
+    <footer id="footertje" class="border-top border-dark footer">
         <div class="container">
             &copy; 2022 - RockstarsIT
         </div>
     </footer>
+
+     <script> 
+         //if (Location == "") { 
+         //    document.getElementById("footertje").classList.add("footer-dash"); 
+         //} 
+     </script> 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

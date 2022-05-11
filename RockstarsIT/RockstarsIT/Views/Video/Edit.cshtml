@@ -4,89 +4,150 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Video</h4>
+<br>
+<h1>Video</h1>
 <hr />
-         <form asp-action="Edit" onsubmit="setFormSubmitting()">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="row g-3">
-                <div class="col-md-6 mb-3">
-                    <label asp-for="Title" class="control-label" lang="nl">Titel:</label>
-                    <label asp-for="Title" class="control-label" lang="en-uk">Title:</label>
-                    <input asp-for="Title" class="form-control" />
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label asp-for="RockstarId" class="control-label">Rockstar:</label>
-                    <select asp-for="RockstarId" class ="form-control" asp-items="ViewBag.RockstarNames"></select>
-                </div>
+<form asp-action="Edit" onsubmit="setFormSubmitting()">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row g-3">
+        <div class="col-md-6 mb-3">
+            <input asp-for="VideoId" value="@Model.VideoId" hidden />
+            <input id="title" asp-for="Title" hidden />
+            <input id="tribeid" asp-for="TribeId" hidden />
+            <input id="rockstarid" asp-for="RockstarId" hidden />
+            <input id="link" asp-for="Link" hidden />
+            <input id="desc" asp-for="Description" hidden />
 
-                <div class="col-md-6">
-                    <label asp-for="Link" class="control-label">Link:</label>
-            @if (ViewBag.Link.Length == 11)
+            <label asp-for="Title" class="control-label" lang="nl">Titel:</label>
+            <label asp-for="Title" class="control-label" lang="en-uk">Title:</label>
+            <input asp-for="Title" class="form-control" value="@Model.Title" name="@Model.Title" id="titleinp" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="RockstarId" class="control-label">Rockstar:</label>
+            <select asp-for="RockstarId" class="form-control" value="@Model.Rockstar.Name" asp-items="@ViewBag.RockstarNames" name="@Model.Rockstar.Name" id="rockstarinp"></select>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Description" class="control-label" lang="nl">Beschrijving:</label>
+            <label asp-for="Description" class="control-label" lang="en-uk">Description:</label>
+            <textarea asp-for="Description" class="form-control" name="@Model.Description" id="descinp"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="TribeId" class="control-label">Tribe:</label>
+            <select asp-for="TribeId" class="form-control" asp-items="@ViewBag.TribeNames" name="@Model.Tribe.Name" id="tribeinp"></select>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            @if (Model.Link != null)
             {
-                <input asp-for="Link" class="form-control" required value="youtu.be/@ViewBag.Link"/>
-            }
-            else if (ViewBag.Link.Length == 9)
-            {
-                <input asp-for="Link" class="form-control" required value="vimeo.com/@ViewBag.Link"/>
+                <label asp-for="Link" class="control-label">Video:</label> <a onclick="OpenEditor(this.id)" id="@Model.Link" href="javascript:void(0)">Edit</a>
+                <br>
+                if (ViewBag.Link.Length == 11)
+                {
+                    <iframe width="420" height="315" name="@Model.Link" src="https://www.youtube.com/embed/@Html.DisplayFor(model => model.Link)"></iframe>
+                    <input hidden asp-for="Link" class="form-control" required value="youtu.be/@ViewBag.Link" name="@Model.Link" id="linkinp" />
+                }
+                else if (ViewBag.Link.Length == 9)
+                {
+                    <iframe width="420" height="315" name="@Model.Link" src="https://player.vimeo.com/video/@Html.DisplayFor(model => model.Link)"></iframe>
+                    <input hidden asp-for="Link" class="form-control" required value="vimeo.com/@ViewBag.Link" name="@Model.Link" id="linkinp" />
+                }
+                else
+                {
+                    <label asp-for="Link" class="control-label">Video:</label> <a onclick="OpenEditor(this.id)" id="link" href="javascript:void(0)">Edit</a> <br>
+                    <input hidden asp-for="Link" class="form-control" required name="link" value="Invalid Link" id="linkinp" />
+                }
             }
             else
             {
-                <input asp-for="Link" class="form-control" required value=""/>
+                <label asp-for="Link" class="control-label">Video:</label> <a onclick="OpenEditor(this.id)" id="@Model.Link" href="javascript:void(0)">Edit</a> <br>
+                <input hidden asp-for="Link" class="form-control" required name="@Model.Link" value="Invalid Link" id="linkinp" />
             }
-                    <span asp-validation-for="Link" class="text-danger"></span>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label asp-for="TribeId" class="control-label">Tribe:</label>
-                    <select asp-for="TribeId" class ="form-control" asp-items="ViewBag.TribeNames"></select>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label asp-for="Description" class="control-label" lang="nl">Beschrijving:</label>
-                    <label asp-for="Description" class="control-label" lang="en-uk">Description:</label>
-                    <textarea asp-for="Description" class="form-control"></textarea>
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <button type="submit" value="Edit" class="btn button">
-                    WIJZIGINGEN OPSLAAN
-                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                         <path d="M0 0h24v24H0z" fill="none" />
-                         <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                     </svg>
-                </button>
-                <a asp-action="Index" class="btn button-cancel ml-3">
-                    TERUG NAAR OVERZICHT
-                    <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                         <path d="M0 0h24v24H0z" fill="none" />
-                         <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                     </svg>
-                </a>
-            </div>
-        </form>
+            <span asp-validation-for="Link" class="text-danger"></span>
+        </div>
+    </div>
+    <div>
+        <a onclick="submitter()" value="Edit" class="btn button" id="sub" href="#" lang="nl">
+            <label lang="nl" class="text-black">TERUG NAAR OVERZICHT</label> <label lang="en-uk" class="text-black">BACK TO LIST</label>
+            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+            </svg>
+        </a>
+        <a onclick="submitter()" value="Edit" class="btn button" id="sub" href="#" lang="en-uk">
+            SAVE CHANGES
+            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+            </svg>
+        </a>
+    </div>
+    <div>
+        <a asp-action="Index" class="btn button-cancel mr-2 mt-3" lang="nl">
+            <label lang="nl" class="text-black">TERUG NAAR OVERZICHT</label> <label lang="en-uk" class="text-black">BACK TO LIST</label>
+            <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+            </svg>
+        </a>
+    </div>
+</form>
 @section Scripts {
     @{
     await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }
 }
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-var formSubmitting = false;
-var setFormSubmitting = function() { formSubmitting = true; };
+    window.onload = Open
+    var formSubmitting = false;
+    var setFormSubmitting = function() { formSubmitting = true; }
 
-window.onload = function() {
-    window.addEventListener("beforeunload", function (e) {
-        if (formSubmitting) {
-            return undefined;
+    function OpenEditor(updatefield) {
+        let editelements = document.getElementsByName(updatefield);
+        for(let i = 0; i < editelements.length;i++){
+            if(editelements[i].hidden == true){
+              editelements[i].hidden = false;
+              document.getElementById(updatefield).innerHTML = "Cancel"
+            }
+            else{
+              editelements[i].hidden = true;
+              document.getElementById(updatefield).innerHTML = "Edit"
         }
+        }
+    }
 
-        var confirmationMessage = 'It looks like you have been editing something. '
-                                + 'If you leave before saving, your changes will be lost.';
-        
-        (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-        return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-    });
-};
+    function submitter() {
+        document.getElementById("title").value = document.getElementById("titleinp").value
+        document.getElementById("rockstarid").value = document.getElementById("rockstarinp").value
+        document.getElementById("tribeid").value = document.getElementById("tribeinp").value
+        document.getElementById("desc").value = document.getElementById("descinp").value
+        document.getElementById("link").value = document.getElementById("linkinp").value
+        document.getElementById("sub").click()
+    }
+
+    function Open() {
+        window.addEventListener("beforeunload", function (e) {
+            if (formSubmitting) {
+                return undefined;
+            }
+
+            var confirmationMessage = 'It looks like you have been editing something. '
+                                    + 'If you leave before saving, your changes will be lost.';
+
+            (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+            return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+        });
+    };
+
+    window.onload = CheckLink();
+    function CheckLink () {
+        if (document.getElementById("vimeoimg").name == @Html.DisplayFor(model => model.Link))
+        {
+            document.getElementById("vimeoimg").src = ("https://vumbnail.com/" + "@Html.DisplayFor(model => model.Link)" + ".jpg");
+        }
+    }
+
+
 </script>
