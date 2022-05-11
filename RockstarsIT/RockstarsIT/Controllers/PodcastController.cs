@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,8 +10,10 @@ using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
 {
+    [Authorize]
     public class PodcastController : Controller
     {
+        Spotify spotify = new Spotify();
         private readonly DatabaseContext _context;
 
         public PodcastController(DatabaseContext context)
@@ -21,29 +24,12 @@ namespace RockstarsIT.Controllers
         // GET: Podcast
         public async Task<IActionResult> Index()
         {
+            string dataShowType = HttpContext.Request.Query["view"].ToString();
+            ViewData["DataShowType"] = dataShowType;
             var databaseContext = _context.Podcasts.Include(p => p.Auteur).Include(p => p.Tribe);
             return View(await databaseContext.ToListAsync());
         }
-
-        // GET: Podcast/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var podcast = await _context.Podcasts
-                .Include(p => p.Auteur)
-                .Include(p => p.Tribe)
-                .FirstOrDefaultAsync(m => m.PodcastId == id);
-            if (podcast == null)
-            {
-                return NotFound();
-            }
-
-            return View(podcast);
-        }
+        
 
         // GET: Podcast/Create
         public IActionResult Create()
@@ -58,8 +44,10 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PodcastId,Titel,Omschrijving,URL,RockstarId,TribeId")] Podcast podcast)
+        public async Task<IActionResult> Create([Bind("PodcastId,URL,RockstarId,TribeId")] Podcast podcast)
         {
+            podcast.Titel = spotify.GetTitle(spotify.GetSpotifyLinkId(podcast.URL));
+            podcast.Omschrijving = spotify.GetDescription(spotify.GetSpotifyLinkId(podcast.URL));
             if (ModelState.IsValid)
             {
                 _context.Add(podcast);
@@ -126,26 +114,6 @@ namespace RockstarsIT.Controllers
             return View(podcast);
         }
 
-        // GET: Podcast/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var podcast = await _context.Podcasts
-                .Include(p => p.Auteur)
-                .Include(p => p.Tribe)
-                .FirstOrDefaultAsync(m => m.PodcastId == id);
-            if (podcast == null)
-            {
-                return NotFound();
-            }
-
-            return View(podcast);
-        }
-
         // POST: Podcast/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -160,6 +128,19 @@ namespace RockstarsIT.Controllers
         private bool PodcastExists(int id)
         {
             return _context.Podcasts.Any(e => e.PodcastId == id);
+        }
+
+        public async Task<IActionResult> ChangeStatus(int id, bool status)
+        {
+            var podcast = new Podcast { PodcastId = id, DatePublished = DateTime.Now, PublishedStatus = status };
+            _context.Attach(podcast);
+            if (status)
+            {
+                _context.Entry(podcast).Property(r => r.DatePublished).IsModified = true;
+            }
+            _context.Entry(podcast).Property(r => r.PublishedStatus).IsModified = true;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

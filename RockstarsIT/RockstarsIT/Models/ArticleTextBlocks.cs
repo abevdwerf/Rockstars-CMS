@@ -3,23 +3,27 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RockstarsIT.Models
 {
-    public class ArticleImages
+    public class ArticleTextBlocks
     {
         private Article _article;
-        private string _url;
+        private string _text;
 
         [Key]
-        public int ArticleImageId { get; set;  }
+        public int ArticleTextBlockId { get; set; }
 
         [ForeignKey(name: "ArticleId")]
         public int? ArticleId { get; set; }
+
         public virtual Article Article
         {
             get => _article;
             set => _article = value;
         }
 
-        public string URL { get { return _url; } set { _url = value; } }
-
+        public string Text
+        {
+            get => _text;
+            set => _text = value;
+        }
     }
 }

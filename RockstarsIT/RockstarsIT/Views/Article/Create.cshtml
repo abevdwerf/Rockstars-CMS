@@ -4,57 +4,34 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>ARTIKEL AANMAKEN</h1>
+<h1 class="mt-3">ARTIKEL AANMAKEN</h1>
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="RockstarId" class="control-label"></label>
-                <select asp-for="RockstarId" class="form-control" asp-items="ViewBag.RockstarId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label">Titel</label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label">Beschrijving</label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Author" class="control-label">Auteur</label>
-                <input asp-for="Author" class="form-control" />
-                <span asp-validation-for="Author" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Text" class="control-label">Inhoud</label>
-                <textarea asp-for="Text" class="form-control"></textarea>
-                <span asp-validation-for="Text" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Images" class="control-label">Afbeelding</label>
-                <div class="custom-file">
-                    <input asp-for="Images" class="custom-file-input" id="customFile">
-                    <label class="custom-file-label" for="customFile">Choose file</label>
-                </div>
-                <span asp-validation-for="Images" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button type="submit" value="Create" class="btn button">
-                    ARTIKEL PUBLICEREN
-                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                    </svg>
-                </button>
-            </div>
-        </form>
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row g-3">
+        <div class="col-md-6 mb-3">
+            <label class="control-label">Auteur</label>
+            <select asp-for="RockstarId" class="form-control" asp-items="ViewBag.RockstarNames"></select>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Title" class="control-label">Titel</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Description" class="control-label">Beschrijving</label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
     </div>
-</div>
+    <div class="form-group">
+        <button type="submit" value="Create" class="btn button">
+            ARTIKEL TOEVOEGEN
+            <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
+        </button>
+    </div>
+</form>
 
 <a asp-action="Index" class="btn button-cancel">
     TERUG NAAR OVERZICHT

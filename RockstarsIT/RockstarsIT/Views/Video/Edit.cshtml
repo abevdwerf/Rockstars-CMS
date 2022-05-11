@@ -4,51 +4,125 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1 class="mt-3">Edit</h1>
 
 <h4>Video</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="VideoId" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Link" class="control-label"></label>
-                <input asp-for="Link" class="form-control" />
-                <span asp-validation-for="Link" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TribeId" class="control-label"></label>
-                <select asp-for="TribeId" class="form-control" asp-items="ViewBag.TribeId"></select>
-                <span asp-validation-for="TribeId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RockstarId" class="control-label"></label>
-                <select asp-for="RockstarId" class="form-control" asp-items="ViewBag.RockstarId"></select>
-                <span asp-validation-for="RockstarId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<form asp-action="Edit" onsubmit="setFormSubmitting()">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row g-3">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Title" class="control-label" lang="nl">Titel:</label>
+            <label asp-for="Title" class="control-label" lang="en-uk">Title:</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="RockstarId" class="control-label">Rockstar:</label>
+            <select asp-for="RockstarId" class ="form-control" asp-items="ViewBag.RockstarNames"></select>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Link" class="control-label">Link:</label>
+            @if (ViewBag.Link.Length == 11)
+            {
+                <input asp-for="Link" class="form-control" required value="youtu.be/@ViewBag.Link"/>
+            }
+            else if (ViewBag.Link.Length == 9)
+            {
+                <input asp-for="Link" class="form-control" required value="vimeo.com/@ViewBag.Link"/>
+            }
+            else
+            {
+                <input asp-for="Link" class="form-control" required value=""/>
+            }
+            <span asp-validation-for="Link" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="TribeId" class="control-label">Tribe:</label>
+            <select asp-for="TribeId" class ="form-control" asp-items="ViewBag.TribeNames"></select>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Description" class="control-label" lang="nl">Beschrijving:</label>
+            <label asp-for="Description" class="control-label" lang="en-uk">Description:</label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
     </div>
-</div>
-
+             
+    <div>
+        @using (Html.BeginForm(FormMethod.Post))
+        {
+            <button type="submit" value="Edit" class="btn button mr-3">
+                WIJZIGINGEN OPSLAAN
+                <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                    <path d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
+                </svg>
+            </button>
+            @if (@Model.PublishedStatus)
+            {
+                <a asp-action="ChangeStatus" asp-route-id="@Model.VideoId" asp-route-status="false" class="btn button mr-3">
+                    CONCEPT
+                    <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
+                </a>
+            }
+            else
+            {
+                <a asp-action="ChangeStatus" asp-route-id="@Model.VideoId" asp-route-status="true" class="btn button mr-3">
+                    PUBLICEREN
+                    <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
+                </a>
+            }
+            <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.VideoId" class="btn button-cancel">
+                VERWIJDEREN
+                <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg"/>
+            </a>
+            <input type="submit" asp-action="Delete" asp-route-id="@Model.VideoId" hidden id="@Model.VideoId"/>
+        }
+    </div>
+</form>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn button-cancel mt-3">
+        TERUG NAAR OVERZICHT
+        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
+        </svg>
+    </a>
 </div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }
+}
+
+<script>
+    var formSubmitting = false;
+    var setFormSubmitting = function() { formSubmitting = true; };
+    window.onload = function() {
+        window.addEventListener("beforeunload", function (e) {
+            if (formSubmitting) {
+                return undefined;
+            }
+    
+            var confirmationMessage = 'It looks like you have been editing something. '
+                                    + 'If you leave before saving, your changes will be lost.';
+            
+            (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+            return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+        });
+    };
+
+    function ConfirmDelete(id) {
+        const conbtn2 = document.getElementById(id);
+
+        let text = "Weet je zeker dat u deze video wilt verwijderen?"
+        if (confirm(text) == true) {
+            conbtn2.click();
+        }
+        else {
+            console.log("test");
+        }
+    }
+</script>
