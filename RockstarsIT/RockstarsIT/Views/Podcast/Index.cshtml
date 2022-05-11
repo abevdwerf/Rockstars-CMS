@@ -47,12 +47,12 @@
         <th>
             TITEL
         </th>
-        @* <th> *@
-        @*     OMSCHRIJVING *@
-        @* </th> *@
-        @* <th> *@
-        @*     URL *@
-        @* </th> *@
+        <th>
+            OMSCHRIJVING
+        </th>
+        <th>
+            URL
+        </th>
         <th>
             PREVIEW
         </th>
@@ -92,6 +92,12 @@
                 </audio>
             </td>
             <td>
+                <audio controls>
+                    <source src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))" type="audio/mp3">
+                    Your browser does not support the audio element
+                </audio>
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Auteur.Name)
             </td>
             <td>
@@ -124,48 +130,36 @@
                 }
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.PodcastId" class="btn button mr-2">
-                    DETAILS
-                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                    </svg>
-                </a>
+                @using (Html.BeginForm(FormMethod.Post))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.PodcastId" class="btn button mr-2" >
+                        BEWERKEN
+                        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                        </svg>
+                    </a> 
+                    <a asp-action="Details" asp-route-id="@item.PodcastId" class="btn button mr-2">
+                        DETAILS
+                        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                        </svg>
+                    </a>
+                    <a onclick="ConfirmDelete(this.name)" href="#" name="@item.PodcastId" class="btn button-cancel">
+                        VERWIJDEREN
+                        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                        </svg>
+                    </a>
+                    <input class="btn button-cancel" type="submit" asp-action="Delete" asp-route-id="@item.PodcastId" hidden id="@item.RockstarId" />
+                }
             </td>
         </tr>
     }
     </tbody>
 </table>
-}
-else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowType"].ToString() == "")
-{
-<div class="row">
-@foreach (var item in Model) {
-<div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch  spaceBetweenArticles">
-   <div class="card">
-       <div class="card-body">
-        <audio controls style="width: 250px">
-            <source src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))" type="audio/mp3">
-        </audio>
-         <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Titel)</h5>
-      </div>
-      <ul class="list-group list-group-flush">
-         <li class="list-group-item"  style="background-color:#FFE000">
-
-            <a asp-action="Details" asp-route-id="@item.PodcastId" class="card-link btn button-white">
-               LEZEN
-               <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-               </svg>
-            </a>
-         </li>
-      </ul>
-   </div>
-</div>
-}
-</div>
-}
 
 <script>
     function ConfirmDelete(id) {
