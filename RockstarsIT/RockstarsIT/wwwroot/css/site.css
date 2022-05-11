@@ -230,7 +230,7 @@ body {
     background-color: #1c1c1c;
 }
 /* actieve nav items*/
-.active{
+.nav-active {
     background-color: black;
     color: white;
 }
@@ -265,9 +265,6 @@ label {
 }
 
 /*upload picture - article edit page*/
-.upload__box {
-    padding: 40px;
-}
 
 .upload__img-wrap {
     display: flex;
@@ -276,7 +273,7 @@ label {
 }
 
 .upload__img-box {
-    width: 50px;
+    width: 200px;
     padding: 0 10px;
     margin-bottom: 12px;
 }
@@ -307,4 +304,8 @@ label {
     background-size: cover;
     position: relative;
     padding-bottom: 70%;
+}
+
+.article-text-container {
+    background-color: white;
 }

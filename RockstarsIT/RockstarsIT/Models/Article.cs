@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,7 +11,6 @@ namespace RockstarsIT.Models
         private Rockstar _rockstar;
         private string _title;
         private string _description;
-        private string _text;
         private Tribe _tribe;
         private DateTime _dateCreated;
         private DateTime _dateModified;
@@ -22,6 +20,7 @@ namespace RockstarsIT.Models
 
         public int ArticleId { get; set; }
         public List<ArticleImages> ArticleImages { get; set; }
+        public List<ArticleTextBlocks> ArticleTextBlocks { get; set; }
         public int? RockstarId { get; set; }
         [ForeignKey("RockstarId")]
         public virtual Rockstar Rockstar
@@ -38,11 +37,6 @@ namespace RockstarsIT.Models
         {
             get => _description; 
             set => _description = value;
-        }
-        public string Text
-        {
-            get => _text;
-            set => _text = value;
         }
         public int? TribeId { get; set; }
         [ForeignKey("TribeId")]
@@ -77,7 +71,7 @@ namespace RockstarsIT.Models
             set => _viewCount = value;
         }
 
-        //[Required]
+        [Required(ErrorMessage = "Geen afbeelding geselecteerd")]
         [Display(Name = "Selecteer een of meerdere afbeeldingen")]
         [NotMapped]
         public IFormFileCollection Images { get; set; }

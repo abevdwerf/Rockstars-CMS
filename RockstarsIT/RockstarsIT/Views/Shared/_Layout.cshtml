@@ -157,21 +157,22 @@
         let VideoEn = document.getElementById("VideoEn");
 
         if (Location == "Tribe") {
-            Tribe.classList.add("active");
+            Tribe.classList.add("nav-active");
         }
         else if (Location == "Rockstars") {
-            Rockstars.classList.add("active");
+            Rockstars.classList.add("nav-active");
         }
         else if (Location == "Article") {
-            Article.classList.add("active");
-            ArticleEn.classList.add("active")
+            Article.classList.add("nav-active");
         }
         else if (Location == "Podcast") {
-            Podcast.classList.add("active");
+            Podcast.classList.add("nav-active");
         }
         else if (Location == "Video") {
-            Video.classList.add("active");
-            VideoEn.classList.add("active");
+            Video.classList.add("nav-active");
+        }
+        else if (Location == "") {
+            Home.classList.add("nav-active");
         }
     </script>
     <!-- text-muted -->
