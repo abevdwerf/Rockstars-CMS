@@ -24,24 +24,6 @@ namespace RockstarsIT.Controllers
             return View(objCategoryList);
         }
 
-        // GET: Tribe/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var tribe = await _context.Tribes
-                .FirstOrDefaultAsync(m => m.TribeId == id);
-            if (tribe == null)
-            {
-                return NotFound();
-            }
-
-            return View(tribe);
-        }
-
         // GET: Tribe/Create
         public IActionResult Create()
         {
