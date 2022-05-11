@@ -41,22 +41,23 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.TribeId">@Html.DisplayFor(modelItem => item.Name)</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Spotify)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.TribeId" class="btn button mr-2">
-                    BEWERKEN
-                    <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
-                </a>
-            </td>
-        </tr>}
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.TribeId">@Html.DisplayFor(modelItem => item.Name)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Spotify)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.TribeId" class="btn button mr-2">
+                        BEWERKEN
+                        <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
