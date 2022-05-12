@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RockstarsIT.Models
@@ -6,12 +9,13 @@ namespace RockstarsIT.Models
     {
         private string _name;
         private string _description;
-
         private string _spotify;
         private string _leadaddress;
         private int _blocknumber;
         private int _imagenumber;
         private Tag _tag;
+        public List<TribeImages> TribeImages { get; set; }
+        public List<TribeTextBlock> TribeTextBlocks { get; set; }
 
 
         public int TribeId { get; set; }
@@ -24,6 +28,7 @@ namespace RockstarsIT.Models
             set => _tag = value;
         }
 
+        [Required(ErrorMessage = "Naam is verplicht")]
         public string Name
         {
             get => _name;
@@ -49,17 +54,9 @@ namespace RockstarsIT.Models
             set => _leadaddress = value;
         }
 
-        public int BlockNumber
-        {
-            get => _blocknumber;
-            set => _blocknumber = value;
-        }
-
-        public int ImageNumber
-        {
-            get => _imagenumber;
-            set => _imagenumber = value;
-
-        }
+        [Required(ErrorMessage = "Geen afbeelding geselecteerd")]
+        [Display(Name = "Selecteer een of meerdere afbeeldingen")]
+        [NotMapped]
+        public IFormFileCollection Images { get; set; }
     }
 }

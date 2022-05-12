@@ -37,25 +37,6 @@ namespace RockstarsIT.Controllers
             return View(await databaseContext.ToListAsync());
         }
 
-        // GET: Article/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var article = await _context.Article
-                .Include(a => a.Rockstar)
-                .FirstOrDefaultAsync(m => m.ArticleId == id);
-            if (article == null)
-            {
-                return NotFound();
-            }
-
-            return View(article);
-        }
-
         // GET: Article/Create
         public IActionResult Create()
         {
@@ -71,6 +52,7 @@ namespace RockstarsIT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ArticleId,RockstarId,Title,Description,Images,Text")] Article article)
         {
+            ModelState.Remove("Images");
             if (ModelState.IsValid)
             {
                 _context.Add(article);

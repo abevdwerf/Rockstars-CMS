@@ -36,25 +36,6 @@ namespace RockstarsIT.Controllers
             return View(await databaseContext.ToListAsync());
         }
 
-        // GET: Rockstars/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var rockstar = await _context.Rockstars
-                .Include(r => r.Tribe)
-                .FirstOrDefaultAsync(m => m.RockstarId == id);
-            if (rockstar == null)
-            {
-                return NotFound();
-            }
-
-            return View(rockstar);
-        }
-
         // GET: Rockstars/Create
         public IActionResult Create()
         {
@@ -150,25 +131,6 @@ namespace RockstarsIT.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", rockstar.TribeId);
-            return View(rockstar);
-        }
-
-        // GET: Rockstars/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var rockstar = await _context.Rockstars
-                .Include(r => r.Tribe)
-                .FirstOrDefaultAsync(m => m.RockstarId == id);
-            if (rockstar == null)
-            {
-                return NotFound();
-            }
-
             return View(rockstar);
         }
 

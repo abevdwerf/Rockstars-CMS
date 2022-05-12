@@ -13,6 +13,7 @@ namespace RockstarsIT.Controllers
     [Authorize]
     public class PodcastController : Controller
     {
+        Spotify spotify = new Spotify();
         private readonly DatabaseContext _context;
 
         public PodcastController(DatabaseContext context)
@@ -25,29 +26,10 @@ namespace RockstarsIT.Controllers
         {
             string dataShowType = HttpContext.Request.Query["view"].ToString();
             ViewData["DataShowType"] = dataShowType;
-            var databaseContext = _context.Podcasts.Include(p => p.Auteur).Include(p => p.Tribe);
+            var databaseContext = _context.Podcasts.Include(p => p.Rockstar).Include(p => p.Tribe);
             return View(await databaseContext.ToListAsync());
         }
-
-        // GET: Podcast/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var podcast = await _context.Podcasts
-                .Include(p => p.Auteur)
-                .Include(p => p.Tribe)
-                .FirstOrDefaultAsync(m => m.PodcastId == id);
-            if (podcast == null)
-            {
-                return NotFound();
-            }
-
-            return View(podcast);
-        }
+        
 
         // GET: Podcast/Create
         public IActionResult Create()
@@ -62,8 +44,10 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PodcastId,Titel,Omschrijving,URL,RockstarId,TribeId")] Podcast podcast)
+        public async Task<IActionResult> Create([Bind("PodcastId,URL,RockstarId,TribeId")] Podcast podcast)
         {
+            podcast.Title = spotify.GetTitle(spotify.GetSpotifyLinkId(podcast.URL));
+            podcast.Description = spotify.GetDescription(spotify.GetSpotifyLinkId(podcast.URL));
             if (ModelState.IsValid)
             {
                 _context.Add(podcast);
@@ -98,7 +82,7 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PodcastId,Titel,Omschrijving,URL,RockstarId,TribeId")] Podcast podcast)
+        public async Task<IActionResult> Edit(int id, [Bind("PodcastId,Title,Description,URL,RockstarId,TribeId")] Podcast podcast)
         {
             if (id != podcast.PodcastId)
             {
@@ -127,26 +111,6 @@ namespace RockstarsIT.Controllers
             }
             ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", podcast.RockstarId);
             ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", podcast.TribeId);
-            return View(podcast);
-        }
-
-        // GET: Podcast/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var podcast = await _context.Podcasts
-                .Include(p => p.Auteur)
-                .Include(p => p.Tribe)
-                .FirstOrDefaultAsync(m => m.PodcastId == id);
-            if (podcast == null)
-            {
-                return NotFound();
-            }
-
             return View(podcast);
         }
 

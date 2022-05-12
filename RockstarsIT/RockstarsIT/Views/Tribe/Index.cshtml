@@ -9,10 +9,7 @@
 
     <a class="btn button" asp-action="Create">
         NIEUWE TRIBE
-        <svg class="svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-        </svg>
+        <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
     </a>
 </p>
 <table class="table table-bordered bg-light">
@@ -44,25 +41,23 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.TribeId">@Html.DisplayFor(modelItem => item.Name)</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Spotify)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.TribeId" class="btn button mr-2">
-                    DETAILS
-                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                    </svg>
-                </a>
-            </td>
-        </tr>}
+            <tr>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.TribeId">@Html.DisplayFor(modelItem => item.Name)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Spotify)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.TribeId" class="btn button mr-2">
+                        BEWERKEN
+                        <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
