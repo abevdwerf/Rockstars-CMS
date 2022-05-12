@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
 {
+    [Authorize]
     public class ArticleController : Controller
     {
         private readonly DatabaseContext _context;
@@ -33,25 +35,6 @@ namespace RockstarsIT.Controllers
             ViewData["DataShowType"] = dataShowType;
             var databaseContext = _context.Article.Include(a => a.Rockstar).Include(a => a.Tribe);
             return View(await databaseContext.ToListAsync());
-        }
-
-        // GET: Article/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var article = await _context.Article
-                .Include(a => a.Rockstar)
-                .FirstOrDefaultAsync(m => m.ArticleId == id);
-            if (article == null)
-            {
-                return NotFound();
-            }
-
-            return View(article);
         }
 
         // GET: Article/Create
@@ -73,6 +56,16 @@ namespace RockstarsIT.Controllers
             {
                 _context.Add(article);
                 await _context.SaveChangesAsync();
+
+                //create ArticleTextBlock
+                var articleTextBlocks = new ArticleTextBlocks()
+                {
+                    ArticleId = article.ArticleId
+                };
+
+                _context.Add(articleTextBlocks);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", article.RockstarId);
@@ -87,7 +80,7 @@ namespace RockstarsIT.Controllers
                 return NotFound();
             }
 
-            var article = await _context.Article.Include(a => a.ArticleImages).FirstOrDefaultAsync(m => m.ArticleId == id);
+            var article = await _context.Article.Include(a => a.ArticleImages).Include(a => a.ArticleTextBlocks).FirstOrDefaultAsync(m => m.ArticleId == id);
             if (article == null)
             {
                 return NotFound();
@@ -101,15 +94,17 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ArticleId,RockstarId,Title,Description,Text")] Article article)
+        public async Task<IActionResult> Edit(int id, [Bind("ArticleId,RockstarId,Title,Description")] Article article)
         {
             if (id != article.ArticleId)
             {
                 return NotFound();
             }
 
+            ModelState.Remove("Images");
+
             if (ModelState.IsValid)
-            {
+            { 
                 try
                 {
                     _context.Update(article);
@@ -168,7 +163,7 @@ namespace RockstarsIT.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> UploadImage(Article article)
+        public async Task<ActionResult> UploadImage(Article article)
         {
             if (ModelState.IsValid)
             {
@@ -198,21 +193,16 @@ namespace RockstarsIT.Controllers
                             ArticleId = article.ArticleId,
                             URL = blob.Uri.ToString()
                         };
-                        
+
                         _context.Add(articleImages);
                         await _context.SaveChangesAsync();
-                        article = await _context.Article.Include(a => a.ArticleImages).FirstOrDefaultAsync(m => m.ArticleId == article.ArticleId);
                         list.Add(new Tuple<int, string>(articleImages.ArticleImageId, articleImages.URL));
                     }
                     return Json(new { Success = true, ArticleImages = list, Message = "Afbeelding geüpload." });
                 }
+            }
 
-                return Json(new { Success = false, Message = "Geen afbeelding." });
-            }
-            else
-            {
-                return Json(new { Success = false, Message = "Er is iets mis gegaan." });
-            }
+            return Json(new { Success = false, Message = "Geen afbeelding." });
         }
 
         [HttpPost]
@@ -238,6 +228,42 @@ namespace RockstarsIT.Controllers
             _context.Entry(article).Property(r => r.PublishedStatus).IsModified = true;
             await _context.SaveChangesAsync();
             return Redirect("/Article/Index?view=grid");
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> AddTextblock(Article article)
+        {
+            var articleTextBlocks = new ArticleTextBlocks()
+            {
+                ArticleId = article.ArticleId
+            };
+
+            _context.Add(articleTextBlocks);
+            await _context.SaveChangesAsync();
+            article = await _context.Article.Include(a => a.ArticleTextBlocks).FirstOrDefaultAsync(m => m.ArticleId == article.ArticleId);
+
+            return Json(new { Success = true, ArticleTextblockId = articleTextBlocks.ArticleTextBlockId, Message = "Textblock added" });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> DeleteTextBlock(IFormCollection formcollection)
+        {
+            int articleTextBlockId = int.Parse(formcollection["ArticleTextBlockId"]);
+
+            var articleTextBlock = await _context.ArticleTextBlocks.FindAsync(articleTextBlockId);
+            _context.Remove(articleTextBlock);
+            await _context.SaveChangesAsync();
+
+            return Json(new { Success = true, Message = "Text deleted." });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> SaveTextblock(ArticleTextBlocks articleTextBlocks)
+        {
+            _context.Update(articleTextBlocks);
+            await _context.SaveChangesAsync();
+
+            return Json(new { Success = true, Message = "Textblock saved." });
         }
     }
 }

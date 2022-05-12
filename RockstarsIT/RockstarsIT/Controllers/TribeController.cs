@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
 {
+    [Authorize]
     public class TribeController : Controller
     {
         private readonly DatabaseContext _context;
@@ -22,24 +24,6 @@ namespace RockstarsIT.Controllers
         {
             IEnumerable<Tribe> objCategoryList = _context.Tribes;
             return View(objCategoryList);
-        }
-
-        // GET: Tribe/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var tribe = await _context.Tribes
-                .FirstOrDefaultAsync(m => m.TribeId == id);
-            if (tribe == null)
-            {
-                return NotFound();
-            }
-
-            return View(tribe);
         }
 
         // GET: Tribe/Create
@@ -115,24 +99,6 @@ namespace RockstarsIT.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(tribe);
-        }
-
-        // GET: Tribe/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var tribe = await _context.Tribes
-                .FirstOrDefaultAsync(m => m.TribeId == id);
-            if (tribe == null)
-            {
-                return NotFound();
-            }
-
             return View(tribe);
         }
 

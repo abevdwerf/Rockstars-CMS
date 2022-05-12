@@ -1,10 +1,10 @@
-﻿@model RockstarsIT.Models.Article
+@model RockstarsIT.Models.Article
 
 @{
     ViewData["Title"] = "Delete";
 }
 
-<h1>ARTIKEL VERWIJDEREN</h1>
+<h1 class="mt-3">ARTIKEL VERWIJDEREN</h1>
 
 <h3>Weet u zeker dat u dit artikel wilt verwijderen?</h3>
 <div>
@@ -37,9 +37,6 @@
         <dt class = "col-sm-2">
             Inhoud
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Text)
-        </dd>
     </dl>
     
     <form asp-action="Delete">

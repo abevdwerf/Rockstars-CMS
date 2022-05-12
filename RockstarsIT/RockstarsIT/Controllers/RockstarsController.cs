@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -16,6 +17,7 @@ using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
 {
+    [Authorize]
     public class RockstarsController : Controller
     {
         private readonly DatabaseContext _context;
@@ -32,25 +34,6 @@ namespace RockstarsIT.Controllers
         {
             var databaseContext = _context.Rockstars.Include(r => r.Tribe).Include(r => r.Role);
             return View(await databaseContext.ToListAsync());
-        }
-
-        // GET: Rockstars/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var rockstar = await _context.Rockstars
-                .Include(r => r.Tribe)
-                .FirstOrDefaultAsync(m => m.RockstarId == id);
-            if (rockstar == null)
-            {
-                return NotFound();
-            }
-
-            return View(rockstar);
         }
 
         // GET: Rockstars/Create
@@ -120,7 +103,7 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RockstarId,TribeId,Role,Chapter,Name,LinkedIn,Description,Quote,ImageFile")] Rockstar rockstar)
+        public async Task<IActionResult> Edit(int id, [Bind("RockstarId,TribeId,RoleId,Chapter,Name,LinkedIn,Description,Quote,ImageFile")] Rockstar rockstar)
         {
             if (id != rockstar.RockstarId)
             {
@@ -148,25 +131,6 @@ namespace RockstarsIT.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", rockstar.TribeId);
-            return View(rockstar);
-        }
-
-        // GET: Rockstars/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var rockstar = await _context.Rockstars
-                .Include(r => r.Tribe)
-                .FirstOrDefaultAsync(m => m.RockstarId == id);
-            if (rockstar == null)
-            {
-                return NotFound();
-            }
-
             return View(rockstar);
         }
 

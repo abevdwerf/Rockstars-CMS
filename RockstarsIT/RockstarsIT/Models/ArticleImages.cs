@@ -19,7 +19,7 @@ namespace RockstarsIT.Models
             set => _article = value;
         }
 
-        public string URL { get { return _url; } set { _url = value; } } 
+        public string URL { get { return _url; } set { _url = value; } }
 
     }
 }
