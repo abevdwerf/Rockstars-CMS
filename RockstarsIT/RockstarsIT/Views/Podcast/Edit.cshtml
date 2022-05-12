@@ -23,22 +23,22 @@
             <span asp-validation-for="TribeId" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="Titel" class="control-label" lang="nl">Titel</label>
-            <label asp-for="Titel" class="control-label" lang="en-uk">Title</label>
-            <input asp-for="Titel" class="form-control"/>
-            <span asp-validation-for="Titel" class="text-danger"></span>
+            <label asp-for="Title" class="control-label" lang="nl">Title</label>
+            <label asp-for="Title" class="control-label" lang="en-uk">Title</label>
+            <input asp-for="Title" class="form-control"/>
+            <span asp-validation-for="Title" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="Auteur" class="control-label" lang="nl">Auteur</label>
-            <label asp-for="Auteur" class="control-label" lang="en-uk">Author</label>
+            <label asp-for="Rockstar" class="control-label" lang="nl">Rockstar</label>
+            <label asp-for="Rockstar" class="control-label" lang="en-uk">Author</label>
             <select asp-for="RockstarId" class="form-control" asp-items="ViewBag.RockstarNames"></select>
             <span asp-validation-for="RockstarId" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="Omschrijving" class="control-label" lang="nl">Beschrijving</label>
-            <label asp-for="Omschrijving" class="control-label" lang="en-uk">Description</label>
-            <textarea asp-for="Omschrijving" class="form-control" rows="5"></textarea>
-            <span asp-validation-for="Omschrijving" class="text-danger"></span>
+            <label asp-for="Description" class="control-label" lang="nl">Beschrijving</label>
+            <label asp-for="Description" class="control-label" lang="en-uk">Description</label>
+            <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div>
             <iframe src="@spotify.GetSpotifyEmbeddedLink(Model.URL)" height="160" width="600" frameBorder="0" title="description"></iframe>

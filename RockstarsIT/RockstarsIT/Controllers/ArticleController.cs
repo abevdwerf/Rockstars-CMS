@@ -52,6 +52,7 @@ namespace RockstarsIT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ArticleId,RockstarId,Title,Description,Images,Text")] Article article)
         {
+            ModelState.Remove("Images");
             if (ModelState.IsValid)
             {
                 _context.Add(article);
