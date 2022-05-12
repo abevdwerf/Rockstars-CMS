@@ -83,6 +83,25 @@
             </svg>
         </a>
     </div>
+    @if (@Model.PublishedStatus)
+            {
+                <a asp-action="ChangeStatus" asp-route-id="@Model.VideoId" asp-route-status="false" class="btn button mr-3">
+                    CONCEPT
+                    <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
+                </a>
+            }
+            else
+            {
+                <a asp-action="ChangeStatus" asp-route-id="@Model.VideoId" asp-route-status="true" class="btn button mr-3">
+                    PUBLICEREN
+                    <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
+                </a>
+            }
+            <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.VideoId" class="btn button-cancel">
+                VERWIJDEREN
+                <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg"/>
+            </a>
+            <input type="submit" asp-action="Delete" asp-route-id="@Model.VideoId" hidden id="@Model.VideoId"/>
     <div>
         <a asp-action="Index" class="btn button-cancel mr-2 mt-3" lang="nl">
             <label lang="nl" class="text-black">TERUG NAAR OVERZICHT</label> <label lang="en-uk" class="text-black">BACK TO LIST</label>
@@ -150,4 +169,31 @@
     }
 
 
+    var formSubmitting = false;
+    var setFormSubmitting = function() { formSubmitting = true; };
+    window.onload = function() {
+        window.addEventListener("beforeunload", function (e) {
+            if (formSubmitting) {
+                return undefined;
+            }
+    
+            var confirmationMessage = 'It looks like you have been editing something. '
+                                    + 'If you leave before saving, your changes will be lost.';
+            
+            (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+            return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+        });
+    };
+
+    function ConfirmDelete(id) {
+        const conbtn2 = document.getElementById(id);
+
+        let text = "Weet je zeker dat u deze video wilt verwijderen?"
+        if (confirm(text) == true) {
+            conbtn2.click();
+        }
+        else {
+            console.log("test");
+        }
+    }
 </script>

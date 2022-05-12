@@ -10,17 +10,11 @@
     <div class="col-md-6  text-left">
         <a asp-action="Create" class="btn button" lang="nl">
             NIEUWE VIDEO
-            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-            </svg>
+            <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
         </a>
         <a asp-action="Create" class="btn button" lang="en-uk">
             NEW VIDEO
-            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-            </svg>
+            <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
         </a>
         <br/>
         <br/>
@@ -131,13 +125,23 @@
             <td>
                 @if(item.PublishedStatus)
                 {
-                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="false" class="btn btn-danger" lang="nl">Depubliceren</a>
-                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="false" class="btn btn-danger" lang="en-uk">Unpublish</a>
+                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="false" class="btn btn-danger" lang="nl">Depubliceren
+                <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
+                </a>
+                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="false" class="btn btn-danger" lang="en-uk">Unpublish
+                <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
+                </a>
+               
                 }
                 else
                 {
-                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn btn-success" lang="nl">Publiceren</a>
-                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn btn-success" lang="en-uk">Publish</a>
+                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn btn-success" lang="nl">Publiceren
+                        <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
+                </a>
+                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn btn-success" lang="en-uk">Publish
+                        <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
+                </a>
+                
                 }
                 </td>
                 <td>

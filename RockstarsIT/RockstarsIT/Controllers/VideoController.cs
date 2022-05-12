@@ -29,26 +29,6 @@ namespace RockstarsIT.Controllers
             return View(await databaseContext.ToListAsync());
         }
 
-        // GET: Video/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var video = await _context.Videos
-                .Include(v => v.Rockstar)
-                .Include(v => v.Tribe)
-                .FirstOrDefaultAsync(m => m.VideoId == id);
-            if (video == null)
-            {
-                return NotFound();
-            }
-
-            return View(video);
-        }
-
         // GET: Video/Create
         public IActionResult Create()
         {
@@ -135,26 +115,6 @@ namespace RockstarsIT.Controllers
                 return RedirectToAction("Edit", new { id = video.VideoId });
             }
             return RedirectToAction(nameof(Index));
-        }
-
-        // GET: Video/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var video = await _context.Videos
-                .Include(v => v.Rockstar)
-                .Include(v => v.Tribe)
-                .FirstOrDefaultAsync(m => m.VideoId == id);
-            if (video == null)
-            {
-                return NotFound();
-            }
-
-            return View(video);
         }
 
         // POST: Video/Delete/5
