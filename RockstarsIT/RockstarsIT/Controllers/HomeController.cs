@@ -35,8 +35,29 @@ namespace RockstarsIT.Controllers
             ViewData["percentageObject4"] = (((double)sortedList[3].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
             ViewData["percentageObject5"] = (((double)sortedList[4].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
 
+            ViewData["conceptContent"] = GetNumberConceptContent();
+            ViewData["publishedContent"] = GetNumberPublishedContent();
 
             return View();
+        }
+
+
+        private int GetNumberConceptContent()
+        {
+            int conceptContent = 0;
+            conceptContent +=_context.Article.Count(item => item.PublishedStatus == false);
+            conceptContent +=_context.Videos.Count(item => item.PublishedStatus == false);
+            conceptContent +=_context.Podcasts.Count(item => item.PublishedStatus == false);
+            return conceptContent;
+        }
+
+        private int GetNumberPublishedContent()
+        {
+            int publishedContent = 0;
+            publishedContent = _context.Article.Count(item => item.PublishedStatus == true);
+            publishedContent = _context.Videos.Count(item => item.PublishedStatus == true);
+            publishedContent = _context.Podcasts.Count(item => item.PublishedStatus == true);
+            return publishedContent;
         }
 
         private List<DashboardContent> GetTopFiveContent()
