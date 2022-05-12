@@ -141,7 +141,7 @@ namespace RockstarsIT.Controllers
             }
             _context.Entry(video).Property(r => r.PublishedStatus).IsModified = true;
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Redirect("/Video/Index?view=grid");
         }
 
         public string GetVideoId(string link)
