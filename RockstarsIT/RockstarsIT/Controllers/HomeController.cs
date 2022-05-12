@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -26,6 +27,19 @@ namespace RockstarsIT.Controllers
         }
 
         public IActionResult Index()
+        {
+            List<DashboardContent> sortedList = GetTopFiveContent();
+            ViewData["content"] = sortedList;
+            ViewData["percentageObject2"] = (((double)sortedList[1].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
+            ViewData["percentageObject3"] = (((double)sortedList[2].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
+            ViewData["percentageObject4"] = (((double)sortedList[3].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
+            ViewData["percentageObject5"] = (((double)sortedList[4].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
+
+
+            return View();
+        }
+
+        private List<DashboardContent> GetTopFiveContent()
         {
             List<DashboardContent> content = new List<DashboardContent>();
             if (_context.Article.Any())
@@ -61,13 +75,9 @@ namespace RockstarsIT.Controllers
                     content.Add(dc);
                 }
             }
+
             List<DashboardContent> sortedList = content.OrderByDescending(o => o.ViewCount).Take(5).ToList();
-            ViewData["content"] = sortedList;
-            ViewData["percentageObject2"] = ((double)sortedList[1].ViewCount / (double)sortedList[0].ViewCount) * 100;
-            ViewData["percentageObject3"] = ((double)sortedList[2].ViewCount / (double)sortedList[0].ViewCount) * 100;
-            ViewData["percentageObject4"] = ((double)sortedList[3].ViewCount / (double)sortedList[0].ViewCount) * 100;
-            ViewData["percentageObject5"] = ((double)sortedList[4].ViewCount / (double)sortedList[0].ViewCount) * 100;
-            return View();
+            return sortedList;
         }
 
         public IActionResult buttons()
