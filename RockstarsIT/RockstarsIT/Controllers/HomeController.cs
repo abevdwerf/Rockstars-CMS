@@ -27,20 +27,10 @@ namespace RockstarsIT.Controllers
 
         public IActionResult Index()
         {
-            //var test = _context.Videos.Select(a => a.ViewCount).Union(_context.Article.Select(v => v.ViewCount)).Union(_context.Podcasts.Select(p => p.ViewCount)).Take(5).ToList();
-            //var articles = _context.Article.Select(item => new Dictionary<string, int>() { "test", item.ArticleId }).ToList();
-            //var videos = _context.Videos.Select(item => new List<int> { item.ViewCount, item.VideoId }).ToList();
-            //var podcasts = _context.Podcasts.Select(item => new List<string> { item.ViewCount.ToString(), item.PodcastId.ToString() }).ToList();
-
-            //articles.AddRange(videos);
-            //articles.AddRange(podcasts);
-            ArrayList listOfObjects = new ArrayList();
             List<DashboardContent> content = new List<DashboardContent>();
-
             if (_context.Article.Any())
             {
                 List<Article> articles = _context.Article.OrderByDescending(item => item.ViewCount).Take(5).ToList();
-                //listOfObjects.AddRange(articles);
                 foreach (Article article in articles)
                 {
                     DashboardContent dc = new DashboardContent();
@@ -52,7 +42,6 @@ namespace RockstarsIT.Controllers
             if (_context.Podcasts.Any())
             {
                 List<Video> videos = _context.Videos.OrderByDescending(item => item.ViewCount).Take(5).ToList();
-                //listOfObjects.AddRange(videos);
                 foreach (Video video in videos)
                 {
                     DashboardContent dc = new DashboardContent();
@@ -64,7 +53,6 @@ namespace RockstarsIT.Controllers
             if (_context.Podcasts.Any())
             {
                 List<Podcast> podcasts = _context.Podcasts.OrderByDescending(item => item.ViewCount).Take(5).ToList();
-                //listOfObjects.AddRange(podcasts);
                 foreach (Podcast podcast in podcasts)
                 {
                     DashboardContent dc = new DashboardContent();
@@ -73,49 +61,12 @@ namespace RockstarsIT.Controllers
                     content.Add(dc);
                 }
             }
-
             List<DashboardContent> sortedList = content.OrderByDescending(o => o.ViewCount).Take(5).ToList();
-
-            //List<Podcast> podcasts = _context.Podcasts.OrderByDescending(item => item.ViewCount).Take(5).ToList();
-
-            //List<Object> list = new List<Object>()
-
-            //int test = 0;
-            //listOfObjects.;
-            //int temp = 0;
-            foreach (var item in listOfObjects)
-            {
-                int iets = (int)item.GetType().GetProperty("ViewCount").GetValue(item);
-        
-
-                //foreach (var propertyInfo in item)
-                //{
-                //    var iets = propertyInfo;
-                //}
-            }
-            //for (int j = 0; j <= listOfObjects.Count - 2; j++)
-            //{
-            //    for (int i = 0; i <= listOfObjects.Count - 2; i++)
-            //    {
-            //        if ((int)listOfObjects[i].GetType().GetProperty("ViewCount").GetValue(i) > (int)listOfObjects[i + 1].GetType().GetProperty("ViewCount").GetValue(i))
-            //        {
-            //            temp = (int)listOfObjects[i + 1].GetType().GetProperty("ViewCount").GetValue(i);
-            //            listOfObjects[i + 1] = (int)listOfObjects[i].GetType().GetProperty("ViewCount").GetValue(i);
-            //            listOfObjects[i] = temp;
-            //        }
-            //    }
-            //}
-            //List<Object> cmonbined = new List<Object>();
-            //cmonbined.Add(articles);
-            //cmonbined.Add(videos);
-            //cmonbined.Add(podcasts);
-
-            //articles.Select(a => a.ViewCount)
-            //List<int> test = _context.Article.Select(p => p.ViewCount);
-            //ViewBag.Students = GetStudents();
-
             ViewData["content"] = sortedList;
-
+            ViewData["percentageObject2"] = ((double)sortedList[1].ViewCount / (double)sortedList[0].ViewCount) * 100;
+            ViewData["percentageObject3"] = ((double)sortedList[2].ViewCount / (double)sortedList[0].ViewCount) * 100;
+            ViewData["percentageObject4"] = ((double)sortedList[3].ViewCount / (double)sortedList[0].ViewCount) * 100;
+            ViewData["percentageObject5"] = ((double)sortedList[4].ViewCount / (double)sortedList[0].ViewCount) * 100;
             return View();
         }
 
