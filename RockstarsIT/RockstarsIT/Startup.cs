@@ -35,7 +35,7 @@ namespace RockstarsIT
             
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("ViggoConnection")));
+                    Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers().AddJsonOptions(jsonOptions =>
             {
