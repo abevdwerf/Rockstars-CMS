@@ -195,25 +195,64 @@
     </script>
     <script src="~/js/build/ckeditor.js"></script>
     <script>
+
+        let test = 0;
+        //Staring CK TextArea's
+        let aantalEditors = document.getElementsByClassName("editor");
+        let aantalEditorsDisabled = document.getElementsByClassName("DisabledEditor");
+        //CkBody
+        let alleEditbaress = document.getElementsByClassName("ck-editor");
+        //Edit button
+        let editButton = document.getElementById("EditToDetails");
         if (LocationCheck.length == 6) {
-            console.log(LocationCheck[4])
-            let aantalEditors = document.getElementsByClassName("editor");
+
+            CreateCK();
+            CreateCK(true);
+
+        }
+
+        function ReadOnlyCK() {
+           
+            if (editButton.innerHTML == "Edit") {
+                editButton.innerHTML = "Cancel";
+                for (var n = 0; n < alleEditbaress.length; n++) {
+                    alleEditbaress[n].hidden = false;
+                    n++;
+                }
+
+                for (var n = 1; n < alleEditbaress.length; n++) {
+                    alleEditbaress[n].hidden = true;
+                    n++;
+                }
+            }
+            else {
+                editButton.innerHTML = "Edit";
+                for (var n = 0; n < alleEditbaress.length; n++) {
+                    alleEditbaress[n].hidden = true;
+                    n++;
+                }
+
+                for (var n = 1; n < alleEditbaress.length; n++) {
+                    alleEditbaress[n].hidden = false;
+                    n++;
+                }
+            }
+
+        }
+        
+        function CreateCK(checkDetail) {
             for (var i = 0; i < aantalEditors.length; i++) {
+                if (checkDetail == true) {
+                    aantalEditors = aantalEditorsDisabled;
+                }
                 ClassicEditor
-                    .create(aantalEditors[i] , {
+                    .create(aantalEditors[i], {
 
                         licenseKey: '',
 
                     })
-                    
                     .then(editor => {
                         window.editor = editor;
-
-                        //Readonly
-                        //editor.enableReadOnlyMode('.editor');
-                        //Toolbar weg
-                        //const toolbarElement = editor.ui.view.toolbar.element;
-                        //toolbarElement.style.display = 'none';
 
                         document.getElementById("save-textblock").onclick = function () {
                             let CKDieChanged = document.querySelector("#TabContent .tab-pane.active .ck-editor__editable");
@@ -222,10 +261,23 @@
                             for (var i = 0; i < CKDieChanged.childNodes.length; i++) {
                                 TextAreaDiePost.value = CKDieChanged.innerHTML;
                             }
-                            
                         }
-                    })
 
+                        if (checkDetail == true) {
+                            //Readonly
+                            editor.enableReadOnlyMode('.DisabledEditor');
+                            //Toolbar weg
+                            const toolbarElement = editor.ui.view.toolbar.element;
+                            toolbarElement.style.display = 'none';
+                        }
+                        else {
+                            for (var n = 0; n < alleEditbaress.length; n++) {
+                                alleEditbaress[n].hidden = true;
+                                n++;
+                            }
+                        }
+
+                    })
                     .catch(error => {
                         console.error('Oops, something went wrong!');
                         console.error('Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:');
@@ -233,9 +285,9 @@
                         console.error(error);
                     });
 
-                
-                }
+
             }
+        }
     </script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
