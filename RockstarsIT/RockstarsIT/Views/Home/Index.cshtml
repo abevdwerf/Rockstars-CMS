@@ -18,7 +18,9 @@
                                     <h6 class="text-primary fw-bold m-0">Top 5 bekeken content</h6>
                                 </div>
                                 <div class="card-body">
-                                    <h4 class="small fw-bold text-black">@list[0].Content.Title<span class="float-end">@{@list[0].Content.ViewCount}x</span></h4>
+                                    @if (ViewBag.content != null)
+                                    {
+                                        <h4 class="small fw-bold text-black">@list[0].Content.Title<span class="float-end">@{@list[0].Content.ViewCount}x</span></h4>
                                     <div class="progress mb-4">
                                         <div class="progress-bar bg-danger" aria-valuenow="@list[0].Content.ViewCount" aria-valuemin="0" aria-valuemax="100" style="width: @list[0].Content.ViewCount%;"><span class="visually-hidden">@list[0].Content.ViewCount%</span></div>
                                     </div>
@@ -38,6 +40,7 @@
                                     <div class="progress mb-4">
                                         <div class="progress-bar bg-success" aria-valuenow="@list[4].Content.ViewCount" aria-valuemin="0" aria-valuemax="100" style="width: @ViewBag.percentageObject5%;"><span class="visually-hidden">@list[4].Content.ViewCount%</span></div>
                                     </div>
+                                    }
                                 </div>
                             </div>
                         </div>

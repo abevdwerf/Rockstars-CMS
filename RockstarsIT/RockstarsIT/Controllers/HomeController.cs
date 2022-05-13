@@ -29,13 +29,14 @@ namespace RockstarsIT.Controllers
         public IActionResult Index()
         {
             List<DashboardContent> sortedList = GetTopFiveContent();
-            ViewData["content"] = sortedList;
-            ViewData["percentageObject2"] = (((double)sortedList[1].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
-            ViewData["percentageObject3"] = (((double)sortedList[2].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
-            ViewData["percentageObject4"] = (((double)sortedList[3].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
-            ViewData["percentageObject5"] = (((double)sortedList[4].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
-
-
+            if (sortedList.Count == 5)
+            {
+                ViewData["content"] = sortedList;
+                ViewData["percentageObject2"] = (((double)sortedList[1].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
+                ViewData["percentageObject3"] = (((double)sortedList[2].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
+                ViewData["percentageObject4"] = (((double)sortedList[3].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
+                ViewData["percentageObject5"] = (((double)sortedList[4].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
+            }
             return View();
         }
 
