@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
@@ -14,10 +19,12 @@ namespace RockstarsIT.Controllers
     public class TribeController : Controller
     {
         private readonly DatabaseContext _context;
+        private readonly string _azureConnectionString;
 
-        public TribeController(DatabaseContext db)
+        public TribeController(DatabaseContext db, IConfiguration configuration)
         {
             _context = db;
+            _azureConnectionString = configuration.GetConnectionString("ConnectionStringBlob");
         }
 
         public IActionResult Index()
@@ -38,9 +45,9 @@ namespace RockstarsIT.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Create([Bind("TribeId,TagId,Name,Description,Spotify,LeadAddress,BlockNumber,ImageNumber")] Tribe tribe)
-
+        public async Task<IActionResult> Create([Bind("TribeId,Name,Description,Spotify,LeadAddress")] Tribe tribe)
         {
+            ModelState.Remove("Images");
             if (ModelState.IsValid)
             {
                 _context.Add(tribe);
@@ -58,7 +65,7 @@ namespace RockstarsIT.Controllers
                 return NotFound();
             }
 
-            var tribe = await _context.Tribes.FindAsync(id);
+            var tribe = await _context.Tribes.Include(a => a.TribeImages).Include(a => a.TribeTextBlocks).FirstOrDefaultAsync(m => m.TribeId == id);
             if (tribe == null)
             {
                 return NotFound();
@@ -78,6 +85,8 @@ namespace RockstarsIT.Controllers
             {
                 return NotFound();
             }
+
+            ModelState.Remove("Images");
 
             if (ModelState.IsValid)
             {
@@ -116,6 +125,97 @@ namespace RockstarsIT.Controllers
         private bool TribeExists(int id)
         {
             return _context.Tribes.Any(e => e.TribeId == id);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UploadImage(Tribe tribe)
+        {
+            if (ModelState.IsValid)
+            {
+                if (tribe.Images != null)
+                {
+                    var list = new List<Tuple<int, string>>();
+
+                    foreach (var file in tribe.Images)
+                    {
+                        string currentFileName = Path.GetFileNameWithoutExtension(file.FileName);
+                        string extension = Path.GetExtension(file.FileName);
+                        string newFileName = currentFileName + DateTime.Now.ToString("yymmsfff") + extension;
+
+                        var container = new BlobContainerClient(_azureConnectionString, "tribe-images");
+
+                        // Method to create a new Blob client.
+                        var blob = container.GetBlobClient(newFileName);
+
+                        // Create a file stream and use the UploadSync method to upload the Blob.
+                        using (var fileStream = file.OpenReadStream())
+                        {
+                            await blob.UploadAsync(fileStream, new BlobHttpHeaders { ContentType = file.ContentType });
+                        }
+
+                        var tribeImages = new TribeImages()
+                        {
+                            TribeId = tribe.TribeId,
+                            URL = blob.Uri.ToString()
+                        };
+
+                        _context.Add(tribeImages);
+                        await _context.SaveChangesAsync();
+                        list.Add(new Tuple<int, string>(tribeImages.TribeImageId, tribeImages.URL));
+                    }
+                    return Json(new { Success = true, TribeImages = list, Message = "Afbeelding geüpload." });
+                }
+            }
+
+            return Json(new { Success = false, Message = "Geen afbeelding." });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> DeleteImage(IFormCollection formcollection)
+        {
+            int tribeImageId = int.Parse(formcollection["TribeImageId"]);
+
+            var tribeImage = await _context.TribeImages.FindAsync(tribeImageId);
+            _context.Remove(tribeImage);
+            await _context.SaveChangesAsync();
+
+            return Json(new { Success = true, Message = "Afbeelding verwijderd." });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> AddTextblock(Tribe tribe)
+        {
+            var tribeTextBlocks = new TribeTextBlock()
+            {
+                TribeId = tribe.TribeId
+            };
+
+            _context.Add(tribeTextBlocks);
+            await _context.SaveChangesAsync();
+            tribe = await _context.Tribes.Include(a => a.TribeTextBlocks).FirstOrDefaultAsync(m => m.TribeId == tribe.TribeId);
+
+            return Json(new { Success = true, TribeTextblockId = tribeTextBlocks.TribeTextBlockId, Message = "Textblock added" });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> DeleteTextBlock(IFormCollection formcollection)
+        {
+            int tribeTextBlockId = int.Parse(formcollection["TribeTextBlockId"]);
+
+            var tribeTextBlock = await _context.TribeTextBlocks.FindAsync(tribeTextBlockId);
+            _context.Remove(tribeTextBlock);
+            await _context.SaveChangesAsync();
+
+            return Json(new { Success = true, Message = "Text deleted." });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> SaveTextblock(TribeTextBlock tribeTextBlock)
+        {
+            _context.Update(tribeTextBlock);
+            await _context.SaveChangesAsync();
+
+            return Json(new { Success = true, Message = "Textblock saved." });
         }
     }
 }

@@ -8,7 +8,12 @@
 <h1 lang="en-uk" class="mt-3">VIDEOS</h1>
 <div class="row">
     <div class="col-md-6  text-left">
-        <a asp-action="Create" class="btn button">NIEUWE VIDEO
+        <a asp-action="Create" class="btn button" lang="nl">
+            NIEUWE VIDEO
+            <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
+        </a>
+        <a asp-action="Create" class="btn button" lang="en-uk">
+            NEW VIDEO
             <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
         </a>
         <br/>
@@ -40,47 +45,32 @@
     <table class="table table-bordered bg-light">
     <thead class="thead-dark">
         <tr>
-            <th lang="nl">
-                TITEL
-            </th>
-            <th lang="en-uk">
-                TITLE
-            </th>
-            <th lang="nl">
-                BESCHRIJVING
-            </th>
-            <th lang="en-uk">
-                DESCRIPTION
+            <th>
+                <label lang="nl">TITEL</label> <label lang="en-uk">ACTIONS</label>
             </th>
             <th>
-                VIDEO ID
+                <label lang="nl">BESCHRIJVING</label> <label lang="en-uk">DESCRIPTION</label>
             </th>
             <th>
-                TRIBE
+                <label>VIDEO ID</label>
             </th>
             <th>
-                ROCKSTAR
-            </th>
-            <th lang="nl"> 
-                PUBLICATIEDATUM
-            </th>
-            <th lang="en-uk">
-                PUBLICATION DATE
+                <label>TRIBE</label>
             </th>
             <th>
-                STATUS
+                <label>ROCKSTAR</label>
             </th>
-            <th lang="nl">
-                STATUS VERANDEREN
+            <th> 
+                <label lang="nl">PUBLICATIEDATUM</label> <label lang="en-uk">PUBLICATION DATE</label>
             </th>
-            <th lang="en-uk">
-                CHANGE STATUS
+            <th>
+                <label>STATUS</label>
             </th>
-            <th lang="nl">
-                ACTIES
+            <th>
+                <label lang="nl">STATUS VERANDEREN</label> <label lang="en-uk">CHANGE STATUS</label>
             </th>
-            <th lang="en-uk">
-                ACTIONS
+            <th>
+                <label lang="nl">ACTIES</label> <label lang="en-uk">ACTIONS</label>
             </th>
         </tr>
     </thead>
@@ -97,11 +87,11 @@
                 <td>
                     @if (item.Link.Length == 11)
                     {
-                                <p>YouTube: @item.Link</p>
+                        <p>YouTube: @item.Link</p>
                     }
                     else if (item.Link.Length == 9)
                     {
-                                <p>Vimeo: @item.Link</p>
+                        <p>Vimeo: @item.Link</p>
                     }
                 </td>
                 <td>
@@ -123,33 +113,44 @@
             <td>
                 @if(item.PublishedStatus)
                 {
-                   <p>Gepubliceerd</p> 
+                   <p lang="nl">Gepubliceerd</p> 
+                   <p lang="en-uk">Published</p> 
                 }
                 else
                 {
-                    <p>Concept</p>
+                    <p lang="nl">Concept</p>
+                    <p lang="en-uk">Draft</p>
                 }
             </td>
             <td>
                 @if(item.PublishedStatus)
                 {
-                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="false" class="btn text-black">
-                        CONCEPT
-                        <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
-                    </a>
+                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="false" class="btn btn-danger" lang="nl">Depubliceren
+                <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
+                </a>
+                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="false" class="btn btn-danger" lang="en-uk">Unpublish
+                <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
+                </a>
+               
                 }
                 else
                 {
-                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn text-black">
-                        PUBLICEREN
+                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn btn-success" lang="nl">Publiceren
                         <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
-                    </a>
+                </a>
+                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn btn-success" lang="en-uk">Publish
+                        <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
+                </a>
+                
                 }
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.VideoId" class="btn button mr-2">
-                        BEWERKEN
-                        <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
+                        <label lang="nl" class="text-black">LEZEN</label> <label lang="en-uk" class="text-black">READ</label>
+                        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                         <path d="M0 0h24v24H0z" fill="none" />
+                         <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                     </svg>
                     </a>
                 </td>
             </tr>
@@ -164,7 +165,9 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
 @foreach (var item in Model) {
 <div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch  spaceBetweenArticles">
    <div class="card">
-       @if(item.Link.Length == 11 )
+       @if(item.Link != null)
+       {
+           if(item.Link.Length == 11 )
        {
             <img class="card-img-top" src="https://img.youtube.com/vi/@item.Link/0.jpg" alt="Card image cap">
        }
@@ -172,15 +175,19 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
        {
              <img class="card-img-top" id="vimeoimg" name="@item.Link" src="https://vumbnail.com/@item.Link">
        }
+       }
          <div class="card-body">
          <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Title)</h5>
          <p class="card-text">@Html.DisplayFor(modelItem => item.Rockstar.Name)</p>
       </div>
       <ul class="list-group list-group-flush">
          <li class="list-group-item"  style="background-color:#FFE000">
-             <a asp-action="Edit" asp-route-id="@item.VideoId" class="card-link btn button-white">
-                BEWERKEN
-                <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
+            <a asp-action="Edit" asp-route-id="@item.VideoId" class="card-link btn button-white">
+               <label lang="nl" class="text-black">LEZEN</label> <label lang="en-uk" class="text-black">READ</label>
+               <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+               </svg>
             </a>
          </li>
       </ul>

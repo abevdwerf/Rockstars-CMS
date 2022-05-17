@@ -131,27 +131,43 @@
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        window.onload = DetectLanguage
-        function DetectLanguage() {
-            var userLang = navigator.language || navigator.userLanguage;
-            if (userLang == 'nl')
+
+            let userLang = navigator.language || navigator.userLanguage;
+            if(localStorage.getItem("lan") == null){
+                localStorage.setItem("lan", userLang);
+            }
+
+            let detaal = localStorage.getItem("lan");
+       
+            if (detaal == 'nl')
             {
                 $('[lang="en-uk"]').hide();
+                localStorage.setItem("lan", "nl");
             }
             else
             {
                 $('[lang="nl"]').hide();
+                localStorage.setItem("lan", "en-uk");
             }
-        }
+        
 
         function SwitchLanguage() {
             $('[lang="nl"]').toggle();
             $('[lang="en-uk"]').toggle();
+            if (document.getElementById("language").style.display == "none")
+            {
+                 localStorage.setItem("lan", "en-uk");
+            }
+            else if(document.getElementById("enlanguage").style.display == "none"){
+                 localStorage.setItem("lan", "nl");
+            }
+            
         }
     </script>
     <script>
         const queryString = window.location;
         let Location = queryString.href.split("/");
+        let LocationCheck = Location;
         Location = Location[3];
 
         let Tribe = document.getElementById("Tribe");
@@ -170,12 +186,14 @@
         }
         else if (Location == "Article") {
             Article.classList.add("nav-active");
+            ArticleEn.classList.add("nav-active");
         }
         else if (Location == "Podcast") {
             Podcast.classList.add("nav-active");
         }
         else if (Location == "Video") {
             Video.classList.add("nav-active");
+            VideoEn.classList.add("nav-active");
         }
         else if (Location == "") {
             Home.classList.add("nav-active");
@@ -193,6 +211,50 @@
          //    document.getElementById("footertje").classList.add("footer-dash"); 
          //} 
      </script> 
+         <script src="~/js/build/ckeditor.js"></script>
+    <script>
+        if (LocationCheck.length == 6) {
+            console.log(LocationCheck[4])
+            let aantalEditors = document.getElementsByClassName("editor");
+            for (var i = 0; i < aantalEditors.length; i++) {
+                ClassicEditor
+                    .create(aantalEditors[i] , {
+
+                        licenseKey: '',
+
+                    })
+                    
+                    .then(editor => {
+                        window.editor = editor;
+
+                        //Readonly
+                        //editor.enableReadOnlyMode('.editor');
+                        //Toolbar weg
+                        //const toolbarElement = editor.ui.view.toolbar.element;
+                        //toolbarElement.style.display = 'none';
+
+                        document.getElementById("save-textblock").onclick = function () {
+                            let CKDieChanged = document.querySelector("#TabContent .tab-pane.active .ck-editor__editable");
+                            let TextAreaDiePost = document.querySelector("#TabContent .tab-pane.active textarea");
+
+                            for (var i = 0; i < CKDieChanged.childNodes.length; i++) {
+                                TextAreaDiePost.value = CKDieChanged.innerHTML;
+                            }
+                            
+                        }
+                    })
+
+                    .catch(error => {
+                        console.error('Oops, something went wrong!');
+                        console.error('Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:');
+                        console.warn('Build id: 7utaz44wzv3o-z8blbyhrs646');
+                        console.error(error);
+                    });
+
+                
+                }
+            }
+    </script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
