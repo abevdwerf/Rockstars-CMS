@@ -157,6 +157,61 @@ namespace RockstarsIT.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: Article/Edit/5
+        public async Task<IActionResult> Translate(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var article = await _context.Article.Include(a => a.ArticleImages).Include(a => a.ArticleTextBlocks).FirstOrDefaultAsync(m => m.ArticleId == id);
+            if (article == null)
+            {
+                return NotFound();
+            }
+            ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
+            return View(article);
+        }
+
+        // POST: Article/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Translate(int id, [Bind("ArticleId,RockstarId,Title,Description")] Article article)
+        {
+            if (id != article.ArticleId)
+            {
+                return NotFound();
+            }
+
+            ModelState.Remove("Images");
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(article);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ArticleExists(article.ArticleId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", article.RockstarId);
+            return View(article);
+        }
+
         private bool ArticleExists(int id)
         {
             return _context.Article.Any(e => e.ArticleId == id);
