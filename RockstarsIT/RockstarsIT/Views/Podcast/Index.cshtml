@@ -69,7 +69,7 @@
     @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Titel)
+                @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
                 <audio controls>
@@ -77,7 +77,7 @@
                 </audio>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Auteur.Name)
+                @Html.DisplayFor(modelItem => item.Rockstar.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Tribe.Name)
@@ -135,7 +135,7 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
         <audio controls style="width: 250px">
             <source src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))" type="audio/mp3">
         </audio>
-         <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Titel)</h5>
+         <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Title)</h5>
       </div>
       <ul class="list-group list-group-flush">
          <li class="list-group-item"  style="background-color:#FFE000">

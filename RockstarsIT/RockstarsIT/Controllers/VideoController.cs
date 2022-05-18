@@ -70,6 +70,8 @@ namespace RockstarsIT.Controllers
             {
                 return NotFound();
             }
+            video.Rockstar = await _context.Rockstars.FindAsync(video.RockstarId);
+            video.Tribe = await _context.Tribes.FindAsync(video.TribeId);
             ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
             ViewBag.Link = video.Link;
@@ -108,11 +110,11 @@ namespace RockstarsIT.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", video.RockstarId);
+                ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", video.TribeId);
+                return RedirectToAction("Edit", new { id = video.VideoId });
             }
-            ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", video.RockstarId);
-            ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", video.TribeId);
-            return View(video);
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: Video/Delete/5
@@ -141,7 +143,7 @@ namespace RockstarsIT.Controllers
             }
             _context.Entry(video).Property(r => r.PublishedStatus).IsModified = true;
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Redirect("/Video/Index?view=grid");
         }
 
         public string GetVideoId(string link)
