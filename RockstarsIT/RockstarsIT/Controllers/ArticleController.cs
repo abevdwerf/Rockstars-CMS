@@ -158,60 +158,6 @@ namespace RockstarsIT.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Article/Edit/5
-        public async Task<IActionResult> Translate(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var article = await _context.Article.Include(a => a.ArticleImages).Include(a => a.ArticleTextBlocks).FirstOrDefaultAsync(m => m.ArticleId == id);
-            if (article == null)
-            {
-                return NotFound();
-            }
-            ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
-            return View(article);
-        }
-
-        // POST: Article/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Translate(int id, [Bind("ArticleId,RockstarId,Title,Description")] Article article)
-        {
-            if (id != article.ArticleId)
-            {
-                return NotFound();
-            }
-
-            ModelState.Remove("Images");
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(article);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ArticleExists(article.ArticleId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", article.RockstarId);
-            return View(article);
-        }
 
         private bool ArticleExists(int id)
         {
@@ -289,16 +235,20 @@ namespace RockstarsIT.Controllers
         [HttpPost]
         public async Task<JsonResult> AddTextblock(Article article)
         {
-            var articleTextBlocks = new ArticleTextBlocks()
+            if (article != null)
             {
-                ArticleId = article.ArticleId
-            };
+                var articleTextBlocks = new ArticleTextBlocks()
+                {
+                    ArticleId = article.ArticleId
+                };
 
-            _context.Add(articleTextBlocks);
-            await _context.SaveChangesAsync();
-            article = await _context.Article.Include(a => a.ArticleTextBlocks).FirstOrDefaultAsync(m => m.ArticleId == article.ArticleId);
+                _context.Add(articleTextBlocks);
+                await _context.SaveChangesAsync();
+                article = await _context.Article.Include(a => a.ArticleTextBlocks).FirstOrDefaultAsync(m => m.ArticleId == article.ArticleId);
 
-            return Json(new { Success = true, ArticleTextblockId = articleTextBlocks.ArticleTextBlockId, Message = "Textblock added" });
+                return Json(new { Success = true, ArticleTextblockId = articleTextBlocks.ArticleTextBlockId, Message = "Textblock added" });
+            }
+            return Json(new { Succes = false, Message = "Something went wrong" });
         }
 
         [HttpPost]
