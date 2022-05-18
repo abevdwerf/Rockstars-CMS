@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RockstarsIT.Models;
 
 namespace RockstarsIT.Models
 {
@@ -21,6 +20,16 @@ namespace RockstarsIT.Models
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<ArticleTextBlocks>()
+            .HasOne(a => a.Article)
+            .WithMany(b => b.ArticleTextBlocks)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ArticleImages>()
+            .HasOne(a => a.Article)
+            .WithMany(b => b.ArticleImages)
+            .OnDelete(DeleteBehavior.Cascade);
+
             Tribe tribe1 = new Tribe()
             {
                 TribeId = 1,
