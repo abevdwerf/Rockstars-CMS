@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -112,15 +113,16 @@ namespace RockstarsIT.Controllers
                 }
                 ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", video.RockstarId);
                 ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", video.TribeId);
-                return RedirectToAction("Edit", new { id = video.VideoId });
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
+            
+            return RedirectToAction("Edit", new { id = video.VideoId });
         }
 
         // POST: Video/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var video = await _context.Videos.FindAsync(id);
             _context.Videos.Remove(video);
@@ -157,7 +159,6 @@ namespace RockstarsIT.Controllers
                 int end = link.IndexOf(part2, start);
                 string result = link.Substring(start, 11);
                 link = result;
-                return link;
             }
             else if (link.Contains("youtube.com/watch?v="))
             {
@@ -166,7 +167,6 @@ namespace RockstarsIT.Controllers
                 int end = link.IndexOf(part2, start);
                 string result = link.Substring(start, 11);
                 link = result;
-                return link;
             }
             else if (link.Contains("youtube.com/embed/"))
             {
@@ -175,7 +175,6 @@ namespace RockstarsIT.Controllers
                 int end = link.IndexOf(part2, start);
                 string result = link.Substring(start, 11);
                 link = result;
-                return link;
             }
             else if (link.Contains("vimeo.com/"))
             {
@@ -184,7 +183,6 @@ namespace RockstarsIT.Controllers
                 int end = link.IndexOf(part2, start);
                 string result = link.Substring(start, 9);
                 link = result;
-                return link;
             }
             else if (link.Contains("player.vimeo.com/video/"))
             {
@@ -193,12 +191,63 @@ namespace RockstarsIT.Controllers
                 int end = link.IndexOf(part2, start);
                 string result = link.Substring(start, 9);
                 link = result;
-                return link;
             }
             else
             {
                 return null;
             }
+
+            if (link.Length == 11)
+            {
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://www.youtube.com/" + link);
+                request.Method = "HEAD";
+                try
+                {
+                    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                    {
+                        if (response.ResponseUri.ToString().Contains("youtube.com"))
+                        {
+                            return link;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            else if (link.Length == 9)
+            {
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://vimeo.com/" + link);
+                request.Method = "HEAD";
+                try
+                {
+                    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                    {
+                        if (response.ResponseUri.ToString().Contains("vimeo.com"))
+                        {
+                            return link;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+            
         }
     }
 }

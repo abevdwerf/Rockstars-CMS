@@ -10,191 +10,205 @@
     <div class="col-md-6  text-left">
         <a asp-action="Create" class="btn button" lang="nl">
             NIEUWE VIDEO
-            <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
+            <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg" />
         </a>
         <a asp-action="Create" class="btn button" lang="en-uk">
             NEW VIDEO
-            <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
+            <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg" />
         </a>
-        <br/>
-        <br/>
+        <br />
+        <br />
     </div>
-    @if(ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowType"].ToString() == ""){
-     <div class="col-md-6  text-right">
-        <a asp-action="Index" asp-route-view ="grid" style="float:right;" class="btn button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-            </svg>
-        </a>
+    @if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowType"].ToString() == "")
+    {
+        <div class="col-md-6  text-right">
+            <a asp-action="Index" asp-route-view="grid" style="float:right;" class="btn button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                </svg>
+            </a>
         </div>
 
     }
     else if (ViewData["DataShowType"].ToString() == "grid")
     {
-     <div class="col-md-6 text-right">
-        <a asp-action="Index" asp-route-view ="cards" style="float:right;" class="btn button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid-3x3-gap-fill" viewBox="0 0 16 16">
-                <path d="M1 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2zM1 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V7zM1 12a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2z"/>
-            </svg>
-        </a>
-    </div>
+        <div class="col-md-6 text-right">
+            <a asp-action="Index" asp-route-view="cards" style="float:right;" class="btn button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid-3x3-gap-fill" viewBox="0 0 16 16">
+                    <path d="M1 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2zM1 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V7zM1 12a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2z" />
+                </svg>
+            </a>
+        </div>
     }
 </div>
-@if(ViewData["DataShowType"].ToString() == "grid")
+@if (ViewData["DataShowType"].ToString() == "grid")
 {
     <table class="table table-bordered bg-light">
-    <thead class="thead-dark">
-        <tr>
-            <th>
-                <label lang="nl">TITEL</label> <label lang="en-uk">ACTIONS</label>
-            </th>
-            <th>
-                <label lang="nl">BESCHRIJVING</label> <label lang="en-uk">DESCRIPTION</label>
-            </th>
-            <th>
-                <label>VIDEO ID</label>
-            </th>
-            <th>
-                <label>TRIBE</label>
-            </th>
-            <th>
-                <label>ROCKSTAR</label>
-            </th>
-            <th> 
-                <label lang="nl">PUBLICATIEDATUM</label> <label lang="en-uk">PUBLICATION DATE</label>
-            </th>
-            <th>
-                <label>STATUS</label>
-            </th>
-            <th>
-                <label lang="nl">STATUS VERANDEREN</label> <label lang="en-uk">CHANGE STATUS</label>
-            </th>
-            <th>
-                <label lang="nl">ACTIES</label> <label lang="en-uk">ACTIONS</label>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+        <thead class="thead-dark">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @if (item.Link.Length == 11)
-                    {
-                        <p>YouTube: @item.Link</p>
-                    }
-                    else if (item.Link.Length == 9)
-                    {
-                        <p>Vimeo: @item.Link</p>
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Tribe.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Rockstar.Name)
-                </td>
-                <td>
-                @if(item.PublishedStatus)
-                {
-                    @Html.DisplayFor(modelItem => item.DatePublished)
-                }
-                else
-                {
-                    <p class="align-content-center">-----</p>
-                }
-            </td>
-            <td>
-                @if(item.PublishedStatus)
-                {
-                   <p lang="nl">Gepubliceerd</p> 
-                   <p lang="en-uk">Published</p> 
-                }
-                else
-                {
-                    <p lang="nl">Concept</p>
-                    <p lang="en-uk">Draft</p>
-                }
-            </td>
-            <td>
-                @if(item.PublishedStatus)
-                {
-                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="false" class="btn btn-danger" lang="nl">Depubliceren
-                <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
-                </a>
-                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="false" class="btn btn-danger" lang="en-uk">Unpublish
-                <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
-                </a>
-               
-                }
-                else
-                {
-                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn btn-success" lang="nl">Publiceren
-                        <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
-                </a>
-                    <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn btn-success" lang="en-uk">Publish
-                        <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
-                </a>
-                
-                }
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.VideoId" class="btn button mr-2">
-                        <label lang="nl" class="text-black">LEZEN</label> <label lang="en-uk" class="text-black">READ</label>
-                        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                         <path d="M0 0h24v24H0z" fill="none" />
-                         <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                     </svg>
-                    </a>
-                </td>
+                <th>
+                    <label lang="nl">TITEL</label> <label lang="en-uk">ACTIONS</label>
+                </th>
+                <th>
+                    <label lang="nl">BESCHRIJVING</label> <label lang="en-uk">DESCRIPTION</label>
+                </th>
+                <th>
+                    <label>VIDEO ID</label>
+                </th>
+                <th>
+                    <label>TRIBE</label>
+                </th>
+                <th>
+                    <label>ROCKSTAR</label>
+                </th>
+                <th>
+                    <label lang="nl">PUBLICATIEDATUM</label> <label lang="en-uk">PUBLICATION DATE</label>
+                </th>
+                <th>
+                    <label>STATUS</label>
+                </th>
+                <th>
+                    <label lang="nl">STATUS VERANDEREN</label> <label lang="en-uk">CHANGE STATUS</label>
+                </th>
+                <th>
+                    <label lang="nl">ACTIES</label> <label lang="en-uk">ACTIONS</label>
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @if (item.Link != null)
+                        {
+                            if (item.Link.Length == 11)
+                            {
+                                <p>YouTube: @item.Link</p>
+                            }
+                            else if (item.Link.Length == 9)
+                            {
+                                <p>Vimeo: @item.Link</p>
+                            }
+                        }
+                        else
+                        {
+                            <p lang="en-uk">Invalid Link</p>
+                            <p lang="nl">Invalide Link</p>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tribe.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rockstar.Name)
+                    </td>
+                    <td>
+                        @if (item.PublishedStatus)
+                        {
+                            @Html.DisplayFor(modelItem => item.DatePublished)
+                        }
+                        else
+                        {
+                            <p class="align-content-center">-----</p>
+                        }
+                    </td>
+                    <td>
+                        @if (item.PublishedStatus)
+                        {
+                            <p lang="nl">Gepubliceerd</p>
+                            <p lang="en-uk">Published</p>
+                        }
+                        else
+                        {
+                            <p lang="nl">Concept</p>
+                            <p lang="en-uk">Draft</p>
+                        }
+                    </td>
+                    <td>
+                        @if (item.PublishedStatus)
+                        {
+                            <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="false" class="btn btn-danger" lang="nl">
+                                Depubliceren
+                                <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg" />
+                            </a>
+                            <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="false" class="btn btn-danger" lang="en-uk">
+                                Unpublish
+                                <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg" />
+                            </a>
+
+                        }
+                        else
+                        {
+                            <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn btn-success" lang="nl">
+                                Publiceren
+                                <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg" />
+                            </a>
+                            <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn btn-success" lang="en-uk">
+                                Publish
+                                <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg" />
+                            </a>
+
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.VideoId" class="btn button mr-2">
+                            <label lang="nl" class="text-black">LEZEN</label> <label lang="en-uk" class="text-black">READ</label>
+                            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                <path d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
 }
 else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowType"].ToString() == "")
 {
     <div class="row">
-@foreach (var item in Model) {
-<div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch  spaceBetweenArticles">
-   <div class="card">
-       @if(item.Link != null)
-       {
-           if(item.Link.Length == 11 )
-       {
-            <img class="card-img-top" src="https://img.youtube.com/vi/@item.Link/0.jpg" alt="Card image cap">
-       }
-       else if (item.Link.Length == 9)
-       {
-             <img class="card-img-top" id="vimeoimg" name="@item.Link" src="https://vumbnail.com/@item.Link">
-       }
-       }
-         <div class="card-body">
-         <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Title)</h5>
-         <p class="card-text">@Html.DisplayFor(modelItem => item.Rockstar.Name)</p>
-      </div>
-      <ul class="list-group list-group-flush">
-         <li class="list-group-item"  style="background-color:#FFE000">
-            <a asp-action="Edit" asp-route-id="@item.VideoId" class="card-link btn button-white">
-               <label lang="nl" class="text-black">LEZEN</label> <label lang="en-uk" class="text-black">READ</label>
-               <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-               </svg>
-            </a>
-         </li>
-      </ul>
-   </div>
-</div>
-}
-</div>
+        @foreach (var item in Model)
+        {
+            <div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch  spaceBetweenArticles">
+                <div class="card">
+                    @if (item.Link != null)
+                    {
+                        if (item.Link.Length == 11)
+                        {
+                            <img class="card-img-top" src="https://img.youtube.com/vi/@item.Link/0.jpg" alt="Card image cap">
+                        }
+                        else if (item.Link.Length == 9)
+                        {
+                            <img class="card-img-top" id="vimeoimg" name="@item.Link" src="https://vumbnail.com/@item.Link">
+                        }
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Title)</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.Rockstar.Name)</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" style="background-color:#FFE000">
+                            <a asp-action="Edit" asp-route-id="@item.VideoId" class="card-link btn button-white">
+                                <label lang="nl" class="text-black">LEZEN</label> <label lang="en-uk" class="text-black">READ</label>
+                                <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                    <path d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        }
+    </div>
 }
 
 <script>
