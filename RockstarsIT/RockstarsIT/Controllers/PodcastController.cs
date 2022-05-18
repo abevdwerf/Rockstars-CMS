@@ -46,17 +46,29 @@ namespace RockstarsIT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PodcastId,URL,RockstarId,TribeId")] Podcast podcast)
         {
+            if (podcast.URL.Contains("?si="))
+            {
+                podcast.URL = podcast.URL.Substring(0, podcast.URL.IndexOf("?"));
+            }
             podcast.Title = spotify.GetTitle(spotify.GetSpotifyLinkId(podcast.URL));
             podcast.Description = spotify.GetDescription(spotify.GetSpotifyLinkId(podcast.URL));
-            if (ModelState.IsValid)
+
+            if (spotify.CheckLinkInput(podcast.URL))
             {
-                _context.Add(podcast);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(podcast);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
+                ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
+                return View(podcast);
             }
-            ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
-            ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
-            return View(podcast);
+            else
+            {
+                throw new Exception("Invalid Link");
+            }
         }
 
         // GET: Podcast/Edit/5
@@ -89,29 +101,36 @@ namespace RockstarsIT.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if(spotify.CheckLinkInput(podcast.URL))
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(podcast);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PodcastExists(podcast.PodcastId))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(podcast);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!PodcastExists(podcast.PodcastId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", podcast.RockstarId);
+                ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", podcast.TribeId);
+                return View(podcast);
             }
-            ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", podcast.RockstarId);
-            ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", podcast.TribeId);
-            return View(podcast);
+            else
+            {
+                throw new Exception("Invalid Link");
+            }
         }
 
         // POST: Podcast/Delete/5
