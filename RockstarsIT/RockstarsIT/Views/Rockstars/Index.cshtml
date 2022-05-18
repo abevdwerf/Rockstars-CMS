@@ -14,46 +14,52 @@
 </p>
 <table class="table table-bordered bg-light">
     <thead class="thead-dark">
-        <tr>
-            <th>
-                TRIBE
-            </th> 
-            <th>
-                ROL
-            </th>
-            <th>
-                REGIO
-            </th>
-            <th>
-                LINKEDIN
-            </th>
-            <th>
-                ACTIES
-            </th>
-        </tr>
+    <tr>
+        <th>
+            NAME
+        </th>
+        <th>
+            TRIBE
+        </th>
+        <th>
+            ROL
+        </th>
+        <th>
+            REGIO
+        </th>
+        <th>
+            LINKEDIN
+        </th>
+        <th>
+            ACTIES
+        </th>
+    </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tribe.Name)
-            </td> 
-            <td>
-                @Html.DisplayFor(modelItem => item.Role.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Chapter)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LinkedIn)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.RockstarId" class="btn button mr-2">
-                    BEWERKEN
-                    <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
-                </a>
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td> 
+        <td>
+            @Html.DisplayFor(modelItem => item.Tribe.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Role.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Chapter)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LinkedIn)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.RockstarId" class="btn button mr-2">
+                BEWERKEN
+                <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
+            </a>
+        </td>
+    </tr>
 }
     </tbody>
 </table>
