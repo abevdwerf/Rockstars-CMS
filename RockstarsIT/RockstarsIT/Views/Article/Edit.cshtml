@@ -88,13 +88,20 @@
                         @if (item == Model.ArticleTextBlocks.First())
                         {
                             <div class="tab-pane fade show active" id="tab-@item.ArticleTextBlockId">
-                                <textarea class="textarea w-100" rows="5">@item.Text</textarea>
+                                <textarea class="textarea w-100" hidden rows="5">@item.Text</textarea>
+                                <textarea class="editor">
+                                    @item.Text
+                                </textarea>
                             </div>
                         }
                         else    
                         {   
                             <div class="tab-pane fade" id="tab-@item.ArticleTextBlockId">
-                                <textarea class="textarea w-100" rows="5">@item.Text</textarea>
+                                <textarea class="textarea w-100" hidden rows="5">@item.Text</textarea>
+
+                                <textarea class="editor">
+                                    @item.Text
+                                </textarea>
                             </div>
                         }
                     }
@@ -111,7 +118,7 @@
         <div class="row">
             <div class="col-md-5">
                 <div class="custom-file upload__box">
-                    <input asp-for="Images" class="custom-file-input upload__inputfile" multiple id="customFile">
+                    <input asp-for="Images" class="custom-file-input upload__inputfile" hidden multiple id="customFile">
                     <label asp-for="Images" class="custom-file-label" for="customFile" data-browse="Bestand kiezen"></label>
                     <span asp-validation-for="Images" class="text-danger"></span>
                 </div>
@@ -162,6 +169,20 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
+        function OpenEditor(updatefield) {
+        let editelements = document.getElementsByName(updatefield);
+        for(let i = 0; i < editelements.length;i++){
+            if(editelements[i].hidden == true){
+              editelements[i].hidden = false;
+              document.getElementById(updatefield).innerHTML = "Cancel"
+            }
+            else{
+              editelements[i].hidden = true;
+              document.getElementById(updatefield).innerHTML = "Edit"
+        }
+        }
+    }
+
         jQuery(document).ready(function () {
             $("#loading").hide();
 

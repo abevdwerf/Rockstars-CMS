@@ -1,4 +1,4 @@
-namespace RockstarsIT.Models
+﻿namespace RockstarsIT.Models
 {
     public class SpotifyCredentials
     {

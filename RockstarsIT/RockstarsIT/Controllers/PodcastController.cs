@@ -26,7 +26,7 @@ namespace RockstarsIT.Controllers
         {
             string dataShowType = HttpContext.Request.Query["view"].ToString();
             ViewData["DataShowType"] = dataShowType;
-            var databaseContext = _context.Podcasts.Include(p => p.Auteur).Include(p => p.Tribe);
+            var databaseContext = _context.Podcasts.Include(p => p.Rockstar).Include(p => p.Tribe);
             return View(await databaseContext.ToListAsync());
         }
         
@@ -46,8 +46,8 @@ namespace RockstarsIT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PodcastId,URL,RockstarId,TribeId")] Podcast podcast)
         {
-            podcast.Titel = spotify.GetTitle(spotify.GetSpotifyLinkId(podcast.URL));
-            podcast.Omschrijving = spotify.GetDescription(spotify.GetSpotifyLinkId(podcast.URL));
+            podcast.Title = spotify.GetTitle(spotify.GetSpotifyLinkId(podcast.URL));
+            podcast.Description = spotify.GetDescription(spotify.GetSpotifyLinkId(podcast.URL));
             if (ModelState.IsValid)
             {
                 _context.Add(podcast);
@@ -82,7 +82,7 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PodcastId,Titel,Omschrijving,URL,RockstarId,TribeId")] Podcast podcast)
+        public async Task<IActionResult> Edit(int id, [Bind("PodcastId,Title,Description,URL,RockstarId,TribeId")] Podcast podcast)
         {
             if (id != podcast.PodcastId)
             {

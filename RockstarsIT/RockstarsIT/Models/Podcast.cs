@@ -6,27 +6,27 @@ namespace RockstarsIT.Models
     public class Podcast
     {
         // Fields
-        private string _titel;
-        private string _omschrijving;
+        private string _title;
+        private string _description;
         private string _url;
         private DateTime _dateCreated;
         private DateTime _dateModified;
         private DateTime _datePublished;
         private bool _publishedStatus;
         private int _viewCount;
-        private Rockstar _auteur;
+        private Rockstar _rockstar;
         private Tribe _tribe;
         // Properties
         public int PodcastId { get; set; }
-        public string Titel
+        public string Title
         {
-            get => _titel; 
-            set => _titel = value;
+            get => _title; 
+            set => _title = value;
         }
-        public string Omschrijving
+        public string Description
         {
-            get => _omschrijving; 
-            set => _omschrijving = value;
+            get => _description; 
+            set => _description = value;
         }
         public string URL
         {
@@ -61,10 +61,10 @@ namespace RockstarsIT.Models
         }
         public int? RockstarId { get; set; }
         [ForeignKey("RockstarId")]
-        public Rockstar Auteur
+        public Rockstar Rockstar
         {
-            get => _auteur; 
-            set => _auteur = value;
+            get => _rockstar; 
+            set => _rockstar = value;
         }
         public int? TribeId { get; set; }
         [ForeignKey("TribeId")]

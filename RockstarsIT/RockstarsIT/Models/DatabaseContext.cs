@@ -9,6 +9,8 @@ namespace RockstarsIT.Models
         
         public DbSet<Rockstar> Rockstars { get; set; }
         public DbSet<Tribe> Tribes { get; set; }
+        public DbSet<TribeImages> TribeImages { get; set; }
+        public DbSet<TribeTextBlock> TribeTextBlocks { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Article> Article { get; set; }
