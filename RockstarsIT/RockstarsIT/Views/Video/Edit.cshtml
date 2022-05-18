@@ -37,9 +37,11 @@
         <div class="col-md-6">
             @if (Model.Link != null)
             {
-                <label asp-for="Link" class="control-label">Video</label> <a id="link" href="javascript:void(0)" onclick="OpenEditor(this.id)">Edit Link</a> 
+                <label asp-for="Link" class="control-label">Video</label> <a id="link" href="javascript:void(0)" onclick="OpenEditor(this.id)"><img id="editimg" class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/></a> 
+
                 if (Model.Link.Length == 11)
                 {
+                    <br>
                     <br>
                     <iframe src="https://www.youtube.com/embed/@Model.Link" name="link"></iframe>
                     <input hidden asp-for="Link" class="textbox w-100" name="link" value="www.youtu.be/@Model.Link" />
@@ -47,6 +49,7 @@
                 }
                 else if (Model.Link.Length == 9)
                 {
+                    <br>
                     <br>
                     <iframe src="https://player.vimeo.com/video/@Model.Link" name="link"></iframe>
                     <input hidden asp-for="Link" class="textbox w-100" name="link" value="www.vimeo.com/@Model.Link"/>
@@ -126,11 +129,11 @@
         for(let i = 0; i < editelements.length;i++){
             if(editelements[i].hidden == true){
               editelements[i].hidden = false;
-              document.getElementById(updatefield).innerHTML = "Cancel"
+              document.getElementById("editimg").src = '/icons/x-circle.svg'
             }
             else{
               editelements[i].hidden = true;
-              document.getElementById(updatefield).innerHTML = "Edit Link"
+              document.getElementById("editimg").src = '/icons/Pen-geel.svg'
         }
         }
     }
