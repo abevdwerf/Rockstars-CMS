@@ -37,7 +37,29 @@ namespace RockstarsIT.Controllers
                 ViewData["percentageObject4"] = (((double)sortedList[3].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
                 ViewData["percentageObject5"] = (((double)sortedList[4].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
             }
+
+            ViewData["conceptContent"] = GetNumberConceptContent();
+            ViewData["publishedContent"] = GetNumberPublishedContent();
             return View();
+        }
+
+
+        private int GetNumberConceptContent()
+        {
+            int conceptContent = 0;
+            conceptContent += _context.Article.Count(item => item.PublishedStatus == false);
+            conceptContent += _context.Videos.Count(item => item.PublishedStatus == false);
+            conceptContent += _context.Podcasts.Count(item => item.PublishedStatus == false);
+            return conceptContent;
+        }
+
+        private int GetNumberPublishedContent()
+        {
+            int publishedContent = 0;
+            publishedContent = _context.Article.Count(item => item.PublishedStatus == true);
+            publishedContent = _context.Videos.Count(item => item.PublishedStatus == true);
+            publishedContent = _context.Podcasts.Count(item => item.PublishedStatus == true);
+            return publishedContent;
         }
 
         private List<DashboardContent> GetTopFiveContent()
@@ -49,6 +71,10 @@ namespace RockstarsIT.Controllers
                 foreach (Article article in articles)
                 {
                     DashboardContent dc = new DashboardContent();
+                    dc.SVGLocation = "/icons/Article.svg";
+                    dc.Id = article.ArticleId;
+                    dc.Controller = "Article";
+                    dc.ModelName = "Artikel";
                     dc.Content = article;
                     dc.ViewCount = article.ViewCount;
                     content.Add(dc);
@@ -60,6 +86,10 @@ namespace RockstarsIT.Controllers
                 foreach (Video video in videos)
                 {
                     DashboardContent dc = new DashboardContent();
+                    dc.SVGLocation = "/icons/Video.svg";
+                    dc.Id = video.VideoId;
+                    dc.Controller = "Video";
+                    dc.ModelName = "Video";
                     dc.Content = video;
                     dc.ViewCount = video.ViewCount;
                     content.Add(dc);
@@ -71,6 +101,10 @@ namespace RockstarsIT.Controllers
                 foreach (Podcast podcast in podcasts)
                 {
                     DashboardContent dc = new DashboardContent();
+                    dc.SVGLocation = "/icons/Mic.svg";
+                    dc.Id = podcast.PodcastId;
+                    dc.Controller = "Podcast";
+                    dc.ModelName = "Podcast";
                     dc.Content = podcast;
                     dc.ViewCount = podcast.ViewCount;
                     content.Add(dc);
