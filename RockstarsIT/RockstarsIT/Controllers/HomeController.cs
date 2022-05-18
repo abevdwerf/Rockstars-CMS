@@ -62,6 +62,25 @@ namespace RockstarsIT.Controllers
             return publishedContent;
         }
 
+
+        private int GetNumberConceptContent()
+        {
+            int conceptContent = 0;
+            conceptContent +=_context.Article.Count(item => item.PublishedStatus == false);
+            conceptContent +=_context.Videos.Count(item => item.PublishedStatus == false);
+            conceptContent +=_context.Podcasts.Count(item => item.PublishedStatus == false);
+            return conceptContent;
+        }
+
+        private int GetNumberPublishedContent()
+        {
+            int publishedContent = 0;
+            publishedContent = _context.Article.Count(item => item.PublishedStatus == true);
+            publishedContent = _context.Videos.Count(item => item.PublishedStatus == true);
+            publishedContent = _context.Podcasts.Count(item => item.PublishedStatus == true);
+            return publishedContent;
+        }
+
         private List<DashboardContent> GetTopFiveContent()
         {
             List<DashboardContent> content = new List<DashboardContent>();
