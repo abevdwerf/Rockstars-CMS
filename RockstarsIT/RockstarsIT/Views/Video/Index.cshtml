@@ -134,24 +134,20 @@
                     <td>
                         @if (item.PublishedStatus)
                         {
-                            <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="false" class="btn btn-danger" lang="nl">
-                                Depubliceren
+                            <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="false" class="btn text-black" lang="nl">
                                 <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg" />
                             </a>
-                            <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="false" class="btn btn-danger" lang="en-uk">
-                                Unpublish
+                            <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="false" class="btn text-black" lang="en-uk">
                                 <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg" />
                             </a>
 
                         }
                         else
                         {
-                            <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn btn-success" lang="nl">
-                                Publiceren
+                            <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn text-black" lang="nl">
                                 <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg" />
                             </a>
-                            <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn btn-success" lang="en-uk">
-                                Publish
+                            <a asp-action="ChangeStatus" asp-route-id="@item.VideoId" asp-route-status="true" class="btn text-black" lang="en-uk">
                                 <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg" />
                             </a>
 
@@ -159,7 +155,7 @@
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.VideoId" class="btn button mr-2">
-                            <label lang="nl" class="text-black">LEZEN</label> <label lang="en-uk" class="text-black">READ</label>
+                            <label lang="nl" class="text-black">BEWERKEN</label> <label lang="en-uk" class="text-black">EDIT</label>
                             <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                                 <path d="M0 0h24v24H0z" fill="none" />
                                 <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
@@ -197,11 +193,8 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" style="background-color:#FFE000">
                             <a asp-action="Edit" asp-route-id="@item.VideoId" class="card-link btn button-white">
-                                <label lang="nl" class="text-black">LEZEN</label> <label lang="en-uk" class="text-black">READ</label>
-                                <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                                    <path d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                                </svg>
+                                <label lang="nl" class="text-black">BEWERKEN</label> <label lang="en-uk" class="text-black">EDIT</label>
+                                <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
                             </a>
                         </li>
                     </ul>

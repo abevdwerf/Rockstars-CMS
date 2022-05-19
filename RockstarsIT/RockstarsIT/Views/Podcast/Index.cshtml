@@ -120,14 +120,12 @@
                         @if (item.PublishedStatus)
                         {
                             <a asp-action="ChangeStatus" asp-route-id="@item.PodcastId" asp-route-status="false" class="btn text-black">
-                                CONCEPT
                                 <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
                             </a>
                         }
                         else
                         {
                             <a asp-action="ChangeStatus" asp-route-id="@item.PodcastId" asp-route-status="true" class="btn text-black">
-                                PUBLICEREN
                                 <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
                             </a>
                         }

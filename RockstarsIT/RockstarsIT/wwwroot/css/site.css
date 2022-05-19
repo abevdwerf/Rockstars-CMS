@@ -101,6 +101,7 @@ body {
     font-size: 14px;
     height: 47px;
     padding-left: 10px;
+    border-radius: 5px;
 }
 
 .textarea {
@@ -111,6 +112,7 @@ body {
     border-bottom: 1px solid dimgray;
     font-size: 14px;
     padding-left: 10px;
+    border-radius: 5px;
 }
 
 .textbox:hover {
