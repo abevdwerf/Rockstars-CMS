@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection.Metadata;
+using static RockstarsIT.Controllers.RockstarsController;
 
 namespace RockstarsIT.Models
 {
@@ -45,6 +46,7 @@ namespace RockstarsIT.Models
             get => _name;
             set => _name = value;
         }
+
         public string LinkedIn
         {
             get => _linkedIn;

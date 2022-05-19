@@ -20,11 +20,6 @@
             <label class="control-label">Auteur</label>
             <select asp-for="RockstarId" class="form-control" asp-items="ViewBag.RockstarNames"></select>
         </div>
-        <div class="col-md-6 mb-3">
-            <label asp-for="Description" class="control-label">Beschrijving</label>
-            <input asp-for="Description" class="textbox w-100" />
-            <span asp-validation-for="Description" class="text-danger"></span>
-        </div>
     </div>
     <div class="form-group">
         <button type="submit" value="Save" class="btn button">
@@ -88,7 +83,6 @@
                         @if (item == Model.ArticleTextBlocks.First())
                         {
                             <div class="tab-pane fade show active" id="tab-@item.ArticleTextBlockId">
-                                <textarea class="textarea w-100" hidden rows="5">@item.Text</textarea>
                                 <textarea class="editor">
                                     @item.Text
                                 </textarea>
@@ -97,8 +91,6 @@
                         else    
                         {   
                             <div class="tab-pane fade" id="tab-@item.ArticleTextBlockId">
-                                <textarea class="textarea w-100" hidden rows="5">@item.Text</textarea>
-
                                 <textarea class="editor">
                                     @item.Text
                                 </textarea>
@@ -118,7 +110,7 @@
         <div class="row">
             <div class="col-md-5">
                 <div class="custom-file upload__box">
-                    <input asp-for="Images" class="custom-file-input upload__inputfile" hidden multiple id="customFile">
+                    <input asp-for="Images" class="custom-file-input upload__inputfile" multiple id="customFile" accept="image/*">
                     <label asp-for="Images" class="custom-file-label" for="customFile" data-browse="Bestand kiezen"></label>
                     <span asp-validation-for="Images" class="text-danger"></span>
                 </div>
@@ -148,41 +140,44 @@
         }
     </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ArticleId" class="btn button mr-2 mt-3">
-        DETAILS
-        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-        </svg>
-    </a>
-    <a asp-action="Index" class="btn button-cancel ml-3 mt-3">
-        TERUG NAAR OVERZICHT
-        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-        </svg>
-    </a>
+<div class="row">
+    <div class="col-md-6">
+        @using (Html.BeginForm(FormMethod.Post))
+            {
+            <a asp-action="Index" class="btn button-cancel mr-3">
+                TERUG NAAR OVERZICHT
+                <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                </svg>
+            </a>
+            @if (@Model.PublishedStatus)
+            {
+                <a asp-action="ChangeStatus" asp-route-id="@Model.ArticleId" asp-route-status="false" class="btn button mr-3">
+                    CONCEPT
+                    <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
+                </a>
+            }
+            else
+            {
+                <a asp-action="ChangeStatus" asp-route-id="@Model.ArticleId" asp-route-status="true" class="btn button mr-3">
+                    PUBLICEREN
+                    <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
+                </a>
+            }
+            <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.ArticleId" class="btn button-cancel">
+                VERWIJDEREN
+                <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg"/>
+            </a>
+            <input type="submit" asp-action="Delete" asp-route-id="@Model.ArticleId" hidden id="@Model.ArticleId"/>
+        }
+    </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
-        function OpenEditor(updatefield) {
-        let editelements = document.getElementsByName(updatefield);
-        for(let i = 0; i < editelements.length;i++){
-            if(editelements[i].hidden == true){
-              editelements[i].hidden = false;
-              document.getElementById(updatefield).innerHTML = "Cancel"
-            }
-            else{
-              editelements[i].hidden = true;
-              document.getElementById(updatefield).innerHTML = "Edit"
-        }
-        }
-    }
-
         jQuery(document).ready(function () {
             $("#loading").hide();
 
@@ -350,36 +345,48 @@
                 }  
             });   
 
-          //delete image
-          $(document).on("click", ".upload__img-close", function (e) {
+            //delete image
+            $(document).on("click", ".upload__img-close", function (e) {
 
-            var currentDiv = $(this);
-            // Create FormData object  
-            var data = new FormData();  
+                var currentDiv = $(this);
+                // Create FormData object  
+                var data = new FormData();  
               
-            // Adding articleId to FormData object  
-            data.append('ArticleImageId', $(this).data("id"));
+                // Adding articleId to FormData object  
+                data.append('ArticleImageId', $(this).data("id"));
 
-            $.ajax({  
-                async: true,
-                type: "POST",
-                dataType: "json",
-                url: "/Article/DeleteImage",  
-                data: data,
-                contentType: false, // Not to set any content header  
-                processData: false, // Not to process data  
-                success: function (response) {  
-                    if (response.Success) {
-                        alert(response.Message);
-                        //delete div
-                        currentDiv.closest(".upload__img-box").remove();
-                    }
-                },  
-                error: function (response) {  
-                    alert("failed to delete image");  
-                }  
-            });  
-          });
+                $.ajax({  
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    url: "/Article/DeleteImage",  
+                    data: data,
+                    contentType: false, // Not to set any content header  
+                    processData: false, // Not to process data  
+                    success: function (response) {  
+                        if (response.Success) {
+                            alert(response.Message);
+                            //delete div
+                            currentDiv.closest(".upload__img-box").remove();
+                        }
+                    },  
+                    error: function (response) {  
+                        alert("failed to delete image");  
+                    }  
+                });  
+            });
         });
+
+        function ConfirmDelete(id) {
+            const conbtn2 = document.getElementById(id);
+
+            let text = "Weet je zeker dat u deze artikel wilt verwijderen?"
+            if (confirm(text) == true) {
+                conbtn2.click();
+            }
+            else {
+                console.log("test");
+            }
+        }
     </script>
 }

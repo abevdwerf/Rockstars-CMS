@@ -40,23 +40,6 @@
                 <span asp-validation-for="LeadAddress" class="text-danger"></span>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                @using (Html.BeginForm(FormMethod.Post))
-                {
-                    <button class="btn button mr-3" type="submit">
-                        WIJZIGINGEN OPSLAAN
-                        <img class="ml-2" height="32" width="32" src="~/icons/save-zwart.svg"/>
-                    </button>
-
-                    <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.TribeId" class="btn button-cancel">
-                        VERWIJDEREN
-                        <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg"/>
-                    </a>
-                    <input type="submit" asp-action="Delete" asp-route-id="@Model.TribeId" hidden id="@Model.TribeId"/>
-                }
-            </div>
-        </div>
     </form>
 
     <div class="form-group">
@@ -172,11 +155,28 @@
     </div>
 </div>
     <div>
+        <div class="row">
+            <div class="col-md-6">
+                @using (Html.BeginForm(FormMethod.Post))
+                {
+                    <button class="btn button mr-3" type="submit">
+                        WIJZIGINGEN OPSLAAN
+                        <img class="ml-2" height="32" width="32" src="~/icons/save-zwart.svg"/>
+                    </button>
+
+                    <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.TribeId" class="btn button-cancel">
+                        VERWIJDEREN
+                        <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg"/>
+                    </a>
+                    <input type="submit" asp-action="Delete" asp-route-id="@Model.TribeId" hidden id="@Model.TribeId"/>
+                }
+            </div>
+        </div>
         <a asp-action="Index" class="btn button-cancel mt-3">
             TERUG NAAR OVERZICHT
             <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
             </svg>
         </a>
     </div>
@@ -433,5 +433,3 @@
         });
 </script>
 }
-
-

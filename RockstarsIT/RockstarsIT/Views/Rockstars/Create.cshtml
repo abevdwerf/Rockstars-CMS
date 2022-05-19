@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label asp-for="LinkedIn" class="control-label"></label> <br>
-                    <input asp-for="LinkedIn" class="textbox w-100" />
+                    <input asp-for="LinkedIn" class="textbox w-100" id="link"/>
                     <span asp-validation-for="LinkedIn" class="text-danger"></span>
                 </div>
                 <div class="col-md-6 mb-3">
@@ -57,7 +57,7 @@
             </div>    
             <div class="row">
                 <div class="col-md-6">
-                    <button class="btn button" type="submit">
+                    <button class="btn button" type="submit" onclick="CheckLinkedIn()">
                         ROCKSTAR AANMAKEN
                         <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/> 
                     </button>
@@ -75,7 +75,8 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-      <script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script>
         $('#postedFile').on('change',
             function(e) {
                 //get the file name
@@ -83,5 +84,5 @@
                 //replace the "Choose a file" label
                 $(this).next('.custom-file-label').html(fileName);
             })
-    </script>
-}
+        </script>
+}   

@@ -145,7 +145,7 @@ namespace RockstarsIT.Controllers
             }
             _context.Entry(video).Property(r => r.PublishedStatus).IsModified = true;
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Redirect("/Video/Index?view=grid");
         }
 
         public string GetVideoId(string link)
@@ -199,10 +199,9 @@ namespace RockstarsIT.Controllers
 
             if (link.Length == 11)
             {
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://www.youtube.com/" + link);
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://www.youtube.com/watch/?v=" + link);
+                request.UserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)";
                 request.Method = "HEAD";
-                try
-                {
                     using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                     {
                         if (response.ResponseUri.ToString().Contains("youtube.com"))
@@ -214,11 +213,6 @@ namespace RockstarsIT.Controllers
                             return null;
                         }
                     }
-                }
-                catch
-                {
-                    return null;
-                }
             }
             else if (link.Length == 9)
             {

@@ -149,7 +149,7 @@
                 $('[lang="nl"]').hide();
                 localStorage.setItem("lan", "en-uk");
             }
-        
+            console.log(localStorage.getItem);
 
         function SwitchLanguage() {
             $('[lang="nl"]').toggle();
@@ -158,13 +158,14 @@
             {
                  localStorage.setItem("lan", "en-uk");
             }
-            else if(document.getElementById("enlanguage").style.display == "none"){
+            else if(document.getElementById("enlanguage").style.display == "none")
+            {
                  localStorage.setItem("lan", "nl");
             }
             
         }
     </script>
-    <script>
+<script>
         const queryString = window.location;
         let Location = queryString.href.split("/");
         let LocationCheck = Location;
@@ -199,7 +200,7 @@
             Home.classList.add("nav-active");
         }
     </script>
-    <!-- text-muted -->
+<!-- text-muted -->
     <footer id="footertje" class="border-top border-dark footer">
         <div class="container">
             &copy; 2022 - RockstarsIT
