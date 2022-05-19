@@ -149,7 +149,7 @@
                 $('[lang="nl"]').hide();
                 localStorage.setItem("lan", "en-uk");
             }
-        
+            console.log(localStorage.getItem);
 
         function SwitchLanguage() {
             $('[lang="nl"]').toggle();
@@ -158,7 +158,8 @@
             {
                  localStorage.setItem("lan", "en-uk");
             }
-            else if(document.getElementById("enlanguage").style.display == "none"){
+            else if(document.getElementById("enlanguage").style.display == "none")
+            {
                  localStorage.setItem("lan", "nl");
             }
             
