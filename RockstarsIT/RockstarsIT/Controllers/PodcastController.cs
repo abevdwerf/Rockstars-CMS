@@ -22,14 +22,76 @@ namespace RockstarsIT.Controllers
         }
 
         // GET: Podcast
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string orderBy, string orderOn, string searchWords)
         {
+            var databaseContext = _context.Podcasts.Include(p => p.Rockstar).Include(p => p.Tribe);
+            if (!string.IsNullOrEmpty(orderBy) && !string.IsNullOrEmpty(orderOn))
+            {
+                switch (orderBy)
+                {
+                    case "title":
+                        if (orderOn == "asc")
+                        {
+                            databaseContext = _context.Podcasts.OrderBy(p => p.Title).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        else
+                        {
+                            databaseContext = _context.Podcasts.OrderByDescending(p => p.Title).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        break;
+                    case "author":
+                        if (orderOn == "asc")
+                        {
+                            databaseContext = _context.Podcasts.OrderBy(p => p.Rockstar).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        else
+                        {
+                            databaseContext = _context.Podcasts.OrderByDescending(p => p.Rockstar).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        break;
+                    case "tribe":
+                        if (orderOn == "asc")
+                        {
+                            databaseContext = _context.Podcasts.OrderBy(p => p.Tribe).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        else
+                        {
+                            databaseContext = _context.Podcasts.OrderByDescending(p => p.Tribe).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        break;
+                    case "datePublished":
+                        if (orderOn == "asc")
+                        {
+                            databaseContext = _context.Podcasts.OrderBy(p => p.DatePublished).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        else
+                        {
+                            databaseContext = _context.Podcasts.OrderByDescending(p => p.DatePublished).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        break;
+                    case "status":
+                        if (orderOn == "asc")
+                        {
+                            databaseContext = _context.Podcasts.OrderBy(p => p.PublishedStatus).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        else
+                        {
+                            databaseContext = _context.Podcasts.OrderByDescending(p => p.PublishedStatus).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        break;
+                }
+            }
+            if (!string.IsNullOrEmpty(searchWords))
+            {
+                databaseContext = _context.Podcasts.Where(p => p.Title.Contains(searchWords) || p.Description.Contains(searchWords) || p.Rockstar.Name.Contains(searchWords)).Include(p => p.Rockstar).Include(p => p.Tribe);
+            }
+
+            //.Include(p => p.Rockstar).Include(p => p.Tribe)
             string dataShowType = HttpContext.Request.Query["view"].ToString();
             ViewData["DataShowType"] = dataShowType;
-            var databaseContext = _context.Podcasts.Include(p => p.Rockstar).Include(p => p.Tribe);
             return View(await databaseContext.ToListAsync());
         }
-        
+
 
         // GET: Podcast/Create
         public IActionResult Create()
@@ -132,12 +194,14 @@ namespace RockstarsIT.Controllers
 
         public async Task<IActionResult> ChangeStatus(int id, bool status)
         {
-            var podcast = new Podcast { PodcastId = id, DatePublished = DateTime.Now, PublishedStatus = status };
-            _context.Attach(podcast);
+            DateTime dateTime = Convert.ToDateTime(null);
             if (status)
             {
-                _context.Entry(podcast).Property(r => r.DatePublished).IsModified = true;
+                dateTime = DateTime.Now;
             }
+            var podcast = new Podcast { PodcastId = id, DatePublished = dateTime, PublishedStatus = status };
+            _context.Attach(podcast);
+            _context.Entry(podcast).Property(r => r.DatePublished).IsModified = true;
             _context.Entry(podcast).Property(r => r.PublishedStatus).IsModified = true;
             await _context.SaveChangesAsync();
             return Redirect("/Podcast/Index?view=grid");
