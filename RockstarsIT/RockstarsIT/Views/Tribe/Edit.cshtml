@@ -44,7 +44,7 @@
             <div class="col-md-6">
                 @using (Html.BeginForm(FormMethod.Post))
                 {
-                    <button class="btn button mr-3" type="submit">
+                    <button onclick="SaveAll()" class="btn button mr-3" type="submit">
                         WIJZIGINGEN OPSLAAN
                         <img class="ml-2" height="32" width="32" src="~/icons/save-zwart.svg"/>
                     </button>
@@ -61,7 +61,7 @@
 
     <div class="form-group">
     <label class="control-label">Teksten</label>
-    <div class="bg-white"> 
+    <div class="bg-white">
         <ul class="nav nav-tabs" id="tab-list">
             @if (Model.TribeTextBlocks != null)
             {
@@ -73,7 +73,7 @@
                         @if (item == Model.TribeTextBlocks.First())
                         {
                             <li class="nav-item">
-                                <a class="nav-link active" data-id="@item.TribeTextBlockId" data-toggle="tab" href="#tab-@item.TribeTextBlockId">
+                                <a class="Teksten nav-link active" onclick="DelButton.hidden = true" id="@item.TribeTextBlockId" data-id="@item.TribeTextBlockId" data-toggle="tab" href="#tab-@item.TribeTextBlockId">
                                     @count
                                 </a>
                             </li>
@@ -81,11 +81,11 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link" data-id="@item.TribeTextBlockId" data-toggle="tab" href="#tab-@item.TribeTextBlockId">
+                                <a class="Teksten nav-link" onclick="DelButton.hidden = false" id="@item.TribeTextBlockId" data-id="@item.TribeTextBlockId" data-toggle="tab" href="#tab-@item.TribeTextBlockId">
                                     @count
                                     @if (count > 1)
                                     {
-                                        <button class="close" type="button" title="Remove this page">×</button>
+                                        <button class="close" type="button" hidden title="Remove this page"></button>
                                     }
                                 </a>
                             </li>
@@ -117,8 +117,8 @@
                                 </textarea>
                             </div>
                         }
-                        else    
-                        {   
+                        else
+                        {
                             <div class="tab-pane fade" id="tab-@item.TribeTextBlockId">
                                 <textarea class="textarea w-100" hidden rows="5">@item.Text</textarea>
 
@@ -129,10 +129,12 @@
                         }
                     }
                 }
-           }
+            }
         </div>
-       
-        <button id="save-textblock" class="btn button">OPSLAAN</button>
+
+        <button id="save-textblock" hidden class="btn button" >OPSLAAN</button>
+        <button id="VerwijderBtn" onclick="DeleteCurrentArticel();" class="btn btn-danger">VERWIJDER HUIDIG BLOK</button>
+
     </div>
 </div>
 <div class="form-group">
@@ -205,21 +207,33 @@
               document.getElementById(updatefield).innerHTML = "Edit"
         }
         }
-    }
+        }
 
-    window.onload = function() {
-        window.addEventListener("beforeunload", function (e) {
-            if (formSubmitting) {
-                return undefined;
-            }
+        let DelButton = document.getElementById("VerwijderBtn");
+        DelButton.hidden = true;
+
+        function SaveAll() {
+            document.getElementById("save-textblock").click();
+        }
+
+        function DeleteCurrentArticel() {
+            let test = document.querySelector(".nav-link.active button");
+            test.click();
+        }
+
+    //window.onload = function() {
+    //    window.addEventListener("beforeunload", function (e) {
+    //        if (formSubmitting) {
+    //            return undefined;
+    //        }
     
-            var confirmationMessage = 'It looks like you have been editing something. '
-                                    + 'If you leave before saving, your changes will be lost.';
+    //        var confirmationMessage = 'It looks like you have been editing something. '
+    //                                + 'If you leave before saving, your changes will be lost.';
     
-            (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-            return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-        });
-    };
+    //        (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+    //        return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+    //    });
+    //};
 
     function ConfirmDelete(id) {
         const conbtn2 = document.getElementById(id);
@@ -305,39 +319,47 @@
                 });  
             });
 
+         var allTabHeaders = $("#tab-list .Teksten.nav-link");
+         var AllTabContent = $("#TabContent .tab-pane .textarea");
+
+         var counter = 0;
             $("#save-textblock").click(function (e) {  
-                
-                var data = new FormData(); 
-                var activeTabHeader = $("#tab-list .nav-link.active");
-                var activeTabContent = $("#TabContent .tab-pane.active textarea");
+                for (var i = 0; i < allTabHeaders.length; i++) {
+                    var data = new FormData();
 
-                data.append('TribeTextBlockId', activeTabHeader.data("id"));
-                data.append('TribeId', $("#TribeId").val());
-                data.append('Text', activeTabContent.val());
+                    console.log(AllTabContent);
+                    console.log(AllTabContent);
 
-                $.ajax({    
-                    async: true,
-                    type: "POST",
-                    dataType: "json",
-                    url: "/Tribe/SaveTextblock",  
-                    data: data,
-                    contentType: false, // Not to set any content header  
-                    processData: false, // Not to process data  
-                    success: function (response) {  
-                        if (response.Success) {
+                    data.append('TribeTextBlockId', allTabHeaders[i].id);
+                    data.append('TribeId', $("#TribeId").val());
+                    data.append('Text', AllTabContent[i].value);
 
-                            alert(response.Message);
-                            
-                            for (const element of response.TribeImages) {
-                                var html = "<div class='upload__img-box col-3'><div style='background-image: url(" + element.Item2 + ")' class='img-bg'><div id='delete' data-id='" + element.Item1 + "' class='upload__img-close'></div></div></div>";
-                                $('#wrap').append(html);
+                    $.ajax({
+                        async: true,
+                        type: "POST",
+                        dataType: "json",
+                        url: "/Tribe/SaveTextblock",
+                        data: data,
+                        contentType: false, // Not to set any content header  
+                        processData: false, // Not to process data  
+                        success: function (response) {
+                            if (response.Success) {
+                                counter++;
+                                if (counter == allTabHeaders.length) {
+                                    alert(response.Message);
+                                }
+
+                                for (const element of response.TribeImages) {
+                                    var html = "<div class='upload__img-box col-3'><div style='background-image: url(" + element.Item2 + ")' class='img-bg'><div id='delete' data-id='" + element.Item1 + "' class='upload__img-close'></div></div></div>";
+                                    $('#wrap').append(html);
+                                }
                             }
+                        },
+                        error: function (response) {
+                            alert("failed to upload image");
                         }
-                    },  
-                    error: function (response) { 
-                        alert("failed to upload image");  
-                    }  
-                });  
+                    });
+                }
             });
 
             //upload image
