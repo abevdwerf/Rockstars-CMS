@@ -22,7 +22,7 @@
                                     {
                                         <h4 class="small fw-bold text-black">@list[0].Content.Title<span class="float-end">@{@list[0].Content.ViewCount}x</span></h4>
                                         <div class="progress mb-4">
-                                            <div class="progress-bar bg-danger" aria-valuenow="@list[0].Content.ViewCount" aria-valuemin="0" aria-valuemax="100" style="width: @list[0].Content.ViewCount%;"><span class="visually-hidden">@list[0].Content.ViewCount%</span></div>
+                                            <div class="progress-bar bg-danger" aria-valuenow="@list[0].Content.ViewCount" aria-valuemin="0" aria-valuemax="100" style="width: @ViewBag.percentageObject1%;"><span class="visually-hidden">@list[0].Content.ViewCount%</span></div>
                                         </div>
                                         <h4 class="small fw-bold text-black">@list[1].Content.Title<span class="float-end">@{@list[1].Content.ViewCount}x</span></h4>
                                         <div class="progress mb-4">
