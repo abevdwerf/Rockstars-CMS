@@ -21,9 +21,10 @@ namespace RockstarsIT.Models
         public int ArticleId { get; set; }
         public List<ArticleImages> ArticleImages { get; set; }
         public List<ArticleTextBlocks> ArticleTextBlocks { get; set; }
-        public int? RockstarId { get; set; }
-        [ForeignKey("RockstarId")]
-        public virtual Rockstar Rockstar
+        
+        // [ForeignKey("RockstarId")]
+        public int RockstarId { get; set; }
+        public Rockstar Rockstar
         {
             get => _rockstar;
             set => _rockstar = value;
@@ -38,8 +39,8 @@ namespace RockstarsIT.Models
             get => _description; 
             set => _description = value;
         }
+        
         public int? TribeId { get; set; }
-        [ForeignKey("TribeId")]
         public Tribe Tribe
         {
             get => _tribe; 

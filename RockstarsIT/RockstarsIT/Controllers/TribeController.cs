@@ -153,7 +153,7 @@ namespace RockstarsIT.Controllers
                             await blob.UploadAsync(fileStream, new BlobHttpHeaders { ContentType = file.ContentType });
                         }
 
-                        var tribeImages = new TribeImages()
+                        var tribeImages = new TribeImage()
                         {
                             TribeId = tribe.TribeId,
                             URL = blob.Uri.ToString()

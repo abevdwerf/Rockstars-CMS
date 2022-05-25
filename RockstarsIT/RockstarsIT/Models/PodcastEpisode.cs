@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RockstarsIT.Models
 {
-    public class Podcast
+    public class PodcastEpisode
     {
         // Fields
         private string _title;
@@ -17,7 +17,7 @@ namespace RockstarsIT.Models
         private Rockstar _rockstar;
         private Tribe _tribe;
         // Properties
-        public int PodcastId { get; set; }
+        public int PodcastEpisodeId { get; set; }
         public string Title
         {
             get => _title; 
@@ -59,15 +59,15 @@ namespace RockstarsIT.Models
             get => _viewCount; 
             set => _viewCount = value;
         }
-        public int? RockstarId { get; set; }
-        [ForeignKey("RockstarId")]
+        // [ForeignKey("RockstarId")]
+        public int RockstarId { get; set; }
         public Rockstar Rockstar
         {
             get => _rockstar; 
             set => _rockstar = value;
         }
+        // [ForeignKey("TribeId")]
         public int? TribeId { get; set; }
-        [ForeignKey("TribeId")]
         public Tribe Tribe
         {
             get => _tribe; 

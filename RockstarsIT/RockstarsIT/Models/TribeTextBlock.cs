@@ -11,14 +11,7 @@ namespace RockstarsIT.Models
         [Key]
         public int TribeTextBlockId { get; set; }
 
-        [ForeignKey(name: "TribeId")]
-        public int? TribeId { get; set; }
-
-        public virtual Tribe tribe
-        {
-            get => _tribe;
-            set => _tribe = value;
-        }
+        public int TribeId { get; set; }
 
         public string Text
         {

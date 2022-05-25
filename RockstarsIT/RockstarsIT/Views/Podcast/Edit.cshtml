@@ -1,4 +1,4 @@
-@model RockstarsIT.Models.Podcast
+@model RockstarsIT.Models.PodcastEpisode
 
 @{
     ViewData["Title"] = "Edit";
@@ -8,9 +8,9 @@
 <h1 lang="nl" class="mt-3">PODCAST BEWERKEN</h1><h1 lang="en-uk" class="mt-3">EDIT PODCAST</h1>
 
 <hr />
-<form asp-action="Edit" asp-route-id="@Model.PodcastId">
+<form asp-action="Edit" asp-route-id="@Model.PodcastEpisodeId">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input hidden asp-for="PodcastId" value="@Model.PodcastId"/>
+    <input hidden asp-for="PodcastEpisodeId" value="@Model.PodcastEpisodeId"/>
     <div class="row g-3">
         <div class="col-md-6 mb-3">
             <label asp-for="Title" class="control-label" lang="nl">Titel</label>
@@ -19,7 +19,7 @@
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="Tribe" class="control-label">Tribe</label>
+            <label asp-for="TribeId" class="control-label">Tribe</label>
             <select asp-for="TribeId" class="form-control" asp-items="ViewBag.TribeNames"></select>
             <span asp-validation-for="TribeId" class="text-danger"></span>
         </div>
@@ -30,7 +30,7 @@
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="Rockstar" class="control-label">Rockstar</label>
+            <label asp-for="RockstarId" class="control-label">Rockstar</label>
             <select asp-for="RockstarId" class="form-control" asp-items="ViewBag.RockstarNames"></select>
             <span asp-validation-for="RockstarId" class="text-danger"></span>
         </div>
@@ -53,23 +53,23 @@
                 </button>
                 @if (@Model.PublishedStatus)
                 {
-                    <a asp-action="ChangeStatus" asp-route-id="@Model.PodcastId" asp-route-status="false" class="btn button mr-3 mb-3">
+                    <a asp-action="ChangeStatus" asp-route-id="@Model.PodcastEpisodeId" asp-route-status="false" class="btn button mr-3 mb-3">
                         <label lang="nl" class="text-black">CONCEPT</label><label lang="en-uk" class="text-black">DRAFT</label>
                         <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
                     </a>
                 }
                 else
                 {
-                    <a asp-action="ChangeStatus" asp-route-id="@Model.PodcastId" asp-route-status="true" class="btn button mr-3 mb-3">
+                    <a asp-action="ChangeStatus" asp-route-id="@Model.PodcastEpisodeId" asp-route-status="true" class="btn button mr-3 mb-3">
                         <label lang="nl" class="text-black">PUBLICEREN</label><label lang="en-uk" class="text-black">PUBLISH</label>
                         <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
                     </a>
                 }
-                <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.PodcastId" class="btn button-cancel mb-3">
+                <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.PodcastEpisodeId" class="btn button-cancel mb-3">
                     <label lang="nl">VERWIJDEREN</label><label lang="en-uk">DELETE</label>
                     <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg"/>
                 </a>
-                <input type="submit" asp-action="Delete" asp-route-id="@Model.PodcastId" hidden id="@Model.PodcastId"/>
+                <input type="submit" asp-action="Delete" asp-route-id="@Model.PodcastEpisodeId" hidden id="@Model.PodcastEpisodeId"/>
             }
         </div>
     </div>

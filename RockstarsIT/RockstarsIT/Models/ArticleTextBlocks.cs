@@ -11,15 +11,9 @@ namespace RockstarsIT.Models
         [Key]
         public int ArticleTextBlockId { get; set; }
 
-        [ForeignKey(name: "ArticleId")]
-        public int? ArticleId { get; set; }
-
-        public virtual Article Article
-        {
-            get => _article;
-            set => _article = value;
-        }
-
+        // [ForeignKey(name: "ArticleId")]
+        public int ArticleId { get; set; }
+        
         public string Text
         {
             get => _text;

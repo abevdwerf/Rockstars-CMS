@@ -8,6 +8,7 @@ namespace RockstarsIT.Models
     public class Tag
     {
         private string _name;
+        
         public int TagId { get; set; }
 
         public string Name
@@ -15,5 +16,10 @@ namespace RockstarsIT.Models
             get => _name;
             set => _name = value;
         }
+
+        public List<Article> articles { get; set; }
+        public List<PodcastEpisode> PodcastEpisodes { get; set; }
+        public List<Video> Videos { get; set; }
+        
     }
 }

@@ -1,4 +1,4 @@
-@model IEnumerable<RockstarsIT.Models.Podcast>
+@model IEnumerable<RockstarsIT.Models.PodcastEpisode>
 
 @{
     ViewData["Title"] = "Index";
@@ -119,19 +119,19 @@
                     <td>
                         @if (item.PublishedStatus)
                         {
-                            <a asp-action="ChangeStatus" asp-route-id="@item.PodcastId" asp-route-status="false" class="btn text-black">
+                            <a asp-action="ChangeStatus" asp-route-id="@item.PodcastEpisodeId" asp-route-status="false" class="btn text-black">
                                 <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
                             </a>
                         }
                         else
                         {
-                            <a asp-action="ChangeStatus" asp-route-id="@item.PodcastId" asp-route-status="true" class="btn text-black">
+                            <a asp-action="ChangeStatus" asp-route-id="@item.PodcastEpisodeId" asp-route-status="true" class="btn text-black">
                                 <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
                             </a>
                         }
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.PodcastId" class="btn button mr-2">
+                        <a asp-action="Edit" asp-route-id="@item.PodcastEpisodeId" class="btn button mr-2">
                             BEWERKEN
                             <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
                         </a>
@@ -167,7 +167,7 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item" style="background-color:#FFE000">
-                <a asp-action="Edit" asp-route-id="@item.PodcastId" class="card-link btn button-white">
+                <a asp-action="Edit" asp-route-id="@item.PodcastEpisodeId" class="card-link btn button-white">
                     BEWERKEN
                     <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
                 </a>

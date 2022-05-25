@@ -10,10 +10,10 @@ namespace RockstarsIT.Models
 
         [Key]
         public int ArticleImageId { get; set;  }
-
-        [ForeignKey(name: "ArticleId")]
-        public int? ArticleId { get; set; }
-        public virtual Article Article
+        
+        // [ForeignKey(name: "ArticleId")]
+        public int ArticleId { get; set; }
+        public Article Article
         {
             get => _article;
             set => _article = value;

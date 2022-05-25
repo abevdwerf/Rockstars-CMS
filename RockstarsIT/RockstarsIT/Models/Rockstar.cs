@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -23,15 +24,16 @@ namespace RockstarsIT.Models
         private string _img;
 
         public int RockstarId { get; set; }
-        public int? TribeId { get; set; }
-        [ForeignKey("TribeId")]
-        public virtual Tribe Tribe {
+        
+        // [ForeignKey("TribeId")]
+        public int TribeId { get; set; }
+        public Tribe Tribe {
             get => _tribe;
             set => _tribe = value;
         }
-        public int? RoleId { get; set; }
         [ForeignKey("RoleId")]
-        public virtual Role Role
+        public int? RoleId { get; set; }
+        public Role Role
         {
             get => _role;
             set => _role = value;
@@ -70,5 +72,9 @@ namespace RockstarsIT.Models
         [NotMapped]
         [Display(Name = "upload foto")]
         public IFormFile ImageFile { get; set; }
+        
+        public List<Article> Articles { get; set; }
+        public List<PodcastEpisode> PodcastEpisodes { get; set; }
+        public List<Video> Videos { get; set; }
     }
 }

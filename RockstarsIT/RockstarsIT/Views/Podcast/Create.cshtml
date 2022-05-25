@@ -1,4 +1,4 @@
-@model RockstarsIT.Models.Podcast
+@model RockstarsIT.Models.PodcastEpisode
 
 @{
     ViewData["Title"] = "Podcast toevoegen";
@@ -16,12 +16,12 @@
             <span asp-validation-for="URL" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="Rockstar" class="control-label">Rockstar</label>
+            <label asp-for="RockstarId" class="control-label">Rockstar</label>
             <select asp-for="RockstarId" class ="form-control" asp-items="ViewBag.RockstarNames"></select>
             <span asp-validation-for="RockstarId" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="Tribe" class="control-label">Tribe</label>
+            <label asp-for="TribeId" class="control-label">Tribe</label>
             <select asp-for="TribeId" class ="form-control" asp-items="ViewBag.TribeNames"></select>
             <span asp-validation-for="TribeId" class="text-danger"></span>
         </div>

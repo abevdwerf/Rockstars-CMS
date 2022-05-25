@@ -10,6 +10,7 @@ namespace RockstarsIT.Models
         private string _title;
         private string _description;
         private string _link;
+        private string _linkType;
         private DateTime _dateCreated;
         private DateTime _dateModified;
         private DateTime _datePublished;
@@ -39,6 +40,12 @@ namespace RockstarsIT.Models
             get => _link; 
             set => _link = value;
         }
+        
+        public string LinkType
+        {
+            get => _linkType; 
+            set => _linkType = value;
+        }
         public DateTime DateCreated
         {
             get => _dateCreated;
@@ -65,15 +72,13 @@ namespace RockstarsIT.Models
             set => _viewCount = value;
         }
         public int? TribeId { get; set; }
-        [ForeignKey("TribeId")]
-        public virtual Tribe Tribe
+        public Tribe Tribe
         {
             get => _tribe;
             set => _tribe = value;
         }
-        public int? RockstarId { get; set; }
-        [ForeignKey("RockstarId")]
-        public virtual Rockstar Rockstar
+        public int RockstarId { get; set; }
+        public Rockstar Rockstar
         {
             get => _rockstar;
             set => _rockstar = value;

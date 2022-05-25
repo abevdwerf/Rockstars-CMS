@@ -21,12 +21,16 @@ namespace RockstarsIT.Controllers
             _context = context;
         }
 
-        // GET: Podcast
+        // GET: Podcast  .Include(p => p.Rockstar).Include(p => p.Tribe)
         public async Task<IActionResult> Index()
         {
             string dataShowType = HttpContext.Request.Query["view"].ToString();
             ViewData["DataShowType"] = dataShowType;
-            var databaseContext = _context.Podcasts.Include(p => p.Rockstar).Include(p => p.Tribe);
+            var databaseContext = _context.PodcastsEpisode;
+            var rockstars = _context.Rockstars;
+            var tribes = _context.Tribes;
+            ViewData["RockstarNames"] = new SelectList(rockstars, "RockstarId", "Name");
+            ViewData["TribeName"] = new SelectList(tribes, "TribeId", "Name");
             return View(await databaseContext.ToListAsync());
         }
         
@@ -44,26 +48,26 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PodcastId,URL,RockstarId,TribeId")] Podcast podcast)
+        public async Task<IActionResult> Create([Bind("PodcastId,URL,RockstarId,TribeId")] PodcastEpisode podcastEpisode)
         {
-            if (podcast.URL.Contains("?si="))
+            if (podcastEpisode.URL.Contains("?si="))
             {
-                podcast.URL = podcast.URL.Substring(0, podcast.URL.IndexOf("?"));
+                podcastEpisode.URL = podcastEpisode.URL.Substring(0, podcastEpisode.URL.IndexOf("?"));
             }
-            podcast.Title = spotify.GetTitle(spotify.GetSpotifyLinkId(podcast.URL));
-            podcast.Description = spotify.GetDescription(spotify.GetSpotifyLinkId(podcast.URL));
+            podcastEpisode.Title = spotify.GetTitle(spotify.GetSpotifyLinkId(podcastEpisode.URL));
+            podcastEpisode.Description = spotify.GetDescription(spotify.GetSpotifyLinkId(podcastEpisode.URL));
 
-            if (spotify.CheckLinkInput(podcast.URL))
+            if (spotify.CheckLinkInput(podcastEpisode.URL))
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Add(podcast);
+                    _context.Add(podcastEpisode);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
                 ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
                 ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
-                return View(podcast);
+                return View(podcastEpisode);
             }
             else
             {
@@ -79,7 +83,7 @@ namespace RockstarsIT.Controllers
                 return NotFound();
             }
 
-            var podcast = await _context.Podcasts.FindAsync(id);
+            var podcast = await _context.PodcastsEpisode.FindAsync(id);
             if (podcast == null)
             {
                 return NotFound();
@@ -94,25 +98,25 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PodcastId,Title,Description,URL,RockstarId,TribeId")] Podcast podcast)
+        public async Task<IActionResult> Edit(int id, [Bind("PodcastId,Title,Description,URL,RockstarId,TribeId")] PodcastEpisode podcastEpisode)
         {
-            if (id != podcast.PodcastId)
+            if (id != podcastEpisode.PodcastEpisodeId)
             {
                 return NotFound();
             }
 
-            if(spotify.CheckLinkInput(podcast.URL))
+            if(spotify.CheckLinkInput(podcastEpisode.URL))
             {
                 if (ModelState.IsValid)
                 {
                     try
                     {
-                        _context.Update(podcast);
+                        _context.Update(podcastEpisode);
                         await _context.SaveChangesAsync();
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        if (!PodcastExists(podcast.PodcastId))
+                        if (!PodcastExists(podcastEpisode.PodcastEpisodeId))
                         {
                             return NotFound();
                         }
@@ -123,9 +127,9 @@ namespace RockstarsIT.Controllers
                     }
                     return RedirectToAction(nameof(Index));
                 }
-                ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", podcast.RockstarId);
-                ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", podcast.TribeId);
-                return View(podcast);
+                ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", podcastEpisode.RockstarId);
+                ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", podcastEpisode.TribeId);
+                return View(podcastEpisode);
             }
             else
             {
@@ -138,20 +142,20 @@ namespace RockstarsIT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var podcast = await _context.Podcasts.FindAsync(id);
-            _context.Podcasts.Remove(podcast);
+            var podcast = await _context.PodcastsEpisode.FindAsync(id);
+            _context.PodcastsEpisode.Remove(podcast);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PodcastExists(int id)
         {
-            return _context.Podcasts.Any(e => e.PodcastId == id);
+            return _context.PodcastsEpisode.Any(e => e.PodcastEpisodeId == id);
         }
 
         public async Task<IActionResult> ChangeStatus(int id, bool status)
         {
-            var podcast = new Podcast { PodcastId = id, DatePublished = DateTime.Now, PublishedStatus = status };
+            var podcast = new PodcastEpisode { PodcastEpisodeId = id, DatePublished = DateTime.Now, PublishedStatus = status };
             _context.Attach(podcast);
             if (status)
             {

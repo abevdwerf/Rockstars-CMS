@@ -14,15 +14,12 @@ namespace RockstarsIT.Models
         private int _blocknumber;
         private int _imagenumber;
         private Tag _tag;
-        public List<TribeImages> TribeImages { get; set; }
-        public List<TribeTextBlock> TribeTextBlocks { get; set; }
-
-
+        private Podcast _podcast;
         public int TribeId { get; set; }
 
-        private int? TagId { get; set; }
         [ForeignKey(name: "TagId")]
-        public  virtual Tag tag
+        private int? TagId { get; set; }
+        public Tag tag
         {
             get => _tag;
             set => _tag = value;
@@ -34,14 +31,11 @@ namespace RockstarsIT.Models
             get => _name;
             set => _name = value;
         }
-
-
         public string Description
         {
             get => _description;
             set => _description = value;
         }
-
         public string Spotify
         {
             get => _spotify;
@@ -58,5 +52,15 @@ namespace RockstarsIT.Models
         [Display(Name = "Selecteer een of meerdere afbeeldingen")]
         [NotMapped]
         public IFormFileCollection Images { get; set; }
+        public List<TribeImage> TribeImages { get; set; }
+        public List<TribeTextBlock> TribeTextBlocks { get; set; }
+        
+        public List<Article> Articles { get; set; }
+        
+        public List<Podcast> Podcasts { get; set; }
+        
+        public List<Video> Videos { get; set; }
+        
+        public List<Rockstar> Rockstars { get; set; }
     }
 }

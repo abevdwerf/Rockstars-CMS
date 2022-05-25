@@ -58,7 +58,7 @@ namespace RockstarsIT.Controllers
             int conceptContent = 0;
             conceptContent += _context.Article.Count(item => item.PublishedStatus == false);
             conceptContent += _context.Videos.Count(item => item.PublishedStatus == false);
-            conceptContent += _context.Podcasts.Count(item => item.PublishedStatus == false);
+            conceptContent += _context.PodcastsEpisode.Count(item => item.PublishedStatus == false);
             return conceptContent;
         }
 
@@ -67,7 +67,7 @@ namespace RockstarsIT.Controllers
             int publishedContent = 0;
             publishedContent = _context.Article.Count(item => item.PublishedStatus == true);
             publishedContent = _context.Videos.Count(item => item.PublishedStatus == true);
-            publishedContent = _context.Podcasts.Count(item => item.PublishedStatus == true);
+            publishedContent = _context.PodcastsEpisode.Count(item => item.PublishedStatus == true);
             return publishedContent;
         }
 
@@ -89,7 +89,7 @@ namespace RockstarsIT.Controllers
                     content.Add(dc);
                 }
             }
-            if (_context.Podcasts.Any())
+            if (_context.PodcastsEpisode.Any())
             {
                 List<Video> videos = _context.Videos.OrderByDescending(item => item.ViewCount).Take(5).ToList();
                 foreach (Video video in videos)
@@ -104,14 +104,14 @@ namespace RockstarsIT.Controllers
                     content.Add(dc);
                 }
             }
-            if (_context.Podcasts.Any())
+            if (_context.PodcastsEpisode.Any())
             {
-                List<Podcast> podcasts = _context.Podcasts.OrderByDescending(item => item.ViewCount).Take(5).ToList();
-                foreach (Podcast podcast in podcasts)
+                List<PodcastEpisode> podcasts = _context.PodcastsEpisode.OrderByDescending(item => item.ViewCount).Take(5).ToList();
+                foreach (PodcastEpisode podcast in podcasts)
                 {
                     DashboardContent dc = new DashboardContent();
                     dc.SVGLocation = "/icons/Mic.svg";
-                    dc.Id = podcast.PodcastId;
+                    dc.Id = podcast.PodcastEpisodeId;
                     dc.Controller = "Podcast";
                     dc.ModelName = "Podcast";
                     dc.Content = podcast;
