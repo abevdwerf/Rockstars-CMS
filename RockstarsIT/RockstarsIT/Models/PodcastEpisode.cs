@@ -1,9 +1,9 @@
 using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RockstarsIT.Models
 {
-    public class Podcast
+    public class PodcastEpisode
     {
         // Fields
         private string _title;
@@ -14,9 +14,10 @@ namespace RockstarsIT.Models
         private DateTime _datePublished;
         private bool _publishedStatus;
         private int _viewCount;
+        private Rockstar _rockstar;
+        private Tribe _tribe;
         // Properties
-        public int PodcastId { get; set; }
-        
+        public int PodcastEpisodeId { get; set; }
         public string Title
         {
             get => _title; 
@@ -58,9 +59,21 @@ namespace RockstarsIT.Models
             get => _viewCount; 
             set => _viewCount = value;
         }
-
-        public List<PodcastEpisode> PodcastEpisodes;
-
+        public int? RockstarId { get; set; }
+        [ForeignKey("RockstarId")]
+        public Rockstar Rockstar
+        {
+            get => _rockstar; 
+            set => _rockstar = value;
+        }
+        public int? TribeId { get; set; }
+        [ForeignKey("TribeId")]
+        public Tribe Tribe
+        {
+            get => _tribe; 
+            set => _tribe = value;
+        }
         // Methods
+        
     }
 }
