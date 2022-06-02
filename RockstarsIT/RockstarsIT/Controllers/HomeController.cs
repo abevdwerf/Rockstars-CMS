@@ -106,12 +106,12 @@ namespace RockstarsIT.Controllers
             }
             if (_context.Podcasts.Any())
             {
-                List<Podcast> podcasts = _context.Podcasts.OrderByDescending(item => item.ViewCount).Take(5).ToList();
-                foreach (Podcast podcast in podcasts)
+                List<PodcastEpisode> podcasts = _context.PodcastEpisodes.OrderByDescending(item => item.ViewCount).Take(5).ToList();
+                foreach (PodcastEpisode podcast in podcasts)
                 {
                     DashboardContent dc = new DashboardContent();
                     dc.SVGLocation = "/icons/Mic.svg";
-                    dc.Id = podcast.PodcastId;
+                    dc.Id = podcast.PodcastEpisodeId;
                     dc.Controller = "Podcast";
                     dc.ModelName = "Podcast";
                     dc.Content = podcast;

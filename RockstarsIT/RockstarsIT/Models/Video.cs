@@ -10,6 +10,7 @@ namespace RockstarsIT.Models
         private string _title;
         private string _description;
         private string _link;
+        private string _linkType;
         private DateTime _dateCreated;
         private DateTime _dateModified;
         private DateTime _datePublished;
@@ -38,6 +39,11 @@ namespace RockstarsIT.Models
         {
             get => _link; 
             set => _link = value;
+        }
+        public string LinkType
+        {
+            get => _linkType; 
+            set => _linkType = value;
         }
         public DateTime DateCreated
         {
