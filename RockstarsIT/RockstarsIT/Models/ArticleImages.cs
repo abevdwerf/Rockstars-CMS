@@ -13,11 +13,6 @@ namespace RockstarsIT.Models
         
         // [ForeignKey(name: "ArticleId")]
         public int ArticleId { get; set; }
-        public Article Article
-        {
-            get => _article;
-            set => _article = value;
-        }
 
         public string URL { get { return _url; } set { _url = value; } }
 

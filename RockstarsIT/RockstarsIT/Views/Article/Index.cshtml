@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RockstarsIT.Models.Article>
+﻿@model List<RockstarsIT.Models.Article>
 
 @{
     ViewData["Title"] = "Index";
@@ -70,7 +70,13 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Rockstar.Name)
+                @foreach (var rockstar in ViewBag.rockstars)
+                {
+                    if (item.RockstarId == rockstar.RockstarId)
+                    {
+                        @rockstar
+                    }
+                }
             </td>
             <td>
                 @if(item.PublishedStatus)
@@ -116,23 +122,31 @@
 {
 <div class="row">
 @foreach (var item in Model) {
-<div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch  spaceBetweenArticles">
-   <div class="card">
-      <img class="card-img-top" src="https://www.teamrockstars.nl/wp-content/uploads/2020/11/0_0.jpeg" alt="Card image cap">
-      <div class="card-body">
-         <h5 class="card-title text-black"> @Html.DisplayFor(modelItem => item.Title)</h5>
-         <p class="card-text text-black">@Html.DisplayFor(modelItem => item.Rockstar.Name)</p>
-      </div>
-      <ul class="list-group list-group-flush">
-         <li class="list-group-item"  style="background-color:#FFE000">
-            <a asp-action="Edit" asp-route-id="@item.ArticleId" class="card-link btn button-white">
-               BEWERKEN
-                <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
-            </a>
-         </li>
-      </ul>
-   </div>
-</div>
+    <div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch  spaceBetweenArticles">
+        <div class="card">
+            <img class="card-img-top" src="https://www.teamrockstars.nl/wp-content/uploads/2020/11/0_0.jpeg" alt="Card image cap">
+                <div class="card-body">
+                <h5 class="card-title text-black"> @Html.DisplayFor(modelItem => item.Title)</h5>
+                <p class="card-text text-black">
+                    @foreach (var rockstar in ViewBag.rockstars)
+                    {
+                        if (item.RockstarId == rockstar.RockstarId)
+                        {
+                            @rockstar
+                        }
+                    }
+                </p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"  style="background-color:#FFE000">
+                    <a asp-action="Edit" asp-route-id="@item.ArticleId" class="card-link btn button-white">
+                       BEWERKEN
+                        <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 }
 </div>
 }

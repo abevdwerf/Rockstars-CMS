@@ -23,10 +23,11 @@ namespace RockstarsIT.Models
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            // builder.Entity<Article>()
-            //     .HasOne(a => a.Tribe)
-            //     .WithMany(b => b.Articles)
-            //     .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Article>()
+                .HasOne(a => a.Tribe)
+                .WithMany(b => b.Articles)
+                .OnDelete(DeleteBehavior.Cascade);
+
             
             Tribe java = new Tribe()
             {

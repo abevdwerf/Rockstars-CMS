@@ -22,7 +22,6 @@ namespace RockstarsIT.Models
         public List<ArticleImages> ArticleImages { get; set; }
         public List<ArticleTextBlocks> ArticleTextBlocks { get; set; }
         
-        // [ForeignKey("RockstarId")]
         public int RockstarId { get; set; }
         public Rockstar Rockstar
         {
@@ -40,7 +39,7 @@ namespace RockstarsIT.Models
             set => _description = value;
         }
         
-        public int? TribeId { get; set; }
+        public int TribeId { get; set; }
         public Tribe Tribe
         {
             get => _tribe; 
