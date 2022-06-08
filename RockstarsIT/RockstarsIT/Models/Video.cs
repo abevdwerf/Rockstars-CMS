@@ -1,14 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static RockstarsIT.Controllers.VideoController;
 
 namespace RockstarsIT.Models
 {
     public class Video
     {
-        private string _title;
-        private string _description;
+        //private string _title;
+        //private string _description;
         private string _link;
         private string _linkType;
         private DateTime _dateCreated;
@@ -21,19 +20,6 @@ namespace RockstarsIT.Models
 
         [Key]
         public int VideoId { get; set; }
-
-        [Required]
-        public string Title
-        {
-            get => _title; 
-            set => _title = value;
-        }
-
-        public string Description
-        {
-            get => _description; 
-            set => _description = value;
-        }
 
         public string Link
         {
@@ -84,5 +70,12 @@ namespace RockstarsIT.Models
             get => _rockstar;
             set => _rockstar = value;
         }
+
+        [NotMapped]
+        public int VideoContentId { get; set; }
+        [NotMapped]
+        public string Title { get; set; }
+        [NotMapped]
+        public string Description { get; set; }
     }
 }

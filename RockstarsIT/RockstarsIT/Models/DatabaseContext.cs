@@ -23,6 +23,7 @@ namespace RockstarsIT.Models
         public DbSet<Language> Languages { get; set; }
         public DbSet<ArticleTextBlockTranslation> ArticleTextBlockTranslations { get; set; }
         public DbSet<ArticleContent> ArticleContents { get; set; }
+        public DbSet<VideoContent> VideoContents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -35,6 +36,21 @@ namespace RockstarsIT.Models
             .HasOne(a => a.Article)
             .WithMany(b => b.ArticleImages)
             .OnDelete(DeleteBehavior.Cascade);
+
+            Language language1 = new Language()
+            {
+                LanguageId = 1,
+                Name = "English",
+            };
+
+            Language language2 = new Language()
+            {
+                LanguageId = 2,
+                Name = "Nederlands",
+            };
+
+            builder.Entity<Language>().HasData(language1);
+            builder.Entity<Language>().HasData(language2);
 
             Tribe java = new Tribe()
             {
@@ -344,8 +360,6 @@ namespace RockstarsIT.Models
             Video video1 = new Video()
             {
                 VideoId = 1,
-                Title = "Java course",
-                Description = "Dit is een video over Java",
                 Link = "https://www.youtube.com/watch?v=eIrMbAQSU34",
                 RockstarId = 1,
                 TribeId = 1
@@ -354,8 +368,6 @@ namespace RockstarsIT.Models
             Video video2 = new Video()
             {
                 VideoId = 2,
-                Title = "Xunit",
-                Description = "Dit is een video over Xunit",
                 Link = "https://www.youtube.com/watch?v=2Wp8en1I9oQ",
                 RockstarId = 5,
                 TribeId = 4
@@ -364,8 +376,6 @@ namespace RockstarsIT.Models
             Video video3 = new Video()
             {
                 VideoId = 3,
-                Title = "dot.NET 6",
-                Description = "Dit is een video over dot.NET 6",
                 Link = "https://www.youtube.com/watch?v=Y2a16HAsHBE",
                 RockstarId = 3,
                 TribeId = 2
@@ -374,8 +384,6 @@ namespace RockstarsIT.Models
             Video video4 = new Video()
             {
                 VideoId = 4,
-                Title = "MSSQL",
-                Description = "Dit is een video over MSSQL",
                 Link = "https://www.youtube.com/watch?v=JTDK6r1GuUU",
                 RockstarId = 4,
                 TribeId = 2
@@ -384,8 +392,6 @@ namespace RockstarsIT.Models
             Video video5 = new Video()
             {
                 VideoId = 5,
-                Title = "AWS Cloud",
-                Description = "Dit is een video over de cloud",
                 Link = "https://www.youtube.com/watch?v=3hLmDS179YE",
                 RockstarId = 6,
                 TribeId = 5
@@ -397,8 +403,58 @@ namespace RockstarsIT.Models
             builder.Entity<Video>().HasData(video4);
             builder.Entity<Video>().HasData(video5);
 
+            VideoContent videoContent1 = new VideoContent()
+            {
+                VideoContentId = 1,
+                Title = "Java course",
+                Description = "Dit is een video over Java",
+                LanguageId = 1,
+                VideoId = 1
+            };
+
+            VideoContent videoContent2 = new VideoContent()
+            {
+                VideoContentId = 2,
+                Title = "Xunit",
+                Description = "Dit is een video over Xunit",
+                LanguageId = 1,
+                VideoId = 2
+            };
+
+            VideoContent videoContent3 = new VideoContent()
+            {
+                VideoContentId = 3,
+                Title = "dot.NET 6",
+                Description = "Dit is een video over dot.NET 6",
+                LanguageId = 1,
+                VideoId = 3
+            };
+
+            VideoContent videoContent4 = new VideoContent()
+            {
+                VideoContentId = 4,
+                Title = "MSSQL",
+                Description = "Dit is een video over MSSQL",
+                LanguageId = 1,
+                VideoId = 4
+            };
+
+            VideoContent videoContent5 = new VideoContent()
+            {
+                VideoContentId = 5,
+                Title = "AWS Cloud",
+                Description = "Dit is een video over de cloud",
+                LanguageId = 1,
+                VideoId = 5
+            };
+
+            builder.Entity<VideoContent>().HasData(videoContent1);
+            builder.Entity<VideoContent>().HasData(videoContent2);
+            builder.Entity<VideoContent>().HasData(videoContent3);
+            builder.Entity<VideoContent>().HasData(videoContent4);
+            builder.Entity<VideoContent>().HasData(videoContent5);
         }
 
-        public DbSet<RockstarsIT.Models.Podcast> Podcast { get; set; }
+        public DbSet<Podcast> Podcast { get; set; }
     }
 }

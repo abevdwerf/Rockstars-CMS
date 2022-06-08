@@ -79,12 +79,12 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.Title)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Description)
-                    </td>
+                    </td>*@
                     <td>
                         @if (item.Link != null)
                         {
@@ -187,7 +187,7 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
                         }
                     }
                     <div class="card-body">
-                        <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Title)</h5>
+                        @*<h5 class="card-title"> @Html.DisplayFor(modelItem => item.Title)</h5>*@
                         <p class="card-text">@Html.DisplayFor(modelItem => item.Rockstar.Name)</p>
                     </div>
                     <ul class="list-group list-group-flush">
@@ -208,7 +208,6 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
     window.onload = CheckLink();
 
     function CheckLink () {
-        console.log("test")
         if (document.getElementById("vimeoimg").name.length == 9)
         {
             document.getElementById("vimeoimg").src = document.getElementById("vimeoimg").src + ".jpg";

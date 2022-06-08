@@ -25,6 +25,7 @@ namespace RockstarsIT.Controllers
         {
             string dataShowType = HttpContext.Request.Query["view"].ToString();
             ViewData["DataShowType"] = dataShowType;
+            ViewData["VideoContent"] = await _context.VideoContents.Where(p => p.LanguageId == 1).FirstOrDefaultAsync(m => m.VideoId == id);
             var databaseContext = _context.Videos.Include(v => v.Rockstar).Include(v => v.Tribe);
             return View(await databaseContext.ToListAsync());
         }
@@ -50,6 +51,17 @@ namespace RockstarsIT.Controllers
                 video.DateCreated = DateTime.Now;
                 _context.Add(video);
                 await _context.SaveChangesAsync();
+
+                var videoContent = new VideoContent()
+                {
+                    Title = video.Title,
+                    Description = video.Description,
+                    LanguageId = 1,
+                    VideoId = video.VideoId
+                };
+                _context.Add(videoContent);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", video.RockstarId);
@@ -70,10 +82,9 @@ namespace RockstarsIT.Controllers
             {
                 return NotFound();
             }
-            video.Rockstar = await _context.Rockstars.FindAsync(video.RockstarId);
-            video.Tribe = await _context.Tribes.FindAsync(video.TribeId);
             ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
+            ViewData["VideoContent"] = await _context.VideoContents.Where(p => p.LanguageId == 1).FirstOrDefaultAsync(m => m.VideoId == id);
             ViewBag.Link = video.Link;
             return View(video);
         }
@@ -83,7 +94,7 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VideoId,Title,Description,Link,TribeId,RockstarId")] Video video)
+        public async Task<IActionResult> Edit(int id, [Bind("VideoId,Title,Description,Link,TribeId,RockstarId,VideoContentId")] Video video)
         {
             if (id != video.VideoId)
             {
@@ -97,6 +108,17 @@ namespace RockstarsIT.Controllers
                     video.Link = GetVideoId(video.Link);
                     video.DateModified = DateTime.Now;
                     _context.Update(video);
+
+                    var videoContent = new VideoContent()
+                    {
+                        VideoContentId = video.VideoContentId,
+                        Title = video.Title,
+                        Description = video.Description,
+                        LanguageId = 1,
+                        VideoId = id
+                    };
+                    _context.Update(videoContent);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -241,6 +263,61 @@ namespace RockstarsIT.Controllers
                 return null;
             }
             
+        }
+
+        public async Task<IActionResult> Translate(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var video = await _context.Videos.FirstOrDefaultAsync(m => m.VideoId == id);
+            if (video == null)
+            {
+                return NotFound();
+            }
+
+            ViewData["Languages"] = new SelectList(_context.Languages, "LanguageId", "Name");
+            return View(video);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Translate(int id, [Bind("VideoContentId,VideoId,Title,Description,LanguageId")] VideoContent videoContent)
+        {
+            if (id != videoContent.VideoId)
+            {
+                return NotFound();
+            }
+
+            if (!(_context.VideoContents.Where(v => v.LanguageId == videoContent.LanguageId).Where(v => v.VideoId == videoContent.VideoId).Count() > 0))
+            {
+                _context.Add(videoContent);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                _context.Update(videoContent);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Edit", new { id = videoContent.VideoId });
+        }
+
+        public async Task<JsonResult> GetContentWithLanguage(int id, int languageId)
+        {
+            if (id > 0)
+            {
+                var videoContent = await _context.VideoContents.Where(p => p.LanguageId == languageId).FirstOrDefaultAsync(m => m.VideoId == id);
+
+                int videoContentId = (videoContent == null) ? 0 : videoContent.VideoContentId;
+                string title = (videoContent == null) ? "" : videoContent.Title;
+                string description = (videoContent == null) ? "" : videoContent.Description;
+
+                return Json(new { Success = true, Title = title, Description = description, VideoContentId = videoContentId });
+            }
+            return Json(new { Succes = false, Message = "Something went wrong" });
         }
     }
 }
