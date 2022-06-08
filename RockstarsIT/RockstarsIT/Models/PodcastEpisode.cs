@@ -16,6 +16,7 @@ namespace RockstarsIT.Models
         private int _viewCount;
         private Rockstar _rockstar;
         private Tribe _tribe;
+        private Podcast _podcast;
         // Properties
         public int PodcastEpisodeId { get; set; }
         public string Title
@@ -72,6 +73,13 @@ namespace RockstarsIT.Models
         {
             get => _tribe; 
             set => _tribe = value;
+        }
+        public int? PodcastId { get; set; }
+        [ForeignKey("PodcastId")]
+        public Podcast Podcast
+        {
+            get => _podcast; 
+            set => _podcast = value;
         }
         // Methods
         
