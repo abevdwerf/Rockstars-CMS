@@ -12,106 +12,107 @@
     <div class="row g-3">
         <div class="col-md-6 mb-3">
             <input asp-for="VideoId" value="@Model.VideoId" hidden />
-            <input id="title" asp-for="Title" hidden />
-            <input id="tribeid" asp-for="TribeId" hidden />
-            <input id="rockstarid" asp-for="RockstarId" hidden />
-            <input id="link" asp-for="Link" hidden />
-            <input id="desc" asp-for="Description" hidden />
-
-            <label asp-for="Title" class="control-label" lang="nl">Titel:</label>
-            <label asp-for="Title" class="control-label" lang="en-uk">Title:</label>
-            <input asp-for="Title" class="form-control" value="@Model.Title" name="@Model.Title" id="titleinp" />
+            <label asp-for="Title" class="control-label" lang="nl">Title</label>
+            <label asp-for="Title" class="control-label" lang="en-uk">Title</label>
+            <input asp-for="Title" class="textbox w-100"/>
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="RockstarId" class="control-label">Rockstar:</label>
-            <select asp-for="RockstarId" class="form-control" value="@Model.Rockstar.Name" asp-items="@ViewBag.RockstarNames" name="@Model.Rockstar.Name" id="rockstarinp"></select>
+            <label asp-for="Rockstar" class="control-label">Rockstar</label>
+            <select asp-for="RockstarId" class="form-control" asp-items="ViewBag.RockstarNames"></select>
+            <span asp-validation-for="RockstarId" class="text-danger"></span>
         </div>
         <div class="col-md-6">
-            <label asp-for="Description" class="control-label" lang="nl">Beschrijving:</label>
-            <label asp-for="Description" class="control-label" lang="en-uk">Description:</label>
-            <textarea asp-for="Description" class="form-control" name="@Model.Description" id="descinp"></textarea>
+            <label asp-for="Description" class="control-label" lang="nl">Beschrijving</label>
+            <label asp-for="Description" class="control-label" lang="en-uk">Description</label>
+            <textarea asp-for="Description" class="textarea w-100" rows="5"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="TribeId" class="control-label">Tribe:</label>
-            <select asp-for="TribeId" class="form-control" asp-items="@ViewBag.TribeNames" name="@Model.Tribe.Name" id="tribeinp"></select>
+            <label asp-for="Tribe" class="control-label">Tribe</label>
+            <select asp-for="TribeId" class="form-control" asp-items="ViewBag.TribeNames"></select>
+            <span asp-validation-for="TribeId" class="text-danger"></span>
         </div>
 
-        <div class="col-md-6 mb-3">
+        <div class="col-md-6">
             @if (Model.Link != null)
             {
-                <label asp-for="Link" class="control-label">Video:</label> <a onclick="OpenEditor(this.id)" id="@Model.Link" href="javascript:void(0)">Edit</a>
-                <br>
-                if (ViewBag.Link.Length == 11)
+                <label asp-for="Link" class="control-label">Video</label> <a id="link" href="javascript:void(0)" onclick="OpenEditor(this.id)"><img id="editimg" class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/></a> 
+
+                if (Model.Link.Length == 11)
                 {
-                    <iframe width="420" height="315" name="@Model.Link" src="https://www.youtube.com/embed/@Html.DisplayFor(model => model.Link)"></iframe>
-                    <input hidden asp-for="Link" class="form-control" required value="youtu.be/@ViewBag.Link" name="@Model.Link" id="linkinp" />
+                    <br>
+                    <br>
+                    <iframe src="https://www.youtube.com/embed/@Model.Link" name="link"></iframe>
+                    <input hidden asp-for="Link" class="textbox w-100" name="link" value="www.youtu.be/@Model.Link" />
+                    <span asp-validation-for="Link" class="text-danger"></span>
                 }
-                else if (ViewBag.Link.Length == 9)
+                else if (Model.Link.Length == 9)
                 {
-                    <iframe width="420" height="315" name="@Model.Link" src="https://player.vimeo.com/video/@Html.DisplayFor(model => model.Link)"></iframe>
-                    <input hidden asp-for="Link" class="form-control" required value="vimeo.com/@ViewBag.Link" name="@Model.Link" id="linkinp" />
+                    <br>
+                    <br>
+                    <iframe src="https://player.vimeo.com/video/@Model.Link" name="link"></iframe>
+                    <input hidden asp-for="Link" class="textbox w-100" name="link" value="www.vimeo.com/@Model.Link"/>
+                    <span asp-validation-for="Link" class="text-danger"></span>
                 }
                 else
                 {
-                    <label asp-for="Link" class="control-label">Video:</label> <a onclick="OpenEditor(this.id)" id="link" href="javascript:void(0)">Edit</a> <br>
-                    <input hidden asp-for="Link" class="form-control" required name="link" value="Invalid Link" id="linkinp" />
+                    <input asp-for="Link" class="textbox w-100" placeholder="Invalid Link" />
+                    <span asp-validation-for="Link" class="text-danger"></span>
                 }
             }
             else
             {
-                <label asp-for="Link" class="control-label">Video:</label> <a onclick="OpenEditor(this.id)" id="@Model.Link" href="javascript:void(0)">Edit</a> <br>
-                <input hidden asp-for="Link" class="form-control" required name="@Model.Link" value="Invalid Link" id="linkinp" />
+                <label asp-for="Link" class="control-label">Video Link</label>
+                <input asp-for="Link" class="textbox w-100" placeholder="Invalid Link" />
+                <span asp-validation-for="Link" class="text-danger"></span>
             }
-            <span asp-validation-for="Link" class="text-danger"></span>
+
         </div>
     </div>
+    <br>
     <div>
-        <a onclick="submitter()" value="Edit" class="btn button" id="sub" href="#" lang="nl">
-            <label lang="nl" class="text-black">TERUG NAAR OVERZICHT</label> <label lang="en-uk" class="text-black">BACK TO LIST</label>
+        <button type="submit" value="Edit" class="btn button mr-3 mb-2" id="sub">
+            <a lang="nl" class="text-black">WIJZIGINGEN OPSLAAN</a><a lang="en-uk" class="text-black">SAVE CHANGES</a>
             <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                 <path d="M0 0h24v24H0z" fill="none" />
                 <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
             </svg>
-        </a>
-        <a onclick="submitter()" value="Edit" class="btn button" id="sub" href="#" lang="en-uk">
-            SAVE CHANGES
-            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-            </svg>
-        </a>
-    </div>
-    @if (@Model.PublishedStatus)
-            {
-                <a asp-action="ChangeStatus" asp-route-id="@Model.VideoId" asp-route-status="false" class="btn button mr-3">
-                    CONCEPT
-                    <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
-                </a>
-            }
-            else
-            {
-                <a asp-action="ChangeStatus" asp-route-id="@Model.VideoId" asp-route-status="true" class="btn button mr-3">
-                    PUBLICEREN
-                    <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
-                </a>
-            }
-            <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.VideoId" class="btn button-cancel">
-                VERWIJDEREN
-                <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg"/>
+        </button>
+        @if (@Model.PublishedStatus)
+        {
+            <a asp-action="ChangeStatus" asp-route-id="@Model.VideoId" asp-route-status="false" class="btn button mb-2">
+                <label lang="nl" class="text-black">CONCEPT</label><label lang="en-uk" class="text-black">DRAFT</label>
+                <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg" />
             </a>
-            <input type="submit" asp-action="Delete" asp-route-id="@Model.VideoId" hidden id="@Model.VideoId"/>
-    <div>
-        <a asp-action="Index" class="btn button-cancel mr-2 mt-3" lang="nl">
-            <label lang="nl" class="text-black">TERUG NAAR OVERZICHT</label> <label lang="en-uk" class="text-black">BACK TO LIST</label>
-            <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-            </svg>
-        </a>
+        }
+        else
+        {
+            <a asp-action="ChangeStatus" asp-route-id="@Model.VideoId" asp-route-status="true" class="btn button mb-2">
+                <label lang="nl" class="text-black">PUBLICEREN</label><label lang="en-uk" class="text-black">PUBLISH</label>
+                <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg" />
+            </a>
+        }
     </div>
 </form>
+
+<form asp-action="Delete" asp-route-id="@Model.VideoId">
+    <button onclick="ConfirmDelete()" class="btn button-cancel mr-3">
+        <a lang="nl">VERWIJDEREN</a><a lang="en-uk">DELETE</a>
+        <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg" />
+    </button>
+    <input type="submit" hidden id="delsub" />
+
+    <a asp-action="Index" class="btn button-cancel">
+        <label lang="nl">TERUG NAAR OVERZICHT</label><label lang="en-uk">BACK TO LIST</label>
+        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+        </svg>
+    </a>
+</form>
+
+
 @section Scripts {
     @{
     await Html.RenderPartialAsync("_ValidationScriptsPartial");
@@ -128,22 +129,13 @@
         for(let i = 0; i < editelements.length;i++){
             if(editelements[i].hidden == true){
               editelements[i].hidden = false;
-              document.getElementById(updatefield).innerHTML = "Cancel"
+              document.getElementById("editimg").src = '/icons/x-circle.svg'
             }
             else{
               editelements[i].hidden = true;
-              document.getElementById(updatefield).innerHTML = "Edit"
+              document.getElementById("editimg").src = '/icons/Pen-geel.svg'
         }
         }
-    }
-
-    function submitter() {
-        document.getElementById("title").value = document.getElementById("titleinp").value
-        document.getElementById("rockstarid").value = document.getElementById("rockstarinp").value
-        document.getElementById("tribeid").value = document.getElementById("tribeinp").value
-        document.getElementById("desc").value = document.getElementById("descinp").value
-        document.getElementById("link").value = document.getElementById("linkinp").value
-        document.getElementById("sub").click()
     }
 
     function Open() {
@@ -176,17 +168,17 @@
             if (formSubmitting) {
                 return undefined;
             }
-    
+
             var confirmationMessage = 'It looks like you have been editing something. '
                                     + 'If you leave before saving, your changes will be lost.';
-            
+
             (e || window.event).returnValue = confirmationMessage; //Gecko + IE
             return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
         });
     };
 
-    function ConfirmDelete(id) {
-        const conbtn2 = document.getElementById(id);
+    function ConfirmDelete() {
+        const conbtn2 = document.getElementById("delsub");
 
         let text = "Weet je zeker dat u deze video wilt verwijderen?"
         if (confirm(text) == true) {

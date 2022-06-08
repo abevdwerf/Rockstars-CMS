@@ -101,6 +101,7 @@ body {
     font-size: 14px;
     height: 47px;
     padding-left: 10px;
+    border-radius: 5px;
 }
 
 .textarea {
@@ -111,6 +112,7 @@ body {
     border-bottom: 1px solid dimgray;
     font-size: 14px;
     padding-left: 10px;
+    border-radius: 5px;
 }
 
 .textbox:hover {
@@ -310,6 +312,14 @@ label {
     background-color: white;
 }
 
+.SpotifyTitle{
+    width: 400px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 @media (max-width: 768px) {
     .carousel-inner .carousel-item > div {
         display: none;
@@ -343,3 +353,30 @@ label {
 .carousel-inner .carousel-item-left{
     transform: translateX(0);
 }
+
+/* Musicplayer */
+#pButton {
+    float: left; }
+
+#timeline {
+    width: 90%;
+    height: 2px;
+    margin-top: 20px;
+    margin-left: 10px;
+    float: left;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+    background: rgba(0, 0, 0, 0.3); }
+
+#pButton {
+    margin-top: 12px;
+    cursor: pointer; }
+
+#playhead {
+    width: 8px;
+    height: 8px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    margin-top: -3px;
+    background: black;
+    cursor: pointer; }
