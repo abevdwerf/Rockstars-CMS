@@ -79,12 +79,12 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.Title)
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VideoContents.Where(v => v.LanguageId == 1).FirstOrDefault().Title)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>*@
+                        @Html.DisplayFor(modelItem =>item.VideoContents.Where(v => v.LanguageId == 1).FirstOrDefault().Description)
+                    </td>
                     <td>
                         @if (item.Link != null)
                         {
@@ -187,7 +187,7 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
                         }
                     }
                     <div class="card-body">
-                        @*<h5 class="card-title"> @Html.DisplayFor(modelItem => item.Title)</h5>*@
+                        <h5 class="card-title"> @Html.DisplayFor(modelItem => item.VideoContents.Where(v => v.LanguageId == 1).FirstOrDefault().Title)</h5>
                         <p class="card-text">@Html.DisplayFor(modelItem => item.Rockstar.Name)</p>
                     </div>
                     <ul class="list-group list-group-flush">

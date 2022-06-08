@@ -25,8 +25,7 @@ namespace RockstarsIT.Controllers
         {
             string dataShowType = HttpContext.Request.Query["view"].ToString();
             ViewData["DataShowType"] = dataShowType;
-            ViewData["VideoContent"] = await _context.VideoContents.Where(p => p.LanguageId == 1).FirstOrDefaultAsync(m => m.VideoId == id);
-            var databaseContext = _context.Videos.Include(v => v.Rockstar).Include(v => v.Tribe);
+            var databaseContext = _context.Videos.Include(v => v.Rockstar).Include(v => v.Tribe).Include(v => v.VideoContents);
             return View(await databaseContext.ToListAsync());
         }
 

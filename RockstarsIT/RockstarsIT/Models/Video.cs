@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -70,6 +71,8 @@ namespace RockstarsIT.Models
             get => _rockstar;
             set => _rockstar = value;
         }
+
+        public List<VideoContent> VideoContents { get; set; }
 
         [NotMapped]
         public int VideoContentId { get; set; }
