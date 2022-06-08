@@ -22,6 +22,8 @@
         </div>
         <div class="col-md-6 mb-3">
             <label asp-for="Description" class="control-label">Beschrijving</label>
+             <input asp-for="Title" value="@Model.ArticleContents.FirstOrDefault().Description" id="txtTitel" class="textbox w-100" />
+            @*<span asp-validation-for="Title" class="text-danger"></span>*@
             <input asp-for="Description" class="textbox w-100" />
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>

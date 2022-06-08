@@ -208,59 +208,48 @@ namespace RockstarsIT.Models
             {
                 ArticleId = 1,
                 RockstarId = 1,
-                Title = "Javascript Basic If Else Statement",
-                Description = "In dit artikel zal een basis if else statement worden getoond."
+                //Title = "Javascript Basic If Else Statement",
+                //Description = "In dit artikel zal een basis if else statement worden getoond."
             };
 
             Article article2 = new Article()
             {
                 ArticleId = 2,
                 RockstarId = 1,
-                Title = "HTML div",
-                Description = "Uitleg over het HTML element div"
+                //Title = "HTML div",
+                //Description = "Uitleg over het HTML element div"
             };
 
             Article article3 = new Article()
             {
                 ArticleId = 3,
                 RockstarId = 1,
-                Title = "c# random",
-                Description = "Uitleg over c# random"
+                //Title = "c# random",
+                //Description = "Uitleg over c# random"
             };
 
             Article article4 = new Article()
             {
                 ArticleId = 4,
                 RockstarId = 1,
-                Title = "Python",
-                Description = "Uitleg over Python in zijn geheel"
-                RockstarId = 1
-            };
-
-            builder.Entity<Article>().HasData(article1);
-
-            ArticleContent articleContent1 = new ArticleContent()
-            {
-                ArticleTranslationId = 1,
-                Title = "Tekst",
-                LanguageId = 1,
-                ArticleId = 1
+                //Title = "Python",
+                //Description = "Uitleg over Python in zijn geheel"
             };
 
             Article article5 = new Article()
             {
                 ArticleId = 5,
                 RockstarId = 1,
-                Title = "Java",
-                Description = "Uitleg over Java in zijn geheel"
+                //Title = "Java",
+                //Description = "Uitleg over Java in zijn geheel"
             };
 
             Article article6 = new Article()
             {
                 ArticleId = 6,
                 RockstarId = 1,
-                Title = "PHP",
-                Description = "Uitleg over PHP in zijn geheel"
+                //Title = "PHP",
+                //Description = "Uitleg over PHP in zijn geheel"
             };
 
             builder.Entity<Article>().HasData(article1);
@@ -269,6 +258,17 @@ namespace RockstarsIT.Models
             builder.Entity<Article>().HasData(article4);
             builder.Entity<Article>().HasData(article5);
             builder.Entity<Article>().HasData(article6);
+
+            //ArticleContent articleContent1 = new ArticleContent()
+            //{
+            //    ArticleTranslationId = 1,
+            //    Title = "Tekst",
+            //    LanguageId = 1,
+            //    ArticleId = 1
+            //};
+
+            //builder.Entity<ArticleContent>().HasData(articleContent1);
+
 
             ArticleTextBlocks articleTextBlocks1 = new ArticleTextBlocks()
             {

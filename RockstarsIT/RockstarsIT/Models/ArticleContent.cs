@@ -6,6 +6,7 @@ namespace RockstarsIT.Models
     public class ArticleContent
     {
         private string _title;
+        private string _description;
         private Language _language;
         private Article _article;
 
@@ -15,6 +16,11 @@ namespace RockstarsIT.Models
         { 
             get => _title; 
             set => _title = value; 
+        }
+        public string Description
+        {
+            get => _description;
+            set => _description = value;
         }
         public int? LanguageId { get; set; }
         [ForeignKey("LanguageId")]

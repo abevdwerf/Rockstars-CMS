@@ -335,7 +335,7 @@ namespace RockstarsIT.Controllers
 
                 string test = (articleContent == null) ? "" : articleContent.Title;
 
-                return Json(new { Success = true, ArticleContent = test, ArticleTextBlockTranslations = articleTextBlocks.ArticleTextBlockTranslations });
+                return Json(new { Success = true, ArticleContent = test, ArticleTextBlockTranslations = test });
             }
             return Json(new { Succes = false, Message = "Something went wrong" });
         }

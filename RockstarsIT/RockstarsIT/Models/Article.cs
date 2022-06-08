@@ -67,5 +67,7 @@ namespace RockstarsIT.Models
 
         [NotMapped]
         public string Title { get; set; }
+        [NotMapped]
+        public string Description { get; set; }
     }
 }
