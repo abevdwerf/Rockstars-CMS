@@ -59,16 +59,18 @@
             <tbody>
             @foreach (var item in Model) {
                 <tr>
-                    <td style="min-width: 310px">
-                        @if (item.Title.Length > 50)
-                        {
-                            <label class="text-black">@item.Title.Substring(0, 50)...</label>
-                        }
-                        else
-                        {
-                            Html.DisplayFor(modelItem => item.Title);
-                        }
-                    </td>
+                    @if (item.Title.Length > 50)
+                    {
+                        <td style="min-width: 310px">
+                            @item.Title.Substring(0, 50)...
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="min-width: 310px">
+                            @item.Title
+                        </td>
+                    }
                     <td>
                         @if (item.PublishedStatus)
                         {
@@ -122,21 +124,8 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
 <div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch  spaceBetweenArticles">
     <div class="card">
         <div class="card-body">
-            <audio id="music" preload="true">
-                <source src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))">
-            </audio>
-            <div id="audioplayer">
-                <i id="pButton" class="fas fa-play"></i>
-                <div id="timeline">
-                    <div id="playhead"></div>
-                </div>
-            </div>
-            <br/>
             <br/>
             <h5 class="text-muted"> @Html.DisplayFor(modelItem => item.Title)</h5>
-            @* <audio controls style="width: 250px"> *@
-            @*     <source src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))" type="audio/mp3"> *@
-            @* </audio> *@
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item" style="background-color:#FFE000">

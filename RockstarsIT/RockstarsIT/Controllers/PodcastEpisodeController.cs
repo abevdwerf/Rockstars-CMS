@@ -36,6 +36,7 @@ namespace RockstarsIT.Controllers
         {
             ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
+            ViewData["PodcastTitles"] = new SelectList(_context.Podcasts, "PodcastId", "Title");
             return View();
         }
 
@@ -63,6 +64,7 @@ namespace RockstarsIT.Controllers
                 }
                 ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
                 ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
+                ViewData["PodcastTitles"] = new SelectList(_context.Podcasts, "PodcastId", "Title");
                 return View(podcastEpisode);
             }
             else
@@ -94,7 +96,7 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PodcastId,Title,Description,URL,RockstarId,TribeId")] PodcastEpisode podcastEpisode)
+        public async Task<IActionResult> Edit(int id, [Bind("PodcastEpisodeId,PodcastId,Title,Description,URL,RockstarId,TribeId")] PodcastEpisode podcastEpisode)
         {
             if (id != podcastEpisode.PodcastEpisodeId)
             {
@@ -138,8 +140,8 @@ namespace RockstarsIT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var podcast = await _context.Podcasts.FindAsync(id);
-            _context.Podcasts.Remove(podcast);
+            var podcast = await _context.PodcastEpisodes.FindAsync(id);
+            _context.PodcastEpisodes.Remove(podcast);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
