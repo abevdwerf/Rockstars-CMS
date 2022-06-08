@@ -346,7 +346,9 @@ namespace RockstarsIT.Models
                 Description = "Dit is een video over Java",
                 Link = "https://www.youtube.com/watch?v=eIrMbAQSU34",
                 RockstarId = 1,
-                TribeId = 1
+                TribeId = 1,
+                LinkType = LinkType.Youtube,
+                ViewCount = 15
             };
 
             Video video2 = new Video()
@@ -356,7 +358,9 @@ namespace RockstarsIT.Models
                 Description = "Dit is een video over Xunit",
                 Link = "https://www.youtube.com/watch?v=2Wp8en1I9oQ",
                 RockstarId = 5,
-                TribeId = 4
+                TribeId = 4,
+                LinkType = LinkType.Youtube,
+                ViewCount = 15
             };
 
             Video video3 = new Video()
@@ -366,7 +370,9 @@ namespace RockstarsIT.Models
                 Description = "Dit is een video over dot.NET 6",
                 Link = "https://www.youtube.com/watch?v=Y2a16HAsHBE",
                 RockstarId = 3,
-                TribeId = 2
+                TribeId = 2,
+                LinkType = LinkType.Youtube,
+                ViewCount = 15
             };
 
             Video video4 = new Video()
@@ -376,7 +382,9 @@ namespace RockstarsIT.Models
                 Description = "Dit is een video over MSSQL",
                 Link = "https://www.youtube.com/watch?v=JTDK6r1GuUU",
                 RockstarId = 4,
-                TribeId = 2
+                TribeId = 2,
+                LinkType = LinkType.Youtube,
+                ViewCount = 15
             };
 
             Video video5 = new Video()
@@ -386,7 +394,9 @@ namespace RockstarsIT.Models
                 Description = "Dit is een video over de cloud",
                 Link = "https://www.youtube.com/watch?v=3hLmDS179YE",
                 RockstarId = 6,
-                TribeId = 5
+                TribeId = 5,
+                LinkType = LinkType.Youtube,
+                ViewCount = 15
             };
 
             builder.Entity<Video>().HasData(video1);
@@ -394,9 +404,6 @@ namespace RockstarsIT.Models
             builder.Entity<Video>().HasData(video3);
             builder.Entity<Video>().HasData(video4);
             builder.Entity<Video>().HasData(video5);
-
         }
-
-        public DbSet<RockstarsIT.Models.Podcast> Podcast { get; set; }
     }
 }
