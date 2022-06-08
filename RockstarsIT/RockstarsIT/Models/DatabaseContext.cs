@@ -281,34 +281,12 @@ namespace RockstarsIT.Models
             builder.Entity<ArticleTextBlocks>().HasData(articleTextBlocks2);
             builder.Entity<ArticleTextBlocks>().HasData(articleTextBlocks3);
 
-            PodcastEpisode podcastEpisode1 = new PodcastEpisode()
-            {
-                PodcastEpisodeId = 1,
-                URL = "https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb",
-                RockstarId = 1,
-                TribeId = 1
-            };
-
-            PodcastEpisode podcastEpisode2 = new PodcastEpisode()
-            {
-                PodcastEpisodeId = 2,
-                URL = "https://open.spotify.com/episode/4RrPIkmIMoUB0IcOfykmLF",
-                RockstarId = 1,
-                TribeId = 1
-            };
-
             PodcastEpisode podcastEpisode3 = new PodcastEpisode()
             {
                 PodcastEpisodeId = 3,
-                URL = "https://open.spotify.com/episode/2nH8y0ivbsjjuEX2OrObXt",
-                RockstarId = 1,
-                TribeId = 1
-            };
-
-            PodcastEpisode podcastEpisode4 = new PodcastEpisode()
-            {
-                PodcastEpisodeId = 4,
-                URL = "https://open.spotify.com/episode/7pZyi78l6vRJVdNquFiaQG",
+                Title = "#3 Vincent Hendriks; over de kracht van de waarom vraag aan de klant, zijn voorspellingen voor het IT landschap & tips voor junior engineers.",
+                Description = "Niet direct met gestrekt been erin, eerst luisteren, vragen stellen en proberen te begrijpen waar de gewenste IT-oplossing van de klant vandaan komt. Dit is wat er nodig is om te zorgen voor een goede samenwerking en de beste oplossing volgens Vincent. Dat dit een echte senior developer is op vele vlakken werd al snel duidelijk. Vincent deelt met ons zijn visie op het vakgebied, vertelt wat er volgens hem anders kan en strooit met tips voor groeien op kennis en impact maken bij de klant.",
+                URL = "https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb",
                 RockstarId = 1,
                 TribeId = 1
             };
@@ -316,7 +294,39 @@ namespace RockstarsIT.Models
             PodcastEpisode podcastEpisode5 = new PodcastEpisode()
             {
                 PodcastEpisodeId = 5,
+                Title = "#5 Ivar Lugtenburg, Full Stack developer en Tech Lead deelt op scherpe wijze zijn visie en vertelt ons waarom kritisch zijn op jezelf juist goed is.",
+                Description = "Met de Nintendo als trigger en zijn oudere broer als voorbeeld dook Ivar de wereld van IT in. Hij koos de weg van Java, vervult nu een lead rol en wil hier elke dag nog meer over leren. Hoe en van wie leert hij dan en hoe zorgt hij voor de beste oplossing bij de klant als hij van mening verschilt over wat de juiste aanpak is? In deze slot-aflevering geeft Ivar antwoord en deelt hij waarom hij fan is van Clean Code en Venkat Subramaniam. Ivar vertelt over zijn ervaring in het IT landschap en deelt zijn visie met ons. Niet ergens binnenkomen en meteen je kennis uitstrooien maar eerst in gesprek gaan, goed luisteren en vanuit daar een ander technisch perspectief kunnen bieden. Luister de hele aflevering voor nog meer inspiratie en leuk als je een reactie post!",                
+                URL = "https://open.spotify.com/episode/4RrPIkmIMoUB0IcOfykmLF",
+                RockstarId = 1,
+                TribeId = 1
+            };
+
+            PodcastEpisode podcastEpisode4 = new PodcastEpisode()
+            {
+                PodcastEpisodeId = 4,
+                Title = "#4 Duco Fronik; een senior front-end developer met oa. Xamarin in zijn technische rugzak over de snelheid van de front-end wereld en hoe hij bijblijft en zich ontwikkelt op deze sneltrein.",
+                Description = "Duco is stiekem een echte lefgozer als het gaat om het inzetten van de allernieuwste technieken. Hij creëert zijn eigen speelveld en hij leert door het gewoon te gaan doen! Zijn gouden tip? Zoek iets wat in relatie staat tot de echte wereld en kijk hoe kan je het daar toepassen. Dat maakt het zoveel toffer! In deze talk doet Duco zijn boekje open over front-end gedrochten, dode frameworks, hedendaagse technologie, hobby projecten, wat er de prullenbak in kan, het maken van maatschappelijke impact trends, voorspellingen en nog veel meer. Dit is weer een technische talk op hoog niveau die je volledig meeneemt in de snelle en dynamische wereld van front-end!",                
+                URL = "https://open.spotify.com/episode/2nH8y0ivbsjjuEX2OrObXt",
+                RockstarId = 1,
+                TribeId = 1
+            };
+
+            PodcastEpisode podcastEpisode2 = new PodcastEpisode()
+            {
+                PodcastEpisodeId = 2,
+                Title = "#2 Nadine Wolff; Deze embedded .NET developer met liefde voor hardware én japan neemt je mee in haar slimme hacks tot het seniorschap!",
+                Description = "Deze vrouw is dol op de directe feedback die hardware haar geeft en gaat het liefst door alle lagen heen. Ze heeft in haar loopbaan heel goed gekeken naar experts om haar heen, heeft haar eigen saus er over heen gegoten en pakt nu zelf de lead en begeleidt juniors en studenten. In deze podcast deelt ze haar visie, haar geheim voor succes in detachering en tips hoe je bij blijft in je vak!",                
                 URL = "https://open.spotify.com/episode/7pZyi78l6vRJVdNquFiaQG",
+                RockstarId = 1,
+                TribeId = 1
+            };
+
+            PodcastEpisode podcastEpisode1 = new PodcastEpisode()
+            {
+                PodcastEpisodeId = 1,
+                Title = "#1 Guido Schippers",
+                Description = "Deze .NET en Xamarin fan vertelt over zijn passie voor technische filosofie, VR en de droom om ooit die gast te zijn die de Matrix maakt.",                
+                URL = "https://open.spotify.com/episode/4BDg3QufDDZ0rpos71c6Wl",
                 RockstarId = 1,
                 TribeId = 1
             };
