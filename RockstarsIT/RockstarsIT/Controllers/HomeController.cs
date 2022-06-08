@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RockstarsIT.Classes;
 using RockstarsIT.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace RockstarsIT.Controllers
 {
@@ -91,7 +92,7 @@ namespace RockstarsIT.Controllers
             }
             if (_context.Videos.Any())
             {
-                List<Video> videos = _context.Videos.OrderByDescending(item => item.ViewCount).Take(5).ToList();
+                List<Video> videos = _context.Videos.Include(v => v.VideoContents).OrderByDescending(item => item.ViewCount).Take(5).ToList();
                 foreach (Video video in videos)
                 {
                     DashboardContent dc = new DashboardContent();
@@ -99,7 +100,7 @@ namespace RockstarsIT.Controllers
                     dc.Id = video.VideoId;
                     dc.Controller = "Video";
                     dc.ModelName = "Video";
-                    dc.Content = video;
+                    dc.Content = video.VideoContents.Where(v => v.LanguageId == 1).FirstOrDefault();
                     dc.ViewCount = video.ViewCount;
                     content.Add(dc);
                 }
