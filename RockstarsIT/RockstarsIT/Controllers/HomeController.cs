@@ -58,7 +58,7 @@ namespace RockstarsIT.Controllers
             int conceptContent = 0;
             conceptContent += _context.Article.Count(item => item.PublishedStatus == false);
             conceptContent += _context.Videos.Count(item => item.PublishedStatus == false);
-            conceptContent += _context.Podcasts.Count(item => item.PublishedStatus == false);
+            conceptContent += _context.PodcastEpisodes.Count(item => item.PublishedStatus == false);
             return conceptContent;
         }
 
@@ -67,7 +67,7 @@ namespace RockstarsIT.Controllers
             int publishedContent = 0;
             publishedContent = _context.Article.Count(item => item.PublishedStatus == true);
             publishedContent = _context.Videos.Count(item => item.PublishedStatus == true);
-            publishedContent = _context.Podcasts.Count(item => item.PublishedStatus == true);
+            publishedContent = _context.PodcastEpisodes.Count(item => item.PublishedStatus == true);
             return publishedContent;
         }
 
@@ -89,7 +89,7 @@ namespace RockstarsIT.Controllers
                     content.Add(dc);
                 }
             }
-            if (_context.Podcasts.Any())
+            if (_context.Videos.Any())
             {
                 List<Video> videos = _context.Videos.OrderByDescending(item => item.ViewCount).Take(5).ToList();
                 foreach (Video video in videos)
@@ -104,7 +104,7 @@ namespace RockstarsIT.Controllers
                     content.Add(dc);
                 }
             }
-            if (_context.Podcasts.Any())
+            if (_context.PodcastEpisodes.Any())
             {
                 List<PodcastEpisode> podcasts = _context.PodcastEpisodes.OrderByDescending(item => item.ViewCount).Take(5).ToList();
                 foreach (PodcastEpisode podcast in podcasts)
