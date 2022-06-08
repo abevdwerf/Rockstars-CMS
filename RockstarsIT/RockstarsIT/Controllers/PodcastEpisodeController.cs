@@ -159,7 +159,7 @@ namespace RockstarsIT.Controllers
             }
             _context.Entry(podcast).Property(r => r.PublishedStatus).IsModified = true;
             await _context.SaveChangesAsync();
-            return Redirect("/Podcast/Index?view=grid");
+            return Redirect("/PodcastEpisode/Index?view=grid");
         }
     }
 }
