@@ -13,7 +13,7 @@
     <div class="row g-3">
         <div class="col-md-6 mb-3">
             <label asp-for="Title" class="control-label">Titel</label>
-            <input asp-for="Title" id="txtTitel" class="textbox w-100" />
+            <input asp-for="Title" value="@Model.ArticleContents.FirstOrDefault().Title" id="txtTitel" class="textbox w-100" />
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
@@ -141,7 +141,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-9">
         @using (Html.BeginForm(FormMethod.Post))
             {
             <a asp-action="Index" class="btn button-cancel mr-3">
@@ -165,11 +165,15 @@
                     <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
                 </a>
             }
+            <a asp-action="Translate" asp-route-id="@Model.ArticleId" class="btn button mr-3">
+                VERTALEN
+           </a>
             <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.ArticleId" class="btn button-cancel">
                 VERWIJDEREN
                 <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg"/>
             </a>
             <input type="submit" asp-action="Delete" asp-route-id="@Model.ArticleId" hidden id="@Model.ArticleId"/>
+
         }
     </div>
 </div>

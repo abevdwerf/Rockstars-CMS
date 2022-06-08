@@ -10,7 +10,7 @@ namespace RockstarsIT.Models
         private Article _article;
 
         [Key]
-        public int ArtcleTranslationId { get; set; }
+        public int ArticleTranslationId { get; set; }
         public string Title 
         { 
             get => _title; 

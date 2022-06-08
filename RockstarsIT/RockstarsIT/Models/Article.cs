@@ -9,8 +9,6 @@ namespace RockstarsIT.Models
     public class Article
     {
         private Rockstar _rockstar;
-        private string _title;
-        private string _description;
         private Tribe _tribe;
         private DateTime _dateCreated;
         private DateTime _dateModified;
@@ -21,22 +19,13 @@ namespace RockstarsIT.Models
         public int ArticleId { get; set; }
         public List<ArticleImages> ArticleImages { get; set; }
         public List<ArticleTextBlocks> ArticleTextBlocks { get; set; }
+        public List<ArticleContent> ArticleContents { get; set; }
         public int? RockstarId { get; set; }
         [ForeignKey("RockstarId")]
         public virtual Rockstar Rockstar
         {
             get => _rockstar;
             set => _rockstar = value;
-        }
-        public string Title
-        {
-            get => _title;
-            set => _title = value;
-        }
-        public string Description
-        {
-            get => _description; 
-            set => _description = value;
         }
         public int? TribeId { get; set; }
         [ForeignKey("TribeId")]
@@ -75,5 +64,8 @@ namespace RockstarsIT.Models
         [Display(Name = "Selecteer een of meerdere afbeeldingen")]
         [NotMapped]
         public IFormFileCollection Images { get; set; }
+
+        [NotMapped]
+        public string Title { get; set; }
     }
 }

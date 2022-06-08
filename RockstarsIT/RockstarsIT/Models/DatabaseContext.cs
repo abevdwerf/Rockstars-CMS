@@ -17,6 +17,9 @@ namespace RockstarsIT.Models
         public DbSet<ArticleTextBlocks> ArticleTextBlocks { get; set; }
         public DbSet<Podcast> Podcasts { get; set; }
         public DbSet<Video> Videos { get; set; }
+        public DbSet<Language> Languages { get; set; }
+        public DbSet<ArticleTextBlockTranslation> ArticleTextBlockTranslations { get; set; }
+        public DbSet<ArticleContent> ArticleContents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -79,12 +82,20 @@ namespace RockstarsIT.Models
             Article article1 = new Article()
             {
                 ArticleId = 1,
-                RockstarId = 1,
-                Title = "Tekst",
-                Description = "test 123"
+                RockstarId = 1
             };
 
             builder.Entity<Article>().HasData(article1);
+
+            ArticleContent articleContent1 = new ArticleContent()
+            {
+                ArticleTranslationId = 1,
+                Title = "Tekst",
+                LanguageId = 1,
+                ArticleId = 1
+            };
+
+            builder.Entity<ArticleContent>().HasData(articleContent1);
 
             ArticleTextBlocks articleTextBlocks1 = new ArticleTextBlocks()
             {
@@ -94,6 +105,20 @@ namespace RockstarsIT.Models
             };
 
             builder.Entity<ArticleTextBlocks>().HasData(articleTextBlocks1);
+
+            Language language1 = new Language()
+            {
+                LanguageId = 1,
+                Name = "English"
+            };
+            Language language2 = new Language()
+            {
+                LanguageId = 2,
+                Name = "Dutch"
+            };
+
+            builder.Entity<Language>().HasData(language1);
+            builder.Entity<Language>().HasData(language2);
         }
     }
 }

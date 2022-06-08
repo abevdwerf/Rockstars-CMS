@@ -11,6 +11,7 @@ namespace RockstarsIT.Models
 
         [Key]
         public int ArtcleTextBlockTranslationId { get; set; }
+        [Required]
         public string Text
         {
             get => _text;

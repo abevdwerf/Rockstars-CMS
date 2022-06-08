@@ -45,9 +45,6 @@
                 Titel
             </th>
             <th>
-                Beschrijving
-            </th>
-            <th>
                 Schrijver
             </th>
             <th>
@@ -64,10 +61,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(modelItem => item.ArticleContents.FirstOrDefault().Title)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Rockstar.Name)
@@ -122,7 +116,7 @@
    <div class="card">
       <img class="card-img-top" src="https://www.teamrockstars.nl/wp-content/uploads/2020/11/0_0.jpeg" alt="Card image cap">
       <div class="card-body">
-         <h5 class="card-title text-black"> @Html.DisplayFor(modelItem => item.Title)</h5>
+         <h5 class="card-title text-black"> @Html.DisplayFor(modelItem => item.ArticleContents.FirstOrDefault().Title)</h5>
          <p class="card-text text-black">@Html.DisplayFor(modelItem => item.Rockstar.Name)</p>
       </div>
       <ul class="list-group list-group-flush">

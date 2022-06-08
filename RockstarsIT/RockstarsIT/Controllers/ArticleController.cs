@@ -31,9 +31,12 @@ namespace RockstarsIT.Controllers
         // GET: Article
         public async Task<IActionResult> Index()
         {
+            //chosen language
+            int languageId = 1;
+
             string dataShowType = HttpContext.Request.Query["view"].ToString();
             ViewData["DataShowType"] = dataShowType;
-            var databaseContext = _context.Article.Include(a => a.Rockstar).Include(a => a.Tribe);
+            var databaseContext = _context.Article.Include(a => a.Rockstar).Include(a => a.Tribe).Include(a => a.ArticleContents.Where(p => p.LanguageId == languageId));
             return View(await databaseContext.ToListAsync());
         }
 
@@ -58,12 +61,21 @@ namespace RockstarsIT.Controllers
                 _context.Add(article);
                 await _context.SaveChangesAsync();
 
+                //create ArticleContent
+                var articleContent = new ArticleContent()
+                {
+                    Title = article.Title,
+                    LanguageId = 1,
+                    ArticleId = article.ArticleId
+                };
+
                 //create ArticleTextBlock
                 var articleTextBlocks = new ArticleTextBlocks()
                 {
                     ArticleId = article.ArticleId
                 };
 
+                _context.Add(articleContent);
                 _context.Add(articleTextBlocks);
                 await _context.SaveChangesAsync();
 
@@ -80,8 +92,9 @@ namespace RockstarsIT.Controllers
             {
                 return NotFound();
             }
-
-            var article = await _context.Article.Include(a => a.ArticleImages).Include(a => a.ArticleTextBlocks).FirstOrDefaultAsync(m => m.ArticleId == id);
+            //chosen language
+            int languageId = 1;
+            var article = await _context.Article.Include(a => a.ArticleImages).Include(a => a.ArticleTextBlocks).Include(a => a.ArticleContents.Where(p => p.LanguageId == languageId)).FirstOrDefaultAsync(m => m.ArticleId == id);
             if (article == null)
             {
                 return NotFound();
@@ -270,6 +283,80 @@ namespace RockstarsIT.Controllers
             await _context.SaveChangesAsync();
 
             return Json(new { Success = true, Message = "Textblock saved." });
+        }
+
+        public async Task<IActionResult> Translate(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var article = await _context.Article.Include(a => a.ArticleTextBlocks).FirstOrDefaultAsync(m => m.ArticleId == id);
+            if (article == null)
+            {
+                return NotFound();
+            }
+
+            ViewData["Languages"] = new SelectList(_context.Languages, "LanguageId", "Name");
+            return View(article);
+        }
+
+        // POST: Article/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Translate(int id, [Bind("ArticleId,RockstarId,Title,Description")] Article article)
+        {
+            if (id != article.ArticleId)
+            {
+                return NotFound();
+            }
+
+            ModelState.Remove("Images");
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(article);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ArticleExists(article.ArticleId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["Languages"] = new SelectList(_context.Languages, "LanguageId", "Name");
+            return View(article);
+        }
+
+        public async Task<JsonResult> GetContentWithLanguage(int articleId, int languageId)
+        {
+            if (articleId > 0)
+            {
+                //find article content
+                //var articleContent = await _context.ArticleContents.FindAsync(languageId);
+                var articleContent =  await _context.ArticleContents.Where(p => p.LanguageId == languageId).FirstOrDefaultAsync(m => m.ArticleId == articleId);
+                
+                //find articletextblock with articleId and languageId
+                //var articletextblocks = await _context.ArticleTextBlocks.Include(ArticleTextBlockTranslations.Where(p => p.LanguageId == languageId && p.ArticleTextBlockId == articleId)).ToListAsync();
+                var articleTextBlocks = await _context.ArticleTextBlocks.Include(a => a.ArticleTextBlockTranslations.Where(p => p.LanguageId == languageId)).Where(m => m.ArticleId == articleId).ToListAsync();
+
+                string test = (articleContent == null) ? "" : articleContent.Title;
+
+                return Json(new { Success = true, ArticleContent = test, ArticleTextBlockTranslations = articleTextBlocks.ArticleTextBlockTranslations });
+            }
+            return Json(new { Succes = false, Message = "Something went wrong" });
         }
     }
 }

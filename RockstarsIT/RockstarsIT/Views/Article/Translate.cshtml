@@ -9,24 +9,13 @@
 <div class="row">
     <div class="col-md-6 mb-3">
         <div class="form-group">
+            <input type="hidden" asp-for="ArticleId" />
             <label class="control-label">Taal</label>
-            <select class="form-control" id="languagedropdown">
-                <option value="1">Nederlands</option>
-                <option value="2">Engels</option>
-                <option value="3">Duits</option>
-            </select>
+            <select class="form-control" id="languagedropdown" asp-items="ViewBag.Languages"></select>
         </div>
         <div class="form-group">
             <label class="control-label">Titel</label>
-            <div class="form-control">
-                @Model.Title
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label">Beschrijving</label>
-            <div class="form-control">
-                @Model.Description
-            </div>
+            <input type="text" class="textbox w-100" id="title" disabled name="Title" value="Tekst">
         </div>
         <div class="form-group">
             <label class="control-label">Teksten</label>
@@ -52,10 +41,6 @@
                                     <li class="nav-item">
                                         <a class="nav-link" data-id="@item.ArticleTextBlockId" data-toggle="tab" href="#tab-@item.ArticleTextBlockId">
                                             @count
-                                           @* @if (count > 1)
-                                            {
-                                                <button class="close" type="button" title="Remove this page">×</button>
-                                            }*@
                                         </a>
                                     </li>
                                 }
@@ -93,21 +78,12 @@
     <div class="col-md-6 mb-3">
         <div class="form-group">
             <label class="control-label">Taal</label>
-            <select class="form-control" id="TranslateLanguageDropDown">
-                <option value="1" style="display: none;">Nederlands</option>
-                <option value="2" selected>Engels</option>
-                <option value="3">Duits</option>
-            </select>
+            <select class="form-control" id="TranslateLanguageDropDown" asp-items="ViewBag.Languages"></select>
         </div>
         <div class="form-group">
             <label asp-for="Title" class="control-label">Titel</label>
             <input asp-for="Title" id="txtTitel" class="textbox w-100" />
             <span asp-validation-for="Title" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Description" class="control-label">Beschrijving</label>
-            <input asp-for="Description" class="textbox w-100" />
-            <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label class="control-label">Teksten</label>
@@ -151,13 +127,13 @@
                                 @if (item == Model.ArticleTextBlocks.First())
                                 {
                                     <div class="tab-pane fade show active" id="tab-@item.ArticleTextBlockId">
-                                        <textarea class="textarea w-100" rows="5">@item.Text</textarea>
+                                        <textarea class="editor">@item.Text</textarea>
                                     </div>
                                 }
                                 else    
                                 {   
                                     <div class="tab-pane fade" id="tab-@item.ArticleTextBlockId">
-                                        <textarea class="textarea w-100" rows="5">@item.Text</textarea>
+                                        <textarea class="editor">@item.Text</textarea>
                                     </div>
                                 }
                             }
@@ -187,14 +163,45 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     
     <script>
-        var hiddenLanguage = $('#languagedropdown option:selected').val();
+        jQuery(document).ready(function() {
+            //hide first option and make second option selected
+            $('#TranslateLanguageDropDown option:eq(1)').attr('selected', 'selected');
+            $('#TranslateLanguageDropDown').find('option').first().hide();  
 
-         $("#languagedropdown").change(function () {
-            var selectedLanguage = $('#languagedropdown option:selected').val();
-            $("#TranslateLanguageDropDown option[value=" + selectedLanguage + "]").hide();
-            $("#TranslateLanguageDropDown option[value=" + hiddenLanguage + "]").show();
-            $("#TranslateLanguageDropDown").val($('#TranslateLanguageDropDown option:not([style*="display: none"])').val());
-            hiddenLanguage = $('#languagedropdown option:selected').val();
+            var hiddenLanguage = $('#languagedropdown option:selected').val();
+
+            $("#languagedropdown").change(function () {
+                var selectedLanguage = $('#languagedropdown option:selected').val();
+
+                $("#TranslateLanguageDropDown option[value=" + selectedLanguage + "]").hide();
+                $("#TranslateLanguageDropDown option[value=" + hiddenLanguage + "]").show();
+                $("#TranslateLanguageDropDown").val($('#TranslateLanguageDropDown option:not([style*="display: none"])').val());
+                hiddenLanguage = $('#languagedropdown option:selected').val();
+
+                // change first section with selected language
+                $.ajax({  
+                    async: true,
+                    type: "GET",
+                    url: "/Article/GetContentWithLanguage",             
+                    data: { articleId: $('#ArticleId').val(), languageId: selectedLanguage },
+                    success: function (response) {  
+                        if (response.Success) {
+                            $('#title').val(response.ArticleContent);
+
+                            for (element )
+                            {
+                                var tabID = $("#tab-list li").length;
+                                var html = '<li class="nav-item"><a class="nav-link" data-id="' + response.ArticleTextblockId + '" data-toggle="tab" href="text-' + tabID + '" role="tab">' + tabID + '<button class="close" type="button" title="Remove this page">×</button></a></li>';
+                                $('#last-child').before(html);
+                                tabID++;
+                            }
+                        }
+                    },  
+                    error: function (response) { 
+                        alert("failed to get article content");  
+                    }  
+                });  
+            });
         });
     </script>
 }

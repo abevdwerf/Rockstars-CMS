@@ -35,7 +35,7 @@ namespace RockstarsIT
             
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("AbeConnection")));
 
             services.AddControllers().AddJsonOptions(jsonOptions =>
             {

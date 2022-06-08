@@ -11,12 +11,9 @@ namespace RockstarsIT.Models
         private string _description;
         private string _spotify;
         private string _leadaddress;
-        private int _blocknumber;
-        private int _imagenumber;
         private Tag _tag;
         public List<TribeImages> TribeImages { get; set; }
         public List<TribeTextBlock> TribeTextBlocks { get; set; }
-
 
         public int TribeId { get; set; }
 
