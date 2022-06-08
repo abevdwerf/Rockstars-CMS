@@ -21,25 +21,7 @@ namespace RockstarsIT.Controllers
         // GET: Podcast
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Podcast.ToListAsync());
-        }
-
-        // GET: Podcast/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var podcast = await _context.Podcast
-                .FirstOrDefaultAsync(m => m.PodcastId == id);
-            if (podcast == null)
-            {
-                return NotFound();
-            }
-
-            return View(podcast);
+            return View(await _context.Podcasts.ToListAsync());
         }
 
         // GET: Podcast/Create
@@ -72,7 +54,7 @@ namespace RockstarsIT.Controllers
                 return NotFound();
             }
 
-            var podcast = await _context.Podcast.FindAsync(id);
+            var podcast = await _context.Podcasts.FindAsync(id);
             if (podcast == null)
             {
                 return NotFound();
@@ -115,38 +97,33 @@ namespace RockstarsIT.Controllers
             return View(podcast);
         }
 
-        // GET: Podcast/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var podcast = await _context.Podcast
-                .FirstOrDefaultAsync(m => m.PodcastId == id);
-            if (podcast == null)
-            {
-                return NotFound();
-            }
-
-            return View(podcast);
-        }
-
         // POST: Podcast/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var podcast = await _context.Podcast.FindAsync(id);
-            _context.Podcast.Remove(podcast);
+            var podcast = await _context.Podcasts.FindAsync(id);
+            _context.Podcasts.Remove(podcast);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PodcastExists(int id)
         {
-            return _context.Podcast.Any(e => e.PodcastId == id);
+            return _context.Podcasts.Any(e => e.PodcastId == id);
+        }
+        
+        public async Task<IActionResult> ChangeStatus(int id, bool status)
+        {
+            var podcast = new PodcastEpisode { PodcastEpisodeId = id, DatePublished = DateTime.Now, PublishedStatus = status };
+            _context.Attach(podcast);
+            if (status)
+            {
+                _context.Entry(podcast).Property(r => r.DatePublished).IsModified = true;
+            }
+            _context.Entry(podcast).Property(r => r.PublishedStatus).IsModified = true;
+            await _context.SaveChangesAsync();
+            return Redirect("/Podcast/Index?view=grid");
         }
     }
 }

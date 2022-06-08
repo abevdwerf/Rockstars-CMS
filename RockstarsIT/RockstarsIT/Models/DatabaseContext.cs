@@ -16,7 +16,6 @@ namespace RockstarsIT.Models
         public DbSet<Article> Article { get; set; }
         public DbSet<ArticleImages> ArticleImages { get; set; }
         public DbSet<ArticleTextBlocks> ArticleTextBlocks { get; set; }
-        
         public DbSet<PodcastEpisode> PodcastEpisodes { get; set; }
         public DbSet<Podcast> Podcasts { get; set; }
         public DbSet<Video> Videos { get; set; }
@@ -281,12 +280,21 @@ namespace RockstarsIT.Models
             builder.Entity<ArticleTextBlocks>().HasData(articleTextBlocks2);
             builder.Entity<ArticleTextBlocks>().HasData(articleTextBlocks3);
 
+            Podcast podcast1 = new Podcast()
+            {
+                PodcastId = 1,
+                URL = "https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb",
+            };
+            
+            builder.Entity<Podcast>().HasData(podcast1);
+            
             PodcastEpisode podcastEpisode1 = new PodcastEpisode()
             {
                 PodcastEpisodeId = 1,
                 URL = "https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb",
                 RockstarId = 1,
-                TribeId = 1
+                TribeId = 1,
+                PodcastId = 1
             };
 
             PodcastEpisode podcastEpisode2 = new PodcastEpisode()
@@ -294,7 +302,8 @@ namespace RockstarsIT.Models
                 PodcastEpisodeId = 2,
                 URL = "https://open.spotify.com/episode/4RrPIkmIMoUB0IcOfykmLF",
                 RockstarId = 1,
-                TribeId = 1
+                TribeId = 1,
+                PodcastId = 1
             };
 
             PodcastEpisode podcastEpisode3 = new PodcastEpisode()
@@ -302,7 +311,8 @@ namespace RockstarsIT.Models
                 PodcastEpisodeId = 3,
                 URL = "https://open.spotify.com/episode/2nH8y0ivbsjjuEX2OrObXt",
                 RockstarId = 1,
-                TribeId = 1
+                TribeId = 1,
+                PodcastId = 1
             };
 
             PodcastEpisode podcastEpisode4 = new PodcastEpisode()
@@ -310,7 +320,8 @@ namespace RockstarsIT.Models
                 PodcastEpisodeId = 4,
                 URL = "https://open.spotify.com/episode/7pZyi78l6vRJVdNquFiaQG",
                 RockstarId = 1,
-                TribeId = 1
+                TribeId = 1,
+                PodcastId = 1
             };
 
             PodcastEpisode podcastEpisode5 = new PodcastEpisode()
@@ -318,7 +329,8 @@ namespace RockstarsIT.Models
                 PodcastEpisodeId = 5,
                 URL = "https://open.spotify.com/episode/7pZyi78l6vRJVdNquFiaQG",
                 RockstarId = 1,
-                TribeId = 1
+                TribeId = 1,
+                PodcastId = 1
             };
 
             builder.Entity<PodcastEpisode>().HasData(podcastEpisode1);
@@ -334,7 +346,9 @@ namespace RockstarsIT.Models
                 Description = "Dit is een video over Java",
                 Link = "https://www.youtube.com/watch?v=eIrMbAQSU34",
                 RockstarId = 1,
-                TribeId = 1
+                TribeId = 1,
+                LinkType = LinkType.Youtube,
+                ViewCount = 15
             };
 
             Video video2 = new Video()
@@ -344,7 +358,9 @@ namespace RockstarsIT.Models
                 Description = "Dit is een video over Xunit",
                 Link = "https://www.youtube.com/watch?v=2Wp8en1I9oQ",
                 RockstarId = 5,
-                TribeId = 4
+                TribeId = 4,
+                LinkType = LinkType.Youtube,
+                ViewCount = 15
             };
 
             Video video3 = new Video()
@@ -354,7 +370,9 @@ namespace RockstarsIT.Models
                 Description = "Dit is een video over dot.NET 6",
                 Link = "https://www.youtube.com/watch?v=Y2a16HAsHBE",
                 RockstarId = 3,
-                TribeId = 2
+                TribeId = 2,
+                LinkType = LinkType.Youtube,
+                ViewCount = 15
             };
 
             Video video4 = new Video()
@@ -364,7 +382,9 @@ namespace RockstarsIT.Models
                 Description = "Dit is een video over MSSQL",
                 Link = "https://www.youtube.com/watch?v=JTDK6r1GuUU",
                 RockstarId = 4,
-                TribeId = 2
+                TribeId = 2,
+                LinkType = LinkType.Youtube,
+                ViewCount = 15
             };
 
             Video video5 = new Video()
@@ -374,7 +394,9 @@ namespace RockstarsIT.Models
                 Description = "Dit is een video over de cloud",
                 Link = "https://www.youtube.com/watch?v=3hLmDS179YE",
                 RockstarId = 6,
-                TribeId = 5
+                TribeId = 5,
+                LinkType = LinkType.Youtube,
+                ViewCount = 15
             };
 
             builder.Entity<Video>().HasData(video1);
@@ -382,9 +404,6 @@ namespace RockstarsIT.Models
             builder.Entity<Video>().HasData(video3);
             builder.Entity<Video>().HasData(video4);
             builder.Entity<Video>().HasData(video5);
-
         }
-
-        public DbSet<RockstarsIT.Models.Podcast> Podcast { get; set; }
     }
 }
