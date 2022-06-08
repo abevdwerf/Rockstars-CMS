@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -7,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
@@ -15,10 +15,12 @@ namespace RockstarsIT.Controllers
     public class VideoController : Controller
     {
         private readonly DatabaseContext _context;
+        private readonly IStringLocalizer<VideoController> _stringLocalizer;
 
-        public VideoController(DatabaseContext context)
+        public VideoController(DatabaseContext context, IStringLocalizer<VideoController> stringLocalizer)
         {
             _context = context;
+            _stringLocalizer = stringLocalizer;
         }
 
         // GET: Video
@@ -48,6 +50,18 @@ namespace RockstarsIT.Controllers
             if (ModelState.IsValid)
             {
                 video.Link = GetVideoId(video.Link);
+                if (video.Link.Length == 11)
+                {
+                    video.LinkType = LinkType.Youtube;
+                }
+                else if (video.Link.Length == 9)
+                {
+                    video.LinkType = LinkType.Vimeo;
+                }
+                else
+                {
+                    video.LinkType = LinkType.Invalid;
+                }
                 video.DateCreated = DateTime.Now;
                 _context.Add(video);
                 await _context.SaveChangesAsync();
@@ -96,6 +110,18 @@ namespace RockstarsIT.Controllers
                 try
                 {
                     video.Link = GetVideoId(video.Link);
+                    if (video.Link.Length == 11)
+                    {
+                        video.LinkType = LinkType.Youtube;
+                    }
+                    else if (video.Link.Length == 9)
+                    {
+                        video.LinkType = LinkType.Vimeo;
+                    }
+                    else
+                    {
+                        video.LinkType = LinkType.Invalid;
+                    }
                     video.DateModified = DateTime.Now;
                     _context.Update(video);
                     await _context.SaveChangesAsync();

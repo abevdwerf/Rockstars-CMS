@@ -1,10 +1,12 @@
 ﻿@model RockstarsIT.Models.Rockstar
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<RockstarsIT.Controllers.RockstarsController> Localizer
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1 class="mt-3">ROCKSTAR BEWERKEN</h1>
+<h1 class="mt-3">@Localizer["edit.pagetitle"]</h1>
 
 <hr />
 <div class="row">
@@ -13,10 +15,10 @@
         <input type="hidden" asp-for="RockstarId" />
         <div class="row g-3">
             <div class="col-md-6 mb-3">
-                <label>Profiel foto</label>
+                <label>@Localizer["edit.picture"]</label>
                 <div class="custom-file">
                     <input asp-for="ImageFile" class="custom-file-input" id="postedFile">
-                    <label asp-for="ImageFile" class="custom-file-label" for="customFileLangHTML" data-browse="Bestand kiezen"></label>
+                    <label asp-for="ImageFile" class="custom-file-label" for="customFileLangHTML" data-browse="@Localizer["edit.choosefile"]"></label>
                 </div>
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
@@ -26,12 +28,12 @@
                 <span asp-validation-for="TribeId" class="text-danger"></span>
             </div>
             <div class="col-md-6 mb-3">
-                <label asp-for="Name" class="control-label"></label> <br>
+                <label asp-for="Name" class="control-label">@Localizer["edit.name"]</label> <br>
                 <input asp-for="Name" class="textbox w-100" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="col-md-6 mb-3">
-                <label class="control-label">Regio</label>
+                <label class="control-label">@Localizer["edit.region"]</label>
                 <select asp-for="Chapter" class="form-control" asp-items="Html.GetEnumSelectList<Chapter>()"></select>
                 <span asp-validation-for="Chapter" class="text-danger"></span>
             </div>
@@ -41,12 +43,12 @@
                 <span asp-validation-for="LinkedIn" class="text-danger"></span>
             </div>
             <div class="col-md-6 mb-3">
-                <label class="control-label">Rol</label>
+                <label class="control-label">@Localizer["edit.role"]</label>
                 <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleNames"></select>
                 <span asp-validation-for="RoleId" class="text-danger"></span>
             </div>
             <div class="col-md-6 mb-3">
-                <label class="control-label">Beschrijving</label> <br>
+                <label class="control-label">@Localizer["edit.description"]</label> <br>
                 <textarea asp-for="Description" class="textarea w-100" rows="5"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
@@ -61,11 +63,11 @@
                 @using (Html.BeginForm(FormMethod.Post))
                 {
                     <button class="btn button mr-3" type="submit">
-                        WIJZIGINGEN OPSLAAN
+                        @Localizer["edit.btn.save"]
                         <img class="ml-2" height="32" width="32" src="~/icons/save-zwart.svg"/>
                     </button>
                     <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.RockstarId" class="btn button-cancel">
-                        VERWIJDEREN
+                        @Localizer["edit.btn.delete"]
                         <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg"/>
                     </a>
                     <input type="submit" asp-action="Delete" asp-route-id="@Model.RockstarId" hidden id="@Model.RockstarId"/>
@@ -77,7 +79,7 @@
 <br>
 <div>
     <a asp-action="Index" class="btn button-cancel">
-        TERUG NAAR OVERZICHT
+        @Localizer["edit.btn.back"]
         <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
             <path d="M0 0h24v24H0z" fill="none"/>
             <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>

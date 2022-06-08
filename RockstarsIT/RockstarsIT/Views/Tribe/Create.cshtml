@@ -1,41 +1,37 @@
 ﻿@model RockstarsIT.Models.Tribe
-
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<RockstarsIT.Controllers.TribeController> Localizer
 @{
     ViewData["Title"] = "Create";
 }
 
-
-<h1 class="mt-3">TRIBE AANMAKEN</h1>
-
+<h1 class="mt-3">@Localizer["create.pagetitle"]</h1>
 
 <hr />
 <form asp-action="Create" onsubmit="setFormSubmitting()">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row g-3">
         <div class="col-md-6 mb-3">
-            <label class="control-label" lang="nl">Naam:</label> 
-            <label class="control-label" lang="en-uk">Name:</label> 
+            <label class="control-label">@Localizer["create.name"]</label>  
             <br>
             <input asp-for="Name" class="textbox w-100" rows="5" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
         <div class="col-md-6 mb-3">
-            <label asp-for="Spotify" class="control-label">Spotify Link:</label>
+            <label asp-for="Spotify" class="control-label">@Localizer["create.spotify"]</label>
             <br />
             <input asp-for="Spotify" class="textbox w-100" rows="10" cols="50" />
             <span asp-validation-for="Spotify" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label class="control-label" lang="nl">Beschrijving:</label> 
-            <label class="control-label" lang="en-uk">Description:</label> 
+            <label class="control-label">@Localizer["create.description"]</label> 
             <br>
             <textarea asp-for="Description" class="textarea w-100" rows="5"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="LeadAddress" class="control-label" lang="nl">Tribe Lead Email Adres:</label>
-            <label asp-for="LeadAddress" class="control-label" lang="en-uk">Tribe Lead Email Address:</label>
+            <label asp-for="LeadAddress" class="control-label">@Localizer["create.leadaddress"]</label>
             <br />
             <input asp-for="LeadAddress" class="textbox w-100" rows="10" cols="50" />
             <span asp-validation-for="LeadAddress" class="text-danger"></span>
@@ -43,22 +39,20 @@
     </div>
     <div class="row">
         <div class="col-md-6">
-            <button class="btn button" type="submit">
-                TRIBE AANMAKEN
+            <button class="btn button mr-3" type="submit">
+                @Localizer["create.btn.add"]
                 <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/> 
             </button>
+            <a asp-action="Index" class="btn button-cancel">
+                @Localizer["create.btn.back"]
+                <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 0 24 24" width="30">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+                </svg>
+            </a>
         </div>
     </div>
 </form>
-<div>
-    <a asp-action="Index" class="btn button-cancel mt-3">
-     TERUG NAAR OVERZICHT
-     <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-         <path d="M0 0h24v24H0z" fill="none" />
-         <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-     </svg>
-    </a>
-</div>
 
 @section Scripts {
     @{
@@ -70,17 +64,17 @@
 var formSubmitting = false;
 var setFormSubmitting = function() { formSubmitting = true; };
 
-window.onload = function() {
-    window.addEventListener("beforeunload", function (e) {
-        if (formSubmitting) {
-            return undefined;
-        }
+//window.onload = function() {
+//    window.addEventListener("beforeunload", function (e) {
+//        if (formSubmitting) {
+//            return undefined;
+//        }
 
-        var confirmationMessage = 'It looks like you have been editing something. '
-                                + 'If you leave before saving, your changes will be lost.';
+//        var confirmationMessage = 'It looks like you have been editing something. '
+//                                + 'If you leave before saving, your changes will be lost.';
 
-        (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-        return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-    });
-};
+//        (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+//        return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+//    });
+//};
 </script>

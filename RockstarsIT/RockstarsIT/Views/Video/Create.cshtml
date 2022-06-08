@@ -1,19 +1,19 @@
 ﻿@model RockstarsIT.Models.Video
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<RockstarsIT.Controllers.VideoController> Localizer
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1 class="mt-3">Create</h1>
+<h1 class="mt-3">@Localizer["create.pagetitle"]</h1>
 
-<h4>Video</h4>
 <hr />
 <form asp-action="Create" onsubmit="setFormSubmitting()">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row g-3">
         <div class="col-md-6 mb-3">
-            <label asp-for="Title" class="control-label" lang="nl">Titel:</label>
-            <label asp-for="Title" class="control-label" lang="en-uk">Title:</label>
+            <label asp-for="Title" class="control-label">@Localizer["create.title"]</label>
             <input asp-for="Title" class="textbox w-100" required/>
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
@@ -32,19 +32,18 @@
             <select asp-for="TribeId" class ="form-control" asp-items="ViewBag.TribeNames"></select>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="Description" class="control-label" lang="nl">Beschrijving:</label>
-            <label asp-for="Description" class="control-label" lang="en-uk">Description:</label>
+            <label asp-for="Description" class="control-label">@Localizer["create.description"]</label>
             <textarea asp-for="Description" class="textarea w-100"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
     </div>
     <button type="submit" value="Create" class="btn button">
-        VIDEO TOEVOEGEN
+        @Localizer["create.btn.add"]
         <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
     </button>
     <div>
         <a asp-action="Index" class="btn button-cancel mt-3">
-            TERUG NAAR OVERZICHT
+            @Localizer["create.btn.back"]
             <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                  <path d="M0 0h24v24H0z" fill="none" />
                  <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
@@ -63,17 +62,17 @@
 var formSubmitting = false;
 var setFormSubmitting = function() { formSubmitting = true; };
 
-window.onload = function() {
-    window.addEventListener("beforeunload", function (e) {
-        if (formSubmitting) {
-            return undefined;
-        }
+//window.onload = function() {
+//    window.addEventListener("beforeunload", function (e) {
+//        if (formSubmitting) {
+//            return undefined;
+//        }
 
-        var confirmationMessage = 'It looks like you have been editing something. '
-                                + 'If you leave before saving, your changes will be lost.';
+//        var confirmationMessage = 'It looks like you have been editing something. '
+//                                + 'If you leave before saving, your changes will be lost.';
 
-        (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-        return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-    });
-};
+//        (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+//        return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+//    });
+//};
 </script>

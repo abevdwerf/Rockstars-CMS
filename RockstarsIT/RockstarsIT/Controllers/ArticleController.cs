@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
@@ -21,11 +22,13 @@ namespace RockstarsIT.Controllers
     {
         private readonly DatabaseContext _context;
         private readonly string _azureConnectionString;
+        private readonly IStringLocalizer<ArticleController> _stringLocalizer;
 
-        public ArticleController(DatabaseContext context, IConfiguration configuration)
+        public ArticleController(DatabaseContext context, IConfiguration configuration, IStringLocalizer<ArticleController> stringLocalizer)
         {
             _context = context;
             _azureConnectionString = configuration.GetConnectionString("ConnectionStringBlob");
+            _stringLocalizer = stringLocalizer;
         }
 
         // GET: Article

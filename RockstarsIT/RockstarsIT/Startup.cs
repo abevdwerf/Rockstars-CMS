@@ -13,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using RockstarsIT.Models;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 namespace RockstarsIT
 {
@@ -41,6 +43,25 @@ namespace RockstarsIT
             {
                 jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
+
+            services.AddLocalization(options => { });
+
+            services.AddControllersWithViews()
+                .AddViewLocalization();
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = new RequestCulture("en");
+
+                var cultures = new CultureInfo[]
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("nl"),
+                };
+
+                options.SupportedCultures = cultures;
+                options.SupportedUICultures = cultures;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +77,8 @@ namespace RockstarsIT
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseRequestLocalization();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

@@ -7,7 +7,10 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using RockstarsIT.Classes;
 using RockstarsIT.Models;
@@ -19,11 +22,13 @@ namespace RockstarsIT.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly DatabaseContext _context;
+        private readonly IStringLocalizer<HomeController> _stringLocalizer;
 
-        public HomeController(ILogger<HomeController> logger, DatabaseContext context)
+        public HomeController(ILogger<HomeController> logger, DatabaseContext context, IStringLocalizer<HomeController> stringLocalizer)
         {
             _logger = logger;
             _context = context;
+            _stringLocalizer = stringLocalizer;
         }
 
         public IActionResult Index()
@@ -32,6 +37,15 @@ namespace RockstarsIT.Controllers
             if (sortedList.Count == 5)
             {
                 ViewData["content"] = sortedList;
+                if ((double)sortedList[0].ViewCount < 100)
+                {
+                    ViewData["percentageObject1"] = 100;
+                }
+                else
+                {
+                    ViewData["percentageObject1"] = (double)sortedList[0].ViewCount;
+                }
+
                 ViewData["percentageObject2"] = (((double)sortedList[1].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
                 ViewData["percentageObject3"] = (((double)sortedList[2].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
                 ViewData["percentageObject4"] = (((double)sortedList[3].ViewCount / (double)sortedList[0].ViewCount) * 100).ToString(CultureInfo.InvariantCulture);
@@ -49,7 +63,7 @@ namespace RockstarsIT.Controllers
             int conceptContent = 0;
             conceptContent += _context.Article.Count(item => item.PublishedStatus == false);
             conceptContent += _context.Videos.Count(item => item.PublishedStatus == false);
-            conceptContent += _context.Podcasts.Count(item => item.PublishedStatus == false);
+            conceptContent += _context.PodcastEpisodes.Count(item => item.PublishedStatus == false);
             return conceptContent;
         }
 
@@ -58,7 +72,7 @@ namespace RockstarsIT.Controllers
             int publishedContent = 0;
             publishedContent = _context.Article.Count(item => item.PublishedStatus == true);
             publishedContent = _context.Videos.Count(item => item.PublishedStatus == true);
-            publishedContent = _context.Podcasts.Count(item => item.PublishedStatus == true);
+            publishedContent = _context.PodcastEpisodes.Count(item => item.PublishedStatus == true);
             return publishedContent;
         }
 
@@ -80,7 +94,7 @@ namespace RockstarsIT.Controllers
                     content.Add(dc);
                 }
             }
-            if (_context.Podcasts.Any())
+            if (_context.Videos.Any())
             {
                 List<Video> videos = _context.Videos.OrderByDescending(item => item.ViewCount).Take(5).ToList();
                 foreach (Video video in videos)
@@ -95,14 +109,14 @@ namespace RockstarsIT.Controllers
                     content.Add(dc);
                 }
             }
-            if (_context.Podcasts.Any())
+            if (_context.PodcastEpisodes.Any())
             {
-                List<Podcast> podcasts = _context.Podcasts.OrderByDescending(item => item.ViewCount).Take(5).ToList();
-                foreach (Podcast podcast in podcasts)
+                List<PodcastEpisode> podcasts = _context.PodcastEpisodes.OrderByDescending(item => item.ViewCount).Take(5).ToList();
+                foreach (PodcastEpisode podcast in podcasts)
                 {
                     DashboardContent dc = new DashboardContent();
                     dc.SVGLocation = "/icons/Mic.svg";
-                    dc.Id = podcast.PodcastId;
+                    dc.Id = podcast.PodcastEpisodeId;
                     dc.Controller = "Podcast";
                     dc.ModelName = "Podcast";
                     dc.Content = podcast;
@@ -113,6 +127,21 @@ namespace RockstarsIT.Controllers
 
             List<DashboardContent> sortedList = content.OrderByDescending(o => o.ViewCount).Take(5).ToList();
             return sortedList;
+        }
+
+        [HttpPost]
+        public IActionResult ChangeLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                    new CookieOptions
+                    {
+                        Expires = DateTimeOffset.UtcNow.AddDays(7)
+                    }
+            );
+
+            return LocalRedirect(returnUrl);
         }
 
         public IActionResult buttons()

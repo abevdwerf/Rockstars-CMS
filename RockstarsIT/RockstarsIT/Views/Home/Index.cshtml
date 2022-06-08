@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<RockstarsIT.Controllers.HomeController> Localizer
+@{
     ViewData["Title"] = "Home Page";
     var list = ViewBag.content;
 }
@@ -15,14 +17,14 @@
                             <div class="card shadow mb-4"></div>
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="text-primary fw-bold m-0">Top 5 bekeken content</h6>
+                                    <h6 class="text-primary fw-bold m-0">@Localizer["index.top5"]</h6>
                                 </div>
                                 <div class="card-body">
                                     @if (ViewBag.content != null)
                                     {
                                         <h4 class="small fw-bold text-black">@list[0].Content.Title<span class="float-end">@{@list[0].Content.ViewCount}x</span></h4>
                                         <div class="progress mb-4">
-                                            <div class="progress-bar bg-danger" aria-valuenow="@list[0].Content.ViewCount" aria-valuemin="0" aria-valuemax="100" style="width: @list[0].Content.ViewCount%;"><span class="visually-hidden">@list[0].Content.ViewCount%</span></div>
+                                            <div class="progress-bar bg-danger" aria-valuenow="@list[0].Content.ViewCount" aria-valuemin="0" aria-valuemax="100" style="width: @ViewBag.percentageObject1%;"><span class="visually-hidden">@list[0].Content.ViewCount%</span></div>
                                         </div>
                                         <h4 class="small fw-bold text-black">@list[1].Content.Title<span class="float-end">@{@list[1].Content.ViewCount}x</span></h4>
                                         <div class="progress mb-4">
@@ -50,7 +52,7 @@
                                 <div class="card-body" style="margin-bottom: 10px;">
                                     <div class="row align-items-center no-gutters">
                                         <div class="col me-2">
-                                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>Hudige gebruikers</span></div>
+                                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>@Localizer["index.visitors"]</span></div>
                                             <div class="text-dark fw-bold h5 mb-0"><span>100</span></div>
                                         </div>
                                         <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
@@ -61,7 +63,7 @@
                                 <div class="card-body" style="margin-top: 10px;margin-bottom: 10px;">
                                     <div class="row align-items-center no-gutters">
                                         <div class="col me-2">
-                                            <div class="text-uppercase text-success fw-bold text-xs mb-1"><span>Totaal gepubliceerde content</span></div>
+                                            <div class="text-uppercase text-success fw-bold text-xs mb-1"><span>@Localizer["index.contenttotal"]</span></div>
                                             <div class="text-dark fw-bold h5 mb-0"><span>@ViewBag.publishedContent</span></div>
                                         </div>
                                         <div class="col-auto"><i class="fas fa-dollar-sign fa-2x text-gray-300"></i></div>
@@ -72,7 +74,7 @@
                                 <div class="card-body" style="margin-top: 10px;margin-bottom: 10px;">
                                     <div class="row align-items-center no-gutters">
                                         <div class="col me-2">
-                                            <div class="text-uppercase text-info fw-bold text-xs mb-1"><span>Totaal concept content</span></div>
+                                            <div class="text-uppercase text-info fw-bold text-xs mb-1"><span>@Localizer["index.drafttotal"]</span></div>
                                             <div class="row g-0 align-items-center">
                                                 <div class="col-auto">
                                                     <div class="text-dark fw-bold h5 mb-0 me-3"><span>@ViewBag.conceptContent</span></div>
@@ -86,7 +88,7 @@
                         </div>
                     </div>
                     <div class="container text-center my-3">
-                        <h2 class="font-weight-light">Top 5 bekeken content</h2>
+                        <h2 class="font-weight-light">@Localizer["index.top5"]</h2>
 
                         @if (ViewBag.content != null)
                         {

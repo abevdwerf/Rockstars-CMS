@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<RockstarsIT.Models.Tribe>
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<RockstarsIT.Controllers.TribeController> Localizer
 @{
     ViewData["Title"] = "Index";
 }
@@ -8,33 +10,24 @@
 <p>
 
     <a class="btn button" asp-action="Create">
-        NIEUWE TRIBE
+        @Localizer["index.btn.add"]
         <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
     </a>
 </p>
 <table class="table table-bordered bg-light">
     <thead class="thead-dark">
         <tr>
-            <th lang="nl">
-                NAAM
-            </th>
-            <th lang="en-uk">
-                NAME
-            </th>
-            <th lang="nl">
-                BESCHRIJVING
-            </th>
-            <th lang="en-uk">
-                DESCRIPTION
+            <th>
+                @Localizer["index.th.name"]
             </th>
             <th>
-                SPOTIFY LINK
+                @Localizer["index.th.description"]
             </th>
-            <th lang="nl">
-                ACTIES
+            <th>
+                @Localizer["index.th.spotify"]
             </th>
-            <th lang="en-uk">
-                ACTIONS
+            <th>
+                @Localizer["index.th.actions"]
             </th>
         </tr>
     </thead>
@@ -53,7 +46,7 @@
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.TribeId" class="btn button mr-2">
-                        BEWERKEN
+                        @Localizer["index.btn.edit"]
                         <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
                     </a>
                 </td>

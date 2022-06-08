@@ -1,0 +1,98 @@
+@model RockstarsIT.Models.PodcastEpisode
+
+@{
+    ViewData["Title"] = "Edit";
+    Spotify spotify = new Spotify();
+}
+
+<h1 lang="nl" class="mt-3">PODCAST BEWERKEN</h1><h1 lang="en-uk" class="mt-3">EDIT PODCAST</h1>
+
+<hr />
+<form asp-action="Edit" asp-route-id="@Model.PodcastEpisodeId">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input hidden asp-for="PodcastEpisodeId" value="@Model.PodcastEpisodeId"/>
+    <div class="row g-3">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Title" class="control-label" lang="nl">Titel</label>
+            <label asp-for="Title" class="control-label" lang="en-uk">Title</label>
+            <input asp-for="Title" class="textbox w-100"/>
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Tribe" class="control-label">Tribe</label>
+            <select asp-for="TribeId" class="form-control" asp-items="ViewBag.TribeNames"></select>
+            <span asp-validation-for="TribeId" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Description" class="control-label" lang="nl">Beschrijving</label>
+            <label asp-for="Description" class="control-label" lang="en-uk">Description</label>
+            <textarea asp-for="Description" class="textarea w-100" rows="5"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Rockstar" class="control-label">Rockstar</label>
+            <select asp-for="RockstarId" class="form-control" asp-items="ViewBag.RockstarNames"></select>
+            <span asp-validation-for="RockstarId" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 lg-6 mb-3">
+            <label class="control-label">Spotify</label> <a id="link" href="javascript:void(0)" onclick="OpenEditor(this.id)"><img id="editimg" class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/></a> 
+            <br/>
+            <br/>
+            <iframe src="@spotify.GetSpotifyEmbeddedLink(Model.URL)" height="160" style="min-width: 100%" frameBorder="0" title="description" name="link"></iframe>
+            <input asp-for="URL" class="textbox w-100" name="link" hidden value="@Model.URL"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            @using (Html.BeginForm(FormMethod.Post))
+            {
+                <button class="btn button mr-3 mb-3" type="submit">
+                    <a lang="nl">WIJZIGINGEN OPSLAAN</a><a lang="en-uk">SAVE CHANGES</a>
+                    <img class="ml-2" height="32" width="32" src="~/icons/save-zwart.svg"/>
+                </button>
+                @if (@Model.PublishedStatus)
+                {
+                    <a asp-action="ChangeStatus" asp-route-id="@Model.PodcastEpisodeId" asp-route-status="false" class="btn button mr-3 mb-3">
+                        <label lang="nl" class="text-black">CONCEPT</label><label lang="en-uk" class="text-black">DRAFT</label>
+                        <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
+                    </a>
+                }
+                else
+                {
+                    <a asp-action="ChangeStatus" asp-route-id="@Model.PodcastEpisodeId" asp-route-status="true" class="btn button mr-3 mb-3">
+                        <label lang="nl" class="text-black">PUBLICEREN</label><label lang="en-uk" class="text-black">PUBLISH</label>
+                        <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
+                    </a>
+                }
+                <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.PodcastEpisodeId" class="btn button-cancel mb-3">
+                    <label lang="nl">VERWIJDEREN</label><label lang="en-uk">DELETE</label>
+                    <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg"/>
+                </a>
+                <input type="submit" asp-action="Delete" asp-route-id="@Model.PodcastEpisodeId" hidden id="@Model.PodcastEpisodeId"/>
+            }
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index" class="btn button-cancel mt-3">
+        <label lang="nl">TERUG NAAR OVERZICHT</label><label lang="en-uk">BACK TO LIST</label>
+        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
+        </svg>
+    </a>
+</div>
+<script>
+    function ConfirmDelete(id) {
+        const conbtn2 = document.getElementById(id);
+
+        let text = "Weet je zeker dat u deze podcast wilt verwijderen?"
+        if (confirm(text) == true) {
+            conbtn2.click();
+        }
+        else {
+            console.log("test");
+        }
+    }
+</script>
