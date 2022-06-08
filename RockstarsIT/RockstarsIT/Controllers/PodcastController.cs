@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +9,8 @@ using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
 {
-    [Authorize]
     public class PodcastController : Controller
     {
-        Spotify spotify = new Spotify();
         private readonly DatabaseContext _context;
 
         public PodcastController(DatabaseContext context)
@@ -24,18 +21,30 @@ namespace RockstarsIT.Controllers
         // GET: Podcast
         public async Task<IActionResult> Index()
         {
-            string dataShowType = HttpContext.Request.Query["view"].ToString();
-            ViewData["DataShowType"] = dataShowType;
-            var databaseContext = _context.Podcasts.Include(p => p.Rockstar).Include(p => p.Tribe);
-            return View(await databaseContext.ToListAsync());
+            return View(await _context.Podcast.ToListAsync());
         }
-        
+
+        // GET: Podcast/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var podcast = await _context.Podcast
+                .FirstOrDefaultAsync(m => m.PodcastId == id);
+            if (podcast == null)
+            {
+                return NotFound();
+            }
+
+            return View(podcast);
+        }
 
         // GET: Podcast/Create
         public IActionResult Create()
         {
-            ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
-            ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
             return View();
         }
 
@@ -44,18 +53,14 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PodcastId,URL,RockstarId,TribeId")] Podcast podcast)
+        public async Task<IActionResult> Create([Bind("PodcastId,Title,Description,URL,DateCreated,DateModified,DatePublished,PublishedStatus,ViewCount")] Podcast podcast)
         {
-            podcast.Title = spotify.GetTitle(spotify.GetSpotifyLinkId(podcast.URL));
-            podcast.Description = spotify.GetDescription(spotify.GetSpotifyLinkId(podcast.URL));
             if (ModelState.IsValid)
             {
                 _context.Add(podcast);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
-            ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
             return View(podcast);
         }
 
@@ -67,13 +72,11 @@ namespace RockstarsIT.Controllers
                 return NotFound();
             }
 
-            var podcast = await _context.Podcasts.FindAsync(id);
+            var podcast = await _context.Podcast.FindAsync(id);
             if (podcast == null)
             {
                 return NotFound();
             }
-            ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
-            ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
             return View(podcast);
         }
 
@@ -82,7 +85,7 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PodcastId,Title,Description,URL,RockstarId,TribeId")] Podcast podcast)
+        public async Task<IActionResult> Edit(int id, [Bind("PodcastId,Title,Description,URL,DateCreated,DateModified,DatePublished,PublishedStatus,ViewCount")] Podcast podcast)
         {
             if (id != podcast.PodcastId)
             {
@@ -109,8 +112,24 @@ namespace RockstarsIT.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", podcast.RockstarId);
-            ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", podcast.TribeId);
+            return View(podcast);
+        }
+
+        // GET: Podcast/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var podcast = await _context.Podcast
+                .FirstOrDefaultAsync(m => m.PodcastId == id);
+            if (podcast == null)
+            {
+                return NotFound();
+            }
+
             return View(podcast);
         }
 
@@ -119,28 +138,15 @@ namespace RockstarsIT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var podcast = await _context.Podcasts.FindAsync(id);
-            _context.Podcasts.Remove(podcast);
+            var podcast = await _context.Podcast.FindAsync(id);
+            _context.Podcast.Remove(podcast);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PodcastExists(int id)
         {
-            return _context.Podcasts.Any(e => e.PodcastId == id);
-        }
-
-        public async Task<IActionResult> ChangeStatus(int id, bool status)
-        {
-            var podcast = new Podcast { PodcastId = id, DatePublished = DateTime.Now, PublishedStatus = status };
-            _context.Attach(podcast);
-            if (status)
-            {
-                _context.Entry(podcast).Property(r => r.DatePublished).IsModified = true;
-            }
-            _context.Entry(podcast).Property(r => r.PublishedStatus).IsModified = true;
-            await _context.SaveChangesAsync();
-            return Redirect("/Podcast/Index?view=grid");
+            return _context.Podcast.Any(e => e.PodcastId == id);
         }
     }
 }

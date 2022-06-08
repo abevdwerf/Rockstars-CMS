@@ -14,7 +14,7 @@
         <div class="col-md-6 mb-3">
             <label asp-for="Title" class="control-label" lang="nl">Titel:</label>
             <label asp-for="Title" class="control-label" lang="en-uk">Title:</label>
-            <input asp-for="Title" class="form-control" />
+            <input asp-for="Title" class="textbox w-100" required/>
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
@@ -24,7 +24,7 @@
 
         <div class="col-md-6">
             <label asp-for="Link" class="control-label">Video Link (Youtube/Vimeo):</label>
-            <input asp-for="Link" class="form-control" required />
+            <input asp-for="Link" class="textbox w-100" required />
             <span asp-validation-for="Link" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
@@ -34,7 +34,7 @@
         <div class="col-md-6 mb-3">
             <label asp-for="Description" class="control-label" lang="nl">Beschrijving:</label>
             <label asp-for="Description" class="control-label" lang="en-uk">Description:</label>
-            <textarea asp-for="Description" class="form-control"></textarea>
+            <textarea asp-for="Description" class="textarea w-100"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
     </div>

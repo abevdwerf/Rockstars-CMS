@@ -19,27 +19,21 @@
             <input asp-for="Title" class="form-control" />
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
-        <div class="col-md-6 mb-3">
-            <label asp-for="Description" class="control-label">Beschrijving</label>
-            <input asp-for="Description" class="form-control" />
-            <span asp-validation-for="Description" class="text-danger"></span>
-        </div>
     </div>
     <div class="form-group">
-        <button type="submit" value="Create" class="btn button">
+        <button type="submit" value="Create" class="btn button mr-3">
             ARTIKEL TOEVOEGEN
             <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
         </button>
+        <a asp-action="Index" class="btn button-cancel">
+            TERUG NAAR OVERZICHT
+            <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 0 24 24" width="30">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+            </svg>
+        </a>
     </div>
 </form>
-
-<a asp-action="Index" class="btn button-cancel">
-    TERUG NAAR OVERZICHT
-    <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-        <path d="M0 0h24v24H0z" fill="none" />
-        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-    </svg>
-</a>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

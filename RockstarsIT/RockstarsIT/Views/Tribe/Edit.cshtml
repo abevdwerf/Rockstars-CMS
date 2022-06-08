@@ -281,7 +281,7 @@
                         }
                     },  
                     error: function (response) { 
-                        alert("failed to add textblock");  
+                        // alert("failed to add textblock");  
                     }  
                 });  
             });
@@ -314,7 +314,7 @@
                         }
                     },  
                     error: function (response) {  
-                        alert("failed to delete text");  
+                        // alert("failed to delete text");  
                     }  
                 });  
             });
@@ -346,7 +346,7 @@
                             if (response.Success) {
                                 counter++;
                                 if (counter == allTabHeaders.length) {
-                                    alert(response.Message);
+                                    // alert(response.Message);
                                 }
 
                                 for (const element of response.TribeImages) {
@@ -356,7 +356,7 @@
                             }
                         },
                         error: function (response) {
-                            alert("failed to upload image");
+                            // alert("failed to upload image");
                         }
                     });
                 }
@@ -414,11 +414,11 @@
                             }
                         },  
                         error: function (response) { 
-                            alert("failed to upload image");  
+                            // alert("failed to upload image");  
                         }  
                     });  
                 } else {  
-                    alert("FormData is not supported.");  
+                    // alert("FormData is not supported.");  
                 }  
             });   
 
@@ -442,18 +442,16 @@
                 processData: false, // Not to process data  
                 success: function (response) {  
                     if (response.Success) {
-                        alert(response.Message);
+                        // alert(response.Message);
                         //delete div
                         currentDiv.closest(".upload__img-box").remove();
                     }
                 },  
                 error: function (response) {  
-                    alert("failed to delete image");  
+                    // alert("failed to delete image");  
                 }  
             });  
           });
         });
 </script>
 }
-
-

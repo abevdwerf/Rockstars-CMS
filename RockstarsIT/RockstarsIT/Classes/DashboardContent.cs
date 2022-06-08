@@ -9,5 +9,9 @@ namespace RockstarsIT.Classes
     {
         public Object Content { get; set; }
         public int ViewCount { get; set; }
+        public string SVGLocation { get; set; }
+        public int Id { get; set; }
+        public string Controller { get; set; }
+        public string ModelName { get; set; }
     }
 }
