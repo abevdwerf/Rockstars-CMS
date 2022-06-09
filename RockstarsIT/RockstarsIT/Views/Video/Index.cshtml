@@ -175,20 +175,36 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
         {
             <div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch  spaceBetweenArticles">
                 <div class="card">
-                    @if (item.Link != null)
-                    {
-                        if (item.Link.Length == 11)
+                    <div class="card-header">
+                        @if (item.Title != null)
                         {
-                            <img class="card-img-top" src="https://img.youtube.com/vi/@item.Link/0.jpg" alt="Card image cap">
+                            if (item.Title.Length > 30)
+                            {
+                                <h5 style="min-width: 240px;">@item.Title.Substring(0, 30)...</h5>
+                            }
+                            else
+                            {
+                                <h5 style="min-width: 240px;">@item.Title</h5>
+                            }
                         }
-                        else if (item.Link.Length == 9)
+                        else
                         {
-                            <img class="card-img-top" id="vimeoimg" name="@item.Link" src="https://vumbnail.com/@item.Link">
+                            <h5>GEEN TITEL</h5>
                         }
-                    }
+                        <p class="card-text">Rockstar: @Html.DisplayFor(modelItem => item.Rockstar.Name)</p>
+                    </div>
                     <div class="card-body">
-                        <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Title)</h5>
-                        <p class="card-text">@Html.DisplayFor(modelItem => item.Rockstar.Name)</p>
+                        @if (item.Link != null)
+                        {
+                            if (item.Link.Length == 11)
+                            {
+                                <img class="card-img-top" src="https://img.youtube.com/vi/@item.Link/0.jpg" alt="Card image cap">
+                            }
+                            else if (item.Link.Length == 9)
+                            {
+                                <img class="card-img-top" id="vimeoimg" name="@item.Link" src="https://vumbnail.com/@item.Link">
+                            }
+                        }
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" style="background-color:#FFE000">
