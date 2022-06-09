@@ -99,7 +99,10 @@
                             <a class="navGo" id="ArticleEn" asp-area="" asp-controller="Article" asp-action="Index" lang="en-uk">Articles</a>
                         </li>
                         <li class="nav-item">
-                            <a class="navGo" id="Podcast" asp-area="" asp-controller="PodcastEpisode" asp-action="Index">Podcasts</a>
+                            <a class="navGo" id="Podcast" asp-area="" asp-controller="Podcast" asp-action="Index">Podcasts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="navGo" id="PodcastEpisode" asp-area="" asp-controller="PodcastEpisode" asp-action="Index">Podcast Episodes</a>
                         </li>
                         <li class="nav-item">
                             <a class="navGo" id="Video" asp-area="" asp-controller="Video" asp-action="Index" lang="nl">Video's</a>
@@ -175,6 +178,7 @@
         let Rockstars = document.getElementById("Rockstars");
         let Article = document.getElementById("Article");
         let Podcast = document.getElementById("Podcast");
+        let PodcastEpisode = document.getElementById("PodcastEpisode");
         let Video = document.getElementById("Video");
         let ArticleEn = document.getElementById("ArticleEn");
         let VideoEn = document.getElementById("VideoEn");
@@ -192,12 +196,12 @@
         else if (Location == "Podcast") {
             Podcast.classList.add("nav-active");
         }
+        else if (Location == "PodcastEpisode") {
+            PodcastEpisode.classList.add("nav-active");
+        }
         else if (Location == "Video") {
             Video.classList.add("nav-active");
             VideoEn.classList.add("nav-active");
-        }
-        else if (Location == "") {
-            Home.classList.add("nav-active");
         }
     </script>
 <!-- text-muted -->

@@ -11,6 +11,7 @@ namespace RockstarsIT.Controllers
 {
     public class PodcastController : Controller
     {
+        Spotify spotify = new Spotify();
         private readonly DatabaseContext _context;
 
         public PodcastController(DatabaseContext context)
@@ -21,6 +22,8 @@ namespace RockstarsIT.Controllers
         // GET: Podcast
         public async Task<IActionResult> Index()
         {
+            string dataShowType = HttpContext.Request.Query["view"].ToString();
+            ViewData["DataShowType"] = dataShowType;
             return View(await _context.Podcasts.ToListAsync());
         }
 
@@ -35,15 +38,30 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PodcastId,Title,Description,URL,DateCreated,DateModified,DatePublished,PublishedStatus,ViewCount")] Podcast podcast)
+        public async Task<IActionResult> Create([Bind("PodcastId,URL")] Podcast podcast)
         {
-            if (ModelState.IsValid)
+            if (podcast.URL.Contains("?si="))
             {
-                _context.Add(podcast);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                podcast.URL = podcast.URL.Substring(0, podcast.URL.IndexOf("?"));
             }
-            return View(podcast);
+
+            podcast.Title = spotify.GetShowTitle(spotify.GetSpotifyLinkId(podcast.URL));
+            podcast.Description = spotify.GetShowDescription(spotify.GetSpotifyLinkId(podcast.URL));
+
+            if (spotify.CheckShowLinkInput(podcast.URL))
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Add(podcast);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(podcast);
+            }
+            else
+            {
+                throw new Exception("Invalid Link");
+            }
         }
 
         // GET: Podcast/Edit/5
@@ -67,32 +85,35 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PodcastId,Title,Description,URL,DateCreated,DateModified,DatePublished,PublishedStatus,ViewCount")] Podcast podcast)
+        public async Task<IActionResult> Edit(int id, [Bind("PodcastId,Title,Description,URL")] Podcast podcast)
         {
             if (id != podcast.PodcastId)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (spotify.CheckShowLinkInput(podcast.URL))
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(podcast);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PodcastExists(podcast.PodcastId))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(podcast);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!PodcastExists(podcast.PodcastId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
             }
             return View(podcast);
         }
@@ -115,7 +136,7 @@ namespace RockstarsIT.Controllers
         
         public async Task<IActionResult> ChangeStatus(int id, bool status)
         {
-            var podcast = new PodcastEpisode { PodcastEpisodeId = id, DatePublished = DateTime.Now, PublishedStatus = status };
+            var podcast = new Podcast { PodcastId = id, DatePublished = DateTime.Now, PublishedStatus = status };
             _context.Attach(podcast);
             if (status)
             {
