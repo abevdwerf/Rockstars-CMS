@@ -143,12 +143,15 @@
         {
             @foreach (var item in Model.ArticleImages)
             {
+
                 <div class="upload__img-box col-3">
                     <div style="background-image: url(@item.URL);" class="img-bg">
                         <div id="delete" data-id="@item.ArticleImageId" class="upload__img-close">
                         </div>
                     </div>
+                     <button class="btn button w-100" onclick="CopyToClipboard('@item.URL')">Copy Link</button>
                 </div>
+               
             }
         }
     </div>
@@ -173,7 +176,12 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    <script>
+<script>
+        function CopyToClipboard(copyText) {
+            navigator.clipboard.writeText(copyText);
+        }
+
+
         function OpenEditor(updatefield) {
             let editelements = document.getElementsByName(updatefield);
             for (let i = 0; i < editelements.length; i++) {
@@ -364,7 +372,7 @@
                                 $("#loading").hide();
                                 //show image
                                 for (const element of response.ArticleImages) {
-                                    var html = "<div class='upload__img-box col-3'><div style='background-image: url(" + element.Item2 + ")' class='img-bg'><div id='delete' data-id='" + element.Item1 + "' class='upload__img-close'></div></div></div>";
+                                    var html = "<div class='upload__img-box col-3'><div style='background-image: url(" + element.Item2 + ")' class='img-bg'><div id='delete' data-id='" + element.Item1 + "' class='upload__img-close'></div></div> <button class='btn button w-100' onclick='CopyToClipboard(`" + element.Item2 +"`)'>Copy Link</button> </div>";
                                     $('#wrap').append(html);
                                 }
                                 //reset file input
@@ -413,5 +421,5 @@
                 });
             });
         });
-    </script>
+</script>
 }
