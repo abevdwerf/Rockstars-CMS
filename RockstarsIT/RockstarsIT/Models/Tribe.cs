@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RockstarsIT.Models
@@ -6,11 +7,13 @@ namespace RockstarsIT.Models
     {
         private string _name;
         private string _description;
-
+        private bool _publishedStatus;
         private string _spotify;
         private string _leadaddress;
         private int _blocknumber;
         private int _imagenumber;
+        private DateTime _datePublished;
+
         private Tag _tag;
 
 
@@ -29,8 +32,11 @@ namespace RockstarsIT.Models
             get => _name;
             set => _name = value;
         }
-
-
+        public bool PublishedStatus
+        {
+            get => _publishedStatus;
+            set => _publishedStatus = value;
+        }
         public string Description
         {
             get => _description;
@@ -60,6 +66,11 @@ namespace RockstarsIT.Models
             get => _imagenumber;
             set => _imagenumber = value;
 
+        }
+        public DateTime DatePublished
+        {
+            get => _datePublished;
+            set => _datePublished = value;
         }
     }
 }

@@ -30,9 +30,9 @@ namespace RockstarsIT
             
             services.AddRazorPages().AddRazorRuntimeCompilation();
             
-            services.AddDbContext<DatabaseContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<DatabaseContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(Configuration.GetConnectionString("DefaultConnection"))));
+
 
             services.AddControllers().AddJsonOptions(jsonOptions =>
             {

@@ -151,5 +151,45 @@ namespace RockstarsIT.Controllers
         {
             return _context.Tribes.Any(e => e.TribeId == id);
         }
+
+        public async Task<IActionResult> ChangeStatus(int id, bool status)
+        {
+            var tribe = new Tribe { TribeId = id, DatePublished = DateTime.Now, PublishedStatus = status };
+            _context.Attach(tribe);
+            if (status)
+            {
+
+                _context.Entry(tribe).Property(r => r.DatePublished).IsModified = true;
+            }
+            _context.Entry(tribe).Property(r => r.PublishedStatus).IsModified = true;
+            _context.Article.Where(a => a.TribeId == id).ToList().ForEach(a => a.PublishedStatus = status);
+            _context.Podcasts.Where(a => a.TribeId == id).ToList().ForEach(a => a.PublishedStatus = status);
+            _context.Videos.Where(a => a.TribeId == id).ToList().ForEach(a => a.PublishedStatus = status);
+            await _context.SaveChangesAsync();
+            return Redirect("/Tribe/Index?view=grid");
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetTribeContent(int id)
+        {
+            if (id > 0)
+            {
+                var articles = await _context.Article.Where(a => a.TribeId == id).ToListAsync();
+                var podcasts = await _context.Podcasts.Where(a => a.TribeId == id).ToListAsync();
+                var videos = await _context.Videos.Where(a => a.TribeId == id).ToListAsync();
+
+                return Json(new { Success = true, Articles = articles, Podcasts = podcasts, Videos = videos });
+            }
+            else
+            {
+                return Json(new { Success = false, Message = "Er is iets mis gegaan." });
+            }
+        }
+
+        //[HttpPost]
+        //public async Task<IActionResult> ChangeTribeContentStstus( )
+        //{
+            
+        //}
     }
 }
