@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RockstarsIT.Models
@@ -51,6 +54,13 @@ namespace RockstarsIT.Models
             set => _spotify = value;
         }
 
+        public int ImageNumber
+        {
+            get => _imagenumber;
+            set => _imagenumber = value;
+
+        }
+
         public string LeadAddress
         {
             get => _leadaddress;
@@ -63,10 +73,10 @@ namespace RockstarsIT.Models
             set => _blocknumber = value;
         }
 
-        public int ImageNumber
+        public int DatePublished
         {
-            get => _imagenumber;
-            set => _imagenumber = value;
+            get => _datePublished;
+            set => _datePublished = value;
 
         }
     }
