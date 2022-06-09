@@ -105,6 +105,12 @@ namespace RockstarsIT.Controllers
 
             if(spotify.CheckLinkInput(podcastEpisode.URL))
             {
+                var podcast = await _context.PodcastEpisodes.FindAsync(podcastEpisode.PodcastEpisodeId);
+                if (podcastEpisode.URL != podcast.URL)
+                {
+                    podcastEpisode.Title = spotify.GetTitle(spotify.GetSpotifyLinkId(podcastEpisode.URL));
+                    podcastEpisode.Description = spotify.GetDescription(spotify.GetSpotifyLinkId(podcastEpisode.URL));
+                }
                 if (ModelState.IsValid)
                 {
                     try
