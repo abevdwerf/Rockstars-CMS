@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RockstarsIT.Models
@@ -15,6 +14,8 @@ namespace RockstarsIT.Models
         private DateTime _datePublished;
 
         private Tag _tag;
+        public List<TribeImages> TribeImages { get; set; }
+        public List<TribeTextBlock> TribeTextBlocks { get; set; }
 
 
         public int TribeId { get; set; }
@@ -27,6 +28,7 @@ namespace RockstarsIT.Models
             set => _tag = value;
         }
 
+        [Required(ErrorMessage = "Naam is verplicht")]
         public string Name
         {
             get => _name;
@@ -66,11 +68,6 @@ namespace RockstarsIT.Models
             get => _imagenumber;
             set => _imagenumber = value;
 
-        }
-        public DateTime DatePublished
-        {
-            get => _datePublished;
-            set => _datePublished = value;
         }
     }
 }

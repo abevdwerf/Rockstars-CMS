@@ -1,0 +1,200 @@
+﻿@model RockstarsIT.Models.Article
+
+@{
+    ViewData["Title"] = "Translate Article";
+}
+
+<h1 class="mt-3">ARTIKEL VERTALEN</h1>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <div class="form-group">
+            <label class="control-label">Taal</label>
+            <select class="form-control" id="languagedropdown">
+                <option value="1">Nederlands</option>
+                <option value="2">Engels</option>
+                <option value="3">Duits</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Titel</label>
+            <div class="form-control">
+                @Model.Title
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Beschrijving</label>
+            <div class="form-control">
+                @Model.Description
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Teksten</label>
+            <div class="article-text-container">
+                <ul class="nav nav-tabs" id="tab-list">
+                    @if (Model.ArticleTextBlocks != null)
+                    {
+                        @if (Model.ArticleTextBlocks.Count > 0)
+                        {
+                            int count = 1;
+                            foreach (var item in Model.ArticleTextBlocks)
+                            {
+                                @if (item == Model.ArticleTextBlocks.First())
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-id="@item.ArticleTextBlockId" data-toggle="tab" href="#tab-@item.ArticleTextBlockId">
+                                            @count
+                                        </a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-id="@item.ArticleTextBlockId" data-toggle="tab" href="#tab-@item.ArticleTextBlockId">
+                                            @count
+                                           @* @if (count > 1)
+                                            {
+                                                <button class="close" type="button" title="Remove this page">×</button>
+                                            }*@
+                                        </a>
+                                    </li>
+                                }
+                                count++;
+                            }
+                        }
+                    }
+                </ul>
+                <div class="tab-content" id="TabContent">
+                    @if (Model.ArticleTextBlocks != null)
+                    {
+                        @if (Model.ArticleTextBlocks.Count > 0)
+                        {
+                            foreach (var item in Model.ArticleTextBlocks)
+                            {
+                                @if (item == Model.ArticleTextBlocks.First())
+                                {
+                                    <div class="tab-pane fade show active" id="tab-@item.ArticleTextBlockId">
+                                        <textarea class="textarea w-100" rows="5" disabled>@item.Text</textarea>
+                                    </div>
+                                }
+                                else    
+                                {   
+                                    <div class="tab-pane fade" id="tab-@item.ArticleTextBlockId">
+                                        <textarea class="textarea w-100" rows="5" disabled>@item.Text</textarea>
+                                    </div>
+                                }
+                            }
+                        }
+                   }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="form-group">
+            <label class="control-label">Taal</label>
+            <select class="form-control" id="TranslateLanguageDropDown">
+                <option value="1" style="display: none;">Nederlands</option>
+                <option value="2" selected>Engels</option>
+                <option value="3">Duits</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="Title" class="control-label">Titel</label>
+            <input asp-for="Title" id="txtTitel" class="textbox w-100" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label">Beschrijving</label>
+            <input asp-for="Description" class="textbox w-100" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Teksten</label>
+            <div class="article-text-container">
+                <ul class="nav nav-tabs" id="tab-list">
+                    @if (Model.ArticleTextBlocks != null)
+                    {
+                        @if (Model.ArticleTextBlocks.Count > 0)
+                        {
+                            int count = 1;
+                            foreach (var item in Model.ArticleTextBlocks)
+                            {
+                                @if (item == Model.ArticleTextBlocks.First())
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-id="@item.ArticleTextBlockId" data-toggle="tab" href="#tab-@item.ArticleTextBlockId">
+                                            @count
+                                        </a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-id="@item.ArticleTextBlockId" data-toggle="tab" href="#tab-@item.ArticleTextBlockId">
+                                            @count
+                                        </a>
+                                    </li>
+                                }
+                                count++;
+                            }
+                        }
+                    }
+                </ul>
+                <div class="tab-content" id="TabContent">
+                    @if (Model.ArticleTextBlocks != null)
+                    {
+                        @if (Model.ArticleTextBlocks.Count > 0)
+                        {
+                            foreach (var item in Model.ArticleTextBlocks)
+                            {
+                                @if (item == Model.ArticleTextBlocks.First())
+                                {
+                                    <div class="tab-pane fade show active" id="tab-@item.ArticleTextBlockId">
+                                        <textarea class="textarea w-100" rows="5">@item.Text</textarea>
+                                    </div>
+                                }
+                                else    
+                                {   
+                                    <div class="tab-pane fade" id="tab-@item.ArticleTextBlockId">
+                                        <textarea class="textarea w-100" rows="5">@item.Text</textarea>
+                                    </div>
+                                }
+                            }
+                        }
+                   }
+                </div>
+       
+                <button id="save-textblock" class="btn button">OPSLAAN</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ArticleId" class="btn button-cancel ml-3 mt-3">
+        TERUG NAAR ARTIKEL BEWERKEN
+        <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+        </svg>
+    </a>
+   @* <a asp-action="Translate" asp-route-id="@Model.ArticleId" class="btn button mr-2 mt-3"> *@
+   @*      VERTALEN *@
+   @* </a> *@
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        var hiddenLanguage = $('#languagedropdown option:selected').val();
+
+         $("#languagedropdown").change(function () {
+            var selectedLanguage = $('#languagedropdown option:selected').val();
+            $("#TranslateLanguageDropDown option[value=" + selectedLanguage + "]").hide();
+            $("#TranslateLanguageDropDown option[value=" + hiddenLanguage + "]").show();
+            $("#TranslateLanguageDropDown").val($('#TranslateLanguageDropDown option:not([style*="display: none"])').val());
+            hiddenLanguage = $('#languagedropdown option:selected').val();
+        });
+    </script>
+}

@@ -99,7 +99,7 @@
                             <a class="navGo" id="ArticleEn" asp-area="" asp-controller="Article" asp-action="Index" lang="en-uk">Articles</a>
                         </li>
                         <li class="nav-item">
-                            <a class="navGo" id="Podcast" asp-area="" asp-controller="Podcast" asp-action="Index">Podcasts</a>
+                            <a class="navGo" id="Podcast" asp-area="" asp-controller="PodcastEpisode" asp-action="Index">Podcasts</a>
                         </li>
                         <li class="nav-item">
                             <a class="navGo" id="Video" asp-area="" asp-controller="Video" asp-action="Index" lang="nl">Video's</a>
@@ -108,8 +108,14 @@
                     </ul>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a id="language" class="navGo" href="javascript:void(0)" onclick="SwitchLanguage()" lang="nl">Switch to English</a>
-                            <a id="language" class="navGo" href="javascript:void(0)" onclick="SwitchLanguage()" lang="en-uk">Wissel naar Nederlands</a>
+                            <a id="language" class="navGo" href="javascript:void(0)" onclick="SwitchLanguage()" lang="nl">
+                                Switch to English
+                                <img class="ml-2" height="25" width="25" src="~/icons/globe-zwart.svg"/> 
+                            </a>
+                            <a id="language" class="navGo" href="javascript:void(0)" onclick="SwitchLanguage()" lang="en-uk">
+                                Wissel naar Nederlands
+                                <img class="ml-2" height="25" width="25" src="~/icons/globe-zwart.svg"/> 
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -125,27 +131,44 @@
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        window.onload = DetectLanguage
-        function DetectLanguage() {
-            var userLang = navigator.language || navigator.userLanguage;
-            if (userLang == 'nl')
+
+            let userLang = navigator.language || navigator.userLanguage;
+            if(localStorage.getItem("lan") == null){
+                localStorage.setItem("lan", userLang);
+            }
+
+            let detaal = localStorage.getItem("lan");
+       
+            if (detaal == 'nl')
             {
                 $('[lang="en-uk"]').hide();
+                localStorage.setItem("lan", "nl");
             }
             else
             {
                 $('[lang="nl"]').hide();
+                localStorage.setItem("lan", "en-uk");
             }
-        }
+            console.log(localStorage.getItem);
 
         function SwitchLanguage() {
             $('[lang="nl"]').toggle();
             $('[lang="en-uk"]').toggle();
+            if (document.getElementById("language").style.display == "none")
+            {
+                 localStorage.setItem("lan", "en-uk");
+            }
+            else if(document.getElementById("enlanguage").style.display == "none")
+            {
+                 localStorage.setItem("lan", "nl");
+            }
+            
         }
     </script>
-    <script>
+<script>
         const queryString = window.location;
         let Location = queryString.href.split("/");
+        let LocationCheck = Location;
         Location = Location[3];
 
         let Tribe = document.getElementById("Tribe");
@@ -157,24 +180,27 @@
         let VideoEn = document.getElementById("VideoEn");
 
         if (Location == "Tribe") {
-            Tribe.classList.add("active");
+            Tribe.classList.add("nav-active");
         }
         else if (Location == "Rockstars") {
-            Rockstars.classList.add("active");
+            Rockstars.classList.add("nav-active");
         }
         else if (Location == "Article") {
-            Article.classList.add("active");
-            ArticleEn.classList.add("active")
+            Article.classList.add("nav-active");
+            ArticleEn.classList.add("nav-active");
         }
         else if (Location == "Podcast") {
-            Podcast.classList.add("active");
+            Podcast.classList.add("nav-active");
         }
         else if (Location == "Video") {
-            Video.classList.add("active");
-            VideoEn.classList.add("active");
+            Video.classList.add("nav-active");
+            VideoEn.classList.add("nav-active");
+        }
+        else if (Location == "") {
+            Home.classList.add("nav-active");
         }
     </script>
-    <!-- text-muted -->
+<!-- text-muted -->
     <footer id="footertje" class="border-top border-dark footer">
         <div class="container">
             &copy; 2022 - RockstarsIT
@@ -186,6 +212,50 @@
          //    document.getElementById("footertje").classList.add("footer-dash"); 
          //} 
      </script> 
+         <script src="~/js/build/ckeditor.js"></script>
+    <script>
+        if (LocationCheck.length == 6) {
+            console.log(LocationCheck[4])
+            let aantalEditors = document.getElementsByClassName("editor");
+            for (var i = 0; i < aantalEditors.length; i++) {
+                ClassicEditor
+                    .create(aantalEditors[i] , {
+
+                        licenseKey: '',
+
+                    })
+                    
+                    .then(editor => {
+                        window.editor = editor;
+
+                        //Readonly
+                        //editor.enableReadOnlyMode('.editor');
+                        //Toolbar weg
+                        //const toolbarElement = editor.ui.view.toolbar.element;
+                        //toolbarElement.style.display = 'none';
+
+                        document.getElementById("save-textblock").onclick = function () {
+                            let CKDieChanged = document.querySelector("#TabContent .tab-pane.active .ck-editor__editable");
+                            let TextAreaDiePost = document.querySelector("#TabContent .tab-pane.active textarea");
+
+                            for (var i = 0; i < CKDieChanged.childNodes.length; i++) {
+                                TextAreaDiePost.value = CKDieChanged.innerHTML;
+                            }
+                            
+                        }
+                    })
+
+                    .catch(error => {
+                        console.error('Oops, something went wrong!');
+                        console.error('Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:');
+                        console.warn('Build id: 7utaz44wzv3o-z8blbyhrs646');
+                        console.error(error);
+                    });
+
+                
+                }
+            }
+    </script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

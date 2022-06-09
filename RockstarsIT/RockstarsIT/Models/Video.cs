@@ -1,14 +1,20 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static RockstarsIT.Controllers.VideoController;
 
 namespace RockstarsIT.Models
 {
+    public enum LinkType
+    {
+        Youtube, Vimeo
+    }
     public class Video
     {
         private string _title;
         private string _description;
         private string _link;
+        private LinkType _linkType;
         private DateTime _dateCreated;
         private DateTime _dateModified;
         private DateTime _datePublished;
@@ -37,6 +43,11 @@ namespace RockstarsIT.Models
         {
             get => _link; 
             set => _link = value;
+        }
+        public LinkType LinkType
+        {
+            get => _linkType; 
+            set => _linkType = value;
         }
         public DateTime DateCreated
         {

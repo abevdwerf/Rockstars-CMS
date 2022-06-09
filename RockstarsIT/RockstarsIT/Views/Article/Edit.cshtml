@@ -12,78 +12,22 @@
     <input type="hidden" asp-for="ArticleId" />
     <div class="row g-3">
         <div class="col-md-6 mb-3">
+            <label asp-for="Title" class="control-label">Titel</label>
+            <input asp-for="Title" id="txtTitel" class="textbox w-100" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
             <label class="control-label">Auteur</label>
             <select asp-for="RockstarId" class="form-control" asp-items="ViewBag.RockstarNames"></select>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="Title" class="control-label">Titel</label>
-            <input asp-for="Title" id="txtTitel" class="form-control" />
-            <span asp-validation-for="Title" class="text-danger"></span>
-        </div>
-        <div class="col-md-6 mb-3">
             <label asp-for="Description" class="control-label">Beschrijving</label>
-            <input asp-for="Description" class="form-control" />
+            <input asp-for="Description" class="textbox w-100" />
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
     </div>
-    @*<div class="form-group">*@
-        @*<label asp-for="Text" class="control-label">Inhoud</label>
-        <textarea asp-for="Text" class="form-control"></textarea>
-        <span asp-validation-for="Text" class="text-danger"></span>
-            
-        <button class="btn button"">plus</button>*@
-
-    @*</div>*@
-    @*<div class="row">
-        <div class="col-md-12">
-            <p>
-                <button id="btn-add-tab" type="button" class="btn btn-primary pull-right">Add Tab</button>
-            </p>
-            <!-- Nav tabs -->
-            <ul id="tab-list" class="nav nav-tabs" role="tablist">
-                <li class="active"><a href="#tab1" role="tab" data-toggle="tab"><span>Tab 1 </span><span class="glyphicon glyphicon-pencil text-muted edit"></span></a></li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div id="tab-content" class="tab-content">
-                <div class="tab-pane fade in active" id="tab1">Tab 1 content</div>
-            </div>
-        </div>
-    </div>*@
     <div class="form-group">
-        <label asp-for="Images" class="control-label">Afbeelding</label>
-        <div class="row">
-            <div class="col-md-5">
-                <div class="custom-file upload__box">
-                    <input asp-for="Images" class="custom-file-input upload__inputfile" multiple id="customFile">
-                    <label asp-for="Images" class="custom-file-label" for="customFile" data-browse="Bestand kiezen"></label>
-                    <span asp-validation-for="Images" class="text-danger"></span>
-                </div>
-            </div>
-      
-            <div class="col-md-2">
-                <input type="button" value="UPLOAD" id="upload" class="btn button" />
-            </div>
-        </div>
-        
-    </div>
-    <div class="form-group">
-        <div id="wrap" class="upload__img-wrap row flex-nowrap overflow-auto">
-            @if (Model.ArticleImages != null)
-            {
-                @foreach (var item in Model.ArticleImages) {
-                    <div class="upload__img-box col-3">
-                        <div style="background-image: url(@item.URL);" class="img-bg">
-                            <div id="delete" data-id="@item.ArticleImageId" class="upload__img-close">
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
-        </div>
-    </div>
-    <div class="form-group">
-        <button type="submit" value="Save" class="btn button">
+        <button onclick="SaveAll()" type="submit" value="Save" class="btn button">
             WIJZIGINGEN OPSLAAN
             <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                 <path d="M0 0h24v24H0z" fill="none" />
@@ -92,14 +36,128 @@
         </button>
     </div>
 </form>
+<div class="form-group">
+    <label class="control-label">Teksten</label>
+    <div class="article-text-container">
+        <ul class="nav nav-tabs" id="tab-list">
+            @if (Model.ArticleTextBlocks != null)
+            {
+                @if (Model.ArticleTextBlocks.Count > 0)
+                {
+                    int count = 1;
+                    foreach (var item in Model.ArticleTextBlocks)
+                    {
+                        @if (item == Model.ArticleTextBlocks.First())
+                        {
+                            <li class="nav-item">
+                                <a class="Teksten nav-link active" onclick="DelButton.hidden = true" id="@item.ArticleTextBlockId" data-id="@item.ArticleTextBlockId" data-toggle="tab" href="#tab-@item.ArticleTextBlockId">
+                                    @count
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="Teksten nav-link" onclick="DelButton.hidden = false" id="@item.ArticleTextBlockId" data-id="@item.ArticleTextBlockId" data-toggle="tab" href="#tab-@item.ArticleTextBlockId">
+                                    @count
+                                    @if (count > 1)
+                                    {
+                                        <button class="close" hidden type="button" title="Remove this page"></button>
+                                    }
+                                </a>
+                            </li>
+                        }
+                        count++;
+                    }
+                }
+            }
+
+            <li class="nav-item" id="last-child">
+                <a class="nav-link" id="add-tab" style="color:#000000;" href="">
+                    Toevoegen
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content" id="TabContent">
+            @if (Model.ArticleTextBlocks != null)
+            {
+                @if (Model.ArticleTextBlocks.Count > 0)
+                {
+                    foreach (var item in Model.ArticleTextBlocks)
+                    {
+                        @if (item == Model.ArticleTextBlocks.First())
+                        {
+                            <div class="tab-pane fade show active" id="tab-@item.ArticleTextBlockId">
+                                <textarea class="textarea w-100" hidden rows="5">@item.Text</textarea>
+                                <textarea class="editor">
+                                    @item.Text
+                                </textarea>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="tab-pane fade" id="tab-@item.ArticleTextBlockId">
+                                <textarea class="textarea w-100" hidden rows="5">@item.Text</textarea>
+
+                                <textarea class="editor">
+                                    @item.Text
+                                </textarea>
+                            </div>
+                        }
+                    }
+                }
+            }
+        </div>
+
+
+        <button id="save-textblock" class="btn button" hidden>OPSLAAN</button>
+        <button id="VerwijderBtn" onclick="DeleteCurrentArticel();" class="btn btn-danger">VERWIJDER HUIDIG BLOK</button>
+    </div>
+</div>
+<div class="form-group">
+    <form id="frmUpload">
+        <label asp-for="Images" class="control-label">Afbeeldingen</label>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="custom-file upload__box">
+                    <input asp-for="Images" class="custom-file-input upload__inputfile" hidden multiple id="customFile">
+                    <label asp-for="Images" class="custom-file-label" for="customFile" data-browse="Bestand kiezen"></label>
+                    <span asp-validation-for="Images" class="text-danger"></span>
+                </div>
+            </div>
+      
+            <div class="col-md-2">
+                <button type="submit" id="upload" class="btn button">UPLOAD</button>
+            </div>
+            <div id="loading">
+                <p>Loading...</p>
+            </div>
+        </div>
+    </form>   
+</div>
+<div class="form-group">
+    <div id="wrap" class="upload__img-wrap row flex-nowrap overflow-auto">
+        @if (Model.ArticleImages != null)
+        {
+            @foreach (var item in Model.ArticleImages) {
+                <div class="upload__img-box col-3">
+                    <div style="background-image: url(@item.URL);" class="img-bg">
+                        <div id="delete" data-id="@item.ArticleImageId" class="upload__img-close">
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
 <div>
-    <a asp-action="Details" asp-route-id="@Model.ArticleId" class="btn button mr-2 mt-3">
+    @*<a asp-action="Edit" asp-route-id="@Model.ArticleId" class="btn button mr-2 mt-3">
         DETAILS
         <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
             <path d="M0 0h24v24H0z" fill="none" />
             <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
         </svg>
-    </a>
+    </a>*@
     <a asp-action="Index" class="btn button-cancel ml-3 mt-3">
         TERUG NAAR OVERZICHT
         <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
@@ -113,21 +171,171 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
-        $('#customFile').on('change',
-            function(e) {
+        function OpenEditor(updatefield) {
+            let editelements = document.getElementsByName(updatefield);
+            for(let i = 0; i < editelements.length;i++){
+                if(editelements[i].hidden == true){
+                  editelements[i].hidden = false;
+                  document.getElementById(updatefield).innerHTML = "Cancel"
+                }
+                else{
+                  editelements[i].hidden = true;
+                  document.getElementById(updatefield).innerHTML = "Edit"
+                }
+            }
+        }
+
+        let DelButton = document.getElementById("VerwijderBtn");
+        DelButton.hidden = true;
+
+        function SaveAll() {
+            document.getElementById("save-textblock").click();
+        }
+
+        function DeleteCurrentArticel() {
+            let test = document.querySelector(".nav-link.active button");
+            test.click();
+        }
+
+        jQuery(document).ready(function () {
+            $("#loading").hide();
+
+            $('#customFile').on('change',function(e) {
                 //get the file name
                 var fileName = e.target.files[0].name;
                 //replace the "Choose a file" label
                 $(this).next('.custom-file-label').html(fileName);
+                document.getElementById("upload").focus()
             });
 
-        jQuery(document).ready(function () {
+            $('#add-tab').click(function () {
 
-            $("#upload").click(function (e) {   
+                var data = new FormData(); 
+
+                data.append('ArticleId', $("#ArticleId").val());
+                
+                $.ajax({  
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    url: "/Article/AddTextblock",  
+                    data: data,
+                    contentType: false, // Not to set any content header  
+                    processData: false, // Not to process data  
+                    success: function (response) {  
+                        if (response.Success) {
+                            var tabID = $("#tab-list li").length;
+                            var html = '<li class="nav-item"><a class="nav-link" data-id="' + response.ArticleTextblockId + '" data-toggle="tab" href="text-' + tabID + '" role="tab">' + tabID + '<button class="close" type="button" title="Remove this page">×</button></a></li>';
+                            $('#last-child').before(html);
+                            tabID++;
+                        }
+                    },  
+                    error: function (response) { 
+                        // alert("failed to add textblock");  
+                    }  
+                });  
+            });
+
+            $('#tab-list').on('click','.close',function(){ 
+                var data = new FormData();  
+                var currentDiv = $(this);
+             
+                data.append('ArticleTextBlockId', $(this).parent().data("id"));
+                $.ajax({  
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    url: "/Article/DeleteTextBlock",  
+                    data: data,
+                    contentType: false, // Not to set any content header  
+                    processData: false, // Not to process data  
+                    success: function (response) {  
+                        if (response.Success) {
+
+                            var href = currentDiv.parent().attr('href');
+                            //remove tabheader
+                            currentDiv.closest(".nav-item").remove();
+                            //remove tabcontent
+                            $(href).remove();
+
+                            //display first tab
+                            var tabFirst = $('#tab-list a:first');
+                            tabFirst.tab('show');
+                        }
+                    },  
+                    error: function (response) {  
+                        // alert("failed to delete text");  
+                    }  
+                });  
+            });
+
+            var allTabHeaders = $("#tab-list .Teksten.nav-link");
+            var AllTabContent = $("#TabContent .tab-pane .textarea");
+            var counter = 0;
+            $("#save-textblock").click(function (e) {
+
+                for (var i = 0; i < allTabHeaders.length; i++) {
+
+                    var data = new FormData();
+                    data.append('ArticleTextBlockId', allTabHeaders[i].id);
+                    data.append('ArticleId', $("#ArticleId").val());
+                    data.append('Text', AllTabContent[i].value);
+
+                    //oude goede
+                    //var activeTabHeader = $("#tab-list .nav-link.active");
+                    //var activeTabContent = $("#TabContent .tab-pane.active textarea");
+
+                    //oude goede
+                    //data.append('ArticleTextBlockId', activeTabHeader.data("id"));
+                    //data.append('ArticleId', $("#ArticleId").val());
+                    //data.append('Text', activeTabContent.val());
+
+                    $.ajax({    
+                        async: true,
+                        type: "POST",
+                        dataType: "json",
+                        url: "/Article/SaveTextblock",  
+                        data: data,
+                        contentType: false, // Not to set any content header  
+                        processData: false, // Not to process data  
+                        success: function (response) {  
+                            if (response.Success) {
+                                //Kijkt of de laatste er in is en dan pas krijg je een message
+                                counter++;
+                                if (counter == allTabHeaders.length) {
+                                    // alert(response.Message);
+                                }
+                            
+                                for (const element of response.ArticleImages) {
+                                    var html = "<div class='upload__img-box col-3'><div style='background-image: url(" + element.Item2 + ")' class='img-bg'><div id='delete' data-id='" + element.Item1 + "' class='upload__img-close'></div></div></div>";
+                                    $('#wrap').append(html);
+                                }
+                            }
+                        },  
+                        error: function (response) { 
+                            // alert("failed to upload image");  
+                        }  
+                    });
+                }
+            });
+
+            //upload image
+            $('#upload').click(function () {
+                
+                if ($('#frmUpload').valid()) {
+                    $('#frmUpload').submit();
+                }
+                else {
+                    return false;
+                }
+            });
+
+            $('#frmUpload').on("submit", function (event) {
                 if (window.FormData !== undefined) {  
-  
-                    var fileUpload = $("#customFile").get(0);  
-                    var files = fileUpload.files;  
+                    event.preventDefault();
+                    $('#upload').attr('disabled', 'disabled');
+                    $("#loading").show();
+                    var files = $("#customFile").get(0).files;  
               
                     // Create FormData object  
                     var data = new FormData();  
@@ -139,7 +347,7 @@
               
                     // Adding articleId to FormData object  
                     data.append('ArticleId', $("#ArticleId").val());  
-  
+
                     $.ajax({  
                         async: true,
                         type: "POST",
@@ -150,21 +358,24 @@
                         processData: false, // Not to process data  
                         success: function (response) {  
                             if (response.Success) {
-
-                                alert(response.Message);
+                                $("#loading").hide();
                                 //show image
                                 for (const element of response.ArticleImages) {
                                     var html = "<div class='upload__img-box col-3'><div style='background-image: url(" + element.Item2 + ")' class='img-bg'><div id='delete' data-id='" + element.Item1 + "' class='upload__img-close'></div></div></div>";
                                     $('#wrap').append(html);
                                 }
+                                //reset file input
+                                $('#customFile').val('');
+                                $('#customFile').next('.custom-file-label').html("Selecteer een of meerdere afbeeldingen");
+                                $('#upload').removeAttr('disabled');
                             }
                         },  
                         error: function (response) { 
-                            alert("failed to upload image");  
+                            // alert("failed to upload image");  
                         }  
                     });  
                 } else {  
-                    alert("FormData is not supported.");  
+                    // alert("FormData is not supported.");  
                 }  
             });   
 
@@ -188,51 +399,16 @@
                 processData: false, // Not to process data  
                 success: function (response) {  
                     if (response.Success) {
-                        alert(response.Message);
+                        // alert(response.Message);
                         //delete div
                         currentDiv.closest(".upload__img-box").remove();
                     }
                 },  
                 error: function (response) {  
-                    alert("failed to delete image");  
+                    // alert("failed to delete image");  
                 }  
             });  
-            
           });
         });
-
-    //var button='<button class="close" type="button" title="Remove this page">×</button>';
-    //var tabID = 1;
-    //function resetTab(){
-	   // var tabs=$("#tab-list li:not(:first)");
-	   // var len=1
-	   // $(tabs).each(function(k,v){
-		  //  len++;
-		  //  $(this).find('a').html('Tab ' + len + button);
-	   // })
-	   // tabID--;
-    //}
-
-    //$(document).ready(function() {
-    //    $('#btn-add-tab').click(function() {
-    //        tabID++;
-    //        $('#tab-list').append($('<li><a href="#tab' + tabID + '" role="tab" data-toggle="tab"><span>Tab ' + tabID + '</span> <span class="glyphicon glyphicon-pencil text-muted edit"></span> <button class="close" type="button" title="Remove this page">×</button></a></li>'));
-    //        $('#tab-content').append($('<div class="tab-pane fade" id="tab' + tabID + '">Tab ' + tabID + ' content</div>'));
-    //        $(".edit").click(editHandler);
-    //    });
-    
-    //    $('#tab-list').on('click', '.close', function() {
-    //        var tabID = $(this).parents('a').attr('href');
-    //        $(this).parents('li').remove();
-    //        $(tabID).remove();
-
-    //        //display first tab
-    //        var tabFirst = $('#tab-list a:first');
-    //        resetTab();
-    //        tabFirst.tab('show');
-    //    });
-
-    //    var list = document.getElementById("tab-list");
-    //});
     </script>
 }

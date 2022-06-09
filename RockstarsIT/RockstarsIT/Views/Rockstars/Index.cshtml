@@ -9,57 +9,57 @@
 <p>
     <a asp-action="Create" class="btn button">
         NIEUWE ROCKSTAR
-        <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-        </svg>
+        <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
     </a>
 </p>
 <table class="table table-bordered bg-light">
     <thead class="thead-dark">
-        <tr>
-            <th>
-                TRIBE
-            </th> 
-            <th>
-                ROL
-            </th>
-            <th>
-                REGIO
-            </th>
-            <th>
-                LINKEDIN
-            </th>
-            <th>
-                ACTIES
-            </th>
-        </tr>
+    <tr>
+        <th>
+            NAME
+        </th>
+        <th>
+            TRIBE
+        </th>
+        <th>
+            ROL
+        </th>
+        <th>
+            REGIO
+        </th>
+        <th>
+            LINKEDIN
+        </th>
+        <th>
+            ACTIES
+        </th>
+    </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tribe.Name)
-            </td> 
-            <td>
-                @Html.DisplayFor(modelItem => item.Role.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Chapter)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LinkedIn)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.RockstarId" class="btn button mr-2">
-                    DETAILS
-                    <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-                    </svg>
-                </a>
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td> 
+        <td>
+            @Html.DisplayFor(modelItem => item.Tribe.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Role.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Chapter)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LinkedIn)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.RockstarId" class="btn button mr-2">
+                BEWERKEN
+                <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
+            </a>
+        </td>
+    </tr>
 }
     </tbody>
 </table>

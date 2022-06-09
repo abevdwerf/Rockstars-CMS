@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
 {
+    [Authorize]
     public class VideoController : Controller
     {
         private readonly DatabaseContext _context;
@@ -25,26 +27,6 @@ namespace RockstarsIT.Controllers
             ViewData["DataShowType"] = dataShowType;
             var databaseContext = _context.Videos.Include(v => v.Rockstar).Include(v => v.Tribe);
             return View(await databaseContext.ToListAsync());
-        }
-
-        // GET: Video/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var video = await _context.Videos
-                .Include(v => v.Rockstar)
-                .Include(v => v.Tribe)
-                .FirstOrDefaultAsync(m => m.VideoId == id);
-            if (video == null)
-            {
-                return NotFound();
-            }
-
-            return View(video);
         }
 
         // GET: Video/Create
@@ -88,6 +70,8 @@ namespace RockstarsIT.Controllers
             {
                 return NotFound();
             }
+            video.Rockstar = await _context.Rockstars.FindAsync(video.RockstarId);
+            video.Tribe = await _context.Tribes.FindAsync(video.TribeId);
             ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
             ViewBag.Link = video.Link;
@@ -126,37 +110,18 @@ namespace RockstarsIT.Controllers
                         throw;
                     }
                 }
+                ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", video.RockstarId);
+                ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", video.TribeId);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", video.RockstarId);
-            ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", video.TribeId);
-            return View(video);
-        }
-
-        // GET: Video/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var video = await _context.Videos
-                .Include(v => v.Rockstar)
-                .Include(v => v.Tribe)
-                .FirstOrDefaultAsync(m => m.VideoId == id);
-            if (video == null)
-            {
-                return NotFound();
-            }
-
-            return View(video);
+            
+            return RedirectToAction("Edit", new { id = video.VideoId });
         }
 
         // POST: Video/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var video = await _context.Videos.FindAsync(id);
             _context.Videos.Remove(video);
@@ -179,7 +144,7 @@ namespace RockstarsIT.Controllers
             }
             _context.Entry(video).Property(r => r.PublishedStatus).IsModified = true;
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Redirect("/Video/Index?view=grid");
         }
 
         public string GetVideoId(string link)
@@ -193,7 +158,6 @@ namespace RockstarsIT.Controllers
                 int end = link.IndexOf(part2, start);
                 string result = link.Substring(start, 11);
                 link = result;
-                return link;
             }
             else if (link.Contains("youtube.com/watch?v="))
             {
@@ -202,7 +166,6 @@ namespace RockstarsIT.Controllers
                 int end = link.IndexOf(part2, start);
                 string result = link.Substring(start, 11);
                 link = result;
-                return link;
             }
             else if (link.Contains("youtube.com/embed/"))
             {
@@ -211,7 +174,6 @@ namespace RockstarsIT.Controllers
                 int end = link.IndexOf(part2, start);
                 string result = link.Substring(start, 11);
                 link = result;
-                return link;
             }
             else if (link.Contains("vimeo.com/"))
             {
@@ -220,7 +182,6 @@ namespace RockstarsIT.Controllers
                 int end = link.IndexOf(part2, start);
                 string result = link.Substring(start, 9);
                 link = result;
-                return link;
             }
             else if (link.Contains("player.vimeo.com/video/"))
             {
@@ -229,12 +190,57 @@ namespace RockstarsIT.Controllers
                 int end = link.IndexOf(part2, start);
                 string result = link.Substring(start, 9);
                 link = result;
-                return link;
             }
             else
             {
                 return null;
             }
+
+            if (link.Length == 11)
+            {
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://www.youtube.com/watch/?v=" + link);
+                request.UserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)";
+                request.Method = "HEAD";
+                    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                    {
+                        if (response.ResponseUri.ToString().Contains("youtube.com"))
+                        {
+                            return link;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+            }
+            else if (link.Length == 9)
+            {
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://vimeo.com/" + link);
+                request.Method = "HEAD";
+                try
+                {
+                    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                    {
+                        if (response.ResponseUri.ToString().Contains("vimeo.com"))
+                        {
+                            return link;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+            
         }
     }
 }
