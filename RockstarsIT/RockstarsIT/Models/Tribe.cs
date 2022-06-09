@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,10 +13,7 @@ namespace RockstarsIT.Models
         private bool _publishedStatus;
         private string _spotify;
         private string _leadaddress;
-        private int _blocknumber;
-        private int _imagenumber;
         private DateTime _datePublished;
-
         private Tag _tag;
         public List<TribeImages> TribeImages { get; set; }
         public List<TribeTextBlock> TribeTextBlocks { get; set; }
@@ -54,23 +52,10 @@ namespace RockstarsIT.Models
             set => _spotify = value;
         }
 
-        public int ImageNumber
-        {
-            get => _imagenumber;
-            set => _imagenumber = value;
-
-        }
-
         public string LeadAddress
         {
             get => _leadaddress;
             set => _leadaddress = value;
-        }
-
-        public int BlockNumber
-        {
-            get => _blocknumber;
-            set => _blocknumber = value;
         }
 
         public DateTime DatePublished
@@ -79,5 +64,10 @@ namespace RockstarsIT.Models
             set => _datePublished = value;
 
         }
+
+        [Required(ErrorMessage = "Geen afbeelding geselecteerd")]
+        [Display(Name = "Selecteer een of meerdere afbeeldingen")]
+        [NotMapped]
+        public IFormFileCollection Images { get; set; }
     }
 }

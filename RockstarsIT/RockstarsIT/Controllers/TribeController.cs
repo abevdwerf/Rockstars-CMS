@@ -229,7 +229,7 @@ namespace RockstarsIT.Controllers
             }
             _context.Entry(tribe).Property(r => r.PublishedStatus).IsModified = true;
             _context.Article.Where(a => a.TribeId == id).ToList().ForEach(a => a.PublishedStatus = status);
-            _context.Podcasts.Where(a => a.TribeId == id).ToList().ForEach(a => a.PublishedStatus = status);
+            _context.PodcastEpisodes.Where(a => a.TribeId == id).ToList().ForEach(a => a.PublishedStatus = status);
             _context.Videos.Where(a => a.TribeId == id).ToList().ForEach(a => a.PublishedStatus = status);
             await _context.SaveChangesAsync();
             return Redirect("/Tribe/Index?view=grid");
@@ -241,7 +241,7 @@ namespace RockstarsIT.Controllers
             if (id > 0)
             {
                 var articles = await _context.Article.Where(a => a.TribeId == id).ToListAsync();
-                var podcasts = await _context.Podcasts.Where(a => a.TribeId == id).ToListAsync();
+                var podcasts = await _context.PodcastEpisodes.Where(a => a.TribeId == id).ToListAsync();
                 var videos = await _context.Videos.Where(a => a.TribeId == id).ToListAsync();
 
                 return Json(new { Success = true, Articles = articles, Podcasts = podcasts, Videos = videos });
