@@ -38,26 +38,46 @@
 @if (ViewData["DataShowType"].ToString() == "grid")
 {
     <div style="overflow-x:auto;">
+        <form class="form-group" asp-action="index" asp-route-view="grid">
+            <div class="input-group col-8">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-search"></i>
+                </span>
+                <input type="search" class="form-control" name="searchWords" placeholder="Zoeken op">
+                <input type="submit" class="btn btn-primary" value="zoeken"/>
+            </div>
+        </form>
+        <hr/>
         <table class="table table-bordered bg-light">
             <thead class="thead-dark">
             <tr>
                 <th>
                     TITEL
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="title" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="title" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
                 </th>
                 <th>
                     PREVIEW
                 </th>
                 <th>
                     AUTEUR
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="author" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="author" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
                 </th>
                 <th>
                     TRIBE
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="tribe" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="tribe" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
                 </th>
                 <th>
-                    Datum van Publiceren
+                    DATUM GEPUBLICEERD
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="datePublished" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="datePublished" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
                 </th>
                 <th>
-                    Status
+                    STATUS
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="status" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="status" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
                 </th>
                 <th>
                     Status veranderen
@@ -66,7 +86,8 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var item in Model) {
+            @foreach (var item in Model)
+            {
                 <tr>
                     @if (item.Title.Length > 50)
                     {
