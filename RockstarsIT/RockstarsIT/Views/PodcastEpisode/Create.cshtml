@@ -12,22 +12,22 @@
     <div class="row g-3">
         <div class="col-md-6 mb-3">
             <label asp-for="URL" class="control-label">URL</label>
-            <input asp-for="URL" class="form-control" placeholder="Bijvoorbeld: https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb" />
+            <input asp-for="URL" class="textbox w-100" placeholder="Bijvoorbeld: https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb" />
             <span asp-validation-for="URL" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
             <label asp-for="Podcast" class="control-label">Podcast</label>
-            <select asp-for="PodcastId" class ="form-control" asp-items="ViewBag.PodcastTitles"></select>
+            <select asp-for="PodcastId" class ="textbox w-100" asp-items="ViewBag.PodcastTitles"></select>
             <span asp-validation-for="PodcastId" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
             <label asp-for="Rockstar" class="control-label">Rockstar</label>
-            <select asp-for="RockstarId" class ="form-control" asp-items="ViewBag.RockstarNames"></select>
+            <select asp-for="RockstarId" class ="textbox w-100" asp-items="ViewBag.RockstarNames"></select>
             <span asp-validation-for="RockstarId" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
             <label asp-for="Tribe" class="control-label">Tribe</label>
-            <select asp-for="TribeId" class ="form-control" asp-items="ViewBag.TribeNames"></select>
+            <select asp-for="TribeId" class ="textbox w-100" asp-items="ViewBag.TribeNames"></select>
             <span asp-validation-for="TribeId" class="text-danger"></span>
         </div>
     </div>
