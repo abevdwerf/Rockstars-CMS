@@ -28,7 +28,7 @@
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
     </div>
-        <div class="form-group">
+    <div class="form-group">
         <button onclick="SaveAll()" type="submit" value="Save" class="btn button">
             @Localizer["edit.btn.save"]
             <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
@@ -38,121 +38,122 @@
         </button>
     </div>
 </form>
-    <div class="form-group">
-        <label class="control-label">@Localizer["edit.text"]</label>
-        <div class="article-text-container">
-            <ul class="nav nav-tabs" id="tab-list">
-                @if (Model.ArticleTextBlocks != null)
+<div class="form-group">
+    <label class="control-label">@Localizer["edit.text"]</label>
+    <div class="article-text-container">
+        <ul class="nav nav-tabs" id="tab-list">
+            @if (Model.ArticleTextBlocks != null)
+            {
+                @if (Model.ArticleTextBlocks.Count > 0)
                 {
-                    @if (Model.ArticleTextBlocks.Count > 0)
+                    int count = 1;
+                    foreach (var item in Model.ArticleTextBlocks)
                     {
-                        int count = 1;
-                        foreach (var item in Model.ArticleTextBlocks)
+                        @if (item == Model.ArticleTextBlocks.First())
                         {
-                            @if (item == Model.ArticleTextBlocks.First())
-                            {
-                                <li class="nav-item">
-                                    <a class="Teksten nav-link active" onclick="DelButton.hidden = true" id="@item.ArticleTextBlockId" data-id="@item.ArticleTextBlockId" data-toggle="tab" href="#tab-@item.ArticleTextBlockId">
-                                        @count
-                                    </a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="nav-item">
-                                    <a class="Teksten nav-link" onclick="DelButton.hidden = false" id="@item.ArticleTextBlockId" data-id="@item.ArticleTextBlockId" data-toggle="tab" href="#tab-@item.ArticleTextBlockId">
-                                        @count
-                                        @if (count > 1)
-                                        {
-                                            <button class="close" hidden type="button" title="Remove this page"></button>
-                                        }
-                                    </a>
-                                </li>
-                            }
-                            count++;
+                            <li class="nav-item">
+                                <a class="Teksten nav-link active" onclick="DelButton.hidden = true" id="@item.ArticleTextBlockId" data-id="@item.ArticleTextBlockId" data-toggle="tab" href="#tab-@item.ArticleTextBlockId">
+                                    @count
+                                </a>
+                            </li>
                         }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="Teksten nav-link" onclick="DelButton.hidden = false" id="@item.ArticleTextBlockId" data-id="@item.ArticleTextBlockId" data-toggle="tab" href="#tab-@item.ArticleTextBlockId">
+                                    @count
+                                    @if (count > 1)
+                                    {
+                                        <button class="close" hidden type="button" title="Remove this page"></button>
+                                    }
+                                </a>
+                            </li>
+                        }
+                        count++;
                     }
                 }
+            }
 
-                <li class="nav-item" id="last-child">
-                    <a class="nav-link" id="add-tab" style="color:#000000;" href="">
-                        @Localizer["edit.btn.addtext"]
-                    </a>
-                </li>
-            </ul>
-            <div class="tab-content" id="TabContent">
-                @if (Model.ArticleTextBlocks != null)
-                {
-                    @if (Model.ArticleTextBlocks.Count > 0)
-                    {
-                        foreach (var item in Model.ArticleTextBlocks)
-                        {
-                            @if (item == Model.ArticleTextBlocks.First())
-                            {
-                                <div class="tab-pane fade show active" id="tab-@item.ArticleTextBlockId">
-                                    <textarea class="textarea w-100" hidden rows="5">@item.Text</textarea>
-                                    <textarea class="editor">
-                                        @item.Text
-                                                                </textarea>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="tab-pane fade" id="tab-@item.ArticleTextBlockId">
-                                    <textarea class="textarea w-100" hidden rows="5">@item.Text</textarea>
-
-                                    <textarea class="editor">
-                                        @item.Text
-                                                                </textarea>
-                                </div>
-                            }
-                        }
-                    }
-                }
-            </div>
-
-
+            <li class="nav-item" id="last-child">
+                <a class="nav-link" id="add-tab" style="color:#000000;" href="">
+                    @Localizer["edit.btn.addtext"]
+                </a>
+            </li>
             <button id="save-textblock" class="btn button" hidden>@Localizer["edit.text.save"]</button>
             <button id="VerwijderBtn" onclick="DeleteCurrentArticel();" class="btn btn-danger">@Localizer["edit.text.delete"]</button>
-        </div>
-    </div>
-    <div class="form-group">
-        <form id="frmUpload">
-            <label asp-for="Images" class="control-label">@Localizer["edit.images"]</label>
-            <div class="row">
-                <div class="col-md-5">
-                    <div class="custom-file upload__box">
-                        <input asp-for="Images" class="custom-file-input upload__inputfile" hidden multiple id="customFile">
-                        <label asp-for="Images" class="custom-file-label" for="customFile" data-browse="@Localizer["edit.choosefile"]"></label>
-                        <span asp-validation-for="Images" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <button type="submit" id="upload" class="btn button">UPLOAD</button>
-                </div>
-                <div id="loading">
-                    <p>@Localizer["edit.loading"]</p>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="form-group">
-        <div id="wrap" class="upload__img-wrap row flex-nowrap overflow-auto">
-            @if (Model.ArticleImages != null)
+        </ul>
+        <div class="tab-content" id="TabContent">
+            @if (Model.ArticleTextBlocks != null)
             {
-                @foreach (var item in Model.ArticleImages)
+                @if (Model.ArticleTextBlocks.Count > 0)
                 {
-                    <div class="upload__img-box col-3">
-                        <div style="background-image: url(@item.URL);" class="img-bg">
-                            <div id="delete" data-id="@item.ArticleImageId" class="upload__img-close">
+                    foreach (var item in Model.ArticleTextBlocks)
+                    {
+                        @if (item == Model.ArticleTextBlocks.First())
+                        {
+                            <div class="tab-pane fade show active" id="tab-@item.ArticleTextBlockId">
+                                <textarea class="textarea w-100" hidden rows="5">@item.Text</textarea>
+                                <textarea class="editor">
+                                    @item.Text
+                                                                                </textarea>
                             </div>
-                        </div>
-                    </div>
+                        }
+                        else
+                        {
+                            <div class="tab-pane fade" id="tab-@item.ArticleTextBlockId">
+                                <textarea class="textarea w-100" hidden rows="5">@item.Text</textarea>
+
+                                <textarea class="editor">
+                                    @item.Text
+                                                                                </textarea>
+                            </div>
+                        }
+                    }
                 }
             }
         </div>
+
+
+
     </div>
+</div>
+<div class="form-group">
+    <form id="frmUpload">
+        <label asp-for="Images" class="control-label">@Localizer["edit.images"]</label>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="custom-file upload__box">
+                    <input asp-for="Images" class="custom-file-input upload__inputfile" hidden multiple id="customFile">
+                    <label asp-for="Images" class="custom-file-label" for="customFile" data-browse="@Localizer["edit.choosefile"]"></label>
+                    <span asp-validation-for="Images" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <button type="submit" id="upload" class="btn button">UPLOAD</button>
+            </div>
+            <div id="loading">
+                <p>@Localizer["edit.loading"]</p>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="form-group">
+    <div id="wrap" class="upload__img-wrap row flex-nowrap overflow-auto">
+        @if (Model.ArticleImages != null)
+        {
+            @foreach (var item in Model.ArticleImages)
+            {
+                <div class="upload__img-box col-3">
+                    <div style="background-image: url(@item.URL);" class="img-bg">
+                        <div id="delete" data-id="@item.ArticleImageId" class="upload__img-close">
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
 
 <a asp-action="Index" class="btn button-cancel mt-3">
     @Localizer["edit.btn.back"]

@@ -70,7 +70,7 @@ namespace RockstarsIT.Controllers
                 _context.Add(articleTextBlocks);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Edit", new { id = article.ArticleId });
             }
             ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", article.RockstarId);
             return View(article);
