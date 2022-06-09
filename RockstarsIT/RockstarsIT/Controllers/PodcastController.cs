@@ -45,8 +45,8 @@ namespace RockstarsIT.Controllers
                 podcast.URL = podcast.URL.Substring(0, podcast.URL.IndexOf("?"));
             }
 
-            podcast.Title = spotify.GetShowTitle(spotify.GetSpotifyLinkId(podcast.URL));
-            podcast.Description = spotify.GetShowDescription(spotify.GetSpotifyLinkId(podcast.URL));
+            //podcast.Title = spotify.GetShowTitle(spotify.GetSpotifyLinkId(podcast.URL));
+            //podcast.Description = spotify.GetShowDescription(spotify.GetSpotifyLinkId(podcast.URL));
 
             if (spotify.CheckShowLinkInput(podcast.URL))
             {

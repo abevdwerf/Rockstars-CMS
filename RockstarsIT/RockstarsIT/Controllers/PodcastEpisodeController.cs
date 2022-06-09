@@ -32,11 +32,11 @@ namespace RockstarsIT.Controllers
                     case "title":
                         if (orderOn == "asc")
                         {
-                            databaseContext = _context.PodcastEpisodes.OrderBy(p => p.Title).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            //databaseContext = _context.PodcastEpisodes.OrderBy(p => p.Title).Include(p => p.Rockstar).Include(p => p.Tribe);
                         }
                         else
                         {
-                            databaseContext = _context.PodcastEpisodes.OrderByDescending(p => p.Title).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            //databaseContext = _context.PodcastEpisodes.OrderByDescending(p => p.Title).Include(p => p.Rockstar).Include(p => p.Tribe);
                         }
                         break;
                     case "author":
@@ -83,7 +83,7 @@ namespace RockstarsIT.Controllers
             }
             if (!string.IsNullOrEmpty(searchWords))
             {
-                databaseContext = _context.PodcastEpisodes.Where(p => p.Title.Contains(searchWords) || p.Description.Contains(searchWords) || p.Rockstar.Name.Contains(searchWords)).Include(p => p.Rockstar).Include(p => p.Tribe);
+                //databaseContext = _context.PodcastEpisodes.Where(p => p.Title.Contains(searchWords) || p.Description.Contains(searchWords) || p.Rockstar.Name.Contains(searchWords)).Include(p => p.Rockstar).Include(p => p.Tribe);
             }
             string dataShowType = HttpContext.Request.Query["view"].ToString();
             ViewData["DataShowType"] = dataShowType;
@@ -111,8 +111,8 @@ namespace RockstarsIT.Controllers
             {
                 podcastEpisode.URL = podcastEpisode.URL.Substring(0, podcastEpisode.URL.IndexOf("?"));
             }
-            podcastEpisode.Title = spotify.GetTitle(spotify.GetSpotifyLinkId(podcastEpisode.URL));
-            podcastEpisode.Description = spotify.GetDescription(spotify.GetSpotifyLinkId(podcastEpisode.URL));
+            //podcastEpisode.Title = spotify.GetTitle(spotify.GetSpotifyLinkId(podcastEpisode.URL));
+            //podcastEpisode.Description = spotify.GetDescription(spotify.GetSpotifyLinkId(podcastEpisode.URL));
 
             if (spotify.CheckLinkInput(podcastEpisode.URL))
             {
@@ -169,8 +169,8 @@ namespace RockstarsIT.Controllers
                 _context.Entry<PodcastEpisode>(podcast).State = EntityState.Detached;
                 if (podcastEpisode.URL != podcast.URL)
                 {
-                    podcastEpisode.Title = spotify.GetTitle(spotify.GetSpotifyLinkId(podcastEpisode.URL));
-                    podcastEpisode.Description = spotify.GetDescription(spotify.GetSpotifyLinkId(podcastEpisode.URL));
+                    //podcastEpisode.Title = spotify.GetTitle(spotify.GetSpotifyLinkId(podcastEpisode.URL));
+                    //podcastEpisode.Description = spotify.GetDescription(spotify.GetSpotifyLinkId(podcastEpisode.URL));
                 }
                 if (ModelState.IsValid)
                 {

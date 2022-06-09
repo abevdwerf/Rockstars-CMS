@@ -23,6 +23,8 @@ namespace RockstarsIT.Models
         public DbSet<ArticleTextBlockTranslation> ArticleTextBlockTranslations { get; set; }
         public DbSet<ArticleContent> ArticleContents { get; set; }
         public DbSet<VideoContent> VideoContents { get; set; }
+        public DbSet<PodcastContent> PodcastContents { get; set; }
+        public DbSet<PodcastEpisodeContent> PodcastEpisodeContents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -324,9 +326,7 @@ namespace RockstarsIT.Models
                 URL = "https://open.spotify.com/episode/4BDg3QufDDZ0rpos71c6Wl",
                 RockstarId = 1,
                 TribeId = 1,
-                PodcastId = 1,
-                Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/4BDg3QufDDZ0rpos71c6Wl")),
-                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/4BDg3QufDDZ0rpos71c6Wl"))
+                PodcastId = 1
             };
 
             PodcastEpisode podcastEpisode2 = new PodcastEpisode()
@@ -335,9 +335,7 @@ namespace RockstarsIT.Models
                 URL = "https://open.spotify.com/episode/7pZyi78l6vRJVdNquFiaQG",
                 RockstarId = 1,
                 TribeId = 1,
-                PodcastId = 1,
-                Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7pZyi78l6vRJVdNquFiaQG")),
-                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7pZyi78l6vRJVdNquFiaQG"))
+                PodcastId = 1
             };
 
             PodcastEpisode podcastEpisode3 = new PodcastEpisode()
@@ -346,9 +344,7 @@ namespace RockstarsIT.Models
                 URL = "https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb",
                 RockstarId = 1,
                 TribeId = 1,
-                PodcastId = 1,
-                Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb")),
-                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb"))
+                PodcastId = 1
             };
 
             PodcastEpisode podcastEpisode4 = new PodcastEpisode()
@@ -357,9 +353,7 @@ namespace RockstarsIT.Models
                 URL = "https://open.spotify.com/episode/2nH8y0ivbsjjuEX2OrObXt",
                 RockstarId = 1,
                 TribeId = 1,
-                PodcastId = 1,
-                Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/2nH8y0ivbsjjuEX2OrObXt")),
-                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/2nH8y0ivbsjjuEX2OrObXt"))
+                PodcastId = 1
             };
 
             PodcastEpisode podcastEpisode5 = new PodcastEpisode()
@@ -368,9 +362,7 @@ namespace RockstarsIT.Models
                 URL = "https://open.spotify.com/episode/4RrPIkmIMoUB0IcOfykmLF",
                 RockstarId = 1,
                 TribeId = 1,
-                PodcastId = 1,
-                Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/4RrPIkmIMoUB0IcOfykmLF")),
-                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/4RrPIkmIMoUB0IcOfykmLF"))
+                PodcastId = 1
             };
 
             builder.Entity<PodcastEpisode>().HasData(podcastEpisode1);
@@ -378,6 +370,58 @@ namespace RockstarsIT.Models
             builder.Entity<PodcastEpisode>().HasData(podcastEpisode3);
             builder.Entity<PodcastEpisode>().HasData(podcastEpisode4);
             builder.Entity<PodcastEpisode>().HasData(podcastEpisode5);
+
+            PodcastEpisodeContent podcastEpisodeContent1 = new PodcastEpisodeContent()
+            {
+                PodcastEpisodeContentId = 1,
+                Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/4BDg3QufDDZ0rpos71c6Wl")),
+                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/4BDg3QufDDZ0rpos71c6Wl")),
+                LanguageId = 1,
+                PodcastEpisodeId = 1
+            };
+
+            PodcastEpisodeContent podcastEpisodeContent2 = new PodcastEpisodeContent()
+            {
+                PodcastEpisodeContentId = 2,
+                Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7pZyi78l6vRJVdNquFiaQG")),
+                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7pZyi78l6vRJVdNquFiaQG")),
+                LanguageId = 1,
+                PodcastEpisodeId = 1
+            };
+
+            PodcastEpisodeContent podcastEpisodeContent3 = new PodcastEpisodeContent()
+            {
+                PodcastEpisodeContentId = 3,
+                Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb")),
+                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb")),
+                LanguageId = 1,
+                PodcastEpisodeId = 1
+            };
+
+            PodcastEpisodeContent podcastEpisodeContent4 = new PodcastEpisodeContent()
+            {
+                PodcastEpisodeContentId = 4,
+                Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/2nH8y0ivbsjjuEX2OrObXt")),
+                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/2nH8y0ivbsjjuEX2OrObXt")),
+                LanguageId = 1,
+                PodcastEpisodeId = 1
+            };
+
+            PodcastEpisodeContent podcastEpisodeContent5 = new PodcastEpisodeContent()
+            {
+                PodcastEpisodeContentId = 5,
+                Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/4RrPIkmIMoUB0IcOfykmLF")),
+                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/4RrPIkmIMoUB0IcOfykmLF")),
+                LanguageId = 1,
+                PodcastEpisodeId = 1
+            };
+
+            builder.Entity<PodcastEpisodeContent>().HasData(podcastEpisodeContent1);
+            builder.Entity<PodcastEpisodeContent>().HasData(podcastEpisodeContent2);
+            builder.Entity<PodcastEpisodeContent>().HasData(podcastEpisodeContent3);
+            builder.Entity<PodcastEpisodeContent>().HasData(podcastEpisodeContent4);
+            builder.Entity<PodcastEpisodeContent>().HasData(podcastEpisodeContent5);
+
 
             Video video1 = new Video()
             {

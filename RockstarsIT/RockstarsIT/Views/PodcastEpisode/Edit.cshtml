@@ -14,10 +14,10 @@
     <input hidden asp-for="PodcastId" value="@Model.PodcastId"/>
     <div class="row g-3">
         <div class="col-md-6 mb-3">
-            <label asp-for="Title" class="control-label" lang="nl">Titel</label>
+         @*   <label asp-for="Title" class="control-label" lang="nl">Titel</label>
             <label asp-for="Title" class="control-label" lang="en-uk">Title</label>
             <input asp-for="Title" class="textbox w-100"/>
-            <span asp-validation-for="Title" class="text-danger"></span>
+            <span asp-validation-for="Title" class="text-danger"></span>*@
         </div>
         <div class="col-md-6 mb-3">
             <label asp-for="Tribe" class="control-label">Tribe</label>
@@ -25,10 +25,10 @@
             <span asp-validation-for="TribeId" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="Description" class="control-label" lang="nl">Beschrijving</label>
+           @* <label asp-for="Description" class="control-label" lang="nl">Beschrijving</label>
             <label asp-for="Description" class="control-label" lang="en-uk">Description</label>
             <textarea asp-for="Description" class="textarea w-100" rows="5"></textarea>
-            <span asp-validation-for="Description" class="text-danger"></span>
+            <span asp-validation-for="Description" class="text-danger"></span>*@
         </div>
         <div class="col-md-6 mb-3">
             <label asp-for="Rockstar" class="control-label">Rockstar</label>

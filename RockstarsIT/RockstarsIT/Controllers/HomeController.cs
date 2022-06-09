@@ -75,51 +75,51 @@ namespace RockstarsIT.Controllers
         private List<DashboardContent> GetTopFiveContent()
         {
             List<DashboardContent> content = new List<DashboardContent>();
-            if (_context.Article.Any())
-            {
-                List<Article> articles = _context.Article.OrderByDescending(item => item.ViewCount).Take(5).ToList();
-                foreach (Article article in articles)
-                {
-                    DashboardContent dc = new DashboardContent();
-                    dc.SVGLocation = "/icons/Article.svg";
-                    dc.Id = article.ArticleId;
-                    dc.Controller = "Article";
-                    dc.ModelName = "Artikel";
-                    dc.Content = article;
-                    dc.ViewCount = article.ViewCount;
-                    content.Add(dc);
-                }
-            }
-            if (_context.Videos.Any())
-            {
-                List<Video> videos = _context.Videos.Include(v => v.VideoContents).OrderByDescending(item => item.ViewCount).Take(5).ToList();
-                foreach (Video video in videos)
-                {
-                    DashboardContent dc = new DashboardContent();
-                    dc.SVGLocation = "/icons/Video.svg";
-                    dc.Id = video.VideoId;
-                    dc.Controller = "Video";
-                    dc.ModelName = "Video";
-                    dc.Content = video.VideoContents.Where(v => v.LanguageId == 1).FirstOrDefault();
-                    dc.ViewCount = video.ViewCount;
-                    content.Add(dc);
-                }
-            }
-            if (_context.PodcastEpisodes.Any())
-            {
-                List<PodcastEpisode> podcasts = _context.PodcastEpisodes.OrderByDescending(item => item.ViewCount).Take(5).ToList();
-                foreach (PodcastEpisode podcast in podcasts)
-                {
-                    DashboardContent dc = new DashboardContent();
-                    dc.SVGLocation = "/icons/Mic.svg";
-                    dc.Id = podcast.PodcastEpisodeId;
-                    dc.Controller = "Podcast";
-                    dc.ModelName = "Podcast";
-                    dc.Content = podcast;
-                    dc.ViewCount = podcast.ViewCount;
-                    content.Add(dc);
-                }
-            }
+            //if (_context.Article.Any())
+            //{
+            //    List<Article> articles = _context.Article.OrderByDescending(item => item.ViewCount).Take(5).ToList();
+            //    foreach (Article article in articles)
+            //    {
+            //        DashboardContent dc = new DashboardContent();
+            //        dc.SVGLocation = "/icons/Article.svg";
+            //        dc.Id = article.ArticleId;
+            //        dc.Controller = "Article";
+            //        dc.ModelName = "Artikel";
+            //        dc.Content = article;
+            //        dc.ViewCount = article.ViewCount;
+            //        content.Add(dc);
+            //    }
+            //}
+            //if (_context.Videos.Any())
+            //{
+            //    List<Video> videos = _context.Videos.Include(v => v.VideoContents).OrderByDescending(item => item.ViewCount).Take(5).ToList();
+            //    foreach (Video video in videos)
+            //    {
+            //        DashboardContent dc = new DashboardContent();
+            //        dc.SVGLocation = "/icons/Video.svg";
+            //        dc.Id = video.VideoId;
+            //        dc.Controller = "Video";
+            //        dc.ModelName = "Video";
+            //        dc.Content = video.VideoContents.Where(v => v.LanguageId == 1).FirstOrDefault();
+            //        dc.ViewCount = video.ViewCount;
+            //        content.Add(dc);
+            //    }
+            //}
+            //if (_context.PodcastEpisodes.Any())
+            //{
+            //    List<PodcastEpisode> podcasts = _context.PodcastEpisodes.OrderByDescending(item => item.ViewCount).Take(5).ToList();
+            //    foreach (PodcastEpisode podcast in podcasts)
+            //    {
+            //        DashboardContent dc = new DashboardContent();
+            //        dc.SVGLocation = "/icons/Mic.svg";
+            //        dc.Id = podcast.PodcastEpisodeId;
+            //        dc.Controller = "Podcast";
+            //        dc.ModelName = "Podcast";
+            //        dc.Content = podcast;
+            //        dc.ViewCount = podcast.ViewCount;
+            //        content.Add(dc);
+            //    }
+            //}
 
             List<DashboardContent> sortedList = content.OrderByDescending(o => o.ViewCount).Take(5).ToList();
             return sortedList;

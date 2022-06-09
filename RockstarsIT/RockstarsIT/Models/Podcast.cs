@@ -6,8 +6,6 @@ namespace RockstarsIT.Models
     public class Podcast
     {
         // Fields
-        private string _title;
-        private string _description;
         private string _url;
         private DateTime _dateCreated;
         private DateTime _dateModified;
@@ -17,16 +15,6 @@ namespace RockstarsIT.Models
         // Properties
         public int PodcastId { get; set; }
         
-        public string Title
-        {
-            get => _title; 
-            set => _title = value;
-        }
-        public string Description
-        {
-            get => _description; 
-            set => _description = value;
-        }
         public string URL
         {
             get => _url; 

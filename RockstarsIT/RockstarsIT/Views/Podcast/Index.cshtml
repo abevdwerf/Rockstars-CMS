@@ -124,7 +124,7 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
 <div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch  spaceBetweenArticles">
     <div class="card">
         <div class="card-header">
-            @if (item.Title != null)
+         @*   @if (item.Title != null)
             {
                 if (item.Title.Length > 30)
                 {
@@ -134,21 +134,21 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
                 {
                     <h5 style="min-width: 240px;">@item.Title</h5>
                 }
-            }
-            else
+            }*@
+           @* else
             {
                 <h5>GEEN TITEL</h5>
-            }
+            }*@
         </div>
         <div class="card-body">
-            @if (item.Description.Length > 170)
+            @*@if (item.Description.Length > 170)
             {
                 <h5 style="min-width: 240px;">@item.Description.Substring(0, 170)...</h5>
             }
             else
             {
                 <h5 style="min-width: 240px;">@item.Description</h5>
-            }
+            }*@
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item" style="background-color:#FFE000">

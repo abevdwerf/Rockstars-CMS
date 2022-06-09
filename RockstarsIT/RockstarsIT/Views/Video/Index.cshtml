@@ -173,18 +173,20 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
     <div class="row">
         @foreach (var item in Model)
         {
+            var title = item.VideoContents.Where(v => v.LanguageId == 1).FirstOrDefault().Title;
+
             <div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch  spaceBetweenArticles">
                 <div class="card">
                     <div class="card-header">
-                        @if (item.Title != null)
+                        @if (title != null)
                         {
-                            if (item.Title.Length > 30)
+                            if (title.Length > 30)
                             {
-                                <h5 style="min-width: 240px;">@item.Title.Substring(0, 30)...</h5>
+                                <h5 style="min-width: 240px;">@title.Substring(0, 30)...</h5>
                             }
                             else
                             {
-                                <h5 style="min-width: 240px;">@item.Title</h5>
+                                <h5 style="min-width: 240px;">@title</h5>
                             }
                         }
                         else
