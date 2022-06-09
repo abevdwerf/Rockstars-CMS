@@ -151,24 +151,20 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
     <div class="row">
         @foreach (var item in Model)
         {
-            <div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch  spaceBetweenArticles">
+            <div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch spaceBetweenArticles">
                 <div class="card">
                     <div class="card-body">
-                        <audio id="music" preload="true">
-                            <source src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))">
-                        </audio>
-                        <div id="audioplayer">
-                            <i id="pButton" class="fas fa-play"></i>
-                            <div id="timeline">
-                                <div id="playhead"></div>
+                        <audio id="@item.PodcastEpisodeId" style="width: 250px" src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))"></audio>
+                        <div>
+                            <button onclick="PlayPause(this.name)" name="@item.PodcastEpisodeId" class="btn btn-link"><i class="fas fa-play" id="pbutton-@item.PodcastEpisodeId"></i></button>
+                            <div id="timeline" name="timeline-@item.PodcastEpisodeId">
+                                <div id="playhead" name="playhead-@item.PodcastEpisodeId" style="width: 8px; height: 8px; position: absolute;" class="25"></div>
                             </div>
                         </div>
                         <br />
                         <br />
                         <h5 class="text-muted"> @Html.DisplayFor(modelItem => item.Title)</h5>
-                        @* <audio controls style="width: 250px"> *@
-                        @*     <source src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))" type="audio/mp3"> *@
-                        @* </audio> *@
+
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" style="background-color:#FFE000">
@@ -184,106 +180,61 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
     </div>
 }
 <script>
-    var music = document.getElementById('music'); // id for audio element
-    var duration = music.duration; // Duration of audio clip, calculated here for embedding purposes
-    var pButton = document.getElementById('pButton'); // play button
-    var playhead = document.getElementById('playhead'); // playhead
-    var timeline = document.getElementById('timeline'); // timeline
-    // timeline width adjusted for playhead
-    var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
-    timeline.style.width = '85%'
-    // play button event listenter
-    pButton.addEventListener("click", play);
-    // timeupdate event listener
-    music.addEventListener("timeupdate", timeUpdate, false);
-    // makes timeline clickable
-    timeline.addEventListener("click", function (event) {
-      moveplayhead(event);
-      music.currentTime = duration * clickPercent(event);
-    }, false);
-    // returns click as decimal (.77) of the total timelineWidth
-    function clickPercent(event) {
-      return (event.clientX - getPosition(timeline)) / timelineWidth;
-    }
-    // makes playhead draggable
-    playhead.addEventListener('mousedown', mouseDown, false);
-    window.addEventListener('mouseup', mouseUp, false);
-    // Boolean value so that audio position is updated only when the playhead is released
-    var onplayhead = false;
-    // mouseDown EventListener
-    function mouseDown() {
-      onplayhead = true;
-      window.addEventListener('mousemove', moveplayhead, true);
-      music.removeEventListener('timeupdate', timeUpdate, false);
-    }
-    // mouseUp EventListener
-    // getting input from all mouse clicks
-    function mouseUp(event) {
-      if (onplayhead == true) {
-          moveplayhead(event);
-          window.removeEventListener('mousemove', moveplayhead, true);
-          // change current time
-          music.currentTime = duration * clickPercent(event);
-          music.addEventListener('timeupdate', timeUpdate, false);
-      }
-      onplayhead = false;
-    }
-    // mousemove EventListener
-    // Moves playhead as user drags
-    function moveplayhead(event) {
-      var newMargLeft = event.clientX - getPosition(timeline);
+    
+    function PlayPause(name) {
+        var player = document.getElementById(name);
+        let id = null;
+        let elem = document.getElementsByName("playhead-" + name)[0];
+        let pos = parseInt(elem.className); //positie ophalen uit classname, wordt in classname per podcast opgeslagen omdat dit kan verschillen per podcast
+        let end = document.getElementsByName("timeline-" + name)[0].clientWidth + 25; //plus 25 ivm margin tijdbalk
+        let pixels = document.getElementsByName("timeline-" + name)[0].clientWidth / 30 / 100; //berekenen aantal pixels omdat dit verschilt per scherm/resolutie
 
-      if (newMargLeft >= 0 && newMargLeft <= timelineWidth) {
-          playhead.style.marginLeft = newMargLeft + "px";
-      }
-      if (newMargLeft < 0) {
-          playhead.style.marginLeft = "0px";
-      }
-      if (newMargLeft > timelineWidth) {
-          playhead.style.marginLeft = timelineWidth + "px";
-      }
-    }
-    // timeUpdate
-    // Synchronizes playhead position with current point in audio
-    function timeUpdate() {
-      var playPercent = timelineWidth * (music.currentTime / duration);
-      playhead.style.marginLeft = playPercent + "px";
-      if (music.currentTime == duration) {
-          pButton.className = "";
-          pButton.className = "fas fa-play";
-      }
-    }
-    //Play and Pause
-    function play() {
-      // start music
-      if (music.paused) {
-          music.play();
-          // remove play, add pause
-          pButton.className = "";
-          pButton.className = "fas fa-pause";
-      } else { // pause music
-          music.pause();
-          // remove pause, add play
-          pButton.className = "";
-          pButton.className = "fas fa-play";
-      }
-    }
-    // Gets audio file duration
-    music.addEventListener("canplaythrough", function () {
-      duration = music.duration;
-    }, false);
-    // getPosition
-    // Returns elements left position relative to top-left of viewport
-    function getPosition(el) {
-      return el.getBoundingClientRect().left;
+        if (player.paused)
+        {
+            player.play();
+            document.getElementById("pbutton-" + name).className = "";
+            document.getElementById("pbutton-" + name).className = "fas fa-pause";
+            
+            clearInterval(id);
+            id = setInterval(frame, 10);
+            function frame() {
+              if (pos >= end)
+              {
+                clearInterval(id);
+                player.pause();
+                document.getElementById("pbutton-" + name).className = "";
+                document.getElementById("pbutton-" + name).className = "fas fa-play";
+              }
+              else
+              {
+                pos+= pixels;
+                elem.style.left = pos + "px";
+                if (player.paused)
+                {
+                    clearInterval(id);
+                    elem.className = pos;
+                    player.pause();
+                    document.getElementById("pbutton-" + name).className = "";
+                    document.getElementById("pbutton-" + name).className = "fas fa-play";
+                }
+              }
+            }
+        }
+        else
+        {
+            player.pause();
+            document.getElementById("pbutton-" + name).className = "";
+            document.getElementById("pbutton-" + name).className = "fas fa-play";
+        }
     }
 
-    //Scrollable Table
-    $(document).ready(function () {
-      $('#dtHorizontalVerticalExample').DataTable({
-        "scrollX": true,
-        "scrollY": 200,
-      });
-      $('.dataTables_length').addClass('bs-select');
-    });
+
+        //Scrollable Table
+        $(document).ready(function () {
+          $('#dtHorizontalVerticalExample').DataTable({
+            "scrollX": true,
+            "scrollY": 200,
+          });
+          $('.dataTables_length').addClass('bs-select');
+        });
 </script>

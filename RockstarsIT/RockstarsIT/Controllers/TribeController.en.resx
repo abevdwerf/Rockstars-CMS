@@ -153,6 +153,9 @@
   <data name="edit.btn.save" xml:space="preserve">
     <value>SAVE CHANGES</value>
   </data>
+  <data name="edit.btn.savetext" xml:space="preserve">
+    <value>SAVE</value>
+  </data>
   <data name="edit.choosefile" xml:space="preserve">
     <value>Choose File</value>
   </data>

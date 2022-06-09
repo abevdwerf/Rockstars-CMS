@@ -153,6 +153,9 @@
   <data name="edit.btn.save" xml:space="preserve">
     <value>WIJZIGINGEN OPSLAAN</value>
   </data>
+  <data name="edit.btn.savetext" xml:space="preserve">
+    <value>OPSLAAN</value>
+  </data>
   <data name="edit.choosefile" xml:space="preserve">
     <value>Bestand Kiezen</value>
   </data>
