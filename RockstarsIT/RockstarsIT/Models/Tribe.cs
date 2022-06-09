@@ -73,7 +73,7 @@ namespace RockstarsIT.Models
             set => _blocknumber = value;
         }
 
-        public int DatePublished
+        public DateTime DatePublished
         {
             get => _datePublished;
             set => _datePublished = value;
