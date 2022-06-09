@@ -43,29 +43,50 @@
 </div>
 @if (ViewData["DataShowType"].ToString() == "grid")
 {
+    <form class="form-group" asp-action="index" asp-route-view="grid">
+        <div class="input-group col-8">
+            <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+            <input type="search" class="form-control" name="searchWords" placeholder="Zoeken op">
+            <input type="submit" class="btn btn-primary" value="zoeken" />
+        </div>
+    </form>
     <table class="table table-bordered bg-light">
         <thead class="thead-dark">
             <tr>
                 <th>
                     <label lang="nl">TITEL</label> <label lang="en-uk">ACTIONS</label>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="title" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="title" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
                 </th>
                 <th>
                     <label lang="nl">BESCHRIJVING</label> <label lang="en-uk">DESCRIPTION</label>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="description" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="description" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
                 </th>
                 <th>
                     <label>VIDEO ID</label>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="id" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="id" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
                 </th>
                 <th>
                     <label>TRIBE</label>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="tribe" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="tribe" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
                 </th>
                 <th>
                     <label>ROCKSTAR</label>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="rockstar" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="rockstar" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
                 </th>
                 <th>
                     <label lang="nl">PUBLICATIEDATUM</label> <label lang="en-uk">PUBLICATION DATE</label>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="datePublished" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="datePublished" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
                 </th>
                 <th>
                     <label>STATUS</label>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="status" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="status" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
                 </th>
                 <th>
                     <label lang="nl">STATUS VERANDEREN</label> <label lang="en-uk">CHANGE STATUS</label>
@@ -175,26 +196,42 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
         {
             <div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch  spaceBetweenArticles">
                 <div class="card">
-                    @if (item.Link != null)
-                    {
-                        if (item.Link.Length == 11)
+                    <div class="card-header">
+                        @if (item.Title != null)
                         {
-                            <img class="card-img-top" src="https://img.youtube.com/vi/@item.Link/0.jpg" alt="Card image cap">
+                            if (item.Title.Length > 30)
+                            {
+                                <h5 style="min-width: 240px;">@item.Title.Substring(0, 30)...</h5>
+                            }
+                            else
+                            {
+                                <h5 style="min-width: 240px;">@item.Title</h5>
+                            }
                         }
-                        else if (item.Link.Length == 9)
+                        else
                         {
-                            <img class="card-img-top" id="vimeoimg" name="@item.Link" src="https://vumbnail.com/@item.Link">
+                            <h5>GEEN TITEL</h5>
                         }
-                    }
+                        <p class="card-text">Rockstar: @Html.DisplayFor(modelItem => item.Rockstar.Name)</p>
+                    </div>
                     <div class="card-body">
-                        <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Title)</h5>
-                        <p class="card-text">@Html.DisplayFor(modelItem => item.Rockstar.Name)</p>
+                        @if (item.Link != null)
+                        {
+                            if (item.Link.Length == 11)
+                            {
+                                <img class="card-img-top" src="https://img.youtube.com/vi/@item.Link/0.jpg" alt="Card image cap">
+                            }
+                            else if (item.Link.Length == 9)
+                            {
+                                <img class="card-img-top" id="vimeoimg" name="@item.Link" src="https://vumbnail.com/@item.Link">
+                            }
+                        }
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" style="background-color:#FFE000">
                             <a asp-action="Edit" asp-route-id="@item.VideoId" class="card-link btn button-white">
                                 <label lang="nl" class="text-black">BEWERKEN</label> <label lang="en-uk" class="text-black">EDIT</label>
-                                <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
+                                <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg" />
                             </a>
                         </li>
                     </ul>
