@@ -36,11 +36,11 @@
             <span asp-validation-for="RockstarId" class="text-danger"></span>
         </div>
         <div class="col-md-6 lg-6 mb-3">
-            <label class="control-label">Spotify</label> <a id="link" href="javascript:void(0)" onclick="OpenEditor(this.id)"><img id="editimg" class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/></a>
+            <label class="control-label">Spotify</label> <a id="URL" href="javascript:void(0)" onclick="OpenEditor(this.id)"><img id="editimg" class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/></a>
             <br/>
             <br/>
-            <iframe src="@spotify.GetSpotifyEmbeddedLink(Model.URL)" height="160" style="min-width: 100%" frameBorder="0" title="description" name="link"></iframe>
-            <input asp-for="URL" class="textbox w-100" name="link" hidden/>
+            <iframe src="@spotify.GetSpotifyEmbeddedLink(Model.URL)" height="160" style="min-width: 100%" frameBorder="0" title="description" name="URL"></iframe>
+            <input asp-for="URL" class="textbox w-100" name="URL" hidden/>
             <span asp-validation-for="URL" class="text-danger"></span>
         </div>
     </div>
