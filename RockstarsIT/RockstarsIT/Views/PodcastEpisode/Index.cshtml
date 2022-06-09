@@ -5,11 +5,11 @@
     Spotify spotify = new Spotify(); 
 }
 
-<h1 class="mt-3">PODCASTS</h1>
+<h1 class="mt-3">PODCAST EPISODES</h1>
 <div class="row">
     <div class="col-md-6  text-left">
         <a asp-action="Create" class="btn button">
-            NIEUWE PODCAST
+            NIEUWE PODCAST EPISODE
             <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
         </a>
         <br/>
@@ -23,7 +23,6 @@
                 </svg>
             </a>
         </div>
-
     }
     else if (ViewData["DataShowType"].ToString() == "grid")
     {
@@ -69,16 +68,18 @@
             <tbody>
             @foreach (var item in Model) {
                 <tr>
-                    <td style="min-width: 310px">
-                        @if (item.Title.Length > 50)
-                        {
-                            <label class="text-black">@item.Title.Substring(0, 50)...</label>
-                        }
-                        else
-                        {
-                            Html.DisplayFor(modelItem => item.Title);
-                        }
-                    </td>
+                    @if (item.Title.Length > 50)
+                    {
+                        <td style="min-width: 310px">
+                            @item.Title.Substring(0, 50)...
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="min-width: 310px">
+                            @item.Title
+                        </td>
+                    }
                     <td>
                         <audio id="music" preload="true">
                             <source src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))">
@@ -144,135 +145,158 @@
 }
 else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowType"].ToString() == "")
 {
-<div class="row">
-@foreach (var item in Model) {
-<div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch  spaceBetweenArticles">
-    <div class="card">
-        <div class="card-body">
-            <audio id="music" preload="true">
-                <source src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))">
-            </audio>
-            <div id="audioplayer">
-                <i id="pButton" class="fas fa-play"></i>
-                <div id="timeline">
-                    <div id="playhead"></div>
+    <div class="row">
+        @foreach (var item in Model) {
+            <div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch  spaceBetweenArticles">
+                <div class="card" style="width: 25rem; height: 20rem;">
+                    <div class="card-header">
+                        <audio id="music-@item.PodcastEpisodeId" preload="true">
+                            <source src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))">
+                        </audio>
+                        <div id="audioplayer" onclick="test('@item.PodcastEpisodeId')">
+                            <i id="pButton" class="fas fa-play"></i>
+                            <div id="timeline-@item.PodcastEpisodeId">
+                                <div id="playhead-@item.PodcastEpisodeId"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if (item.Title != null)
+                        {
+                            if (item.Title.Length > 170)
+                            {
+                                <h5 style="min-width: 240px;">@item.Title.Substring(0, 170)...</h5>
+                            }
+                            else
+                            {
+                                <h5 style="min-width: 240px;">@item.Title</h5>
+                            }
+                        }
+                        else
+                        {
+                            <h5>GEEN TITEL</h5>
+                        }
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" style="background-color:#FFE000">
+                            <a asp-action="Edit" asp-route-id="@item.PodcastEpisodeId" class="card-link btn button-white">
+                                BEWERKEN
+                                <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <br/>
-            <br/>
-            <h5 class="text-muted"> @Html.DisplayFor(modelItem => item.Title)</h5>
-            @* <audio controls style="width: 250px"> *@
-            @*     <source src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))" type="audio/mp3"> *@
-            @* </audio> *@
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item" style="background-color:#FFE000">
-                <a asp-action="Edit" asp-route-id="@item.PodcastEpisodeId" class="card-link btn button-white">
-                    BEWERKEN
-                    <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
-                </a>
-            </li>
-        </ul>
+        }
     </div>
-</div>
-}
-</div>
 }
 <script>
-    var music = document.getElementById('music'); // id for audio element
-    var duration = music.duration; // Duration of audio clip, calculated here for embedding purposes
-    var pButton = document.getElementById('pButton'); // play button
-    var playhead = document.getElementById('playhead'); // playhead
-    var timeline = document.getElementById('timeline'); // timeline
-    // timeline width adjusted for playhead
-    var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
-    timeline.style.width = '85%'
-    // play button event listenter
-    pButton.addEventListener("click", play);
-    // timeupdate event listener
-    music.addEventListener("timeupdate", timeUpdate, false);
-    // makes timeline clickable
-    timeline.addEventListener("click", function (event) {
-      moveplayhead(event);
-      music.currentTime = duration * clickPercent(event);
-    }, false);
-    // returns click as decimal (.77) of the total timelineWidth
-    function clickPercent(event) {
-      return (event.clientX - getPosition(timeline)) / timelineWidth;
-    }
-    // makes playhead draggable
-    playhead.addEventListener('mousedown', mouseDown, false);
-    window.addEventListener('mouseup', mouseUp, false);
-    // Boolean value so that audio position is updated only when the playhead is released
-    var onplayhead = false;
-    // mouseDown EventListener
-    function mouseDown() {
-      onplayhead = true;
-      window.addEventListener('mousemove', moveplayhead, true);
-      music.removeEventListener('timeupdate', timeUpdate, false);
-    }
-    // mouseUp EventListener
-    // getting input from all mouse clicks
-    function mouseUp(event) {
-      if (onplayhead == true) {
-          moveplayhead(event);
-          window.removeEventListener('mousemove', moveplayhead, true);
-          // change current time
-          music.currentTime = duration * clickPercent(event);
-          music.addEventListener('timeupdate', timeUpdate, false);
-      }
-      onplayhead = false;
-    }
-    // mousemove EventListener
-    // Moves playhead as user drags
-    function moveplayhead(event) {
-      var newMargLeft = event.clientX - getPosition(timeline);
-    
-      if (newMargLeft >= 0 && newMargLeft <= timelineWidth) {
-          playhead.style.marginLeft = newMargLeft + "px";
-      }
-      if (newMargLeft < 0) {
-          playhead.style.marginLeft = "0px";
-      }
-      if (newMargLeft > timelineWidth) {
-          playhead.style.marginLeft = timelineWidth + "px";
-      }
-    }
-    // timeUpdate
-    // Synchronizes playhead position with current point in audio
-    function timeUpdate() {
-      var playPercent = timelineWidth * (music.currentTime / duration);
-      playhead.style.marginLeft = playPercent + "px";
-      if (music.currentTime == duration) {
-          pButton.className = "";
-          pButton.className = "fas fa-play";
-      }
-    }
-    //Play and Pause
-    function play() {
-      // start music
-      if (music.paused) {
-          music.play();
-          // remove play, add pause
-          pButton.className = "";
-          pButton.className = "fas fa-pause";
-      } else { // pause music
-          music.pause();
-          // remove pause, add play
-          pButton.className = "";
-          pButton.className = "fas fa-play";
-      }
-    }
-    // Gets audio file duration
-    music.addEventListener("canplaythrough", function () {
-      duration = music.duration;
-    }, false);
-    // getPosition
-    // Returns elements left position relative to top-left of viewport
-    function getPosition(el) {
-      return el.getBoundingClientRect().left;
-    }
-    
+
+        var music 
+        var duration 
+        var pButton 
+        var playhead 
+        var timeline
+        
+        function test (id) {
+            console.log('test')
+            music = document.getElementById('music-'+id); // id for audio element
+            duration = music.duration; // Duration of audio clip, calculated here for embedding purposes
+            pButton = document.getElementById('pButton-'+id); // play button
+            playhead = document.getElementById('playhead-'+id); // playhead
+            timeline = document.getElementById('timeline-'+id); // timeline
+        }
+        
+        // timeline width adjusted for playhead
+        var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
+        timeline.style.width = '85%'
+        // play button event listenter
+        pButton.addEventListener("click", play);
+        // timeupdate event listener
+        music.addEventListener("timeupdate", timeUpdate, false);
+        // makes timeline clickable
+        timeline.addEventListener("click", function (event) {
+            moveplayhead(event);
+            music.currentTime = duration * clickPercent(event);
+        }, false);
+        
+        // returns click as decimal (.77) of the total timelineWidth
+        function clickPercent(event) {
+            return (event.clientX - getPosition(timeline)) / timelineWidth;
+        }
+        // makes playhead draggable
+        playhead.addEventListener('mousedown', mouseDown, false);
+        window.addEventListener('mouseup', mouseUp, false);
+        // Boolean value so that audio position is updated only when the playhead is released
+        var onplayhead = false;
+        // mouseDown EventListener
+        function mouseDown() {
+            onplayhead = true;
+            window.addEventListener('mousemove', moveplayhead, true);
+            music.removeEventListener('timeupdate', timeUpdate, false);
+        }
+        // mouseUp EventListener
+        // getting input from all mouse clicks
+        function mouseUp(event) {
+            if (onplayhead == true) {
+                moveplayhead(event);
+                window.removeEventListener('mousemove', moveplayhead, true);
+                // change current time
+                music.currentTime = duration * clickPercent(event);
+                music.addEventListener('timeupdate', timeUpdate, false);
+            }
+            onplayhead = false;
+        }
+        // mousemove EventListener
+        // Moves playhead as user drags
+        function moveplayhead(event) {
+            var newMargLeft = event.clientX - getPosition(timeline);
+        
+            if (newMargLeft >= 0 && newMargLeft <= timelineWidth) {
+                playhead.style.marginLeft = newMargLeft + "px";
+            }
+            if (newMargLeft < 0) {
+                playhead.style.marginLeft = "0px";
+            }
+            if (newMargLeft > timelineWidth) {
+                playhead.style.marginLeft = timelineWidth + "px";
+            }
+        }
+        // timeUpdate
+        // Synchronizes playhead position with current point in audio
+        function timeUpdate() {
+            var playPercent = timelineWidth * (music.currentTime / duration);
+            playhead.style.marginLeft = playPercent + "px";
+            if (music.currentTime == duration) {
+                pButton.className = "";
+                pButton.className = "fas fa-play";
+            }
+        }
+        //Play and Pause
+        function play() {
+            // start music
+            if (music.paused) {
+                music.play();
+                // remove play, add pause
+                pButton.className = "";
+                pButton.className = "fas fa-pause";
+            } else { // pause music
+                music.pause();
+                // remove pause, add play
+                pButton.className = "";
+                pButton.className = "fas fa-play";
+            }
+        }
+        // Gets audio file duration
+        music.addEventListener("canplaythrough", function () {
+            duration = music.duration;
+        }, false);
+        // getPosition
+        // Returns elements left position relative to top-left of viewport
+        function getPosition(el) {
+            return el.getBoundingClientRect().left;
+        }
+
     //Scrollable Table
     $(document).ready(function () {
       $('#dtHorizontalVerticalExample').DataTable({
