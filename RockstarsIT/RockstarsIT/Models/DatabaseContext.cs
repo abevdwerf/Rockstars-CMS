@@ -248,22 +248,6 @@ namespace RockstarsIT.Models
                 Description = "Uitleg over PHP in zijn geheel"
             };
 
-            Article article5 = new Article()
-            {
-                ArticleId = 5,
-                RockstarId = 1,
-                Title = "Java",
-                Description = "Uitleg over Java in zijn geheel"
-            };
-
-            Article article6 = new Article()
-            {
-                ArticleId = 6,
-                RockstarId = 1,
-                Title = "PHP",
-                Description = "Uitleg over PHP in zijn geheel"
-            };
-
             builder.Entity<Article>().HasData(article1);
             builder.Entity<Article>().HasData(article2);
             builder.Entity<Article>().HasData(article3);
@@ -282,7 +266,7 @@ namespace RockstarsIT.Models
             {
                 ArticleTextBlockId = 2,
                 ArticleId = 1,
-                Text = "<p>Javascript is a popular coding language to make webpages interactive and to develop webapplications.</p>" + "<p>Javascript besides HTML and CSS is one of the core technologies for the world wide web.</p>" + "<p>Javascript is <strong>NOT</strong> the same as Java.</p><p><br data-cke-filler=" + "true" +"></p><p>This is a example of a Javascript <strong>if</strong> <strong>else statement:</strong></p><pre data-language=" + "JavaScript" + "spellcheck=" + "false" + "><code class=" + "language-javascript" + ">Let article" + "Javascript" + ";<br><br>if(article == " + "Javascript" +"){<br>	alert(" + "article is Javascritp!" + ");<br>}<br>else{<br>	alert(" + "article is not Javascritp!" + ");<br>}</code></pre><p>In this example you check if the variable “article” contains the word “Javascript”.</p><p>If this is the case there will be a alert saying “article is Javascritp!”. When it is not the case the alert will say “articel is not Javascript!”.</p><p><br data-cke-filler=" + "true" + "></p>"
+                Text = "<p>Javascript is a popular coding language to make webpages interactive and to develop webapplications.</p>" + "<p>Javascript besides HTML and CSS is one of the core technologies for the world wide web.</p>" + "<p>Javascript is <strong>NOT</strong> the same as Java.</p><p><br data-cke-filler=" + "true" + "></p><p>This is a example of a Javascript <strong>if</strong> <strong>else statement:</strong></p><pre data-language=" + "JavaScript" + "spellcheck=" + "false" + "><code class=" + "language-javascript" + ">Let article" + "Javascript" + ";<br><br>if(article == " + "Javascript" + "){<br>	alert(" + "article is Javascritp!" + ");<br>}<br>else{<br>	alert(" + "article is not Javascritp!" + ");<br>}</code></pre><p>In this example you check if the variable “article” contains the word “Javascript”.</p><p>If this is the case there will be a alert saying “article is Javascritp!”. When it is not the case the alert will say “articel is not Javascript!”.</p><p><br data-cke-filler=" + "true" + "></p>"
             };
 
             ArticleTextBlocks articleTextBlocks3 = new ArticleTextBlocks()
@@ -301,9 +285,9 @@ namespace RockstarsIT.Models
                 PodcastId = 1,
                 URL = "https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb",
             };
-            
+
             builder.Entity<Podcast>().HasData(podcast1);
-            
+
             PodcastEpisode podcastEpisode1 = new PodcastEpisode()
             {
                 PodcastEpisodeId = 1,
@@ -431,7 +415,5 @@ namespace RockstarsIT.Models
             builder.Entity<Video>().HasData(video4);
             builder.Entity<Video>().HasData(video5);
         }
-
-        public DbSet<RockstarsIT.Models.Podcast> Podcast { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace RockstarsIT.Controllers
 {
     public class PodcastController : Controller
     {
+        Spotify spotify = new Spotify();
         private readonly DatabaseContext _context;
 
         public PodcastController(DatabaseContext context)
@@ -71,7 +72,7 @@ namespace RockstarsIT.Controllers
                 return NotFound();
             }
 
-            var podcast = await _context.Podcast.FindAsync(id);
+            var podcast = await _context.Podcasts.FindAsync(id);
             if (podcast == null)
             {
                 return NotFound();
@@ -122,8 +123,8 @@ namespace RockstarsIT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var podcast = await _context.Podcast.FindAsync(id);
-            _context.Podcast.Remove(podcast);
+            var podcast = await _context.Podcasts.FindAsync(id);
+            _context.Podcasts.Remove(podcast);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -132,7 +133,7 @@ namespace RockstarsIT.Controllers
         {
             return _context.Podcasts.Any(e => e.PodcastId == id);
         }
-        
+
         public async Task<IActionResult> ChangeStatus(int id, bool status)
         {
             var podcast = new Podcast { PodcastId = id, DatePublished = DateTime.Now, PublishedStatus = status };

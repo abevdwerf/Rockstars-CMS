@@ -16,20 +16,20 @@ namespace RockstarsIT.Models
         private int _viewCount;
         // Properties
         public int PodcastId { get; set; }
-        
+
         public string Title
         {
-            get => _title; 
+            get => _title;
             set => _title = value;
         }
         public string Description
         {
-            get => _description; 
+            get => _description;
             set => _description = value;
         }
         public string URL
         {
-            get => _url; 
+            get => _url;
             set => _url = value;
         }
         public DateTime DateCreated
@@ -55,7 +55,7 @@ namespace RockstarsIT.Models
         }
         public int ViewCount
         {
-            get => _viewCount; 
+            get => _viewCount;
             set => _viewCount = value;
         }
 

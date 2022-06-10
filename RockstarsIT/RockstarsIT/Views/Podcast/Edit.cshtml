@@ -61,18 +61,6 @@
         </div>
     </div>
 </form>
-                        <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
-                    </a>
-                }
-                <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.PodcastId" class="btn button-cancel mb-3">
-                    <label lang="nl">VERWIJDEREN</label><label lang="en-uk">DELETE</label>
-                    <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg"/>
-                </a>
-                <input type="submit" asp-action="Delete" asp-route-id="@Model.PodcastId" hidden id="@Model.PodcastId"/>
-            }
-        </div>
-    </div>
-</form>
 
 <div>
     <a asp-action="Index">Back to List</a>

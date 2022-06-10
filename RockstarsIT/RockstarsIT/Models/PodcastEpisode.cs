@@ -21,17 +21,17 @@ namespace RockstarsIT.Models
         public int PodcastEpisodeId { get; set; }
         public string Title
         {
-            get => _title; 
+            get => _title;
             set => _title = value;
         }
         public string Description
         {
-            get => _description; 
+            get => _description;
             set => _description = value;
         }
         public string URL
         {
-            get => _url; 
+            get => _url;
             set => _url = value;
         }
         public DateTime DateCreated
@@ -57,31 +57,31 @@ namespace RockstarsIT.Models
         }
         public int ViewCount
         {
-            get => _viewCount; 
+            get => _viewCount;
             set => _viewCount = value;
         }
         public int? RockstarId { get; set; }
         [ForeignKey("RockstarId")]
         public Rockstar Rockstar
         {
-            get => _rockstar; 
+            get => _rockstar;
             set => _rockstar = value;
         }
         public int? TribeId { get; set; }
         [ForeignKey("TribeId")]
         public Tribe Tribe
         {
-            get => _tribe; 
+            get => _tribe;
             set => _tribe = value;
         }
         public int? PodcastId { get; set; }
         [ForeignKey("PodcastId")]
         public Podcast Podcast
         {
-            get => _podcast; 
+            get => _podcast;
             set => _podcast = value;
         }
         // Methods
-        
+
     }
 }

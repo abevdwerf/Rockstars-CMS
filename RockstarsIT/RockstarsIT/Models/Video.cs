@@ -7,10 +7,6 @@ namespace RockstarsIT.Models
 {
     public enum LinkType
     {
-        Youtube, Vimeo
-    }
-    public enum LinkType
-    {
         Youtube, Vimeo, Invalid
     }
     public class Video
