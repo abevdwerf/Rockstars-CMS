@@ -194,10 +194,10 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
 
     }
-<script>
+    <script>
     var formSubmitting = false;
     var setFormSubmitting = function() { formSubmitting = true; };
-
+    
     function OpenEditor(updatefield) {
         let editelements = document.getElementsByName(updatefield);
         for(let i = 0; i < editelements.length;i++){
@@ -217,7 +217,6 @@
 
         function SaveAll() {
             document.getElementById("save-textblock").click();
-            document.getElementById("form").submit();
         }
 
         function DeleteCurrentArticel() {
@@ -230,10 +229,10 @@
     //        if (formSubmitting) {
     //            return undefined;
     //        }
-
+    
     //        var confirmationMessage = 'It looks like you have been editing something. '
     //                                + 'If you leave before saving, your changes will be lost.';
-
+    
     //        (e || window.event).returnValue = confirmationMessage; //Gecko + IE
     //        return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
     //    });
@@ -264,46 +263,46 @@
 
             $('#add-tab').click(function () {
 
-                var data = new FormData();
+                var data = new FormData(); 
 
                 data.append('TribeId', $("#TribeId").val());
-
-                $.ajax({
+                
+                $.ajax({  
                     async: true,
                     type: "POST",
                     dataType: "json",
-                    url: "/Tribe/AddTextblock",
+                    url: "/Tribe/AddTextblock",  
                     data: data,
-                    contentType: false, // Not to set any content header
-                    processData: false, // Not to process data
-                    success: function (response) {
+                    contentType: false, // Not to set any content header  
+                    processData: false, // Not to process data  
+                    success: function (response) {  
                         if (response.Success) {
                             var tabID = $("#tab-list li").length;
                             var html = '<li class="nav-item"><a class="nav-link" data-id="' + response.TribeTextblockId + '" data-toggle="tab" href="text-' + tabID + '" role="tab">' + tabID + '<button class="close" type="button" title="Remove this page">×</button></a></li>';
                             $('#last-child').before(html);
                             tabID++;
                         }
-                    },
-                    error: function (response) {
-                        // alert("failed to add textblock");
-                    }
-                });
+                    },  
+                    error: function (response) { 
+                        // alert("failed to add textblock");  
+                    }  
+                });  
             });
 
-            $('#tab-list').on('click','.close',function(){
-                var data = new FormData();
+            $('#tab-list').on('click','.close',function(){ 
+                var data = new FormData();  
                 var currentDiv = $(this);
-
+             
                 data.append('TribeTextBlockId', $(this).parent().data("id"));
-                $.ajax({
+                $.ajax({  
                     async: true,
                     type: "POST",
                     dataType: "json",
-                    url: "/Tribe/DeleteTextBlock",
+                    url: "/Tribe/DeleteTextBlock",  
                     data: data,
-                    contentType: false, // Not to set any content header
-                    processData: false, // Not to process data
-                    success: function (response) {
+                    contentType: false, // Not to set any content header  
+                    processData: false, // Not to process data  
+                    success: function (response) {  
                         if (response.Success) {
 
                             var href = currentDiv.parent().attr('href');
@@ -316,18 +315,18 @@
                             var tabFirst = $('#tab-list a:first');
                             tabFirst.tab('show');
                         }
-                    },
-                    error: function (response) {
-                        // alert("failed to delete text");
-                    }
-                });
+                    },  
+                    error: function (response) {  
+                        // alert("failed to delete text");  
+                    }  
+                });  
             });
 
          var allTabHeaders = $("#tab-list .Teksten.nav-link");
          var AllTabContent = $("#TabContent .tab-pane .textarea");
 
          var counter = 0;
-            $("#save-textblock").click(function (e) {
+            $("#save-textblock").click(function (e) {  
                 for (var i = 0; i < allTabHeaders.length; i++) {
                     var data = new FormData();
 
@@ -344,8 +343,8 @@
                         dataType: "json",
                         url: "/Tribe/SaveTextblock",
                         data: data,
-                        contentType: false, // Not to set any content header
-                        processData: false, // Not to process data
+                        contentType: false, // Not to set any content header  
+                        processData: false, // Not to process data  
                         success: function (response) {
                             if (response.Success) {
                                 counter++;
@@ -368,7 +367,7 @@
 
             //upload image
             $('#upload').click(function () {
-
+                
                 if ($('#frmUpload').valid()) {
                     $('#frmUpload').submit();
                 }
@@ -378,32 +377,32 @@
             });
 
             $('#frmUpload').on("submit", function (event) {
-                if (window.FormData !== undefined) {
+                if (window.FormData !== undefined) {  
                     event.preventDefault();
                     $('#upload').attr('disabled', 'disabled');
                     $("#loading").show();
-                    var files = $("#customFile").get(0).files;
+                    var files = $("#customFile").get(0).files;  
+              
+                    // Create FormData object  
+                    var data = new FormData();  
+  
+                    // Looping over all files and add it to FormData object  
+                    for (var i = 0; i < files.length; i++) {  
+                        data.append('Images', files[i]);  
+                    }  
+              
+                    // Adding tribeId to FormData object  
+                    data.append('TribeId', $("#TribeId").val());  
 
-                    // Create FormData object
-                    var data = new FormData();
-
-                    // Looping over all files and add it to FormData object
-                    for (var i = 0; i < files.length; i++) {
-                        data.append('Images', files[i]);
-                    }
-
-                    // Adding tribeId to FormData object
-                    data.append('TribeId', $("#TribeId").val());
-
-                    $.ajax({
+                    $.ajax({  
                         async: true,
                         type: "POST",
                         dataType: "json",
-                        url: "/Tribe/UploadImage",
+                        url: "/Tribe/UploadImage",  
                         data: data,
-                        contentType: false, // Not to set any content header
-                        processData: false, // Not to process data
-                        success: function (response) {
+                        contentType: false, // Not to set any content header  
+                        processData: false, // Not to process data  
+                        success: function (response) {  
                             if (response.Success) {
                                 $("#loading").hide();
                                 //show image
@@ -416,45 +415,45 @@
                                 $('#customFile').next('.custom-file-label').html("Selecteer een of meerdere afbeeldingen");
                                 $('#upload').removeAttr('disabled');
                             }
-                        },
-                        error: function (response) {
-                            // alert("failed to upload image");
-                        }
-                    });
-                } else {
-                    // alert("FormData is not supported.");
-                }
-            });
+                        },  
+                        error: function (response) { 
+                            // alert("failed to upload image");  
+                        }  
+                    });  
+                } else {  
+                    // alert("FormData is not supported.");  
+                }  
+            });   
 
           //delete image
           $(document).on("click", ".upload__img-close", function (e) {
 
             var currentDiv = $(this);
-            // Create FormData object
-            var data = new FormData();
-
-            // Adding tribeId to FormData object
+            // Create FormData object  
+            var data = new FormData();  
+              
+            // Adding tribeId to FormData object  
             data.append('TribeImageId', $(this).data("id"));
 
-            $.ajax({
+            $.ajax({  
                 async: true,
                 type: "POST",
                 dataType: "json",
-                url: "/Tribe/DeleteImage",
+                url: "/Tribe/DeleteImage",  
                 data: data,
-                contentType: false, // Not to set any content header
-                processData: false, // Not to process data
-                success: function (response) {
+                contentType: false, // Not to set any content header  
+                processData: false, // Not to process data  
+                success: function (response) {  
                     if (response.Success) {
                         // alert(response.Message);
                         //delete div
                         currentDiv.closest(".upload__img-box").remove();
                     }
-                },
-                error: function (response) {
-                    // alert("failed to delete image");
-                }
-            });
+                },  
+                error: function (response) {  
+                    // alert("failed to delete image");  
+                }  
+            });  
           });
         });
 </script>

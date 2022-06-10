@@ -22,20 +22,81 @@ namespace RockstarsIT.Controllers
         }
 
         // GET: Podcast
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string orderBy, string orderOn, string searchWords)
         {
+            var databaseContext = _context.PodcastEpisodes.Include(p => p.Rockstar).Include(p => p.Tribe);
+            if (!string.IsNullOrEmpty(orderBy) && !string.IsNullOrEmpty(orderOn))
+            {
+                switch (orderBy)
+                {
+                    case "title":
+                        if (orderOn == "asc")
+                        {
+                            databaseContext = _context.PodcastEpisodes.OrderBy(p => p.Title).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        else
+                        {
+                            databaseContext = _context.PodcastEpisodes.OrderByDescending(p => p.Title).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        break;
+                    case "author":
+                        if (orderOn == "asc")
+                        {
+                            databaseContext = _context.PodcastEpisodes.OrderBy(p => p.Rockstar).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        else
+                        {
+                            databaseContext = _context.PodcastEpisodes.OrderByDescending(p => p.Rockstar).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        break;
+                    case "tribe":
+                        if (orderOn == "asc")
+                        {
+                            databaseContext = _context.PodcastEpisodes.OrderBy(p => p.Tribe).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        else
+                        {
+                            databaseContext = _context.PodcastEpisodes.OrderByDescending(p => p.Tribe).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        break;
+                    case "datePublished":
+                        if (orderOn == "asc")
+                        {
+                            databaseContext = _context.PodcastEpisodes.OrderBy(p => p.DatePublished).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        else
+                        {
+                            databaseContext = _context.PodcastEpisodes.OrderByDescending(p => p.DatePublished).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        break;
+                    case "status":
+                        if (orderOn == "asc")
+                        {
+                            databaseContext = _context.PodcastEpisodes.OrderBy(p => p.PublishedStatus).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        else
+                        {
+                            databaseContext = _context.PodcastEpisodes.OrderByDescending(p => p.PublishedStatus).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        break;
+                }
+            }
+            if (!string.IsNullOrEmpty(searchWords))
+            {
+                databaseContext = _context.PodcastEpisodes.Where(p => p.Title.Contains(searchWords) || p.Description.Contains(searchWords) || p.Rockstar.Name.Contains(searchWords)).Include(p => p.Rockstar).Include(p => p.Tribe);
+            }
             string dataShowType = HttpContext.Request.Query["view"].ToString();
             ViewData["DataShowType"] = dataShowType;
-            var databaseContext = _context.PodcastEpisodes.Include(p => p.Rockstar).Include(p => p.Tribe);
             return View(await databaseContext.ToListAsync());
         }
-        
+
 
         // GET: Podcast/Create
         public IActionResult Create()
         {
             ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
+            ViewData["PodcastTitles"] = new SelectList(_context.Podcasts, "PodcastId", "Title");
             return View();
         }
 
@@ -63,6 +124,7 @@ namespace RockstarsIT.Controllers
                 }
                 ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
                 ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
+                ViewData["PodcastTitles"] = new SelectList(_context.Podcasts, "PodcastId", "Title");
                 return View(podcastEpisode);
             }
             else
@@ -86,7 +148,6 @@ namespace RockstarsIT.Controllers
             }
             ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
-            ViewBag.Id = id;
             return View(podcast);
         }
 
@@ -95,15 +156,22 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PodcastEpisodeId, PodcastId, Title, Description, URL, RockstarId, TribeId")] PodcastEpisode podcastEpisode)
+        public async Task<IActionResult> Edit(int id, [Bind("PodcastEpisodeId,PodcastId,Title,Description,URL,RockstarId,TribeId")] PodcastEpisode podcastEpisode)
         {
             if (id != podcastEpisode.PodcastEpisodeId)
             {
                 return NotFound();
             }
 
-            if(spotify.CheckLinkInput(podcastEpisode.URL))
+            if (spotify.CheckLinkInput(podcastEpisode.URL))
             {
+                var podcast = _context.PodcastEpisodes.Find(podcastEpisode.PodcastEpisodeId);
+                _context.Entry<PodcastEpisode>(podcast).State = EntityState.Detached;
+                if (podcastEpisode.URL != podcast.URL)
+                {
+                    podcastEpisode.Title = spotify.GetTitle(spotify.GetSpotifyLinkId(podcastEpisode.URL));
+                    podcastEpisode.Description = spotify.GetDescription(spotify.GetSpotifyLinkId(podcastEpisode.URL));
+                }
                 if (ModelState.IsValid)
                 {
                     try
@@ -139,8 +207,8 @@ namespace RockstarsIT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var podcast = await _context.Podcasts.FindAsync(id);
-            _context.Podcasts.Remove(podcast);
+            var podcast = await _context.PodcastEpisodes.FindAsync(id);
+            _context.PodcastEpisodes.Remove(podcast);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -160,7 +228,7 @@ namespace RockstarsIT.Controllers
             }
             _context.Entry(podcast).Property(r => r.PublishedStatus).IsModified = true;
             await _context.SaveChangesAsync();
-            return Redirect("/Podcast/Index?view=grid");
+            return Redirect("/PodcastEpisode/Index?view=grid");
         }
     }
 }

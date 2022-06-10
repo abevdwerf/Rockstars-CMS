@@ -196,8 +196,35 @@
         test.click();
     }
 
-    jQuery(document).ready(function () {
-        $("#loading").hide();
+    <script>
+        function OpenEditor(updatefield) {
+            let editelements = document.getElementsByName(updatefield);
+            for(let i = 0; i < editelements.length;i++){
+                if(editelements[i].hidden == true){
+                  editelements[i].hidden = false;
+                  document.getElementById(updatefield).innerHTML = "Cancel"
+                }
+                else{
+                  editelements[i].hidden = true;
+                  document.getElementById(updatefield).innerHTML = "Edit"
+                }
+            }
+        }
+
+        let DelButton = document.getElementById("VerwijderBtn");
+        DelButton.hidden = true;
+
+        function SaveAll() {
+            document.getElementById("save-textblock").click();
+        }
+
+        function DeleteCurrentArticel() {
+            let test = document.querySelector(".nav-link.active button");
+            test.click();
+        }
+
+        jQuery(document).ready(function () {
+            $("#loading").hide();
 
         $('#customFile').on('change',function(e) {
             //get the file name
@@ -211,29 +238,29 @@
 
             var data = new FormData();
 
-            data.append('ArticleId', $("#ArticleId").val());
-
-            $.ajax({
-                async: true,
-                type: "POST",
-                dataType: "json",
-                url: "/Article/AddTextblock",
-                data: data,
-                contentType: false, // Not to set any content header
-                processData: false, // Not to process data
-                success: function (response) {
-                    if (response.Success) {
-                        var tabID = $("#tab-list li").length;
-                        var html = '<li class="nav-item"><a class="nav-link" data-id="' + response.ArticleTextblockId + '" data-toggle="tab" href="text-' + tabID + '" role="tab">' + tabID + '<button class="close" type="button" title="Remove this page">×</button></a></li>';
-                        $('#last-child').before(html);
-                        tabID++;
-                    }
-                },
-                error: function (response) {
-                    // alert("failed to add textblock");
-                }
+                data.append('ArticleId', $("#ArticleId").val());
+                
+                $.ajax({  
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    url: "/Article/AddTextblock",  
+                    data: data,
+                    contentType: false, // Not to set any content header  
+                    processData: false, // Not to process data  
+                    success: function (response) {  
+                        if (response.Success) {
+                            var tabID = $("#tab-list li").length;
+                            var html = '<li class="nav-item"><a class="nav-link" data-id="' + response.ArticleTextblockId + '" data-toggle="tab" href="text-' + tabID + '" role="tab">' + tabID + '<button class="close" type="button" title="Remove this page">×</button></a></li>';
+                            $('#last-child').before(html);
+                            tabID++;
+                        }
+                    },  
+                    error: function (response) { 
+                        // alert("failed to add textblock");  
+                    }  
+                });  
             });
-        });
 
         $('#tab-list').on('click','.close',function(){
             var data = new FormData();
@@ -257,66 +284,66 @@
                         //remove tabcontent
                         $(href).remove();
 
-                        //display first tab
-                        var tabFirst = $('#tab-list a:first');
-                        tabFirst.tab('show');
-                    }
-                },
-                error: function (response) {
-                    // alert("failed to delete text");
+                            //display first tab
+                            var tabFirst = $('#tab-list a:first');
+                            tabFirst.tab('show');
+                        }
+                    },  
+                    error: function (response) {  
+                        // alert("failed to delete text");  
+                    }  
+                });  
+            });
+
+            var allTabHeaders = $("#tab-list .Teksten.nav-link");
+            var AllTabContent = $("#TabContent .tab-pane .textarea");
+            var counter = 0;
+            $("#save-textblock").click(function (e) {
+
+                for (var i = 0; i < allTabHeaders.length; i++) {
+
+                    var data = new FormData();
+                    data.append('ArticleTextBlockId', allTabHeaders[i].id);
+                    data.append('ArticleId', $("#ArticleId").val());
+                    data.append('Text', AllTabContent[i].value);
+
+                    //oude goede
+                    //var activeTabHeader = $("#tab-list .nav-link.active");
+                    //var activeTabContent = $("#TabContent .tab-pane.active textarea");
+
+                    //oude goede
+                    //data.append('ArticleTextBlockId', activeTabHeader.data("id"));
+                    //data.append('ArticleId', $("#ArticleId").val());
+                    //data.append('Text', activeTabContent.val());
+
+                    $.ajax({    
+                        async: true,
+                        type: "POST",
+                        dataType: "json",
+                        url: "/Article/SaveTextblock",  
+                        data: data,
+                        contentType: false, // Not to set any content header  
+                        processData: false, // Not to process data  
+                        success: function (response) {  
+                            if (response.Success) {
+                                //Kijkt of de laatste er in is en dan pas krijg je een message
+                                counter++;
+                                if (counter == allTabHeaders.length) {
+                                    // alert(response.Message);
+                                }
+                            
+                                for (const element of response.ArticleImages) {
+                                    var html = "<div class='upload__img-box col-3'><div style='background-image: url(" + element.Item2 + ")' class='img-bg'><div id='delete' data-id='" + element.Item1 + "' class='upload__img-close'></div></div></div>";
+                                    $('#wrap').append(html);
+                                }
+                            }
+                        },  
+                        error: function (response) { 
+                            // alert("failed to upload image");  
+                        }  
+                    });
                 }
             });
-        });
-
-        var allTabHeaders = $("#tab-list .Teksten.nav-link");
-        var AllTabContent = $("#TabContent .tab-pane .textarea");
-        var counter = 0;
-        $("#save-textblock").click(function (e) {
-
-            for (var i = 0; i < allTabHeaders.length; i++) {
-
-                var data = new FormData();
-                data.append('ArticleTextBlockId', allTabHeaders[i].id);
-                data.append('ArticleId', $("#ArticleId").val());
-                data.append('Text', AllTabContent[i].value);
-
-                //oude goede
-                //var activeTabHeader = $("#tab-list .nav-link.active");
-                //var activeTabContent = $("#TabContent .tab-pane.active textarea");
-
-                //oude goede
-                //data.append('ArticleTextBlockId', activeTabHeader.data("id"));
-                //data.append('ArticleId', $("#ArticleId").val());
-                //data.append('Text', activeTabContent.val());
-
-                $.ajax({
-                    async: true,
-                    type: "POST",
-                    dataType: "json",
-                    url: "/Article/SaveTextblock",
-                    data: data,
-                    contentType: false, // Not to set any content header
-                    processData: false, // Not to process data
-                    success: function (response) {
-                        if (response.Success) {
-                            //Kijkt of de laatste er in is en dan pas krijg je een message
-                            counter++;
-                            if (counter == allTabHeaders.length) {
-                                // alert(response.Message);
-                            }
-
-                            for (const element of response.ArticleImages) {
-                                var html = "<div class='upload__img-box col-3'><div style='background-image: url(" + element.Item2 + ")' class='img-bg'><div id='delete' data-id='" + element.Item1 + "' class='upload__img-close'></div></div></div>";
-                                $('#wrap').append(html);
-                            }
-                        }
-                    },
-                    error: function (response) {
-                        // alert("failed to upload image");
-                    }
-                });
-            }
-        });
 
         //upload image
         $('#upload').click(function () {
@@ -347,67 +374,67 @@
                 // Adding articleId to FormData object
                 data.append('ArticleId', $("#ArticleId").val());
 
-                $.ajax({
-                    async: true,
-                    type: "POST",
-                    dataType: "json",
-                    url: "/Article/UploadImage",
-                    data: data,
-                    contentType: false, // Not to set any content header
-                    processData: false, // Not to process data
-                    success: function (response) {
-                        if (response.Success) {
-                            $("#loading").hide();
-                            //show image
-                            for (const element of response.ArticleImages) {
-                                var html = "<div class='upload__img-box col-3'><div style='background-image: url(" + element.Item2 + ")' class='img-bg'><div id='delete' data-id='" + element.Item1 + "' class='upload__img-close'></div></div></div>";
-                                $('#wrap').append(html);
+                    $.ajax({  
+                        async: true,
+                        type: "POST",
+                        dataType: "json",
+                        url: "/Article/UploadImage",  
+                        data: data,
+                        contentType: false, // Not to set any content header  
+                        processData: false, // Not to process data  
+                        success: function (response) {  
+                            if (response.Success) {
+                                $("#loading").hide();
+                                //show image
+                                for (const element of response.ArticleImages) {
+                                    var html = "<div class='upload__img-box col-3'><div style='background-image: url(" + element.Item2 + ")' class='img-bg'><div id='delete' data-id='" + element.Item1 + "' class='upload__img-close'></div></div></div>";
+                                    $('#wrap').append(html);
+                                }
+                                //reset file input
+                                $('#customFile').val('');
+                                $('#customFile').next('.custom-file-label').html("Selecteer een of meerdere afbeeldingen");
+                                $('#upload').removeAttr('disabled');
                             }
-                            //reset file input
-                            $('#customFile').val('');
-                            $('#customFile').next('.custom-file-label').html("Selecteer een of meerdere afbeeldingen");
-                            $('#upload').removeAttr('disabled');
-                        }
-                    },
-                    error: function (response) {
-                        // alert("failed to upload image");
+                        },  
+                        error: function (response) { 
+                            // alert("failed to upload image");  
+                        }  
+                    });  
+                } else {  
+                    // alert("FormData is not supported.");  
+                }  
+            });   
+
+          //delete image
+          $(document).on("click", ".upload__img-close", function (e) {
+
+            var currentDiv = $(this);
+            // Create FormData object  
+            var data = new FormData();  
+              
+            // Adding articleId to FormData object  
+            data.append('ArticleImageId', $(this).data("id"));
+
+            $.ajax({  
+                async: true,
+                type: "POST",
+                dataType: "json",
+                url: "/Article/DeleteImage",  
+                data: data,
+                contentType: false, // Not to set any content header  
+                processData: false, // Not to process data  
+                success: function (response) {  
+                    if (response.Success) {
+                        // alert(response.Message);
+                        //delete div
+                        currentDiv.closest(".upload__img-box").remove();
                     }
-                });
-            } else {
-                // alert("FormData is not supported.");
-            }
+                },  
+                error: function (response) {  
+                    // alert("failed to delete image");  
+                }  
+            });  
+          });
         });
-
-      //delete image
-      $(document).on("click", ".upload__img-close", function (e) {
-
-        var currentDiv = $(this);
-        // Create FormData object
-        var data = new FormData();
-
-        // Adding articleId to FormData object
-        data.append('ArticleImageId', $(this).data("id"));
-
-        $.ajax({
-            async: true,
-            type: "POST",
-            dataType: "json",
-            url: "/Article/DeleteImage",
-            data: data,
-            contentType: false, // Not to set any content header
-            processData: false, // Not to process data
-            success: function (response) {
-                if (response.Success) {
-                    // alert(response.Message);
-                    //delete div
-                    currentDiv.closest(".upload__img-box").remove();
-                }
-            },
-            error: function (response) {
-                // alert("failed to delete image");
-            }
-        });
-      });
-    });
-</script>
+    </script>
 }

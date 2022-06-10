@@ -24,9 +24,6 @@
                 @Localizer["index.th.description"]
             </th>
             <th>
-                @Localizer["index.th.spotify"]
-            </th>
-            <th>
                 @Localizer["index.th.actions"]
             </th>
         </tr>
@@ -41,9 +38,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Spotify)
-                </td>
+                @* <td> *@
+                @*     @Html.DisplayFor(modelItem => item.Spotify) *@
+                @* </td> *@
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.TribeId" class="btn button mr-2">
                         @Localizer["index.btn.edit"]
