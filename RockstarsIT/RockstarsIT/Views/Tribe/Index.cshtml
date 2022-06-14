@@ -27,9 +27,9 @@
             <th lang="en-uk">
                 DESCRIPTION
             </th>
-            <th>
-                SPOTIFY LINK
-            </th>
+            @* <th> *@
+            @*     SPOTIFY LINK *@
+            @* </th> *@
             <th lang="nl">
                 ACTIES
             </th>
@@ -48,9 +48,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Spotify)
-                </td>
+                @* <td> *@
+                @*     @Html.DisplayFor(modelItem => item.Spotify) *@
+                @* </td> *@
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.TribeId" class="btn button mr-2">
                         BEWERKEN
