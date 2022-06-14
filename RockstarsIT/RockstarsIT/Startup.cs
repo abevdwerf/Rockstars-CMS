@@ -1,18 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Globalization;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using RockstarsIT.Models;
-using Newtonsoft.Json.Serialization;
 
 namespace RockstarsIT
 {
@@ -41,6 +37,25 @@ namespace RockstarsIT
             {
                 jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
+            
+            services.AddLocalization(options => { });
+
+            services.AddControllersWithViews()
+                .AddViewLocalization();
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = new RequestCulture("en");
+
+                var cultures = new CultureInfo[]
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("nl"),
+                };
+
+                options.SupportedCultures = cultures;
+                options.SupportedUICultures = cultures;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +72,8 @@ namespace RockstarsIT
                 app.UseHsts();
             }
 
+            app.UseRequestLocalization();
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

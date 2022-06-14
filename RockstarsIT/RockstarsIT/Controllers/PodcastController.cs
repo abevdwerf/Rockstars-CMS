@@ -23,6 +23,7 @@ namespace RockstarsIT.Controllers
         public async Task<IActionResult> Index()
         {
             string dataShowType = HttpContext.Request.Query["view"].ToString();
+            ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             ViewData["DataShowType"] = dataShowType;
             return View(await _context.Podcasts.ToListAsync());
         }
@@ -30,6 +31,7 @@ namespace RockstarsIT.Controllers
         // GET: Podcast/Create
         public IActionResult Create()
         {
+            ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             return View();
         }
 
@@ -38,7 +40,7 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PodcastId,URL")] Podcast podcast)
+        public async Task<IActionResult> Create([Bind("PodcastId,URL,TribeId")] Podcast podcast)
         {
             if (podcast.URL.Contains("?si="))
             {
@@ -77,6 +79,7 @@ namespace RockstarsIT.Controllers
             {
                 return NotFound();
             }
+            ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             return View(podcast);
         }
 
@@ -85,7 +88,7 @@ namespace RockstarsIT.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PodcastId,Title,Description,URL")] Podcast podcast)
+        public async Task<IActionResult> Edit(int id, [Bind("PodcastId,Title,Description,URL,TribeId")] Podcast podcast)
         {
             if (id != podcast.PodcastId)
             {
@@ -115,6 +118,7 @@ namespace RockstarsIT.Controllers
                     return RedirectToAction(nameof(Index));
                 }
             }
+            ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             return View(podcast);
         }
 

@@ -8,6 +8,7 @@ namespace RockstarsIT.Models
     {
         // Fields
         private string _url;
+        private Tribe _tribe;
         private DateTime _dateCreated;
         private DateTime _dateModified;
         private DateTime _datePublished;
@@ -20,6 +21,13 @@ namespace RockstarsIT.Models
         {
             get => _url; 
             set => _url = value;
+        }
+        public int? TribeId { get; set; }
+        [ForeignKey("TribeId")]
+        public Tribe Tribe
+        {
+            get => _tribe; 
+            set => _tribe = value;
         }
         public DateTime DateCreated
         {

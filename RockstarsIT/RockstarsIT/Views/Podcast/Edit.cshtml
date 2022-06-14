@@ -17,8 +17,14 @@
             <label asp-for="URL" class="control-label" lang="en-uk">Url</label>
             <input asp-for="URL" class="textbox w-100"/>
             <span asp-validation-for="URL" class="text-danger"></span>
-        </div>        
-        @*<div class="col-md-6 mb-3">
+        </div>    
+        <div class="col-md-6 mb-3">
+            <label asp-for="Tribe" class="control-label" lang="nl">Tribe</label>
+            <label asp-for="Tribe" class="control-label" lang="en-uk">Tribe</label>
+            <select asp-for="TribeId" class="textbox w-100" asp-items="ViewBag.TribeNames"></select>
+            <span asp-validation-for="TribeId" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
             <label asp-for="Title" class="control-label" lang="nl">Titel</label>
             <label asp-for="Title" class="control-label" lang="en-uk">Title</label>
             <input asp-for="Title" class="textbox w-100"/>
@@ -29,7 +35,7 @@
             <label asp-for="Description" class="control-label" lang="en-uk">Description</label>
             <textarea asp-for="Description" class="textarea w-100" rows="5"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
-        </div>*@
+        </div>
     </div>
     <div class="row">
         <div class="col-md-6">
