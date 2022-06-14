@@ -11,8 +11,6 @@ namespace RockstarsIT.Models
     }
     public class Video
     {
-        //private string _title;
-        //private string _description;
         private string _link;
         private LinkType _linkType;
         private DateTime _dateCreated;

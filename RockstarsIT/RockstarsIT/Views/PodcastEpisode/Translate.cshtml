@@ -1,7 +1,7 @@
-﻿@model RockstarsIT.Models.Video
+﻿@model RockstarsIT.Models.PodcastEpisode
 
 @{
-    ViewData["Title"] = "Translate Video";
+    ViewData["Title"] = "Translate PodcastEpisode";
 }
 
 <h1 class="mt-3">Video Vertalen</h1>
@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <div class="form-group">
-                <input type="hidden" asp-for="VideoId" />
+                <input type="hidden" asp-for="PodcastEpisodeId" />
                 <label class="control-label">Taal</label>
                 <select class="form-control" id="languagedropdown" asp-items="ViewBag.Languages"></select>
             </div>
@@ -29,7 +29,7 @@
                 <label class="control-label">Taal</label>
                 <select class="form-control" id="TranslateLanguageDropDown" name="LanguageId" asp-items="ViewBag.Languages"></select>
             </div>
-            <input type="hidden" id="videoContentId" name="VideoContentId">
+            <input type="hidden" id="podcastEpisodeContentId" name="PodcastEpisodeContentId">
             <div class="form-group">
                 <label class="control-label">Titel</label>
                 <input id="titleTranslate" class="textbox w-100" name="Title"/>
@@ -42,7 +42,7 @@
     </div>
     <div>
      
-        <a asp-action="Edit" asp-route-id="@Model.VideoId" class="btn button-cancel ml-3 mt-3">
+        <a asp-action="Edit" asp-route-id="@Model.PodcastEpisodeId" class="btn button-cancel ml-3 mt-3">
             TERUG NAAR VIDEO BEWERKEN
             <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                 <path d="M0 0h24v24H0z" fill="none" />
@@ -50,7 +50,7 @@
             </svg>
         </a>
 
-        <input class="btn button mr-2 mt-3" type="submit" asp-action="Translate" asp-route-id="@Model.VideoId" value="VERTALEN"/>
+        <input class="btn button mr-2 mt-3" type="submit" asp-action="Translate" asp-route-id="@Model.PodcastEpisodeId" value="VERTALEN"/>
     </div>
 }
 
@@ -69,8 +69,8 @@
             $.ajax({  
                 async: true,
                 type: "GET",
-                url: "/Video/GetContentWithLanguage",             
-                data: { id: $('#VideoId').val(), languageId: $('#languagedropdown option:selected').val() },
+                url: "/PodcastEpisode/GetContentWithLanguage",             
+                data: { id: $('#PodcastEpisodeId').val(), languageId: $('#languagedropdown option:selected').val() },
                 success: function (response) {  
                     if (response.Success) {
                         $('#title').val(response.Title);
@@ -85,13 +85,13 @@
             $.ajax({  
                 async: true,
                 type: "GET",
-                url: "/Video/GetContentWithLanguage",             
-                data: { id: $('#VideoId').val(), languageId: $('#TranslateLanguageDropDown option:selected').val() },
+                url: "/PodcastEpisode/GetContentWithLanguage",             
+                data: { id: $('#PodcastEpisodeId').val(), languageId: $('#TranslateLanguageDropDown option:selected').val() },
                 success: function (response) {  
                     if (response.Success) {
                         $('#titleTranslate').val(response.Title);
                         $('#descriptionTranslate').val(response.Description);
-                        $('#videoContentId').val(response.VideoContentId);
+                        $('#podcastEpisodeContentId').val(response.PodcastEpisodeContentId);
                     }
                 },  
                 error: function (response) { 
@@ -111,8 +111,8 @@
                 $.ajax({  
                     async: true,
                     type: "GET",
-                    url: "/Video/GetContentWithLanguage",             
-                    data: { id: $('#VideoId').val(), languageId: selectedLanguage },
+                    url: "/PodcastEpisode/GetContentWithLanguage",             
+                    data: { id: $('#PodcastEpisodeId').val(), languageId: selectedLanguage },
                     success: function (response) {  
                         if (response.Success) {
                             $('#title').val(response.Title);
@@ -127,13 +127,13 @@
                  $.ajax({  
                     async: true,
                     type: "GET",
-                    url: "/Video/GetContentWithLanguage",             
-                    data: { id: $('#VideoId').val(), languageId: $('#TranslateLanguageDropDown option:selected').val() },
+                    url: "/PodcastEpisode/GetContentWithLanguage",             
+                    data: { id: $('#PodcastEpisodeId').val(), languageId: $('#TranslateLanguageDropDown option:selected').val() },
                     success: function (response) {  
                         if (response.Success) {
                             $('#titleTranslate').val(response.Title);
                             $('#descriptionTranslate').val(response.Description);
-                            $('#videoContentId').val(response.VideoContentId);
+                            $('#podcastEpisodeContentId').val(response.PodcastEpisodeContentId);
                         }
                     },  
                     error: function (response) { 
@@ -149,13 +149,13 @@
                 $.ajax({  
                     async: true,
                     type: "GET",
-                    url: "/Video/GetContentWithLanguage",             
-                    data: { id: $('#VideoId').val(), languageId: selectedLanguage },
+                    url: "/PodcastEpisode/GetContentWithLanguage",             
+                    data: { id: $('#PodcastEpisodeId').val(), languageId: selectedLanguage },
                     success: function (response) {  
                         if (response.Success) {
                             $('#titleTranslate').val(response.Title);
                             $('#descriptionTranslate').val(response.Description);
-                            $('#VideoContentId').val(response.VideoContentId);
+                            $('#podcastEpisodeContentId').val(response.PodcastEpisodeContentId);
                         }
                     },  
                     error: function (response) { 

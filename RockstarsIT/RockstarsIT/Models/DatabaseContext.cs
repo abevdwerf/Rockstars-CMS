@@ -386,7 +386,7 @@ namespace RockstarsIT.Models
                 Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7pZyi78l6vRJVdNquFiaQG")),
                 Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7pZyi78l6vRJVdNquFiaQG")),
                 LanguageId = 1,
-                PodcastEpisodeId = 1
+                PodcastEpisodeId = 2
             };
 
             PodcastEpisodeContent podcastEpisodeContent3 = new PodcastEpisodeContent()
@@ -395,7 +395,7 @@ namespace RockstarsIT.Models
                 Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb")),
                 Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb")),
                 LanguageId = 1,
-                PodcastEpisodeId = 1
+                PodcastEpisodeId = 3
             };
 
             PodcastEpisodeContent podcastEpisodeContent4 = new PodcastEpisodeContent()
@@ -404,7 +404,7 @@ namespace RockstarsIT.Models
                 Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/2nH8y0ivbsjjuEX2OrObXt")),
                 Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/2nH8y0ivbsjjuEX2OrObXt")),
                 LanguageId = 1,
-                PodcastEpisodeId = 1
+                PodcastEpisodeId = 4
             };
 
             PodcastEpisodeContent podcastEpisodeContent5 = new PodcastEpisodeContent()
@@ -413,7 +413,7 @@ namespace RockstarsIT.Models
                 Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/4RrPIkmIMoUB0IcOfykmLF")),
                 Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/4RrPIkmIMoUB0IcOfykmLF")),
                 LanguageId = 1,
-                PodcastEpisodeId = 1
+                PodcastEpisodeId = 5
             };
 
             builder.Entity<PodcastEpisodeContent>().HasData(podcastEpisodeContent1);

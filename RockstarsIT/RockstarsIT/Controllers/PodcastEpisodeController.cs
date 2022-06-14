@@ -24,7 +24,7 @@ namespace RockstarsIT.Controllers
         // GET: Podcast
         public async Task<IActionResult> Index(string orderBy, string orderOn, string searchWords)
         {
-            var databaseContext = _context.PodcastEpisodes.Include(p => p.Rockstar).Include(p => p.Tribe);
+            var databaseContext = _context.PodcastEpisodes.Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.PodcastEpisodeContents);
             if (!string.IsNullOrEmpty(orderBy) && !string.IsNullOrEmpty(orderOn))
             {
                 switch (orderBy)
@@ -32,58 +32,58 @@ namespace RockstarsIT.Controllers
                     case "title":
                         if (orderOn == "asc")
                         {
-                            //databaseContext = _context.PodcastEpisodes.OrderBy(p => p.Title).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.PodcastEpisodes.OrderBy(p => p.PodcastEpisodeContents.Where(v => v.LanguageId == 1).First().Title).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.PodcastEpisodeContents);
                         }
                         else
                         {
-                            //databaseContext = _context.PodcastEpisodes.OrderByDescending(p => p.Title).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.PodcastEpisodes.OrderByDescending(p => p.PodcastEpisodeContents.Where(v => v.LanguageId == 1).First().Title).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.PodcastEpisodeContents);
                         }
                         break;
                     case "author":
                         if (orderOn == "asc")
                         {
-                            databaseContext = _context.PodcastEpisodes.OrderBy(p => p.Rockstar).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.PodcastEpisodes.OrderBy(p => p.Rockstar).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.PodcastEpisodeContents);
                         }
                         else
                         {
-                            databaseContext = _context.PodcastEpisodes.OrderByDescending(p => p.Rockstar).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.PodcastEpisodes.OrderByDescending(p => p.Rockstar).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.PodcastEpisodeContents);
                         }
                         break;
                     case "tribe":
                         if (orderOn == "asc")
                         {
-                            databaseContext = _context.PodcastEpisodes.OrderBy(p => p.Tribe).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.PodcastEpisodes.OrderBy(p => p.Tribe).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.PodcastEpisodeContents);
                         }
                         else
                         {
-                            databaseContext = _context.PodcastEpisodes.OrderByDescending(p => p.Tribe).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.PodcastEpisodes.OrderByDescending(p => p.Tribe).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.PodcastEpisodeContents);
                         }
                         break;
                     case "datePublished":
                         if (orderOn == "asc")
                         {
-                            databaseContext = _context.PodcastEpisodes.OrderBy(p => p.DatePublished).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.PodcastEpisodes.OrderBy(p => p.DatePublished).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.PodcastEpisodeContents);
                         }
                         else
                         {
-                            databaseContext = _context.PodcastEpisodes.OrderByDescending(p => p.DatePublished).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.PodcastEpisodes.OrderByDescending(p => p.DatePublished).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.PodcastEpisodeContents);
                         }
                         break;
                     case "status":
                         if (orderOn == "asc")
                         {
-                            databaseContext = _context.PodcastEpisodes.OrderBy(p => p.PublishedStatus).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.PodcastEpisodes.OrderBy(p => p.PublishedStatus).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.PodcastEpisodeContents);
                         }
                         else
                         {
-                            databaseContext = _context.PodcastEpisodes.OrderByDescending(p => p.PublishedStatus).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.PodcastEpisodes.OrderByDescending(p => p.PublishedStatus).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.PodcastEpisodeContents);
                         }
                         break;
                 }
             }
             if (!string.IsNullOrEmpty(searchWords))
             {
-                //databaseContext = _context.PodcastEpisodes.Where(p => p.Title.Contains(searchWords) || p.Description.Contains(searchWords) || p.Rockstar.Name.Contains(searchWords)).Include(p => p.Rockstar).Include(p => p.Tribe);
+                databaseContext = _context.PodcastEpisodes.Where(p => p.PodcastEpisodeContents.Where(v => v.LanguageId == 1).First().Title.Contains(searchWords) || p.PodcastEpisodeContents.Where(v => v.LanguageId == 1).First().Description.Contains(searchWords) || p.Rockstar.Name.Contains(searchWords)).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.PodcastEpisodeContents);
             }
             string dataShowType = HttpContext.Request.Query["view"].ToString();
             ViewData["DataShowType"] = dataShowType;
@@ -111,8 +111,8 @@ namespace RockstarsIT.Controllers
             {
                 podcastEpisode.URL = podcastEpisode.URL.Substring(0, podcastEpisode.URL.IndexOf("?"));
             }
-            //podcastEpisode.Title = spotify.GetTitle(spotify.GetSpotifyLinkId(podcastEpisode.URL));
-            //podcastEpisode.Description = spotify.GetDescription(spotify.GetSpotifyLinkId(podcastEpisode.URL));
+            podcastEpisode.Title = spotify.GetTitle(spotify.GetSpotifyLinkId(podcastEpisode.URL));
+            podcastEpisode.Description = spotify.GetDescription(spotify.GetSpotifyLinkId(podcastEpisode.URL));
 
             if (spotify.CheckLinkInput(podcastEpisode.URL))
             {
@@ -120,11 +120,22 @@ namespace RockstarsIT.Controllers
                 {
                     _context.Add(podcastEpisode);
                     await _context.SaveChangesAsync();
+
+                    var podcastEpisodeContent = new PodcastEpisodeContent()
+                    {
+                        Title = podcastEpisode.Title,
+                        Description = podcastEpisode.Description,
+                        LanguageId = 1,
+                        PodcastEpisodeId = podcastEpisode.PodcastEpisodeId
+                    };
+                    _context.Add(podcastEpisodeContent);
+                    await _context.SaveChangesAsync();
+
                     return RedirectToAction(nameof(Index));
                 }
                 ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
                 ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
-                ViewData["PodcastTitles"] = new SelectList(_context.Podcasts, "PodcastId", "Title");
+                ViewData["PodcastTitles"] = new SelectList(_context.PodcastContents, "PodcastId", "Title");
                 return View(podcastEpisode);
             }
             else
@@ -148,6 +159,7 @@ namespace RockstarsIT.Controllers
             }
             ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
+            ViewData["PodcastEpisodeContent"] = await _context.PodcastEpisodeContents.Where(p => p.LanguageId == 1).FirstOrDefaultAsync(m => m.PodcastEpisodeId == id);
             return View(podcast);
         }
 
@@ -169,14 +181,25 @@ namespace RockstarsIT.Controllers
                 _context.Entry<PodcastEpisode>(podcast).State = EntityState.Detached;
                 if (podcastEpisode.URL != podcast.URL)
                 {
-                    //podcastEpisode.Title = spotify.GetTitle(spotify.GetSpotifyLinkId(podcastEpisode.URL));
-                    //podcastEpisode.Description = spotify.GetDescription(spotify.GetSpotifyLinkId(podcastEpisode.URL));
+                    podcastEpisode.Title = spotify.GetTitle(spotify.GetSpotifyLinkId(podcastEpisode.URL));
+                    podcastEpisode.Description = spotify.GetDescription(spotify.GetSpotifyLinkId(podcastEpisode.URL));
                 }
                 if (ModelState.IsValid)
                 {
                     try
                     {
                         _context.Update(podcastEpisode);
+
+                        var podcastEpisodeContent = new PodcastEpisodeContent()
+                        {
+                            PodcastEpisodeContentId = podcastEpisode.PodcastEpisodeContentId,
+                            Title = podcastEpisode.Title,
+                            Description = podcastEpisode.Description,
+                            LanguageId = 1,
+                            PodcastEpisodeId = id
+                        };
+                        _context.Update(podcastEpisodeContent);
+
                         await _context.SaveChangesAsync();
                     }
                     catch (DbUpdateConcurrencyException)
@@ -229,6 +252,61 @@ namespace RockstarsIT.Controllers
             _context.Entry(podcast).Property(r => r.PublishedStatus).IsModified = true;
             await _context.SaveChangesAsync();
             return Redirect("/PodcastEpisode/Index?view=grid");
+        }
+
+        public async Task<IActionResult> Translate(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var podcast = await _context.PodcastEpisodes.FirstOrDefaultAsync(m => m.PodcastEpisodeId == id);
+            if (podcast == null)
+            {
+                return NotFound();
+            }
+
+            ViewData["Languages"] = new SelectList(_context.Languages, "LanguageId", "Name");
+            return View(podcast);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Translate(int id, [Bind("PodcastEpisodeContentId,PodcastEpisodeId,Title,Description,LanguageId")] PodcastEpisodeContent podcastEpisodeContent)
+        {
+            if (id != podcastEpisodeContent.PodcastEpisodeId)
+            {
+                return NotFound();
+            }
+
+            if (!(_context.PodcastEpisodeContents.Where(v => v.LanguageId == podcastEpisodeContent.LanguageId).Where(v => v.PodcastEpisodeId == podcastEpisodeContent.PodcastEpisodeId).Count() > 0))
+            {
+                _context.Add(podcastEpisodeContent);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                _context.Update(podcastEpisodeContent);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Edit", new { id = podcastEpisodeContent.PodcastEpisodeId });
+        }
+
+        public async Task<JsonResult> GetContentWithLanguage(int id, int languageId)
+        {
+            if (id > 0)
+            {
+                var podcastEpisodeContent = await _context.PodcastEpisodeContents.Where(p => p.LanguageId == languageId).FirstOrDefaultAsync(m => m.PodcastEpisodeId == id);
+
+                int podcastEpisodeContentId = (podcastEpisodeContent == null) ? 0 : podcastEpisodeContent.PodcastEpisodeContentId;
+                string title = (podcastEpisodeContent == null) ? "" : podcastEpisodeContent.Title;
+                string description = (podcastEpisodeContent == null) ? "" : podcastEpisodeContent.Description;
+
+                return Json(new { Success = true, Title = title, Description = description, PodcastEpisodeContentId = podcastEpisodeContentId });
+            }
+            return Json(new { Succes = false, Message = "Something went wrong" });
         }
     }
 }

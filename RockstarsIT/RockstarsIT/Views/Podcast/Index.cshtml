@@ -60,17 +60,18 @@
             </thead>
             <tbody>
             @foreach (var item in Model) {
+                var title = item.PodcastContents.Where(v => v.LanguageId == 1).FirstOrDefault().Title;
                 <tr>
-                    @if (item.Title.Length > 50)
+                    @if (title.Length > 50)
                     {
                         <td style="min-width: 310px">
-                            @item.Title.Substring(0, 50)...
+                            title.Substring(0, 50)...
                         </td>
                     }
                     else
                     {
                         <td style="min-width: 310px">
-                            @item.Title
+                            title
                         </td>
                     }
                     <td>
@@ -123,34 +124,35 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
 {
 <div class="row">
 @foreach (var item in Model) {
+var content = item.PodcastContents.Where(v => v.LanguageId == 1).FirstOrDefault();
 <div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch  spaceBetweenArticles">
     <div class="card">
         <div class="card-header">
-         @*   @if (item.Title != null)
+            @if (content.Title != null)
             {
-                if (item.Title.Length > 30)
+                if (content.Title.Length > 30)
                 {
-                    <h5 style="min-width: 240px;">@item.Title.Substring(0, 30)...</h5>
+                    <h5 style="min-width: 240px;">@content.Title.Substring(0, 30)...</h5>
                 }
                 else
                 {
-                    <h5 style="min-width: 240px;">@item.Title</h5>
+                    <h5 style="min-width: 240px;">@content.Title</h5>
                 }
-            }*@
-           @* else
-            {
-                <h5>GEEN TITEL</h5>
-            }*@
-        </div>
-        <div class="card-body">
-            @*@if (item.Description.Length > 170)
-            {
-                <h5 style="min-width: 240px;">@item.Description.Substring(0, 170)...</h5>
             }
             else
             {
-                <h5 style="min-width: 240px;">@item.Description</h5>
-            }*@
+                <h5>GEEN TITEL</h5>
+            }
+        </div>
+        <div class="card-body">
+            @if (content.Description.Length > 170)
+            {
+                <h5 style="min-width: 240px;">@content.Description.Substring(0, 170)...</h5>
+            }
+            else
+            {
+                <h5 style="min-width: 240px;">@content.Description</h5>
+            }
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item" style="background-color:#FFE000">

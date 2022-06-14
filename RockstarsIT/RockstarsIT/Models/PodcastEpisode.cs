@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RockstarsIT.Models
@@ -69,7 +70,15 @@ namespace RockstarsIT.Models
             get => _podcast; 
             set => _podcast = value;
         }
+        public List<PodcastEpisodeContent> PodcastEpisodeContents { get; set; }
+
+        [NotMapped]
+        public int PodcastEpisodeContentId { get; set; }
+        [NotMapped]
+        public string Title { get; set; }
+        [NotMapped]
+        public string Description { get; set; }
         // Methods
-        
+
     }
 }

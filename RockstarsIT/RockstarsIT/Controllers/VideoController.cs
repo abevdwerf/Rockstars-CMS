@@ -25,7 +25,7 @@ namespace RockstarsIT.Controllers
         {
             string dataShowType = HttpContext.Request.Query["view"].ToString();
             ViewData["DataShowType"] = dataShowType;
-            var databaseContext = _context.Videos.Include(v => v.Rockstar).Include(v => v.Tribe);
+            var databaseContext = _context.Videos.Include(v => v.Rockstar).Include(v => v.Tribe).Include(v => v.VideoContents);
             if (!string.IsNullOrEmpty(orderBy) && !string.IsNullOrEmpty(orderOn))
             {
                 switch (orderBy)
@@ -33,78 +33,78 @@ namespace RockstarsIT.Controllers
                     case "id":
                         if (orderOn == "asc")
                         {
-                            databaseContext = _context.Videos.OrderBy(p => p.VideoId).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = databaseContext.OrderBy(p => p.VideoId).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.VideoContents);
                         }
                         else
                         {
-                            databaseContext = _context.Videos.OrderByDescending(p => p.VideoId).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.Videos.OrderByDescending(p => p.VideoId).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.VideoContents);
                         }
                         break;
                     case "title":
                         if (orderOn == "asc")
                         {
-                            databaseContext = _context.Videos.OrderBy(p => p.Title).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.Videos.OrderBy(p => p.VideoContents.Where(v => v.LanguageId == 1).First().Title).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.VideoContents);
                         }
                         else
                         {
-                            databaseContext = _context.Videos.OrderByDescending(p => p.Title).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.Videos.OrderByDescending(p => p.VideoContents.Where(v => v.LanguageId == 1).First().Title).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.VideoContents);
                         }
                         break;
                     case "description":
                         if (orderOn == "asc")
                         {
-                            databaseContext = _context.Videos.OrderBy(p => p.Description).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.Videos.OrderBy(p => p.VideoContents.Where(v => v.LanguageId == 1).First().Description).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.VideoContents);
                         }
                         else
                         {
-                            databaseContext = _context.Videos.OrderByDescending(p => p.Description).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.Videos.OrderByDescending(p => p.VideoContents.Where(v => v.LanguageId == 1).First().Description).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.VideoContents);
                         }
                         break;
                     case "rockstar":
                         if (orderOn == "asc")
                         {
-                            databaseContext = _context.Videos.OrderBy(p => p.Rockstar).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.Videos.OrderBy(p => p.Rockstar).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.VideoContents);
                         }
                         else
                         {
-                            databaseContext = _context.Videos.OrderByDescending(p => p.Rockstar).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.Videos.OrderByDescending(p => p.Rockstar).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.VideoContents);
                         }
                         break;
                     case "tribe":
                         if (orderOn == "asc")
                         {
-                            databaseContext = _context.Videos.OrderBy(p => p.Tribe).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.Videos.OrderBy(p => p.Tribe).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.VideoContents);
                         }
                         else
                         {
-                            databaseContext = _context.Videos.OrderByDescending(p => p.Tribe).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.Videos.OrderByDescending(p => p.Tribe).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.VideoContents);
                         }
                         break;
                     case "datePublished":
                         if (orderOn == "asc")
                         {
-                            databaseContext = _context.Videos.OrderBy(p => p.DatePublished).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.Videos.OrderBy(p => p.DatePublished).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.VideoContents);
                         }
                         else
                         {
-                            databaseContext = _context.Videos.OrderByDescending(p => p.DatePublished).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.Videos.OrderByDescending(p => p.DatePublished).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.VideoContents);
                         }
                         break;
                     case "status":
                         if (orderOn == "asc")
                         {
-                            databaseContext = _context.Videos.OrderBy(p => p.PublishedStatus).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.Videos.OrderBy(p => p.PublishedStatus).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.VideoContents);
                         }
                         else
                         {
-                            databaseContext = _context.Videos.OrderByDescending(p => p.PublishedStatus).Include(p => p.Rockstar).Include(p => p.Tribe);
+                            databaseContext = _context.Videos.OrderByDescending(p => p.PublishedStatus).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.VideoContents);
                         }
                         break;
                 }
             }
             if (!string.IsNullOrEmpty(searchWords))
             {
-                databaseContext = _context.Videos.Where(p => p.Title.Contains(searchWords)  || p.Description.Contains(searchWords) || p.Rockstar.Name.Contains(searchWords) || p.Tribe.Name.Contains(searchWords)).Include(p => p.Rockstar).Include(p => p.Tribe);
+                databaseContext = _context.Videos.Where(p => p.VideoContents.Where(v => v.LanguageId == 1).First().Title.Contains(searchWords) || p.VideoContents.Where(v => v.LanguageId == 1).First().Description.Contains(searchWords) || p.Rockstar.Name.Contains(searchWords) || p.Tribe.Name.Contains(searchWords)).Include(p => p.Rockstar).Include(p => p.Tribe).Include(v => v.VideoContents);
             }
             return View(await databaseContext.ToListAsync());
         }
