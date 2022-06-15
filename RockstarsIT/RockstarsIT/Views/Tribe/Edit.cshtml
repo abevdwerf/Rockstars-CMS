@@ -174,12 +174,11 @@
                     @Localizer["edit.btn.save"]
                     <img class="ml-2" height="32" width="32" src="~/icons/save-zwart.svg" />
                 </a>
-
-                <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.TribeId" class="btn button-cancel">
+                <a onclick="ConfirmDelete(this.name)" name="@Model.TribeId" class="btn button-cancel">
                     @Localizer["edit.btn.delete"]
                     <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg" />
                 </a>
-                <input type="submit" asp-action="Delete" asp-route-id="@Model.TribeId" hidden id="@Model.TribeId" />
+                <input type="submit" hidden asp-action="Delete" asp-route-id="@Model.TribeId" id="@Model.TribeId"/>
             }
         </div>
     </div>
@@ -248,8 +247,8 @@
 
     function ConfirmDelete(id) {
         const conbtn2 = document.getElementById(id);
-
-        let text = "Weet je zeker dat u deze podcast wilt verwijderen?"
+        console.log(conbtn2)
+        let text = "Weet je zeker dat u deze tribe wilt verwijderen?"
         if (confirm(text) == true) {
             conbtn2.click();
         }
