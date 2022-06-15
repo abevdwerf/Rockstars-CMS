@@ -253,6 +253,41 @@ namespace RockstarsIT.Controllers
         }
 
         [HttpPost]
+        public async Task<ActionResult> UploadImageEditor(IFormFile upload)
+        {
+            if (upload.Length <= 0) return null;
+
+            var list = new List<Tuple<int, string>>();
+
+            string currentFileName = Path.GetFileNameWithoutExtension(upload.FileName);
+            string extension = Path.GetExtension(upload.FileName);
+            string newFileName = currentFileName + DateTime.Now.ToString("yymmsfff") + extension;
+
+            var container = new BlobContainerClient(_azureConnectionString, "article-images");
+
+            // Method to create a new Blob client.
+            var blob = container.GetBlobClient(newFileName);
+
+            // Create a file stream and use the UploadSync method to upload the Blob.
+            using (var fileStream = upload.OpenReadStream())
+            {
+                await blob.UploadAsync(fileStream, new BlobHttpHeaders { ContentType = upload.ContentType });
+            }
+
+            var articleImages = new ArticleImages()
+            {
+                URL = blob.Uri.ToString()
+            };
+
+            _context.Add(articleImages);
+            await _context.SaveChangesAsync();
+            list.Add(new Tuple<int, string>(articleImages.ArticleImageId, articleImages.URL));
+            
+            return Json(new { Success = true, ArticleImages = list, Message = "Afbeelding geüpload." });
+        }
+    
+
+        [HttpPost]
         public async Task<JsonResult> DeleteImage(IFormCollection formcollection)
         {
             int articleImageId = int.Parse(formcollection["ArticleImageId"]);
