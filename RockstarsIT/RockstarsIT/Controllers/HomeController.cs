@@ -7,7 +7,10 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using RockstarsIT.Classes;
 using RockstarsIT.Models;
@@ -19,11 +22,13 @@ namespace RockstarsIT.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly DatabaseContext _context;
+        private readonly IStringLocalizer<HomeController> _stringLocalizer;
 
-        public HomeController(ILogger<HomeController> logger, DatabaseContext context)
+        public HomeController(ILogger<HomeController> logger, DatabaseContext context, IStringLocalizer<HomeController> stringLocalizer)
         {
             _logger = logger;
             _context = context;
+            _stringLocalizer = stringLocalizer;
         }
 
         public IActionResult Index()
@@ -58,7 +63,7 @@ namespace RockstarsIT.Controllers
             int conceptContent = 0;
             conceptContent += _context.Article.Count(item => item.PublishedStatus == false);
             conceptContent += _context.Videos.Count(item => item.PublishedStatus == false);
-            conceptContent += _context.Podcasts.Count(item => item.PublishedStatus == false);
+            conceptContent += _context.PodcastEpisodes.Count(item => item.PublishedStatus == false);
             return conceptContent;
         }
 
@@ -67,7 +72,7 @@ namespace RockstarsIT.Controllers
             int publishedContent = 0;
             publishedContent = _context.Article.Count(item => item.PublishedStatus == true);
             publishedContent = _context.Videos.Count(item => item.PublishedStatus == true);
-            publishedContent = _context.Podcasts.Count(item => item.PublishedStatus == true);
+            publishedContent = _context.PodcastEpisodes.Count(item => item.PublishedStatus == true);
             return publishedContent;
         }
 
@@ -89,7 +94,7 @@ namespace RockstarsIT.Controllers
                     content.Add(dc);
                 }
             }
-            if (_context.Podcasts.Any())
+            if (_context.Videos.Any())
             {
                 List<Video> videos = _context.Videos.OrderByDescending(item => item.ViewCount).Take(5).ToList();
                 foreach (Video video in videos)
@@ -104,7 +109,7 @@ namespace RockstarsIT.Controllers
                     content.Add(dc);
                 }
             }
-            if (_context.Podcasts.Any())
+            if (_context.PodcastEpisodes.Any())
             {
                 List<PodcastEpisode> podcasts = _context.PodcastEpisodes.OrderByDescending(item => item.ViewCount).Take(5).ToList();
                 foreach (PodcastEpisode podcast in podcasts)
@@ -124,6 +129,20 @@ namespace RockstarsIT.Controllers
             return sortedList;
         }
 
+        [HttpPost]
+        public IActionResult ChangeLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                    new CookieOptions
+                    {
+                        Expires = DateTimeOffset.UtcNow.AddDays(7)
+                    }
+            );
+
+            return LocalRedirect(returnUrl);
+        }
         public IActionResult buttons()
         {
             return View();

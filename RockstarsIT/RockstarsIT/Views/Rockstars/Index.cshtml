@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<RockstarsIT.Models.Rockstar>
-
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<RockstarsIT.Controllers.RockstarsController> Localizer
 @{
     ViewData["Title"] = "Index";
 }
@@ -8,7 +9,7 @@
 
 <p>
     <a asp-action="Create" class="btn button">
-        NIEUWE ROCKSTAR
+        @Localizer["index.btn.add"]
         <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
     </a>
 </p>
@@ -16,22 +17,22 @@
     <thead class="thead-dark">
     <tr>
         <th>
-            NAME
+            @Localizer["index.th.name"]
         </th>
         <th>
             TRIBE
         </th>
         <th>
-            ROL
+            @Localizer["index.th.role"]
         </th>
         <th>
-            REGIO
+            @Localizer["index.th.region"]
         </th>
         <th>
             LINKEDIN
         </th>
         <th>
-            ACTIES
+            @Localizer["index.th.actions"]
         </th>
     </tr>
     </thead>
@@ -55,7 +56,7 @@
         </td>
         <td>
             <a asp-action="Edit" asp-route-id="@item.RockstarId" class="btn button mr-2">
-                BEWERKEN
+                @Localizer["index.btn.edit"]
                 <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
             </a>
         </td>

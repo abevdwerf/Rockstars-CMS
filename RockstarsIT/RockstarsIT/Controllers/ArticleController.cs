@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
@@ -21,19 +22,82 @@ namespace RockstarsIT.Controllers
     {
         private readonly DatabaseContext _context;
         private readonly string _azureConnectionString;
+        private readonly IStringLocalizer<ArticleController> _stringLocalizer;
 
-        public ArticleController(DatabaseContext context, IConfiguration configuration)
+        public ArticleController(DatabaseContext context, IConfiguration configuration, IStringLocalizer<ArticleController> stringLocalizer)
         {
             _context = context;
             _azureConnectionString = configuration.GetConnectionString("ConnectionStringBlob");
+            _stringLocalizer = stringLocalizer;
         }
 
         // GET: Article
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string orderBy, string orderOn, string searchWords)
         {
             string dataShowType = HttpContext.Request.Query["view"].ToString();
             ViewData["DataShowType"] = dataShowType;
             var databaseContext = _context.Article.Include(a => a.Rockstar).Include(a => a.Tribe);
+            if (!string.IsNullOrEmpty(orderBy) && !string.IsNullOrEmpty(orderOn))
+            {
+                switch (orderBy)
+                {
+                    case "title":
+                        if (orderOn == "asc")
+                        {
+                            databaseContext = _context.Article.OrderBy(p => p.Title).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        else
+                        {
+                            databaseContext = _context.Article.OrderByDescending(p => p.Title).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        break;
+                    case "description":
+                        if (orderOn == "asc")
+                        {
+                            databaseContext = _context.Article.OrderBy(p => p.Description).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        else
+                        {
+                            databaseContext = _context.Article.OrderByDescending(p => p.Description).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        break;
+                    case "rockstar":
+                        if (orderOn == "asc")
+                        {
+                            databaseContext = _context.Article.OrderBy(p => p.Rockstar).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        else
+                        {
+                            databaseContext = _context.Article.OrderByDescending(p => p.Rockstar).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        break;
+                    case "datePublished":
+                        if (orderOn == "asc")
+                        {
+                            databaseContext = _context.Article.OrderBy(p => p.DatePublished).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        else
+                        {
+                            databaseContext = _context.Article.OrderByDescending(p => p.DatePublished).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        break;
+                    case "status":
+                        if (orderOn == "asc")
+                        {
+                            databaseContext = _context.Article.OrderBy(p => p.PublishedStatus).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        else
+                        {
+                            databaseContext = _context.Article.OrderByDescending(p => p.PublishedStatus).Include(p => p.Rockstar).Include(p => p.Tribe);
+                        }
+                        break;
+                }
+            }
+            if (!string.IsNullOrEmpty(searchWords))
+            {
+                databaseContext = _context.Article.Where(p => p.Title.Contains(searchWords) || p.Description.Contains(searchWords) || p.Rockstar.Name.Contains(searchWords)).Include(p => p.Rockstar).Include(p => p.Tribe);
+            }
+
             return View(await databaseContext.ToListAsync());
         }
 

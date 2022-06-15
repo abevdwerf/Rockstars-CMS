@@ -1,4 +1,18 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.Extensions.Options
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<RockstarsIT.Controllers.HomeController> Localizer
+@inject IOptions<RequestLocalizationOptions> LocOptions
+@{
+    string returnUrl = ViewContext.HttpContext.Request.Path;
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureItems = LocOptions.Value.SupportedUICultures
+    .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
+        .ToList();
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -95,27 +109,24 @@
                             <a class="navGo" id="Rockstars" asp-area="" asp-controller="Rockstars" asp-action="Index">Rockstars</a>
                         </li>
                         <li class="nav-item">
-                            <a class="navGo" id="Article" asp-area="" asp-controller="Article" asp-action="Index" lang="nl">Artikelen</a>
-                            <a class="navGo" id="ArticleEn" asp-area="" asp-controller="Article" asp-action="Index" lang="en-uk">Articles</a>
+                            <a class="navGo" id="Article" asp-area="" asp-controller="Article" asp-action="Index">@Localizer["layout.article"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="navGo" id="Podcast" asp-area="" asp-controller="PodcastEpisode" asp-action="Index">Podcasts</a>
+                            <a class="navGo" id="Podcast" asp-area="" asp-controller="Podcast" asp-action="Index">Podcasts</a>
                         </li>
                         <li class="nav-item">
-                            <a class="navGo" id="Video" asp-area="" asp-controller="Video" asp-action="Index" lang="nl">Video's</a>
-                            <a class="navGo" id="VideoEn" asp-area="" asp-controller="Video" asp-action="Index" lang="en-uk">Videos</a>
+                            <a class="navGo" id="PodcastEpisode" asp-area="" asp-controller="PodcastEpisode" asp-action="Index">@Localizer["layout.podcastepisodes"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="navGo" id="Video" asp-area="" asp-controller="Video" asp-action="Index">@Localizer["layout.video"]</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a id="language" class="navGo" href="javascript:void(0)" onclick="SwitchLanguage()" lang="nl">
-                                Switch to English
-                                <img class="ml-2" height="25" width="25" src="~/icons/globe-zwart.svg"/> 
-                            </a>
-                            <a id="language" class="navGo" href="javascript:void(0)" onclick="SwitchLanguage()" lang="en-uk">
-                                Wissel naar Nederlands
-                                <img class="ml-2" height="25" width="25" src="~/icons/globe-zwart.svg"/> 
-                            </a>
+                            <form asp-action="ChangeLanguage" asp-controller="Home" method="post">
+                                <input type="hidden" id="returnUrl" name="returnUrl" value="@returnUrl" />
+                                <select id="culture" name="culture" onchange="this.form.submit();" asp-items="cultureItems" asp-for="@requestCulture.RequestCulture.UICulture.Name"></select>
+                            </form>
                         </li>
                     </ul>
                 </div>
@@ -130,41 +141,6 @@
         </main>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-
-            let userLang = navigator.language || navigator.userLanguage;
-            if(localStorage.getItem("lan") == null){
-                localStorage.setItem("lan", userLang);
-            }
-
-            let detaal = localStorage.getItem("lan");
-       
-            if (detaal == 'nl')
-            {
-                $('[lang="en-uk"]').hide();
-                localStorage.setItem("lan", "nl");
-            }
-            else
-            {
-                $('[lang="nl"]').hide();
-                localStorage.setItem("lan", "en-uk");
-            }
-            console.log(localStorage.getItem);
-
-        function SwitchLanguage() {
-            $('[lang="nl"]').toggle();
-            $('[lang="en-uk"]').toggle();
-            if (document.getElementById("language").style.display == "none")
-            {
-                 localStorage.setItem("lan", "en-uk");
-            }
-            else if(document.getElementById("enlanguage").style.display == "none")
-            {
-                 localStorage.setItem("lan", "nl");
-            }
-            
-        }
-    </script>
 <script>
         const queryString = window.location;
         let Location = queryString.href.split("/");
@@ -175,6 +151,7 @@
         let Rockstars = document.getElementById("Rockstars");
         let Article = document.getElementById("Article");
         let Podcast = document.getElementById("Podcast");
+        let PodcastEpisode = document.getElementById("PodcastEpisode");
         let Video = document.getElementById("Video");
         let ArticleEn = document.getElementById("ArticleEn");
         let VideoEn = document.getElementById("VideoEn");
@@ -192,12 +169,12 @@
         else if (Location == "Podcast") {
             Podcast.classList.add("nav-active");
         }
+        else if (Location == "PodcastEpisode") {
+            PodcastEpisode.classList.add("nav-active");
+        }
         else if (Location == "Video") {
             Video.classList.add("nav-active");
             VideoEn.classList.add("nav-active");
-        }
-        else if (Location == "") {
-            Home.classList.add("nav-active");
         }
     </script>
 <!-- text-muted -->
