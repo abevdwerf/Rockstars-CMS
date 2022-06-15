@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
@@ -15,10 +16,12 @@ namespace RockstarsIT.Controllers
     {
         Spotify spotify = new Spotify();
         private readonly DatabaseContext _context;
+        private readonly IStringLocalizer<PodcastEpisodeController> _stringLocalizer;
 
-        public PodcastEpisodeController(DatabaseContext context)
+        public PodcastEpisodeController(DatabaseContext context, IStringLocalizer<PodcastEpisodeController> stringLocalizer)
         {
             _context = context;
+            _stringLocalizer = stringLocalizer;
         }
 
         // GET: Podcast

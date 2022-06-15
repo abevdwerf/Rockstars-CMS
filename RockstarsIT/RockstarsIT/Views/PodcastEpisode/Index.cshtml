@@ -1,23 +1,25 @@
 @model IEnumerable<RockstarsIT.Models.PodcastEpisode>
-
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<RockstarsIT.Controllers.PodcastEpisodeController> Localizer
 @{
     ViewData["Title"] = "Index";
-    Spotify spotify = new Spotify(); 
+    Spotify spotify = new Spotify();
 }
 
-<h1 class="mt-3">PODCAST EPISODES</h1>
+<h1 class="mt-3">@Localizer["index.pagetitle"]</h1>
 <div class="row">
     <div class="col-md-6  text-left">
         <a asp-action="Create" class="btn button">
-            NIEUWE PODCAST EPISODE
+            @Localizer["index.btn.add"]
             <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
         </a>
         <br/>
         <br/>
     </div>
-    @if(ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowType"].ToString() == ""){
+    @if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowType"].ToString() == "")
+    {
         <div class="col-md-6  text-right">
-            <a asp-action="Index" asp-route-view ="grid" style="float:right;" class="btn button">
+            <a asp-action="Index" asp-route-view="grid" style="float:right;" class="btn button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
                 </svg>
@@ -27,7 +29,7 @@
     else if (ViewData["DataShowType"].ToString() == "grid")
     {
         <div class="col-md-6 text-right">
-            <a asp-action="Index" asp-route-view ="cards" style="float:right;" class="btn button">
+            <a asp-action="Index" asp-route-view="cards" style="float:right;" class="btn button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid-3x3-gap-fill" viewBox="0 0 16 16">
                     <path d="M1 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2zM1 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V7zM1 12a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2z"/>
                 </svg>
@@ -38,35 +40,93 @@
 @if (ViewData["DataShowType"].ToString() == "grid")
 {
     <div style="overflow-x:auto;">
+        <form class="form-group" asp-action="index" asp-route-view="grid">
+            <div class="input-group col-8">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-search"></i>
+                </span>
+                <input type="search" class="form-control" name="searchWords" placeholder="@Localizer["index.searchfor"]">
+                <input type="submit" class="btn btn-primary" value="@Localizer["index.btn.search"]"/>
+            </div>
+        </form>
+        <hr/>
         <table class="table table-bordered bg-light">
             <thead class="thead-dark">
             <tr>
-                <th>
-                    TITEL
+                <th class="align-top">
+                    @Localizer["index.th.title"]
+                    <br/>
+                    <br/>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="title" asp-route-orderOn="asc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-up.svg"/>
+                    </a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="title" asp-route-orderOn="desc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-down.svg"/>
+                    </a>
                 </th>
-                <th>
+                <th class="align-top">
                     PREVIEW
+                    <br/>
                 </th>
-                <th>
-                    AUTEUR
+                <th class="align-top">
+                    @Localizer["index.th.author"]
+                    <br/>
+                    <br/>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="author" asp-route-orderOn="asc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-up.svg"/>
+                    </a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="author" asp-route-orderOn="desc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-down.svg"/>
+                    </a>
                 </th>
-                <th>
+                <th class="align-top">
                     TRIBE
+                    <br/>
+                    <br/>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="tribe" asp-route-orderOn="asc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-up.svg"/>
+                    </a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="tribe" asp-route-orderOn="desc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-down.svg"/>
+                    </a>
+                </th>
+                <th class="align-top">
+                    @Localizer["index.th.publicationdate"]
+                    <br/>
+                    <br/>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="datePublished" asp-route-orderOn="asc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-up.svg"/>
+                    </a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="datePublished" asp-route-orderOn="desc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-down.svg"/>
+                    </a>
+                </th>
+                <th class="align-top">
+                    STATUS
+                    <br/>
+                    <br/>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="status" asp-route-orderOn="asc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-up.svg"/>
+                    </a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="status" asp-route-orderOn="desc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-down.svg"/>
+                    </a>
+                </th>
+                <th class="align-top">
+                    @Localizer["index.th.changestatus"]
+                    <br/>
                 </th>
                 <th>
-                    Datum van Publiceren
+                    @Localizer["index.th.actions"]
+                    <br/>
+                    <br/>
+                    <br/>
                 </th>
-                <th>
-                    Status
-                </th>
-                <th>
-                    Status veranderen
-                </th>
-                <th></th>
             </tr>
             </thead>
             <tbody>
-            @foreach (var item in Model) {
+            @foreach (var item in Model)
+            {
                 <tr>
                     @if (item.Title.Length > 50)
                     {
@@ -80,14 +140,18 @@
                             @item.Title
                         </td>
                     }
-                    <td>
-                        <audio id="music" preload="true">
-                            <source src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))">
-                        </audio>
-                        <div id="audioplayer">
-                            <i id="pButton" class="fas fa-play"></i>
-                            <div id="timeline" hidden>
-                                <div id="playhead"></div>
+                    <td style="width: 10rem;">
+                        <audio id="@item.PodcastEpisodeId" style="width: 250px" src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))"></audio>
+                        <div class="row">
+                            <div class="col-md-3 col-md-pull-9">
+                                <button onclick="PlayPause(this.name)" name="@item.PodcastEpisodeId" class="btn btn-link">
+                                    <i class="fas fa-play" id="pbutton-@item.PodcastEpisodeId"></i>
+                                </button>                                
+                            </div>
+                            <div class="col-md-9 col-md-push-3">
+                                <div id="timeline" name="timeline-@item.PodcastEpisodeId">
+                                    <div id="playhead" name="playhead-@item.PodcastEpisodeId" style="width: 8px; height: 8px; position: absolute;" class="25"></div>
+                                </div>
                             </div>
                         </div>
                     </td>
@@ -110,11 +174,11 @@
                     <td>
                         @if (item.PublishedStatus)
                         {
-                            <p>Gepubliceerd</p>
+                            <p>@Localizer["index.td.published"]</p>
                         }
                         else
                         {
-                            <p>Concept</p>
+                            <p>@Localizer["index.td.draft"]</p>
                         }
                     </td>
                     <td>
@@ -133,7 +197,7 @@
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.PodcastEpisodeId" class="btn button mr-2">
-                            BEWERKEN
+                            @Localizer["index.btn.edit"]
                             <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
                         </a>
                     </td>
@@ -146,17 +210,22 @@
 else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowType"].ToString() == "")
 {
     <div class="row">
-        @foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
             <div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-stretch  spaceBetweenArticles">
                 <div class="card" style="width: 25rem; height: 20rem;">
                     <div class="card-header">
-                        <audio id="music-@item.PodcastEpisodeId" preload="true">
-                            <source src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))">
-                        </audio>
-                        <div id="audioplayer" onclick="test('@item.PodcastEpisodeId')">
-                            <i id="pButton" class="fas fa-play"></i>
-                            <div id="timeline-@item.PodcastEpisodeId">
-                                <div id="playhead-@item.PodcastEpisodeId"></div>
+                        <audio id="@item.PodcastEpisodeId" style="width: 250px" src="@spotify.GetPreviewLink(spotify.GetSpotifyLinkId(item.URL))"></audio>
+                        <div class="row">
+                            <div class="col-md-3 col-md-pull-9">
+                                <button onclick="PlayPause(this.name)" name="@item.PodcastEpisodeId" class="btn btn-link">
+                                    <i class="fas fa-play" id="pbutton-@item.PodcastEpisodeId"></i>
+                                </button>                                
+                            </div>
+                            <div class="col-md-9 col-md-push-3">
+                                <div id="timeline" name="timeline-@item.PodcastEpisodeId">
+                                    <div id="playhead" name="playhead-@item.PodcastEpisodeId" style="width: 8px; height: 8px; position: absolute;" class="25"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -174,13 +243,13 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
                         }
                         else
                         {
-                            <h5>GEEN TITEL</h5>
+                            <h5>@Localizer["index.td.notitle"]</h5>
                         }
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" style="background-color:#FFE000">
                             <a asp-action="Edit" asp-route-id="@item.PodcastEpisodeId" class="card-link btn button-white">
-                                BEWERKEN
+                                @Localizer["index.btn.edit"]
                                 <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
                             </a>
                         </li>
@@ -191,118 +260,63 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
     </div>
 }
 <script>
+    
+    function PlayPause(name) {
+        var player = document.getElementById(name);
+        let id = null;
+        let elem = document.getElementsByName("playhead-" + name)[0];
+        let pos = parseInt(elem.className);
+        console.log(pos);
+        let end = document.getElementsByName("timeline-" + name)[0].clientWidth + 25;
+        let pixels = document.getElementsByName("timeline-" + name)[0].clientWidth / 30 / 100;
 
-        var music 
-        var duration 
-        var pButton 
-        var playhead 
-        var timeline
-        
-        function test (id) {
-            console.log('test')
-            music = document.getElementById('music-'+id); // id for audio element
-            duration = music.duration; // Duration of audio clip, calculated here for embedding purposes
-            pButton = document.getElementById('pButton-'+id); // play button
-            playhead = document.getElementById('playhead-'+id); // playhead
-            timeline = document.getElementById('timeline-'+id); // timeline
-        }
-        
-        // timeline width adjusted for playhead
-        var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
-        timeline.style.width = '85%'
-        // play button event listenter
-        pButton.addEventListener("click", play);
-        // timeupdate event listener
-        music.addEventListener("timeupdate", timeUpdate, false);
-        // makes timeline clickable
-        timeline.addEventListener("click", function (event) {
-            moveplayhead(event);
-            music.currentTime = duration * clickPercent(event);
-        }, false);
-        
-        // returns click as decimal (.77) of the total timelineWidth
-        function clickPercent(event) {
-            return (event.clientX - getPosition(timeline)) / timelineWidth;
-        }
-        // makes playhead draggable
-        playhead.addEventListener('mousedown', mouseDown, false);
-        window.addEventListener('mouseup', mouseUp, false);
-        // Boolean value so that audio position is updated only when the playhead is released
-        var onplayhead = false;
-        // mouseDown EventListener
-        function mouseDown() {
-            onplayhead = true;
-            window.addEventListener('mousemove', moveplayhead, true);
-            music.removeEventListener('timeupdate', timeUpdate, false);
-        }
-        // mouseUp EventListener
-        // getting input from all mouse clicks
-        function mouseUp(event) {
-            if (onplayhead == true) {
-                moveplayhead(event);
-                window.removeEventListener('mousemove', moveplayhead, true);
-                // change current time
-                music.currentTime = duration * clickPercent(event);
-                music.addEventListener('timeupdate', timeUpdate, false);
-            }
-            onplayhead = false;
-        }
-        // mousemove EventListener
-        // Moves playhead as user drags
-        function moveplayhead(event) {
-            var newMargLeft = event.clientX - getPosition(timeline);
-        
-            if (newMargLeft >= 0 && newMargLeft <= timelineWidth) {
-                playhead.style.marginLeft = newMargLeft + "px";
-            }
-            if (newMargLeft < 0) {
-                playhead.style.marginLeft = "0px";
-            }
-            if (newMargLeft > timelineWidth) {
-                playhead.style.marginLeft = timelineWidth + "px";
+        if (player.paused)
+        {
+            player.play();
+            document.getElementById("pbutton-" + name).className = "";
+            document.getElementById("pbutton-" + name).className = "fas fa-pause";
+            
+            clearInterval(id);
+            id = setInterval(frame, 10);
+            function frame() {
+              if (pos >= end)
+              {
+                clearInterval(id);
+                player.pause();
+                document.getElementById("pbutton-" + name).className = "";
+                document.getElementById("pbutton-" + name).className = "fas fa-play";
+              }
+              else
+              {
+                pos+= pixels;
+                elem.style.left = pos + "px";
+                if (player.paused)
+                {
+                    clearInterval(id);
+                    elem.className = pos;
+                    console.log(elem.className);
+                    player.pause();
+                    document.getElementById("pbutton-" + name).className = "";
+                    document.getElementById("pbutton-" + name).className = "fas fa-play";
+                }
+              }
             }
         }
-        // timeUpdate
-        // Synchronizes playhead position with current point in audio
-        function timeUpdate() {
-            var playPercent = timelineWidth * (music.currentTime / duration);
-            playhead.style.marginLeft = playPercent + "px";
-            if (music.currentTime == duration) {
-                pButton.className = "";
-                pButton.className = "fas fa-play";
-            }
+        else
+        {
+            player.pause();
+            document.getElementById("pbutton-" + name).className = "";
+            document.getElementById("pbutton-" + name).className = "fas fa-play";
         }
-        //Play and Pause
-        function play() {
-            // start music
-            if (music.paused) {
-                music.play();
-                // remove play, add pause
-                pButton.className = "";
-                pButton.className = "fas fa-pause";
-            } else { // pause music
-                music.pause();
-                // remove pause, add play
-                pButton.className = "";
-                pButton.className = "fas fa-play";
-            }
-        }
-        // Gets audio file duration
-        music.addEventListener("canplaythrough", function () {
-            duration = music.duration;
-        }, false);
-        // getPosition
-        // Returns elements left position relative to top-left of viewport
-        function getPosition(el) {
-            return el.getBoundingClientRect().left;
-        }
+    }
 
-    //Scrollable Table
-    $(document).ready(function () {
-      $('#dtHorizontalVerticalExample').DataTable({
-        "scrollX": true,
-        "scrollY": 200,
-      });
-      $('.dataTables_length').addClass('bs-select');
-    });
+
+        //Scrollable Table
+        $(document).ready(function () {
+          $('#dtHorizontalVerticalExample').DataTable({
+            "scrollX": true,
+            "scrollY": 200,
+          });
+          $('.dataTables_length').addClass('bs-select');
+        });
 </script>

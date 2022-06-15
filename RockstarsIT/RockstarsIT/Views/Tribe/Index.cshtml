@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<RockstarsIT.Models.Tribe>
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<RockstarsIT.Controllers.TribeController> Localizer
 @{
     ViewData["Title"] = "Index";
 }
@@ -146,35 +148,27 @@
 
     <p>
 
-        <a class="btn button" asp-action="Create">
-            NIEUWE TRIBE
-            <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg" />
-        </a>
-    </p>
-    <table class="table table-bordered bg-light">
-        <thead class="thead-dark">
-            <tr>
-                <th>
-                    NAAM
-                </th>
-                <th>
-                    BESCHRIJVING
-                </th>
-                <th>
-                    SPOTIFY LINK
-                </th>
-                <th>
-                    ACTIES
-                </th>
-                <th>
-                    PUBLICATIE
-                </th>
-                <th></th>
-
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
+    <a class="btn button" asp-action="Create">
+        @Localizer["index.btn.add"]
+        <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
+    </a>
+</p>
+<table class="table table-bordered bg-light">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Localizer["index.th.name"]
+            </th>
+            <th >
+                @Localizer["index.th.description"]
+            </th>
+            <th>
+                @Localizer["index.th.actions"]
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
         {
             <tr>
                 <td>

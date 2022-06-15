@@ -35,5 +35,50 @@
       <Folder Include="wwwroot\img\article\" />
 
     </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Controllers\ArticleController.en.resx">
+        <DependentUpon>ArticleController.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Controllers\ArticleController.nl.resx">
+        <DependentUpon>ArticleController.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Controllers\HomeController.nl.resx">
+        <DependentUpon>HomeController.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Controllers\HomeController.en.resx">
+        <DependentUpon>HomeController.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Controllers\RockstarsController.en.resx">
+        <DependentUpon>RockstarsController.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Controllers\RockstarsController.nl.resx">
+        <DependentUpon>RockstarsController.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Controllers\TribeController.en.resx">
+        <DependentUpon>TribeController.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Controllers\TribeController.nl.resx">
+        <DependentUpon>TribeController.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Controllers\VideoController.en.resx">
+        <DependentUpon>VideoController.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Controllers\VideoController.nl.resx">
+        <DependentUpon>VideoController.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Controllers\PodcastController.en.resx">
+        <DependentUpon>PodcastController.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Controllers\PodcastController.nl.resx">
+        <DependentUpon>PodcastController.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Controllers\PodcastEpisodeController.nl.resx">
+        <DependentUpon>PodcastEpisodeController.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Controllers\PodcastEpisodeController.en.resx">
+        <DependentUpon>PodcastEpisodeController.cs</DependentUpon>
+      </EmbeddedResource>
+    </ItemGroup>
   
 </Project>

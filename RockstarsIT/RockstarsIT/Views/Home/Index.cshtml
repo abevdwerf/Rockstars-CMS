@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<RockstarsIT.Controllers.HomeController> Localizer
+@{
     ViewData["Title"] = "Home Page";
     var list = ViewBag.content;
 }
@@ -15,7 +17,7 @@
                             <div class="card shadow mb-4"></div>
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="text-primary fw-bold m-0">Top 5 bekeken content</h6>
+                                    <h6 class="text-primary fw-bold m-0">@Localizer["index.top5"]</h6>
                                 </div>
                                 <div class="card-body">
                                     @if (ViewBag.content != null)
@@ -50,7 +52,7 @@
                                 <div class="card-body" style="margin-bottom: 10px;">
                                     <div class="row align-items-center no-gutters">
                                         <div class="col me-2">
-                                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>Hudige gebruikers</span></div>
+                                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>@Localizer["index.visitors"]</span></div>
                                             <div class="text-dark fw-bold h5 mb-0"><span>100</span></div>
                                         </div>
                                         <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
@@ -61,7 +63,7 @@
                                 <div class="card-body" style="margin-top: 10px;margin-bottom: 10px;">
                                     <div class="row align-items-center no-gutters">
                                         <div class="col me-2">
-                                            <div class="text-uppercase text-success fw-bold text-xs mb-1"><span>Totaal gepubliceerde content</span></div>
+                                            <div class="text-uppercase text-success fw-bold text-xs mb-1"><span>@Localizer["index.contenttotal"]</span></div>
                                             <div class="text-dark fw-bold h5 mb-0"><span>@ViewBag.publishedContent</span></div>
                                         </div>
                                         <div class="col-auto"><i class="fas fa-dollar-sign fa-2x text-gray-300"></i></div>
@@ -72,7 +74,7 @@
                                 <div class="card-body" style="margin-top: 10px;margin-bottom: 10px;">
                                     <div class="row align-items-center no-gutters">
                                         <div class="col me-2">
-                                            <div class="text-uppercase text-info fw-bold text-xs mb-1"><span>Totaal concept content</span></div>
+                                            <div class="text-uppercase text-info fw-bold text-xs mb-1"><span>@Localizer["index.drafttotal"]</span></div>
                                             <div class="row g-0 align-items-center">
                                                 <div class="col-auto">
                                                     <div class="text-dark fw-bold h5 mb-0 me-3"><span>@ViewBag.conceptContent</span></div>
@@ -86,7 +88,7 @@
                         </div>
                     </div>
                     <div class="container text-center my-3">
-                        <h2 class="font-weight-light">Top 5 bekeken content</h2>
+                        <h2 class="font-weight-light">@Localizer["index.top5"]</h2>
 
                         @if (ViewBag.content != null)
                         {
@@ -107,7 +109,7 @@
                                                         }
                                                     </h5>
                                                     <p class="card-text"><img class="ml-2" height="80" width="80" src="@list[0].SVGLocation" /></p>
-                                                    <a class="mt-auto btn btn-primary" href="@Url.Action("Edit", (string)@list[0].Controller, new { id = @list[0].Id})">Bekijk @list[0].ModelName.ToLower()</a>
+                                                    <a class="mt-auto btn btn-primary" href="@Url.Action("Edit", (string)@list[0].Controller, new { id = @list[0].Id})">@Localizer["index.btn.view"]</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -125,7 +127,7 @@
                                                         }
                                                     </h5>
                                                     <p class="card-text"><img class="ml-2" height="80" width="80" src="@list[1].SVGLocation" /></p>
-                                                    <a class="mt-auto btn btn-primary" href="@Url.Action("Edit", (string)@list[1].Controller, new { id = @list[1].Id})">Bekijk @list[1].ModelName.ToLower()</a>
+                                                    <a class="mt-auto btn btn-primary" href="@Url.Action("Edit", (string)@list[1].Controller, new { id = @list[1].Id})">@Localizer["index.btn.view"]</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -143,7 +145,7 @@
                                                         }
                                                     </h5>
                                                     <p class="card-text"><img class="ml-2" height="80" width="80" src="@list[2].SVGLocation" /></p>
-                                                    <a class="mt-auto btn btn-primary" href="@Url.Action("Edit", (string)@list[2].Controller, new { id = @list[2].Id})">Bekijk @list[2].ModelName.ToLower()</a>
+                                                    <a class="mt-auto btn btn-primary" href="@Url.Action("Edit", (string)@list[2].Controller, new { id = @list[2].Id})">@Localizer["index.btn.view"]</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -161,7 +163,7 @@
                                                         }
                                                     </h5>
                                                     <p class="card-text"><img class="ml-2" height="80" width="80" src="@list[3].SVGLocation" /></p>
-                                                    <a class="mt-auto btn btn-primary" href="@Url.Action("Edit", (string)@list[3].Controller, new { id = @list[3].Id})">Bekijk @list[3].ModelName.ToLower()</a>
+                                                    <a class="mt-auto btn btn-primary" href="@Url.Action("Edit", (string)@list[3].Controller, new { id = @list[3].Id})">@Localizer["index.btn.view"]</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -179,7 +181,7 @@
                                                         }
                                                     </h5>
                                                     <p class="card-text"><img class="ml-2" height="80" width="80" src="@list[4].SVGLocation" /></p>
-                                                    <a class="mt-auto btn btn-primary" href="@Url.Action("Edit", (string)@list[4].Controller, new { id = @list[4].Id})">Bekijk @list[4].ModelName.ToLower()</a>
+                                                    <a class="mt-auto btn btn-primary" href="@Url.Action("Edit", (string)@list[4].Controller, new { id = @list[4].Id})">@Localizer["index.btn.view"]</a>
                                                 </div>
                                             </div>
                                         </div>

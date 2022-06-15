@@ -1,11 +1,12 @@
 @model RockstarsIT.Models.PodcastEpisode
-
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<RockstarsIT.Controllers.PodcastEpisodeController> Localizer
 @{
     ViewData["Title"] = "Edit";
     Spotify spotify = new Spotify();
 }
 
-<h1 lang="nl" class="mt-3">PODCAST EPISODE BEWERKEN</h1><h1 lang="en-uk" class="mt-3">EDIT PODCAST EPISODE</h1>
+<h1 lang="nl" class="mt-3">@Localizer["edit.pagetitle"]</h1>
 
 <hr />
 <form asp-action="Edit" asp-controller="PodcastEpisode" asp-route-id="@Model.PodcastEpisodeId">
@@ -14,25 +15,23 @@
     <input hidden asp-for="PodcastId" value="@Model.PodcastId"/>
     <div class="row g-3">
         <div class="col-md-6 mb-3">
-            <label asp-for="Title" class="control-label" lang="nl">Titel</label>
-            <label asp-for="Title" class="control-label" lang="en-uk">Title</label>
+            <label asp-for="Title" class="control-label" lang="nl">@Localizer["edit.title"]</label>
             <input asp-for="Title" class="textbox w-100"/>
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
             <label asp-for="Tribe" class="control-label">Tribe</label>
-            <select asp-for="TribeId" class="form-control" asp-items="ViewBag.TribeNames"></select>
+            <select asp-for="TribeId" class="textbox w-100" asp-items="ViewBag.TribeNames"></select>
             <span asp-validation-for="TribeId" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="Description" class="control-label" lang="nl">Beschrijving</label>
-            <label asp-for="Description" class="control-label" lang="en-uk">Description</label>
+            <label asp-for="Description" class="control-label" lang="nl">@Localizer["edit.description"]</label>
             <textarea asp-for="Description" class="textarea w-100" rows="5"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
             <label asp-for="Rockstar" class="control-label">Rockstar</label>
-            <select asp-for="RockstarId" class="form-control" asp-items="ViewBag.RockstarNames"></select>
+            <select asp-for="RockstarId" class="textbox w-100" asp-items="ViewBag.RockstarNames"></select>
             <span asp-validation-for="RockstarId" class="text-danger"></span>
         </div>
         <div class="col-md-6 lg-6 mb-3">
@@ -49,25 +48,25 @@
             @using (Html.BeginForm(FormMethod.Post))
             {
                 <button class="btn button mr-3 mb-3" type="submit" value="Edit">
-                    <a lang="nl">WIJZIGINGEN OPSLAAN</a><a lang="en-uk">SAVE CHANGES</a>
+                    @Localizer["edit.btn.save"]
                     <img class="ml-2" height="32" width="32" src="~/icons/save-zwart.svg"/>
                 </button>
                 @if (@Model.PublishedStatus)
                 {
                     <a asp-action="ChangeStatus" asp-route-id="@Model.PodcastEpisodeId" asp-route-status="false" class="btn button mr-3 mb-3">
-                        <label lang="nl" class="text-black">CONCEPT</label><label lang="en-uk" class="text-black">DRAFT</label>
+                        @Localizer["edit.btn.draft"]
                         <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
                     </a>
                 }
                 else
                 {
                     <a asp-action="ChangeStatus" asp-route-id="@Model.PodcastEpisodeId" asp-route-status="true" class="btn button mr-3 mb-3">
-                        <label lang="nl" class="text-black">PUBLICEREN</label><label lang="en-uk" class="text-black">PUBLISH</label>
+                        @Localizer["edit.btn.publish"]
                         <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
                     </a>
                 }
                 <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.PodcastEpisodeId" class="btn button-cancel mb-3">
-                    <label lang="nl">VERWIJDEREN</label><label lang="en-uk">DELETE</label>
+                    @Localizer["edit.btn.delete"]
                     <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg"/>
                 </a>
                 <input type="submit" asp-action="Delete" asp-route-id="@Model.PodcastEpisodeId" hidden id="@Model.PodcastEpisodeId"/>
@@ -78,7 +77,7 @@
 
 <div>
     <a asp-action="Index" class="btn button-cancel mt-3">
-        <label lang="nl">TERUG NAAR OVERZICHT</label><label lang="en-uk">BACK TO LIST</label>
+        @Localizer["edit.btn.back"]
         <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
             <path d="M0 0h24v24H0z" fill="none"/>
             <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>

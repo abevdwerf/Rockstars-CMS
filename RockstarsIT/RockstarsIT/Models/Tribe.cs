@@ -17,9 +17,6 @@ namespace RockstarsIT.Models
         private Tag _tag;
         public List<TribeImages> TribeImages { get; set; }
         public List<TribeTextBlock> TribeTextBlocks { get; set; }
-        public List<Article> Articles { get; set; }
-        public List<Video> Videos { get; set; }
-
 
 
         public int TribeId { get; set; }
