@@ -125,11 +125,11 @@
             @Localizer["edit.btn.save"]
             <img class="ml-2" height="32" width="32" src="~/icons/save-zwart.svg"/>
         </a>
-        <a onclick="ConfirmDelete(this.name)" name="@Model.Title" class="btn button-cancel ml-2 text-white">
+        <a onclick="ConfirmDelete(this.name)" name="@Model.ArticleId" class="btn button-cancel ml-2 text-white">
             @Localizer["edit.btn.delete"]
             <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg" />
         </a>
-        <button type="submit" id="@Model.Title" hidden/>
+        <button type="submit" id="@Model.ArticleId" hidden/>
     }
 </div>
 <div>
