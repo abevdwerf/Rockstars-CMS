@@ -12,6 +12,7 @@ namespace RockstarsIT.Models
         public DbSet<TribeImages> TribeImages { get; set; }
         public DbSet<TribeTextBlock> TribeTextBlocks { get; set; }
         public DbSet<Role> Roles { get; set; }
+        
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Article> Article { get; set; }
         public DbSet<ArticleImages> ArticleImages { get; set; }
@@ -19,6 +20,8 @@ namespace RockstarsIT.Models
         public DbSet<PodcastEpisode> PodcastEpisodes { get; set; }
         public DbSet<Podcast> Podcasts { get; set; }
         public DbSet<Video> Videos { get; set; }
+        
+        public DbSet<SiteViewer> SiteViewers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -31,6 +34,16 @@ namespace RockstarsIT.Models
             .HasOne(a => a.Article)
             .WithMany(b => b.ArticleImages)
             .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<TribeTextBlock>()
+                .HasOne(a => a.tribe)
+                .WithMany(b => b.TribeTextBlocks)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<TribeImages>()
+                .HasOne(a => a.Tribe)
+                .WithMany(b => b.TribeImages)
+                .OnDelete(DeleteBehavior.Cascade);
 
             Tribe java = new Tribe()
             {
@@ -205,7 +218,8 @@ namespace RockstarsIT.Models
                 ArticleId = 1,
                 RockstarId = 1,
                 Title = "Javascript Basic If Else Statement",
-                Description = "In dit artikel zal een basis if else statement worden getoond."
+                Description = "In dit artikel zal een basis if else statement worden getoond.",
+                PublishedStatus = true
             };
 
             Article article2 = new Article()
@@ -213,7 +227,8 @@ namespace RockstarsIT.Models
                 ArticleId = 2,
                 RockstarId = 1,
                 Title = "HTML div",
-                Description = "Uitleg over het HTML element div"
+                Description = "Uitleg over het HTML element div",
+                PublishedStatus = true
             };
 
             Article article3 = new Article()
@@ -221,7 +236,8 @@ namespace RockstarsIT.Models
                 ArticleId = 3,
                 RockstarId = 1,
                 Title = "c# random",
-                Description = "Uitleg over c# random"
+                Description = "Uitleg over c# random",
+                PublishedStatus = true
             };
 
             Article article4 = new Article()
@@ -229,7 +245,8 @@ namespace RockstarsIT.Models
                 ArticleId = 4,
                 RockstarId = 1,
                 Title = "Python",
-                Description = "Uitleg over Python in zijn geheel"
+                Description = "Uitleg over Python in zijn geheel",
+                PublishedStatus = true
             };
 
             Article article5 = new Article()
@@ -237,7 +254,8 @@ namespace RockstarsIT.Models
                 ArticleId = 5,
                 RockstarId = 1,
                 Title = "Java",
-                Description = "Uitleg over Java in zijn geheel"
+                Description = "Uitleg over Java in zijn geheel",
+                PublishedStatus = true
             };
 
             Article article6 = new Article()
@@ -245,7 +263,8 @@ namespace RockstarsIT.Models
                 ArticleId = 6,
                 RockstarId = 1,
                 Title = "PHP",
-                Description = "Uitleg over PHP in zijn geheel"
+                Description = "Uitleg over PHP in zijn geheel",
+                PublishedStatus = true
             };
 
             builder.Entity<Article>().HasData(article1);
@@ -284,6 +303,7 @@ namespace RockstarsIT.Models
             {
                 PodcastId = 1,
                 URL = "https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb",
+                PublishedStatus = true
             };
             
             builder.Entity<Podcast>().HasData(podcast1);
@@ -296,7 +316,8 @@ namespace RockstarsIT.Models
                 TribeId = 1,
                 PodcastId = 1,
                 Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/4BDg3QufDDZ0rpos71c6Wl")),
-                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/4BDg3QufDDZ0rpos71c6Wl"))
+                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/4BDg3QufDDZ0rpos71c6Wl")),
+                PublishedStatus = true
             };
 
             PodcastEpisode podcastEpisode2 = new PodcastEpisode()
@@ -307,7 +328,8 @@ namespace RockstarsIT.Models
                 TribeId = 1,
                 PodcastId = 1,
                 Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7pZyi78l6vRJVdNquFiaQG")),
-                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7pZyi78l6vRJVdNquFiaQG"))
+                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7pZyi78l6vRJVdNquFiaQG")),
+                PublishedStatus = true
             };
 
             PodcastEpisode podcastEpisode3 = new PodcastEpisode()
@@ -318,7 +340,8 @@ namespace RockstarsIT.Models
                 TribeId = 1,
                 PodcastId = 1,
                 Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb")),
-                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb"))
+                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb")),
+                PublishedStatus = true
             };
 
             PodcastEpisode podcastEpisode4 = new PodcastEpisode()
@@ -329,7 +352,8 @@ namespace RockstarsIT.Models
                 TribeId = 1,
                 PodcastId = 1,
                 Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/2nH8y0ivbsjjuEX2OrObXt")),
-                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/2nH8y0ivbsjjuEX2OrObXt"))
+                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/2nH8y0ivbsjjuEX2OrObXt")),
+                PublishedStatus = true
             };
 
             PodcastEpisode podcastEpisode5 = new PodcastEpisode()
@@ -340,7 +364,8 @@ namespace RockstarsIT.Models
                 TribeId = 1,
                 PodcastId = 1,
                 Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/4RrPIkmIMoUB0IcOfykmLF")),
-                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/4RrPIkmIMoUB0IcOfykmLF"))
+                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/4RrPIkmIMoUB0IcOfykmLF")),
+                PublishedStatus = true
             };
 
             builder.Entity<PodcastEpisode>().HasData(podcastEpisode1);
@@ -358,7 +383,8 @@ namespace RockstarsIT.Models
                 RockstarId = 1,
                 TribeId = 1,
                 LinkType = LinkType.Youtube,
-                ViewCount = 15
+                ViewCount = 15,
+                PublishedStatus = true
             };
 
             Video video2 = new Video()
@@ -370,7 +396,8 @@ namespace RockstarsIT.Models
                 RockstarId = 5,
                 TribeId = 4,
                 LinkType = LinkType.Youtube,
-                ViewCount = 15
+                ViewCount = 15,
+                PublishedStatus = true
             };
 
             Video video3 = new Video()
@@ -382,7 +409,8 @@ namespace RockstarsIT.Models
                 RockstarId = 3,
                 TribeId = 2,
                 LinkType = LinkType.Youtube,
-                ViewCount = 15
+                ViewCount = 15,
+                PublishedStatus = true
             };
 
             Video video4 = new Video()
@@ -394,7 +422,8 @@ namespace RockstarsIT.Models
                 RockstarId = 4,
                 TribeId = 2,
                 LinkType = LinkType.Youtube,
-                ViewCount = 15
+                ViewCount = 15,
+                PublishedStatus = true
             };
 
             Video video5 = new Video()
@@ -406,7 +435,8 @@ namespace RockstarsIT.Models
                 RockstarId = 6,
                 TribeId = 5,
                 LinkType = LinkType.Youtube,
-                ViewCount = 15
+                ViewCount = 15,
+                PublishedStatus = true
             };
 
             builder.Entity<Video>().HasData(video1);

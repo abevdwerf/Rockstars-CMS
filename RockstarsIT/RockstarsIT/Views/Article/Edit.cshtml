@@ -19,12 +19,16 @@
         </div>
         <div class="col-md-6 mb-3">
             <label class="control-label">@Localizer["edit.author"]</label>
-            <select asp-for="RockstarId" class="form-control" asp-items="ViewBag.RockstarNames"></select>
+            <select asp-for="RockstarId" class="textbox w-100" asp-items="ViewBag.RockstarNames"></select>
         </div>
         <div class="col-md-6 mb-3">
             <label asp-for="Description" class="control-label">@Localizer["edit.description"]</label>
             <textarea asp-for="Description" class="textarea w-100" rows="5"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="control-label">Tribe</label>
+            <select asp-for="TribeId" class="textbox w-100" asp-items="ViewBag.TribeNames"></select>
         </div>
     </div>
     <div class="form-group">
@@ -94,7 +98,7 @@
                                 <textarea class="textarea w-100" hidden rows="5">@item.Text</textarea>
                                 <textarea class="editor">
                                     @item.Text
-                                                </textarea>
+                                </textarea>
                             </div>
                         }
                         else
@@ -104,64 +108,33 @@
 
                                 <textarea class="editor">
                                     @item.Text
-                                                </textarea>
+                                </textarea>
                             </div>
                         }
                     }
                 }
             }
         </div>
-
-
-
     </div>
 </div>
-<div class="form-group">
-    <form id="frmUpload">
-        <label asp-for="Images" class="control-label">@Localizer["edit.images"]</label>
-        <div class="row">
-            <div class="col-md-5">
-                <div class="custom-file upload__box">
-                    <input asp-for="Images" class="custom-file-input upload__inputfile" hidden multiple id="customFile">
-                    <label asp-for="Images" class="custom-file-label" for="customFile" data-browse="@Localizer["edit.choosefile"]"></label>
-                    <span asp-validation-for="Images" class="text-danger"></span>
-                </div>
-            </div>
 
-            <div class="col-md-2">
-                <button type="submit" id="upload" class="btn button">UPLOAD</button>
-            </div>
-            <div id="loading">
-                <p>@Localizer["edit.loading"]</p>
-            </div>
-        </div>
-    </form>
-</div>
 <div class="form-group">
-    <div id="wrap" class="upload__img-wrap row flex-nowrap overflow-auto">
-        @if (Model.ArticleImages != null)
-        {
-            @foreach (var item in Model.ArticleImages)
-            {
-                <div class="upload__img-box col-3">
-                    <div style="background-image: url(@item.URL);" class="img-bg">
-                        <div id="delete" data-id="@item.ArticleImageId" class="upload__img-close">
-                        </div>
-                    </div>
-                </div>
-            }
-        }
-    </div>
-</div>
-<div class="form-group">
-        <button onclick="SaveAll()" type="submit" value="Save" class="btn button">
+    @using (Html.BeginForm("Delete", "Article", new { id = Model.ArticleId}, FormMethod.Post))
+    {
+        <a onclick="SaveAll()" value="Save" class="btn button text-black">
             @Localizer["edit.btn.save"]
             <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                 <path d="M0 0h24v24H0z" fill="none" />
                 <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
             </svg>
-        </button>
-    </div>
+        </a>
+        <a onclick="ConfirmDelete(this.name)" name="@Model.Title" class="btn button-cancel ml-2 text-white">
+            @Localizer["edit.btn.delete"]
+            <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg" />
+        </a>
+        <button type="submit" id="@Model.Title" hidden/>
+    }
+</div>
 <div>
     <a asp-action="Index" class="btn button-cancel mt-3">
         @Localizer["edit.btn.back"]
@@ -192,8 +165,17 @@
         }
     }
 
-    let DelButton = document.getElementById("VerwijderBtn");
-    DelButton.hidden = true;
+    function ConfirmDelete(id) {
+        const conbtn2 = document.getElementById(id);
+        console.log(conbtn2)
+        let text = "Weet je zeker dat u dit artikel wilt verwijderen?"
+        if (confirm(text) == true) {
+            conbtn2.click();
+        }
+        else {
+            console.log("test");
+        }
+    }
 
     function SaveAll() {
         document.getElementById("save-textblock").click();

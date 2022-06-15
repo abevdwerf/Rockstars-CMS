@@ -119,6 +119,46 @@ namespace RockstarsIT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var articles = _context.Article.ToList();
+            foreach (var item in articles)
+            {
+                if (item.TribeId == id)
+                {
+                    _context.Article.Remove(item);
+                }
+            }
+            var videos = _context.Videos.ToList();
+            foreach (var item in videos)
+            {
+                if (item.TribeId == id)
+                {
+                    _context.Videos.Remove(item);
+                }
+            }
+            var podcastEpisodes = _context.PodcastEpisodes.ToList();
+            foreach (var item in podcastEpisodes)
+            {
+                if (item.TribeId == id)
+                {
+                    _context.PodcastEpisodes.Remove(item);
+                }
+            }
+            var podcasts = _context.Podcasts.ToList();
+            foreach (var item in podcasts)
+            {
+                if (item.TribeId == id)
+                {
+                    _context.Podcasts.Remove(item);
+                }
+            }
+            var rockstars = _context.Rockstars.ToList();
+            foreach (var item in rockstars)
+            {
+                if (item.TribeId == id)
+                {
+                    _context.Rockstars.Remove(item);
+                }
+            }
             var tribe = await _context.Tribes.FindAsync(id);
             _context.Tribes.Remove(tribe);
             await _context.SaveChangesAsync();

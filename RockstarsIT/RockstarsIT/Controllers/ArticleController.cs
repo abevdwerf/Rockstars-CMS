@@ -133,6 +133,7 @@ namespace RockstarsIT.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", article.TribeId);
             ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", article.RockstarId);
             return View(article);
         }
@@ -151,6 +152,7 @@ namespace RockstarsIT.Controllers
                 return NotFound();
             }
             ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
+            ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             return View(article);
         }
 
@@ -189,6 +191,7 @@ namespace RockstarsIT.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RockstarId"] = new SelectList(_context.Rockstars, "RockstarId", "RockstarId", article.RockstarId);
+            ViewData["TribeId"] = new SelectList(_context.Tribes, "TribeId", "TribeId", article.TribeId);
             return View(article);
         }
 

@@ -144,6 +144,33 @@ namespace RockstarsIT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var articles = _context.Article.ToList();
+            foreach (var item in articles)
+            {
+                if (item.RockstarId == id)
+                {
+                    item.RockstarId = null;
+                    _context.Article.Update(item);
+                }
+            }
+            var videos = _context.Videos.ToList();
+            foreach (var item in videos)
+            {
+                if (item.RockstarId == id)
+                {
+                    item.RockstarId = null;
+                    _context.Videos.Update(item);
+                }
+            }
+            var podcastEpisodes = _context.PodcastEpisodes.ToList();
+            foreach (var item in podcastEpisodes)
+            {
+                if (item.RockstarId == id)
+                {
+                    item.RockstarId = null;
+                    _context.PodcastEpisodes.Update(item);
+                }
+            }
             var rockstar = await _context.Rockstars.FindAsync(id);
             _context.Rockstars.Remove(rockstar);
             await _context.SaveChangesAsync();
