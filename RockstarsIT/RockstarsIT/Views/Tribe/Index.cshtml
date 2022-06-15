@@ -44,99 +44,137 @@
 </style>
 
 @section Scripts {
-<script>
+    <script>
 
-         // Adding articleId to FormData object
+        // Adding articleId to FormData object
 
-         jQuery(document).ready(function() {
-        var data = new FormData();
-        $(document).on("click", "#myBtn", function(e) {
-            $("#myModal").show();
-            data.append('id', $(this).parents().find("#item_TribeId").val());
-            //data.append('id', '1');
+        jQuery(document).ready(function() {
+            var data = new FormData();
+            $(document).on("click", "#myBtn", function(e) {
+                $("#myModal").show();
+                data.append('id', $(this).parents().find("#item_TribeId").val());
+                //data.append('id', '1');
 
-            $.ajax({
-                async: true,
-                type: "POST",
-                //dataType: "json",
-                url: "/Tribe/GetTribeContent",
-                data: data,
-                contentType: false, // Not to set any content header
-                processData: false, // Not to process data
-                success: function(response) {
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    //dataType: "json",
+                    url: "/Tribe/GetTribeContent",
+                    data: data,
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    success: function(response) {
 
-                    for (const element of response.Articles) {
-                        console.log(element.Title);
-                        $('#ArticlesBody').append("<tr>\
-                                                <td> <input type=checkbox name=id value="+element.Id+","+Article+"> </td>\
-                                                <td>" + element.Title + "</td>\
-                                                </tr>");
+                        for (const element of response.Articles) {
+                            console.log(element.ArticleId);
+                            $('#ArticlesBody').append("<tr>\
+                                                        <td> <input type=checkbox name=ids value="+ element.ArticleId + " checked> </td>\
+                                                        <td>" + element.Title + "</td>\
+                                                        </tr>");
+                        }
+                        //for (const element of response.Videos) {
+                        //    console.log(element.Videos);
+                        //    $('#VideosBody').append("<tr>\
+                        //                                <td> <input type=checkbox name=ids value="+ element.VideoId + " checked> </td>\
+                        //                                <td>" + element.Title + "</td>\
+                        //                                </tr>");
+                        //}
+                        //for (const element of response.Podcasts) {
+
+                        //    console.log(element.Title);
+                        //    $('#PodcastsBody').append("<tr>\
+                        //                            <td> <input type=checkbox name=id value="+element.Id+","+Podcast+"> </td>\
+                        //                            <td>" + element.Title + "</td>\
+                        //                            </tr>");
+                        //}
+                    },
+                    error: function(response) {
+                        alert("Publiceren is niet gelukt");
                     }
-                    for (const element of response.Videos) {
-
-                        console.log(element.Title);
-                        $('#VideosBody').append("<tr>\
-                                                <td> <input type=checkbox name=id value="+element.Id+","+Video+"> </td>\
-                                                <td>" + element.Title +"</td>\
-                                                </tr>");
-                    }
-                    for (const element of response.Podcasts) {
-
-                        console.log(element.Title);
-                        $('#PodcastsBody').append("<tr>\
-                                                <td> <input type=checkbox name=id value="+element.Id+","+Podcast+"> </td>\
-                                                <td>" + element.Title + "</td>\
-                                                </tr>");
-                    }
-                },
-                error: function(response) {
-                    alert("Publiceren is niet gelukt");
-                }
+                });
+            });
+            $("#closeModal").click(function(e) {
+                $('#myModal').hide();
+                $('#ArticlesBody').empty();
+                $('#VideosBody').empty();
+                $('#PodcastsBody').empty();
             });
         });
-        $("#closeModal").click(function(e) {
-            $('#myModal').hide();
-            $('#ArticlesBody').empty();
-            $('#VideosBody').empty();
-            $('#PodcastsBody').empty();
+
+         $('#submitarticles').on('click', function () {
+        var STRMS = [];
+        $('input:checked').each(function () {
+            STRMS.push($(this).attr("value"));
         });
+
+             console.log($(this).attr("value"));
+        STRMS = JSON.stringify({ 'STRMS': STRMS });
+
+        $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: '/TribeController/PublishTribeArticles',
+                data: STRMS,
+                success: function () {          
+                    $('#result').html('"PassThings()" successfully called.');
+                },
+                failure: function (response) {          
+                    $('#result').html(response);
+                }
+            }); 
     });
-</script>
+    // $('#submitvideos').on('click', function () {
+    //    var STRMS = [];
+    //    $('input:checked').each(function () {
+    //        STRMS.push($(this).attr("value"));
+    //    });
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/Tribe/PublishTribevideos",
+    //        dataType: "json",
+    //        contentType: "application/json; charset=utf-8",
+    //        data: JSON.stringify({ STRMSelected: STRMS }),
+    //        success: 
+    //            function (data) {  }
+    //    });
+    //});
+    </script>
 }
 
-<h1>TRIBES</h1>
+    <h1>TRIBES</h1>
 
-<p>
+    <p>
 
-    <a class="btn button" asp-action="Create">
-        NIEUWE TRIBE
-        <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
-    </a>
-</p>
-<table class="table table-bordered bg-light">
-    <thead class="thead-dark">
-        <tr>
-            <th>
-                NAAM
-            </th>
-            <th>
-                BESCHRIJVING
-            </th>
-            <th>
-                SPOTIFY LINK
-            </th>
-            <th>
-                ACTIES
-            </th>
-            <th>
-                PUBLICATIE
-            </th>
-            <th></th>
+        <a class="btn button" asp-action="Create">
+            NIEUWE TRIBE
+            <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg" />
+        </a>
+    </p>
+    <table class="table table-bordered bg-light">
+        <thead class="thead-dark">
+            <tr>
+                <th>
+                    NAAM
+                </th>
+                <th>
+                    BESCHRIJVING
+                </th>
+                <th>
+                    SPOTIFY LINK
+                </th>
+                <th>
+                    ACTIES
+                </th>
+                <th>
+                    PUBLICATIE
+                </th>
+                <th></th>
 
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
         {
             <tr>
                 <td>
@@ -199,13 +237,14 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
+                <h5 class="modal-title">Content Publiceren</h5>
                 <button id="closeModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form asp-action="ChangeTribeContentStatus">
-                <div class="modal-body">
+            <div class="modal-body">
+
+                <form asp-action="PublishTribeArticles">
                     <table>
                         <thead class="thead-dark">
                             <tr>
@@ -213,9 +252,14 @@
                                     ARTIKELEN
                                 </th>
                             </tr>
-                    </thead>
-                    <tbody id="ArticlesBody"></tbody>
+                        </thead>
+                        <tbody id="ArticlesBody"></tbody>
                     </table>
+                    <div class="modal-footer">
+                        <button type="submit" id="submitarticles" class="btn btn-primary">Opslaan</button>
+                    </div>
+                </form>
+                @*<form asp-action="PublishTribeVideos">
                     <h2>Videos</h2>
                     <table>
                         <thead class="thead-dark">
@@ -227,38 +271,42 @@
                         </thead>
                         <tbody id="VideosBody"></tbody>
                     </table>
-                    <h2>Podcasts</h2>
-                    <table>
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>
-                                    PODCASTS
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody id="PodcastsBody"></tbody>
-                    </table>
+                    <div class="modal-footer">
+                        <button type="submit" id="submitvideos" class="btn btn-primary">Opslaan</button>
+                    </div>
+                </form>*@
+
+                @* <form asp-action="PublishTribePodcasts">
+                <h2>Podcasts</h2>
+                <table>
+                <thead class="thead-dark">
+                <tr>
+                <th>
+                PODCASTS
+                </th>
+                </tr>
+                </thead>
+                <tbody id="PodcastsBody"></tbody>
+                </table>
                 </div>
-            </form>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Opslaan</button>
+                </form>*@
+
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    function ConfirmDelete(id) {
-        const conbtn = document.getElementById("test");
-        const conbtn2 = document.getElementById(id);
+    <script>
+        function ConfirmDelete(id) {
+            const conbtn = document.getElementById("test");
+            const conbtn2 = document.getElementById(id);
 
-        let text = "Weet je zeker dat u deze tribe wilt verwijderen?"
-        if (confirm(text) == true) {
-            conbtn2.click();
+            let text = "Weet je zeker dat u deze tribe wilt verwijderen?"
+            if (confirm(text) == true) {
+                conbtn2.click();
+            }
+            else {
+                console.log("test");
+            }
         }
-        else {
-            console.log("test");
-        }
-    }
-</script>
+    </script>
 

@@ -29,7 +29,7 @@ namespace RockstarsIT.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Tribe> objCategoryList = _context.Tribes;
+            var objCategoryList = _context.Tribes.Include(v => v.Articles).Include(v => v.Videos);
             return View(objCategoryList);
         }
 
@@ -224,7 +224,6 @@ namespace RockstarsIT.Controllers
             _context.Attach(tribe);
             if (status)
             {
-
                 _context.Entry(tribe).Property(r => r.DatePublished).IsModified = true;
             }
             _context.Entry(tribe).Property(r => r.PublishedStatus).IsModified = true;
@@ -241,10 +240,11 @@ namespace RockstarsIT.Controllers
             if (id > 0)
             {
                 var articles = await _context.Article.Where(a => a.TribeId == id).ToListAsync();
-                var podcasts = await _context.PodcastEpisodes.Where(a => a.TribeId == id).ToListAsync();
+                var podcastsEpisodes = await _context.PodcastEpisodes.Where(a => a.TribeId == id).ToListAsync();
+                var podcasts = await _context.Podcasts.Where(a => a.TribeId == id).ToListAsync();
                 var videos = await _context.Videos.Where(a => a.TribeId == id).ToListAsync();
 
-                return Json(new { Success = true, Articles = articles, Podcasts = podcasts, Videos = videos });
+                return Json(new { Success = true, Articles = articles, Videos = videos });
             }
             else
             {
@@ -252,10 +252,42 @@ namespace RockstarsIT.Controllers
             }
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> ChangeTribeContentStstus( )
-        //{
+        [HttpPost]
+        public async Task<IAction> PublishTribeArticles(List<string> ids)
+        {
+            foreach (var id in ids)
+            {
+                _context.Article.Where(a =>  a.ArticleId == Convert.ToInt32( id)).ToList().ForEach(a => a.PublishedStatus = true);
+                await _context.SaveChangesAsync();
+            }
+            var tribe = new Tribe { TribeId = Convert.ToInt32( ids[0]), DatePublished = DateTime.Now, PublishedStatus = true };
+            _context.Attach(tribe);
             
+            _context.Entry(tribe).Property(r => r.PublishedStatus).IsModified = true;
+            await _context.SaveChangesAsync();
+            return Redirect("/Tribe/Index?view=grid");
+        }
+
+        //[HttpPost]
+        //public async Task<IActionResult> PublishTribeVideos(IEnumerable<int> ids)
+        //{
+        //    foreach (var id in ids)
+        //    {
+        //        _context.Videos.Where(a => a.VideoId == id).ToList().ForEach(a => a.PublishedStatus = true);
+        //        await _context.SaveChangesAsync();
+        //    }
+
+        //    return Redirect("/Tribe/Index?view=grid");
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> PublishTribePodcasts(IEnumerable<int> ids)
+        //{
+        // foreach (var id in ids)
+        //    {
+        //        _context.Podcast.Where(a => a.PodcastId == id).ToList().ForEach(a => a.PublishedStatus = true);
+        //        await _context.SaveChangesAsync();
+        //    }   
         //}
     }
 }
