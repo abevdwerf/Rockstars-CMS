@@ -127,7 +127,7 @@
     <value>Beschrijving</value>
   </data>
   <data name="create.pagetitle" xml:space="preserve">
-    <value>Video Toevoegen</value>
+    <value>VIDEO TOEVOEGEN</value>
   </data>
   <data name="create.title" xml:space="preserve">
     <value>Titel</value>
@@ -147,9 +147,6 @@
   <data name="edit.btn.save" xml:space="preserve">
     <value>WIJZIGINGEN OPSLAAN</value>
   </data>
-  <data name="edit.btn.unpublish" xml:space="preserve">
-    <value>DEPUBLICEREN</value>
-  </data>
   <data name="edit.description" xml:space="preserve">
     <value>Beschrijving</value>
   </data>
@@ -157,7 +154,7 @@
     <value>Invalide Link</value>
   </data>
   <data name="edit.pagetitle" xml:space="preserve">
-    <value>Video Bewerken</value>
+    <value>VIDEO BEWERKEN</value>
   </data>
   <data name="edit.title" xml:space="preserve">
     <value>Titel</value>
@@ -176,9 +173,6 @@
   </data>
   <data name="index.td.draft" xml:space="preserve">
     <value>Concept</value>
-  </data>
-  <data name="index.td.linkvalidation2" xml:space="preserve">
-    <value>Invalide Link</value>
   </data>
   <data name="index.td.notitle" xml:space="preserve">
     <value>Geen Titel Ingevuld</value>
@@ -203,5 +197,11 @@
   </data>
   <data name="index.title" xml:space="preserve">
     <value>VIDEO'S</value>
+  </data>
+  <data name="index.td.linkvalidation" xml:space="preserve">
+    <value>Invalide Link</value>
+  </data>
+  <data name="edit.btn.draft" xml:space="preserve">
+    <value>CONCEPT</value>
   </data>
 </root>

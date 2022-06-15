@@ -127,7 +127,7 @@
     <value>Description</value>
   </data>
   <data name="create.pagetitle" xml:space="preserve">
-    <value>Add Video</value>
+    <value>ADD VIDEO</value>
   </data>
   <data name="create.title" xml:space="preserve">
     <value>Title</value>
@@ -147,8 +147,8 @@
   <data name="edit.btn.save" xml:space="preserve">
     <value>SAVE CHANGES</value>
   </data>
-  <data name="edit.btn.unpublish" xml:space="preserve">
-    <value>UNPUBLISH</value>
+  <data name="edit.btn.draft" xml:space="preserve">
+    <value>DRAFT</value>
   </data>
   <data name="edit.description" xml:space="preserve">
     <value>Description</value>
@@ -157,7 +157,7 @@
     <value>Invalid Link</value>
   </data>
   <data name="edit.pagetitle" xml:space="preserve">
-    <value>Edit Video</value>
+    <value>EDIT VIDEO</value>
   </data>
   <data name="edit.title" xml:space="preserve">
     <value>Title</value>
