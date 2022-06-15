@@ -33,6 +33,10 @@ namespace RockstarsIT
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddDbContext<TestDatabaseContext>(options =>
+               options.UseSqlServer(
+                   Configuration.GetConnectionString("TestDatabaseConnection")));
+
             services.AddControllers().AddJsonOptions(jsonOptions =>
             {
                 jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
