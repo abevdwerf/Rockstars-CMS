@@ -30,12 +30,16 @@ namespace RockstarsIT
         {
             services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme).AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAD"));
             services.AddControllersWithViews();
-            
+
             services.AddRazorPages().AddRazorRuntimeCompilation();
-            
+
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<DBContextUnitTest>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("TestDatabaseConnection")));
 
             services.AddControllers().AddJsonOptions(jsonOptions =>
             {
