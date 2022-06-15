@@ -148,7 +148,7 @@
     <value>DELETE</value>
   </data>
   <data name="edit.btn.deletetext" xml:space="preserve">
-    <value>VERWIJDER HUIDIG TEKSTBLOK</value>
+    <value>DELETE CURRENT TEXTBLOCK</value>
   </data>
   <data name="edit.btn.save" xml:space="preserve">
     <value>SAVE CHANGES</value>
@@ -160,7 +160,7 @@
     <value>Choose File</value>
   </data>
   <data name="edit.choosefiletext" xml:space="preserve">
-    <value>Kies een of meerdere bestanden...</value>
+    <value>Choose one or more files...</value>
   </data>
   <data name="edit.description" xml:space="preserve">
     <value>Description</value>

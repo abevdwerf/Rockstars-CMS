@@ -147,9 +147,6 @@
   <data name="edit.btn.delete" xml:space="preserve">
     <value>VERWIJDEREN</value>
   </data>
-  <data name="edit.btn.deletetext" xml:space="preserve">
-    <value>DELETE CURRENT TEXTBLOCK</value>
-  </data>
   <data name="edit.btn.save" xml:space="preserve">
     <value>WIJZIGINGEN OPSLAAN</value>
   </data>
@@ -160,7 +157,7 @@
     <value>Bestand Kiezen</value>
   </data>
   <data name="edit.choosefiletext" xml:space="preserve">
-    <value>Choose one or more files...</value>
+    <value>Kies een of meerdere bestanden...</value>
   </data>
   <data name="edit.description" xml:space="preserve">
     <value>Beschrijving</value>
@@ -203,5 +200,8 @@
   </data>
   <data name="index.th.spotify" xml:space="preserve">
     <value>SPOTIFY LINK</value>
+  </data>
+  <data name="edit.btn.deletetext" xml:space="preserve">
+    <value>VERWIJDER HUIDIG TEKSTBLOK</value>
   </data>
 </root>

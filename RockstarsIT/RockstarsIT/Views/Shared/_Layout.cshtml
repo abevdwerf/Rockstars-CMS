@@ -124,8 +124,9 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <form asp-action="ChangeLanguage" asp-controller="Home" method="post">
-                                <input type="hidden" id="returnUrl" name="returnUrl" value="@returnUrl" />
-                                <select id="culture" name="culture" onchange="this.form.submit();" asp-items="cultureItems" asp-for="@requestCulture.RequestCulture.UICulture.Name"></select>
+                                <img height="32" width="32" src="~/icons/globe-zwart.svg" style="padding: 2px;"/>
+                                <input type="hidden" id="returnUrl" name="returnUrl" value="@returnUrl"/>
+                                <select class="mt-2" id="culture" name="culture" onchange="this.form.submit();" asp-items="cultureItems" asp-for="@requestCulture.RequestCulture.UICulture.Name"></select>
                             </form>
                         </li>
                     </ul>
