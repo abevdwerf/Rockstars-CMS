@@ -1,50 +1,48 @@
 ﻿@model RockstarsIT.Models.Video
-
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<RockstarsIT.Controllers.VideoController> Localizer
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1 class="mt-3">Create</h1>
+<h1 class="mt-3">@Localizer["create.pagetitle"]</h1>
 
-<h4>Video</h4>
 <hr />
 <form asp-action="Create" onsubmit="setFormSubmitting()">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row g-3">
         <div class="col-md-6 mb-3">
-            <label asp-for="Title" class="control-label" lang="nl">Titel:</label>
-            <label asp-for="Title" class="control-label" lang="en-uk">Title:</label>
-            <input asp-for="Title" class="textbox w-100" required/>
+            <label asp-for="Title" class="control-label">@Localizer["create.title"]</label>
+            <input asp-for="Title" class="textbox w-100"/>
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
             <label asp-for="RockstarId" class="control-label">Rockstar:</label>
-            <select asp-for="RockstarId" class ="form-control" asp-items="ViewBag.RockstarNames"></select>
+            <select asp-for="RockstarId" class ="textbox w-100" asp-items="ViewBag.RockstarNames"></select>
         </div>
 
         <div class="col-md-6">
             <label asp-for="Link" class="control-label">Video Link (Youtube/Vimeo):</label>
-            <input asp-for="Link" class="textbox w-100" required />
+            <input asp-for="Link" class="textbox w-100" placeholder="@Localizer["create.urlexample"] https://www.youtube.com/watch?v=dQw4w9WgXcQ"/>
             <span asp-validation-for="Link" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
             <label asp-for="TribeId" class="control-label">Tribe:</label>
-            <select asp-for="TribeId" class ="form-control" asp-items="ViewBag.TribeNames"></select>
+            <select asp-for="TribeId" class ="textbox w-100" asp-items="ViewBag.TribeNames"></select>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="Description" class="control-label" lang="nl">Beschrijving:</label>
-            <label asp-for="Description" class="control-label" lang="en-uk">Description:</label>
-            <textarea asp-for="Description" class="textarea w-100"></textarea>
+            <label asp-for="Description" class="control-label" lang="nl">@Localizer["create.description"]</label>
+            <textarea asp-for="Description" class="textarea w-100" rows="5"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
     </div>
     <button type="submit" value="Create" class="btn button">
-        VIDEO TOEVOEGEN
+        @Localizer["create.btn.add"]
         <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
     </button>
     <div>
         <a asp-action="Index" class="btn button-cancel mt-3">
-            TERUG NAAR OVERZICHT
+            @Localizer["create.btn.back"]
             <svg class="arrowsSvg-cancel" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                  <path d="M0 0h24v24H0z" fill="none" />
                  <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />

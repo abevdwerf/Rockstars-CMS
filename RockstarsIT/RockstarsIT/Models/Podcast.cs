@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RockstarsIT.Models
 {
@@ -9,6 +10,7 @@ namespace RockstarsIT.Models
         private string _title;
         private string _description;
         private string _url;
+        private Tribe _tribe;
         private DateTime _dateCreated;
         private DateTime _dateModified;
         private DateTime _datePublished;
@@ -31,6 +33,13 @@ namespace RockstarsIT.Models
         {
             get => _url; 
             set => _url = value;
+        }
+        public int? TribeId { get; set; }
+        [ForeignKey("TribeId")]
+        public Tribe Tribe
+        {
+            get => _tribe; 
+            set => _tribe = value;
         }
         public DateTime DateCreated
         {

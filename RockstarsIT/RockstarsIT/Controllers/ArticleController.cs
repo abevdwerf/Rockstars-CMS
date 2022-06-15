@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
@@ -21,11 +22,13 @@ namespace RockstarsIT.Controllers
     {
         private readonly DatabaseContext _context;
         private readonly string _azureConnectionString;
+        private readonly IStringLocalizer<ArticleController> _stringLocalizer;
 
-        public ArticleController(DatabaseContext context, IConfiguration configuration)
+        public ArticleController(DatabaseContext context, IConfiguration configuration, IStringLocalizer<ArticleController> stringLocalizer)
         {
             _context = context;
             _azureConnectionString = configuration.GetConnectionString("ConnectionStringBlob");
+            _stringLocalizer = stringLocalizer;
         }
 
         // GET: Article
@@ -248,6 +251,41 @@ namespace RockstarsIT.Controllers
 
             return Json(new { Success = false, Message = "Geen afbeelding." });
         }
+
+        [HttpPost]
+        public async Task<ActionResult> UploadImageEditor(IFormFile upload)
+        {
+            if (upload.Length <= 0) return null;
+
+            var list = new List<Tuple<int, string>>();
+
+            string currentFileName = Path.GetFileNameWithoutExtension(upload.FileName);
+            string extension = Path.GetExtension(upload.FileName);
+            string newFileName = currentFileName + DateTime.Now.ToString("yymmsfff") + extension;
+
+            var container = new BlobContainerClient(_azureConnectionString, "article-images");
+
+            // Method to create a new Blob client.
+            var blob = container.GetBlobClient(newFileName);
+
+            // Create a file stream and use the UploadSync method to upload the Blob.
+            using (var fileStream = upload.OpenReadStream())
+            {
+                await blob.UploadAsync(fileStream, new BlobHttpHeaders { ContentType = upload.ContentType });
+            }
+
+            var articleImages = new ArticleImages()
+            {
+                URL = blob.Uri.ToString()
+            };
+
+            _context.Add(articleImages);
+            await _context.SaveChangesAsync();
+            list.Add(new Tuple<int, string>(articleImages.ArticleImageId, articleImages.URL));
+            
+            return Json(new { Success = true, ArticleImages = list, Message = "Afbeelding geüpload." });
+        }
+    
 
         [HttpPost]
         public async Task<JsonResult> DeleteImage(IFormCollection formcollection)

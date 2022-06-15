@@ -7,7 +7,10 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using RockstarsIT.Classes;
 using RockstarsIT.Models;
@@ -19,11 +22,13 @@ namespace RockstarsIT.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly DatabaseContext _context;
+        private readonly IStringLocalizer<HomeController> _stringLocalizer;
 
-        public HomeController(ILogger<HomeController> logger, DatabaseContext context)
+        public HomeController(ILogger<HomeController> logger, DatabaseContext context, IStringLocalizer<HomeController> stringLocalizer)
         {
             _logger = logger;
             _context = context;
+            _stringLocalizer = stringLocalizer;
         }
 
         public IActionResult Index()
@@ -124,6 +129,20 @@ namespace RockstarsIT.Controllers
             return sortedList;
         }
 
+        [HttpPost]
+        public IActionResult ChangeLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                    new CookieOptions
+                    {
+                        Expires = DateTimeOffset.UtcNow.AddDays(7)
+                    }
+            );
+
+            return LocalRedirect(returnUrl);
+        }
         public IActionResult buttons()
         {
             return View();

@@ -1,5 +1,6 @@
 @model IEnumerable<RockstarsIT.Models.Podcast>
-
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<RockstarsIT.Controllers.PodcastController> Localizer
 @{
     ViewData["Title"] = "Index";
     Spotify spotify = new Spotify();
@@ -9,7 +10,7 @@
 <div class="row">
     <div class="col-md-6  text-left">
         <a asp-action="Create" class="btn button">
-            NIEUWE PODCAST
+            @Localizer["index.btn.add"]
             <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg"/>
         </a>
         <br/>
@@ -42,19 +43,19 @@
             <thead class="thead-dark">
             <tr>
                 <th>
-                    TITEL
+                    @Localizer["index.th.title"]
                 </th>
                 <th>
-                    Datum van Publiceren
+                    @Localizer["index.th.publicationdate"]
                 </th>
                 <th>
-                    Status
+                    STATUS
                 </th>
                 <th>
-                    Status veranderen
+                    @Localizer["index.th.changestatus"]
                 </th>
                 <th>
-                    
+                    @Localizer["index.th.actions"]
                 </th>
             </tr>
             </thead>
@@ -86,11 +87,11 @@
                     <td>
                         @if (item.PublishedStatus)
                         {
-                            <p>Gepubliceerd</p>
+                            <p>@Localizer["index.td.published"]</p>
                         }
                         else
                         {
-                            <p>Concept</p>
+                            <p>@Localizer["index.td.draft"]</p>
                         }
                     </td>
                     <td>
@@ -109,7 +110,7 @@
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.PodcastId" class="btn button mr-2">
-                            BEWERKEN
+                            @Localizer["index.btn.edit"]
                             <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
                         </a>
                     </td>
@@ -139,7 +140,7 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
             }
             else
             {
-                <h5>GEEN TITEL</h5>
+                <h5>@Localizer["index.td.notitle"]</h5>
             }
         </div>
         <div class="card-body">
@@ -155,7 +156,7 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
         <ul class="list-group list-group-flush">
             <li class="list-group-item" style="background-color:#FFE000">
                 <a asp-action="Edit" asp-route-id="@item.PodcastId" class="card-link btn button-white">
-                    BEWERKEN
+                    @Localizer["index.btn.edit"]
                     <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
                 </a>
             </li>

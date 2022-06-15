@@ -1,5 +1,6 @@
 ﻿@model RockstarsIT.Models.Article
-
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<RockstarsIT.Controllers.ArticleController> Localizer
 @{
     ViewData["Title"] = "Translate Article";
 }

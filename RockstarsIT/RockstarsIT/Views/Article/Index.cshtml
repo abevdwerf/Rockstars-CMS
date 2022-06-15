@@ -1,14 +1,15 @@
 ﻿@model IEnumerable<RockstarsIT.Models.Article>
-
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<RockstarsIT.Controllers.ArticleController> Localizer
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1 class="mt-3">ARTIKELEN</h1>
+<h1 class="mt-3">@Localizer["index.pagetitle"]</h1>
 <div class="row">
     <div class="col-md-6  text-left">
         <a asp-action="Create" class="btn button">
-            NIEUW ARTIKEL
+            @Localizer["index.btn.add"]
             <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg" />
         </a>
         <br />
@@ -42,8 +43,8 @@
     <form class="form-group" asp-action="index" asp-route-view="grid">
         <div class="input-group col-8">
             <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
-            <input type="search" class="form-control" name="searchWords" placeholder="Zoeken op">
-            <input type="submit" class="btn btn-primary" value="zoeken" />
+            <input type="search" class="form-control" name="searchWords" placeholder="@Localizer["index.searchfor"]">
+            <input type="submit" class="btn btn-primary" value="@Localizer["index.btn.search"]" />
         </div>
     </form>
     <hr />
@@ -51,32 +52,72 @@
         <thead class="thead-dark">
             <tr>
                 <th>
-                    TITEL
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="title" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="title" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
+                    @Localizer["index.th.title"]
+                    <br/>
+                    <br/>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="title" asp-route-orderOn="asc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-up.svg"/>
+                    </a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="title" asp-route-orderOn="desc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-down.svg"/>
+                    </a>
                 </th>
                 <th>
-                    BESCHRIJVING
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="description" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="description" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
+                    @Localizer["index.th.description"]
+                    <br/>
+                    <br/>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="description" asp-route-orderOn="asc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-up.svg"/>
+                    </a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="description" asp-route-orderOn="desc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-down.svg"/>
+                    </a>
                 </th>
                 <th>
-                    SCHRIJVER
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="rockstar" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="rockstar" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
+                    @Localizer["index.th.author"]
+                    <br/>
+                    <br/>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="rockstar" asp-route-orderOn="asc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-up.svg"/>
+                    </a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="rockstar" asp-route-orderOn="desc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-down.svg"/>
+                    </a>
                 </th>
                 <th>
-                    DATUM GEPUBLICEERD
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="datePublished" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="datePublished" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
+                    @Localizer["index.th.publicationdate"]
+                    <br/>
+                    <br/>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="datePublished" asp-route-orderOn="asc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-up.svg"/>
+                    </a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="datePublished" asp-route-orderOn="desc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-down.svg"/>
+                    </a>
                 </th>
                 <th>
                     STATUS
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="status" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="status" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
+                    <br/>
+                    <br/>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="status" asp-route-orderOn="asc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-up.svg"/>
+                    </a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="status" asp-route-orderOn="desc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-down.svg"/>
+                    </a>
                 </th>
-                <th>Status veranderen</th>
-                <th></th>
+                <th>
+                    @Localizer["index.th.changestatus"]
+                    <br/>
+                    <br/>
+                    <br/>
+                </th>
+                <th>
+                    @Localizer["index.th.actions"]
+                    <br/>
+                    <br/>
+                    <br/>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -105,32 +146,30 @@
                     <td>
                         @if (item.PublishedStatus)
                         {
-                            <p>Gepubliceerd</p>
+                            <p>@Localizer["index.td.published"]</p>
                         }
                         else
                         {
-                            <p>Concept</p>
+                            <p>@Localizer["index.td.draft"]</p>
                         }
                     </td>
                     <td>
                         @if (item.PublishedStatus)
                         {
                             <a asp-action="ChangeStatus" asp-route-id="@item.ArticleId" asp-route-status="false" class="btn text-black">
-                                CONCEPT
                                 <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg" />
                             </a>
                         }
                         else
                         {
                             <a asp-action="ChangeStatus" asp-route-id="@item.ArticleId" asp-route-status="true" class="btn text-black">
-                                PUBLICEREN
                                 <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg" />
                             </a>
                         }
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.ArticleId" class="btn button mr-2">
-                            BEWERKEN
+                            @Localizer["index.btn.edit"]
                             <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg" />
                         </a>
                     </td>
@@ -161,7 +200,7 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
             }
             else
             {
-                <h5>GEEN TITEL</h5>
+                <h5>@Localizer["index.td.notitle"]</h5>
                 <p class="card-text text-muted">@Html.DisplayFor(modelItem => item.Rockstar.Name)</p>
             }
         </div>
@@ -179,13 +218,13 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
             }
             else
             {
-                <p>Geen beschrijving...</p>   
+                <p>@Localizer["index.td.nodescription"]</p>   
             }
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item" style="background-color:#FFE000">
                 <a asp-action="Edit" asp-route-id="@item.ArticleId" class="card-link btn button-white">
-                    BEWERKEN
+                    @Localizer["index.btn.edit"]
                     <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg"/>
                 </a>
             </li>

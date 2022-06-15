@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
@@ -20,11 +21,13 @@ namespace RockstarsIT.Controllers
     {
         private readonly DatabaseContext _context;
         private readonly string _azureConnectionString;
+        private readonly IStringLocalizer<TribeController> _stringLocalizer;
 
-        public TribeController(DatabaseContext db, IConfiguration configuration)
+        public TribeController(DatabaseContext db, IConfiguration configuration, IStringLocalizer<TribeController> stringLocalizer)
         {
             _context = db;
             _azureConnectionString = configuration.GetConnectionString("ConnectionStringBlob");
+            _stringLocalizer = stringLocalizer;
         }
 
         public IActionResult Index()

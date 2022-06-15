@@ -111,6 +111,7 @@ body {
     border-color: dimgray;
     border-bottom: 1px solid dimgray;
     font-size: 14px;
+    height: 120px;
     padding-left: 10px;
     border-radius: 5px;
 }
@@ -124,6 +125,18 @@ body {
 }
 
 .textbox:invalid {
+    border-bottom: 2px solid red;
+}
+
+.textarea:hover {
+    border-bottom: 2px solid dimgray;
+}
+
+.textarea:focus {
+    border-bottom: 2px solid dimgray;
+}
+
+.textarea:invalid {
     border-bottom: 2px solid red;
 }
 

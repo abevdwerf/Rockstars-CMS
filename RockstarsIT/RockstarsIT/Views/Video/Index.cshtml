@@ -1,19 +1,15 @@
 ﻿@model IEnumerable<RockstarsIT.Models.Video>
-
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<RockstarsIT.Controllers.VideoController> Localizer
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1 lang="nl" class="mt-3">VIDEO'S</h1>
-<h1 lang="en-uk" class="mt-3">VIDEOS</h1>
+<h1 class="mt-3">@Localizer["index.title"]</h1>
 <div class="row">
     <div class="col-md-6  text-left">
-        <a asp-action="Create" class="btn button" lang="nl">
-            NIEUWE VIDEO
-            <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg" />
-        </a>
-        <a asp-action="Create" class="btn button" lang="en-uk">
-            NEW VIDEO
+        <a asp-action="Create" class="btn button">
+            @Localizer["index.btn.add"]
             <img class="ml-2" height="32" width="32" src="~/icons/circle-plus-geel.svg" />
         </a>
         <br />
@@ -46,53 +42,92 @@
     <form class="form-group" asp-action="index" asp-route-view="grid">
         <div class="input-group col-8">
             <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
-            <input type="search" class="form-control" name="searchWords" placeholder="Zoeken op">
-            <input type="submit" class="btn btn-primary" value="zoeken" />
+            <input type="search" class="form-control" name="searchWords" placeholder="@Localizer["index.searchfor"]">
+            <input type="submit" class="btn btn-primary" value="@Localizer["index.btn.search"]" />
         </div>
     </form>
     <table class="table table-bordered bg-light">
         <thead class="thead-dark">
             <tr>
                 <th>
-                    <label lang="nl">TITEL</label> <label lang="en-uk">ACTIONS</label>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="title" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="title" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
+                    @Localizer["index.th.title"]
+                    <br>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="title" asp-route-orderOn="asc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-up.svg"/>
+                    </a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="title" asp-route-orderOn="desc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-down.svg"/>
+                    </a>
                 </th>
                 <th>
-                    <label lang="nl">BESCHRIJVING</label> <label lang="en-uk">DESCRIPTION</label>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="description" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="description" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
+                    @Localizer["index.th.description"]
+                    <br>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="description" asp-route-orderOn="asc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-up.svg"/>
+                    </a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="description" asp-route-orderOn="desc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-down.svg"/>
+                    </a>
                 </th>
                 <th>
-                    <label>VIDEO ID</label>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="id" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="id" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
+                    VIDEO ID
+                    <br/>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="id" asp-route-orderOn="asc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-up.svg"/>
+                    </a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="id" asp-route-orderOn="desc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-down.svg"/>
+                    </a>
                 </th>
                 <th>
-                    <label>TRIBE</label>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="tribe" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="tribe" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
+                    TRIBE
+                    <br/>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="tribe" asp-route-orderOn="asc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-up.svg"/>
+                    </a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="tribe" asp-route-orderOn="desc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-down.svg"/>
+                    </a>
                 </th>
                 <th>
-                    <label>ROCKSTAR</label>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="rockstar" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="rockstar" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
+                    ROCKSTAR
+                    <br/>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="rockstar" asp-route-orderOn="asc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-up.svg"/>
+                    </a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="rockstar" asp-route-orderOn="desc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-down.svg"/>
+                    </a>
                 </th>
                 <th>
-                    <label lang="nl">PUBLICATIEDATUM</label> <label lang="en-uk">PUBLICATION DATE</label>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="datePublished" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="datePublished" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
+                    @Localizer["index.th.publicationdate"]
+                    <br/>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="datePublished" asp-route-orderOn="asc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-up.svg"/>
+                    </a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="datePublished" asp-route-orderOn="desc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-down.svg"/>
+                    </a>
                 </th>
                 <th>
-                    <label>STATUS</label>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="status" asp-route-orderOn="asc" class="bi bi-arrow-up"></a>
-                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="status" asp-route-orderOn="desc" class="bi bi-arrow-down"></a>
+                    STATUS
+                    <br/>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="status" asp-route-orderOn="asc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-up.svg"/>
+                    </a>
+                    <a asp-action="index" asp-route-view="grid" asp-route-orderBy="status" asp-route-orderOn="desc">
+                        <img class="ml-2" height="12" width="12" src="~/icons/arrow-down.svg"/>
+                    </a>
                 </th>
                 <th>
-                    <label lang="nl">STATUS VERANDEREN</label> <label lang="en-uk">CHANGE STATUS</label>
+                    @Localizer["index.th.changestatus"]
+                    <br/>
+                    <br/>
                 </th>
                 <th>
-                    <label lang="nl">ACTIES</label> <label lang="en-uk">ACTIONS</label>
+                    @Localizer["index.th.actions"]
+                    <br/>
+                    <br/>
                 </th>
             </tr>
         </thead>
@@ -120,8 +155,7 @@
                         }
                         else
                         {
-                            <p lang="en-uk">Invalid Link</p>
-                            <p lang="nl">Invalide Link</p>
+                            @Localizer["index.td.linkvalidation"]
                         }
                     </td>
                     <td>
@@ -143,13 +177,11 @@
                     <td>
                         @if (item.PublishedStatus)
                         {
-                            <p lang="nl">Gepubliceerd</p>
-                            <p lang="en-uk">Published</p>
+                            @Localizer["index.td.published"]
                         }
                         else
                         {
-                            <p lang="nl">Concept</p>
-                            <p lang="en-uk">Draft</p>
+                            @Localizer["index.td.draft"]
                         }
                     </td>
                     <td>
@@ -176,7 +208,7 @@
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.VideoId" class="btn button mr-2">
-                            <label lang="nl" class="text-black">BEWERKEN</label> <label lang="en-uk" class="text-black">EDIT</label>
+                            @Localizer["index.btn.edit"]
                             <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                                 <path d="M0 0h24v24H0z" fill="none" />
                                 <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
@@ -210,7 +242,7 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
                         }
                         else
                         {
-                            <h5>GEEN TITEL</h5>
+                            <h5>@Localizer["index.td.notitle"]</h5>
                         }
                         <p class="card-text">Rockstar: @Html.DisplayFor(modelItem => item.Rockstar.Name)</p>
                     </div>
@@ -230,7 +262,7 @@ else if (ViewData["DataShowType"].ToString() == "cards" || ViewData["DataShowTyp
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" style="background-color:#FFE000">
                             <a asp-action="Edit" asp-route-id="@item.VideoId" class="card-link btn button-white">
-                                <label lang="nl" class="text-black">BEWERKEN</label> <label lang="en-uk" class="text-black">EDIT</label>
+                                @Localizer["index.btn.edit"]
                                 <img class="ml-2" height="32" width="32" src="~/icons/Pen-geel.svg" />
                             </a>
                         </li>

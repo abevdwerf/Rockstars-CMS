@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using RockstarsIT.Models;
 
 namespace RockstarsIT.Controllers
@@ -14,10 +15,12 @@ namespace RockstarsIT.Controllers
     public class VideoController : Controller
     {
         private readonly DatabaseContext _context;
+        private readonly IStringLocalizer<VideoController> _stringLocalizer;
 
-        public VideoController(DatabaseContext context)
+        public VideoController(DatabaseContext context, IStringLocalizer<VideoController> stringLocalizer)
         {
             _context = context;
+            _stringLocalizer = stringLocalizer;
         }
 
         // GET: Video
