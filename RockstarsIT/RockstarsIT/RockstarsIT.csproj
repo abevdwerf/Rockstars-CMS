@@ -66,6 +66,18 @@
       <EmbeddedResource Update="Controllers\VideoController.nl.resx">
         <DependentUpon>VideoController.cs</DependentUpon>
       </EmbeddedResource>
+      <EmbeddedResource Update="Controllers\PodcastController.en.resx">
+        <DependentUpon>PodcastController.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Controllers\PodcastController.nl.resx">
+        <DependentUpon>PodcastController.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Controllers\PodcastEpisodeController.nl.resx">
+        <DependentUpon>PodcastEpisodeController.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Controllers\PodcastEpisodeController.en.resx">
+        <DependentUpon>PodcastEpisodeController.cs</DependentUpon>
+      </EmbeddedResource>
     </ItemGroup>
   
 </Project>
