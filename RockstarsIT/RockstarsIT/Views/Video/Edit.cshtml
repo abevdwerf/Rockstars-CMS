@@ -72,24 +72,21 @@
     <br>
     <div>
         <button type="submit" value="Edit" class="btn button mr-3 mb-2" id="sub">
-            @Localizer["edit.btn.edit"]
-            <svg class="arrowsSvg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
-            </svg>
+            @Localizer["edit.btn.save"]
+            <img class="ml-2" height="32" width="32" src="~/icons/save-zwart.svg"/>
         </button>
         @if (@Model.PublishedStatus)
         {
             <a asp-action="ChangeStatus" asp-route-id="@Model.VideoId" asp-route-status="false" class="btn button mb-2">
-                <label lang="nl" class="text-black">CONCEPT</label><label lang="en-uk" class="text-black">DRAFT</label>
-                <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg" />
+                @Localizer["edit.btn.draft"]
+                <img class="ml-2" height="32" width="32" src="~/icons/x-circle.svg"/>
             </a>
         }
         else
         {
             <a asp-action="ChangeStatus" asp-route-id="@Model.VideoId" asp-route-status="true" class="btn button mb-2">
-                <label lang="nl" class="text-black">PUBLICEREN</label><label lang="en-uk" class="text-black">PUBLISH</label>
-                <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg" />
+                @Localizer["edit.btn.publish"]
+                <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
             </a>
         }
     </div>
@@ -119,10 +116,6 @@
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-    window.onload = Open
-    var formSubmitting = false;
-    var setFormSubmitting = function() { formSubmitting = true; }
-
     function OpenEditor(updatefield) {
         let editelements = document.getElementsByName(updatefield);
         for(let i = 0; i < editelements.length;i++){
@@ -137,20 +130,6 @@
         }
     }
 
-    function Open() {
-        window.addEventListener("beforeunload", function (e) {
-            if (formSubmitting) {
-                return undefined;
-            }
-
-            var confirmationMessage = 'It looks like you have been editing something. '
-                                    + 'If you leave before saving, your changes will be lost.';
-
-            (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-            return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-        });
-    };
-
     window.onload = CheckLink();
     function CheckLink () {
         if (document.getElementById("vimeoimg").name == @Html.DisplayFor(model => model.Link))
@@ -158,23 +137,6 @@
             document.getElementById("vimeoimg").src = ("https://vumbnail.com/" + "@Html.DisplayFor(model => model.Link)" + ".jpg");
         }
     }
-
-
-    var formSubmitting = false;
-    var setFormSubmitting = function() { formSubmitting = true; };
-    window.onload = function() {
-        window.addEventListener("beforeunload", function (e) {
-            if (formSubmitting) {
-                return undefined;
-            }
-
-            var confirmationMessage = 'It looks like you have been editing something. '
-                                    + 'If you leave before saving, your changes will be lost.';
-
-            (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-            return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-        });
-    };
 
     function ConfirmDelete() {
         const conbtn2 = document.getElementById("delsub");
