@@ -1,5 +1,4 @@
 ﻿@using Microsoft.AspNetCore.Builder
-@using Microsoft.AspNetCore.Builder
 @using Microsoft.AspNetCore.Localization
 @using Microsoft.Extensions.Options
 @using Microsoft.Extensions.Localization
@@ -124,9 +123,16 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <form asp-action="ChangeLanguage" asp-controller="Home" method="post">
-                                <img height="32" width="32" src="~/icons/globe-zwart.svg" style="padding: 2px;"/>
+                                @* <img height="32" width="32" src="~/icons/globe-zwart.svg" style="padding: 2px;"/> *@
                                 <input type="hidden" id="returnUrl" name="returnUrl" value="@returnUrl"/>
                                 <select class="mt-2" id="culture" name="culture" onchange="this.form.submit();" asp-items="cultureItems" asp-for="@requestCulture.RequestCulture.UICulture.Name"></select>
+                                @if (requestCulture.RequestCulture.UICulture.Name == "en")
+                                {
+                                    <span style="font-size: 20px;">🇬🇧</span>
+                                } else if (requestCulture.RequestCulture.UICulture.Name == "nl")
+                                {
+                                    <span style="font-size: 20px;">🇳🇱</span>
+                                }
                             </form>
                         </li>
                     </ul>
