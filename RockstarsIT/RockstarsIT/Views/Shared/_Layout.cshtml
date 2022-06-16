@@ -1,7 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Builder
 @using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.Extensions.Options
 @using Microsoft.Extensions.Localization
+@using System.Text
 @inject IStringLocalizer<RockstarsIT.Controllers.HomeController> Localizer
 @inject IOptions<RequestLocalizationOptions> LocOptions
 @{
@@ -10,7 +12,14 @@
     var cultureItems = LocOptions.Value.SupportedUICultures
     .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName.ToUpper() })
         .ToList();
+    
+    string NL = "nl";
+    string GB = "gb";
+    
+    var uk_flag = string.Concat(GB.ToUpper().Select(x => char.ConvertFromUtf32(x + 0x1F1A5)));
+    var nl_flag = string.Concat(NL.ToUpper().Select(x => char.ConvertFromUtf32(x + 0x1F1A5)));
 }
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -127,10 +136,12 @@
                                 <select class="mt-2" id="culture" name="culture" onchange="this.form.submit();" asp-items="cultureItems" asp-for="@requestCulture.RequestCulture.UICulture.Name"></select>
                                 @if (requestCulture.RequestCulture.UICulture.Name == "en")
                                 {
-                                    <span style="font-size: 20px;">🇬🇧</span>
+                                    <span>@uk_flag</span>
+                                    @* <span style="font-size: 20px;">🇬🇧</span> *@
                                 } else if (requestCulture.RequestCulture.UICulture.Name == "nl")
                                 {
-                                    <span style="font-size: 20px;">🇳🇱</span>
+                                    <span>@nl_flag</span>
+                                    @* <span style="font-size: 20px;">🇳🇱</span> *@
                                 }
                             </form>
                         </li>
