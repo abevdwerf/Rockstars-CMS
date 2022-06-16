@@ -70,9 +70,9 @@ namespace RockstarsIT.Controllers
         private int GetNumberPublishedContent()
         {
             int publishedContent = 0;
-            publishedContent = _context.Article.Count(item => item.PublishedStatus == true);
-            publishedContent = _context.Videos.Count(item => item.PublishedStatus == true);
-            publishedContent = _context.PodcastEpisodes.Count(item => item.PublishedStatus == true);
+            publishedContent += _context.Article.Count(item => item.PublishedStatus == true);
+            publishedContent += _context.Videos.Count(item => item.PublishedStatus == true);
+            publishedContent += _context.PodcastEpisodes.Count(item => item.PublishedStatus == true);
             return publishedContent;
         }
 
