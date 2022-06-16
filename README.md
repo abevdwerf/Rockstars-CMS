@@ -30,7 +30,7 @@ Om een nieuwe website taal toe te voegen aan de applicatie moeten de volgende st
   - In de view waarin je de vertaling wilt gebruiken, moet er een reference naar Microsoft.Extensions.Localization komen, en een injection van de IStringLocalizer.
     - Bijv. @using Microsoft.Extensions.Localization, gevolgd door @inject IStringLocalizer<Rockstars.Controllers.HomeController> Localizer.
   - Nu kan je de vertalingen overal aanroepen in de view, met @Localizer["*Name/syntax*"].
-    -Bijv. <p>@Localizer["index.pagetitle"]</p>
+    - Bijv. <p>@Localizer["index.pagetitle"]</p>
   - Wisselen tussen talen moet met de select rechtsboven in de header van de pagina. Deze is te vinden in de _Layout.cshtml.
     - Nieuwe talen worden hier automatisch toegevoegd.
   - Dit wisselen wordt geregeld in de HomeController.cs onder de method "ChangeLanguage".
