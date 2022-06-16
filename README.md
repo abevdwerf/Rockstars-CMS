@@ -1,5 +1,10 @@
 # Rockstars-FHICT
-Project rockstarsIT
+
+Content management systeem
+
+<br/>
+
+## Setup
 
 Om het project lokaal te draaien zijn er een aantal punten om rekening mee te houden, namelijk:
 - AppSettings.json aanmaken + database connectie invoeren
