@@ -27,11 +27,11 @@ Om een nieuwe website taal toe te voegen aan de applicatie moeten de volgende st
     - Bijv. voor een pagina kop van de Index pagina, zou je als syntax "index.pagetitle" kunnen maken. Onder value "Welkom" voor Nederlands, en "Wilkommen" voor Duits.
   - In de controller moet er een veld van type "IStringLocalizer<*controllernaam*>" (Bijv. IStringLocalizer<HomeController>) komen. Deze moet ook in de constructor.
     - Hiervoor moet ook een reference komen. Deze zijn al aanwezig in de bestaande controllers.
-  - In de view waarin je de vertaling wilt gebruiken, moet er een reference naar Microsoft.Extensions.Localization komen, en een injection van de IStringLocalizer
-    - Bijv. @using Microsoft.Extensions.Localization, gevolgd door @inject IStringLocalizer<Rockstars.Controllers.HomeController> Localizer
-  - Nu kan je de vertalingen overal aanroepen in de view, met @Localizer["*Name/syntax*"]
+  - In de view waarin je de vertaling wilt gebruiken, moet er een reference naar Microsoft.Extensions.Localization komen, en een injection van de IStringLocalizer.
+    - Bijv. @using Microsoft.Extensions.Localization, gevolgd door @inject IStringLocalizer<Rockstars.Controllers.HomeController> Localizer.
+  - Nu kan je de vertalingen overal aanroepen in de view, met @Localizer["*Name/syntax*"].
     -Bijv. <p>@Localizer["index.pagetitle"]</p>
   - Wisselen tussen talen moet met de select rechtsboven in de header van de pagina. Deze is te vinden in de _Layout.cshtml.
     - Nieuwe talen worden hier automatisch toegevoegd.
-  - Dit wisselen wordt geregeld in de HomeController.cs onder de method "ChangeLanguage"
+  - Dit wisselen wordt geregeld in de HomeController.cs onder de method "ChangeLanguage".
 Voor meer details, zie de meegegeven bron.
