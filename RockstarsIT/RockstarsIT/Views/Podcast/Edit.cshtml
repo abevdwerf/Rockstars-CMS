@@ -11,6 +11,7 @@
 <form asp-action="Edit" asp-controller="Podcast" asp-route-id="@Model.PodcastId">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input hidden asp-for="PodcastId" value="@Model.PodcastId"/>
+    <input type="hidden" name="PodcastContentId" value="@ViewBag.PodcastContent.PodcastContentId" />
     <div class="row g-3">
         <div class="col-md-6 lg-6 mb-3">
             <label asp-for="URL" class="control-label" lang="nl">Url</label>
@@ -24,16 +25,14 @@
             <select asp-for="TribeId" class="textbox w-100" asp-items="ViewBag.TribeNames"></select>
             <span asp-validation-for="TribeId" class="text-danger"></span>
         </div>
-        <div class="col-md-6 mb-3">
-            <label asp-for="Title" class="control-label" lang="nl">Titel</label>
-            <label asp-for="Title" class="control-label" lang="en-uk">Title</label>
-            <input asp-for="Title" class="textbox w-100"/>
+       <div class="col-md-6 mb-3">
+            <label asp-for="Title" class="control-label">Titel</label>
+            <input asp-for="Title" class="textbox w-100" value="@ViewBag.PodcastContent.Title"/>
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="Description" class="control-label" lang="nl">Beschrijving</label>
-            <label asp-for="Description" class="control-label" lang="en-uk">Description</label>
-            <textarea asp-for="Description" class="textarea w-100" rows="5"></textarea>
+            <label asp-for="Description" class="control-label">Beschrijving</label>
+            <textarea class="textarea w-100" rows="5" name="Description">@ViewBag.PodcastContent.Description</textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
     </div>
@@ -59,6 +58,9 @@
                         <img class="ml-2" height="32" width="32" src="~/icons/checkmark-circle.svg"/>
                     </a>
                 }
+                <a asp-action="Translate" asp-route-id="@Model.PodcastId" class="btn button mr-3">
+                    VERTALEN
+                </a>
                 <a onclick="ConfirmDelete(this.name)" href="#" name="@Model.PodcastId" class="btn button-cancel mb-3">
                     <label lang="nl">VERWIJDEREN</label><label lang="en-uk">DELETE</label>
                     <img class="ml-2" height="32" width="32" src="~/icons/bin-wit.svg"/>

@@ -96,7 +96,7 @@ namespace RockstarsIT.Controllers
         {
             ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             ViewData["RockstarNames"] = new SelectList(_context.Rockstars, "RockstarId", "Name");
-            ViewData["PodcastTitles"] = new SelectList(_context.Podcasts, "PodcastId", "Title");
+            ViewData["PodcastTitles"] = new SelectList(_context.PodcastContents, "PodcastId", "Title");
             return View();
         }
 

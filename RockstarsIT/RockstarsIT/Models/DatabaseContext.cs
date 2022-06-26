@@ -319,7 +319,18 @@ namespace RockstarsIT.Models
             };
             
             builder.Entity<Podcast>().HasData(podcast1);
-            
+
+            PodcastContent podcastContent1 = new PodcastContent()
+            {
+                PodcastContentId = 1,
+                Title = spotify.GetTitle(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb")),
+                Description = spotify.GetDescription(spotify.GetSpotifyLinkId("https://open.spotify.com/episode/7d9QeMg8T5XY5y85gyp0wb")),
+                LanguageId = 1,
+                PodcastId = 1
+            };
+
+            builder.Entity<PodcastContent>().HasData(podcastContent1);
+
             PodcastEpisode podcastEpisode1 = new PodcastEpisode()
             {
                 PodcastEpisodeId = 1,

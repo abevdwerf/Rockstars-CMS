@@ -25,7 +25,8 @@ namespace RockstarsIT.Controllers
             string dataShowType = HttpContext.Request.Query["view"].ToString();
             ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
             ViewData["DataShowType"] = dataShowType;
-            return View(await _context.Podcasts.ToListAsync());
+            var databaseContext = _context.Podcasts.Include(p => p.PodcastContents);
+            return View(await databaseContext.ToListAsync());
         }
 
         // GET: Podcast/Create
@@ -47,8 +48,8 @@ namespace RockstarsIT.Controllers
                 podcast.URL = podcast.URL.Substring(0, podcast.URL.IndexOf("?"));
             }
 
-            //podcast.Title = spotify.GetShowTitle(spotify.GetSpotifyLinkId(podcast.URL));
-            //podcast.Description = spotify.GetShowDescription(spotify.GetSpotifyLinkId(podcast.URL));
+            podcast.Title = spotify.GetShowTitle(spotify.GetSpotifyLinkId(podcast.URL));
+            podcast.Description = spotify.GetShowDescription(spotify.GetSpotifyLinkId(podcast.URL));
 
             if (spotify.CheckShowLinkInput(podcast.URL))
             {
@@ -56,6 +57,17 @@ namespace RockstarsIT.Controllers
                 {
                     _context.Add(podcast);
                     await _context.SaveChangesAsync();
+
+                    var podcastContent = new PodcastContent()
+                    {
+                        Title = podcast.Title,
+                        Description = podcast.Description,
+                        LanguageId = 1,
+                        PodcastId = podcast.PodcastId
+                    };
+                    _context.Add(podcastContent);
+                    await _context.SaveChangesAsync();
+
                     return RedirectToAction(nameof(Index));
                 }
                 return View(podcast);
@@ -80,6 +92,7 @@ namespace RockstarsIT.Controllers
                 return NotFound();
             }
             ViewData["TribeNames"] = new SelectList(_context.Tribes, "TribeId", "Name");
+            ViewData["PodcastContent"] = await _context.PodcastContents.Where(p => p.LanguageId == 1).FirstOrDefaultAsync(m => m.PodcastId == id);
             return View(podcast);
         }
 
@@ -102,6 +115,17 @@ namespace RockstarsIT.Controllers
                     try
                     {
                         _context.Update(podcast);
+
+                        var podcastContent = new PodcastContent()
+                        {
+                            PodcastContentId = podcast.PodcastContentId,
+                            Title = podcast.Title,
+                            Description = podcast.Description,
+                            LanguageId = 1,
+                            PodcastId = id
+                        };
+                        _context.Update(podcastContent);
+
                         await _context.SaveChangesAsync();
                     }
                     catch (DbUpdateConcurrencyException)
@@ -149,6 +173,61 @@ namespace RockstarsIT.Controllers
             _context.Entry(podcast).Property(r => r.PublishedStatus).IsModified = true;
             await _context.SaveChangesAsync();
             return Redirect("/Podcast/Index?view=grid");
+        }
+
+        public async Task<IActionResult> Translate(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var podcast = await _context.Podcast.FirstOrDefaultAsync(m => m.PodcastId == id);
+            if (podcast == null)
+            {
+                return NotFound();
+            }
+
+            ViewData["Languages"] = new SelectList(_context.Languages, "LanguageId", "Name");
+            return View(podcast);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Translate(int id, [Bind("PodcastContentId,PodcastId,Title,Description,LanguageId")] PodcastContent podcastContent)
+        {
+            if (id != podcastContent.PodcastId)
+            {
+                return NotFound();
+            }
+
+            if (!(_context.PodcastContents.Where(v => v.LanguageId == podcastContent.LanguageId).Where(v => v.PodcastId == podcastContent.PodcastId).Count() > 0))
+            {
+                _context.Add(podcastContent);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                _context.Update(podcastContent);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Edit", new { id = podcastContent.PodcastId });
+        }
+
+        public async Task<JsonResult> GetContentWithLanguage(int id, int languageId)
+        {
+            if (id > 0)
+            {
+                var podcastContent = await _context.PodcastContents.Where(p => p.LanguageId == languageId).FirstOrDefaultAsync(m => m.PodcastId == id);
+
+                int podcastContentId = (podcastContent == null) ? 0 : podcastContent.PodcastContentId;
+                string title = (podcastContent == null) ? "" : podcastContent.Title;
+                string description = (podcastContent == null) ? "" : podcastContent.Description;
+
+                return Json(new { Success = true, Title = title, Description = description, PodcastContentId = podcastContentId });
+            }
+            return Json(new { Succes = false, Message = "Something went wrong" });
         }
     }
 }
